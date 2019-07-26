@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head th:replace="admin/adminLayoutHeader :: adminLayoutHeader">
+</head>
+<body>
+<div class="row" id="body-row">
+    <div th:replace="admin/adminLayoutBody :: adminLayoutBody">
+
+    </div>
+    <!-- MAIN -->
+    <div class="col py-3">
+
+        <h1>
+            Edit User
+        </h1>
+
+        <form role="form" th:action="@{/admin/user/edit/{id}(id=${userForm.id})}" method="POST"
+              th:object="${userForm}">
+            <div th:if="${#fields.hasErrors('*')}">
+                <div class="alert alert-danger" role="alert">
+                    <h3 class="alert-heading">It seems we have a couple problems with your input</h3>
+                    <li th:each="err : ${#fields.errors('*')}" th:text="${err}"></li>
+                </div>
+            </div>
+            <div class="form-group">
+                <input class="form-control" type="hidden" th:field="${userForm.id}"
+                       placeholder="Username" name="username"/>
+                <label>Username: </label> <input class="form-control" type="text" th:field="${userForm.username}"
+                                                 placeholder="Username" name="username"/>
+
+                <label>Password: </label> <input class="form-control" type="password" th:field="${userForm.password}"
+                                                 placeholder="Password" name="password"/>
+
+                <label>Password Confirm: </label> <input type="password"
+                                                         th:field="${userForm.passwordConfirm}" class="form-control"
+                                                         placeholder="Password Confirm"/>
+                <h3>User personal information</h3>
+                <label>E-mail: </label> <input class="form-control" type="text" th:field="${userForm.email}"
+                                               placeholder="E-mail" name="email"/>
+                <label>Address: </label> <input class="form-control" type="text" th:field="${userForm.address}"
+                                                placeholder="Address" name="address"/>
+                <label>Phone Number: </label> <input class="form-control" type="text" th:field="${userForm.phoneNumber}"
+                                                     placeholder="Phone Number" name="phoneNumber"/>
+                <label>Country: </label>
+                <select th:field="${userForm.country.countryCode}">
+                    <option th:each="country: ${countries}" th:value="${country.countryCode}"
+                            th:text="${country.countryName}"></option>
+                </select>
+                <br>
+                <label>City: </label> <input class="form-control" type="text" th:field="${userForm.city}"
+                                             placeholder="City" name="city"/>
+                <label>Zip Code: </label> <input class="form-control" type="text" th:field="${userForm.zipCode}"
+                                                 placeholder="Zip Code" name="zipCode"/>
+
+                <h3>User roles</h3>
+
+                <select class="form-control" th:field="*{roles}" multiple="multiple">
+                    <option th:each="role : ${userRoles}"
+                            th:value="${role.id}"
+                            th:selected="${#sets.contains(userForm.roles, role)}"
+                            th:text="${role.name}">Role name
+                    </option>
+                </select>
+
+                <button type="submit" class="btn btn-success">Update</button>
+            </div>
+        </form>
+        <div>
+            <a type="button" class="btn btn-outline-primary" th:href="@{/admin/user}">Cancel</a>
+        </div>
+
+
+    </div>
+</div>
+
+</body>
+</html>

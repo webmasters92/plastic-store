@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head th:replace="administration/admin/adminLayoutHeader :: adminLayoutHeader">
+</head>
+<body>
+
+<nav th:replace="administration/admin/adminLayoutMenu :: adminLayoutMenu"/>
+
+<div class="container">
+    <h4 data-type="header" id="header">PRIKAZ PROIZVODA </h4>
+    <hr>
+    <div class="row" id="category1">
+        <div class="col offset-md-0" id="category2">
+            <div class="text-left">
+                <p><b>KATEGORIJE</b></p>
+            </div>
+            <ul class="list-group text-center" th:each="category: ${categories}">
+                <li class="list-group-item"><span th:text="${category.name}">Kategorija</span></li>
+            </ul>
+            <div class="newProduct">
+                <a th:href="@{/newProduct}">
+                    <button class="btn btn-primary" type="button">Unesi proizvod</button>
+                </a>
+            </div>
+        </div>
+        <div class="col-md-12 col-lg-8 col-xl-9 offset-md-0" id="rightColumn">
+            <table class="table table-striped table-bordered table-hover" id="example" style="width:100%">
+                <thead>
+                <tr>
+                    <th>Šifra</th>
+                    <th>Naziv</th>
+                    <th>Cena</th>
+                    <th>Na stanju</th>
+                    <th>Na akciji</th>
+                    <th>Slika</th>
+                    <th hidden="hidden">Kategorija</th>
+                    <th>Opcije</th>
+                </tr>
+                </thead>
+                <tbody>
+                <tr th:each="product:${products}">
+                    <td th:text="${product.id}">Tiger Nixon</td>
+                    <td th:text="${product.name}">Tiger Nixon</td>
+                    <td th:text="${product.price}">Tiger Nixon</td>
+                    <td id="availableCBox" onclick="return false;">
+                        <input th:checked="${product.available}" type="checkbox"/>
+                    </td>
+                    <td id="saleCBox" onclick="return false;">
+                        <input th:checked="${product.sale}" type="checkbox"/>
+                    </td>
+                    <td id="tblImg"><img alt="" border=3 height=40 th:src="@{${product.images.get(0)}}" width=40/></td>
+                    <td hidden="hidden" id="categoryColumn" th:text="${product.category.name}"></td>
+                    <td>
+                        <a class="btn btn-orange btn-sm" th:href="@{/editProduct/__${product.id}__}"><i class="fa fa-edit"></i></a>
+                        <a class="btn btn-danger btn-sm" th:href="@{/deleteProduct/__${product.id}__}"><i class="fa fa-times"></i></a>
+                    </td>
+                </tr>
+
+            </table>
+            <table border="0" cellpadding="0" cellspacing="0">
+                <tbody>
+                <tr>
+                    <td class="gutter">
+                        <div class="line number1 index0 alt2" style="display: none;">1</div>
+                    </td>
+                    <td class="code">
+                        <div class="container" style="display: none;">
+                            <div class="line number1 index0 alt2" style="display: none;">&nbsp;</div>
+                        </div>
+                    </td>
+                </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+    <div th:replace="administration/admin/adminLayoutFooter :: adminLayoutFooter"></div>
+
+    <script src="https://code.jquery.com/jquery-3.3.1.js" type="text/javascript"></script>
+    <script src="https://cdn.datatables.net/1.10.19/js/jquery.dataTables.min.js" type="text/javascript"></script>
+    <script src="https://cdn.datatables.net/1.10.19/js/dataTables.bootstrap4.min.js" type="text/javascript"></script>
+    <script src="js/table.js" type="text/javascript"></script>
+</body>
+</html>
