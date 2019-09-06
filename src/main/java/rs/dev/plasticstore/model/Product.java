@@ -18,6 +18,9 @@ public class Product implements Serializable {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int id;
 
+    @Column(name = "code")
+    private int code;
+
     @Column(name = "name")
     private String name;
 
@@ -27,7 +30,7 @@ public class Product implements Serializable {
     @Column(name = "price")
     private double price;
 
-    @OneToMany(mappedBy = "product")
+    @OneToMany(mappedBy = "product", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<Image> images = new ArrayList<>();
 
     @Column(name = "sale")
@@ -49,6 +52,16 @@ public class Product implements Serializable {
     public int getId() {
 
         return id;
+    }
+
+    public int getCode() {
+
+        return code;
+    }
+
+    public void setCode(int code) {
+
+        this.code = code;
     }
 
     public void setId(int id) {

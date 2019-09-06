@@ -9,6 +9,6 @@ public class ResourceConfig extends WebMvcConfigurerAdapter {
 
     @Override
     public void addResourceHandlers(ResourceHandlerRegistry registry) {
-        registry.addResourceHandler("/images/**").addResourceLocations("file:images/product/");
+        registry.addResourceHandler("/images/**").addResourceLocations("file:images/");
     }
 }

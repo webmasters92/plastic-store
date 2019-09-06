@@ -8,4 +8,5 @@ import rs.dev.plasticstore.model.Product;
 @Repository
 public interface ProductRepository extends JpaRepository<Product,Integer> , CrudRepository<Product,Integer> {
 
+
 }

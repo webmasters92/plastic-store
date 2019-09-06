@@ -12,10 +12,10 @@ public class Image {
     private int id;
 
     @ManyToOne
-    @JoinColumn(name="product_id")
+    @JoinColumn(name = "product_id")
     private Product product;
 
-    @Column(name = "name", length = 24, unique = true, nullable = false)
+    @Column(name = "name", length = 64, unique = true, nullable = false)
     private String name;
 
     @Column(name = "url", length = 64, unique = true, nullable = false)
