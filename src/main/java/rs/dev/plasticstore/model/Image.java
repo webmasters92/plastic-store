@@ -15,10 +15,10 @@ public class Image {
     @JoinColumn(name = "product_id")
     private Product product;
 
-    @Column(name = "name", length = 64, unique = true, nullable = false)
+    @Column(name = "name", length = 64, nullable = false)
     private String name;
 
-    @Column(name = "url", length = 64, unique = true, nullable = false)
+    @Column(name = "url", length = 64, nullable = false)
     private String url;
 
     public int getId() {

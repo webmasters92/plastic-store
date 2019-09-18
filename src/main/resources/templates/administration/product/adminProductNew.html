@@ -18,7 +18,7 @@
                 </div>
                 <div class="form-group row"><label class="col-sm-3 col-form-label" for="password">Šifra :</label>
                     <div class="col-sm-9">
-                        <input class="form-control " id="password" st placeholder="Šifra" th:name="code" th:field="*{code}" type="text"/>
+                        <input class="form-control " th:disabled="${editing}" id="password" st placeholder="Šifra" th:name="code" th:field="*{code}" type="text"/>
                     </div>
                 </div>
                 <div class="form-group row"><label class="col-sm-3 col-form-label" for="name">Naziv :</label>
@@ -48,7 +48,7 @@
                     <div class="col-sm-9 input-group">
                             <span class="input-group-btn">
                                 <span class="btn btn-danger btn-file" id="chooseBtn">
-                                    Izaberi<input id="fileUpload" th:field="*{imgData}" type="file" multiple>
+                                    Izaberi<input id="fileUpload" th:field="*{imgData}" type="file" required multiple>
                                 </span>
                             </span>
                         <input class="form-control" readonly type="text">
@@ -56,6 +56,19 @@
                 </div>
                 <div id="image-holder">
                     <img th:if="${editing}" class="thumb-image" th:each="image:${product.images}" th:src="@{'/images/' + ${image.name}}">
+                </div>
+                <input type="hidden" id="edit" th:value='${editing}'/>
+
+                <div class="form-group row"><label class="col-sm-3 col-form-label" for="multiple-checkboxes">Boja :</label>
+                    <div class="col-sm-9">
+                        <select name="colors" id="multiple-checkboxes" th:field="*{selectedColors}" required="required" class="form-control" multiple>
+                            <option th:each="c : ${allColors}"
+                                    th:value="${c.id}"
+                                    th:text="${c.name}"
+                                    th:selected="${product.selectedColors.contains(c.id)}">
+                            </option>
+                        </select>
+                    </div>
                 </div>
                 <div class="form-group row">
                     <div class="col-sm-3">Stanje :</div>
@@ -80,13 +93,9 @@
                     <div class="col-xl-6 col-lg-6 col-md-6 col-sm-12 col-12 c60086">
                         <a class="btn btn-primary" id="btn-return" th:href="@{/productList}">Nazad</a>
                     </div>
-                    <div hidden="hidden" class="alert alert-success" id="success-alert">
-                        <button type="button" class="close" data-dismiss="alert">x</button>
-                        <strong>Success! </strong>
-                        Product have added to your wishlist.
-                    </div>
                 </div>
             </form>
+            <div th:if="${message}" th:text="${message}" th:class="${'alert ' + alertClass}"/>
         </div>
     </div>
 </div>
@@ -98,6 +107,7 @@
 <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js" integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM" crossorigin="anonymous"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/es6-shim/0.35.3/es6-shim.min.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-validator/0.5.3/js/bootstrapValidator.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-multiselect/0.9.13/js/bootstrap-multiselect.js"></script>
 <script src="/js/administration/imgUpload.js" type="text/javascript"></script>
 <script src="/js/administration/productValidation.js" type="text/javascript"></script>
 

@@ -23,24 +23,25 @@ public class ProductServiceImpl implements ProductService {
     @Override
     @Transactional
     public void saveProduct(Product product) {
-
         productRepository.save(product);
-
     }
 
     @Override
     @Transactional
     public List<Product> findAll() {
-
         return productRepository.findAll();
-
     }
 
     @Override
     @Transactional
     public Optional<Product> findProductById(int id) {
-
         return productRepository.findById(id);
+    }
+
+    @Override
+    @Transactional
+    public Optional<Product> findProductByCode(int code) {
+        return productRepository.findProductByCode(code);
     }
 
     @Override
@@ -48,6 +49,4 @@ public class ProductServiceImpl implements ProductService {
     public void deleteProduct(int id) {
         productRepository.deleteById(id);
     }
-
-
 }

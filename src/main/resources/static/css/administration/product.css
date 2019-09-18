@@ -31,7 +31,7 @@
 }
 
 .c1691 {
-    margin-bottom: 200px;
+    margin-bottom: 400px;
     height: auto;
     background-color: rgba(255, 255, 255, 0);
     min-height: auto;
@@ -169,7 +169,8 @@
 #availableCBox, #saleCBox, #tblImg {
     text-align: center;
 }
-.list-group-item:hover{
+
+.list-group-item:hover {
     background-color: rgba(0, 211, 238, 0.2);
     cursor: auto;
 }
@@ -195,4 +196,30 @@
     .col-xl-12.col-lg-12.col-md-12.col-sm-4.col-12.c1867 {
         min-height: 1100px;
     }
+}
+
+.form-group.has-success, .form-group.has-success .form-control-feedback {
+    color: #468847;
+}
+
+.form-group.has-success .input-group-text {
+    background-color: #dff0d8;
+    border-color: #468847;
+}
+
+.form-group.has-success .form-control {
+    border-color: #468847;
+}
+
+.form-group.has-error, .form-group.has-error .form-control-feedback {
+    color: red;
+}
+
+.form-group.has-error .input-group-text {
+    background-color: #dff0d8;
+    border-color: red;
+}
+
+.form-group.has-error .form-control {
+    border-color: red;
 }

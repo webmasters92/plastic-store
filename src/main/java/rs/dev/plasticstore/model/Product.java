@@ -28,10 +28,13 @@ public class Product implements Serializable {
     private String description;
 
     @Column(name = "price")
-    private double price;
+    private int price;
 
     @OneToMany(mappedBy = "product", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<Image> images = new ArrayList<>();
+
+    @OneToMany(mappedBy = "product", cascade = CascadeType.ALL, orphanRemoval = true)
+    private List<ProductColor> productColors = new ArrayList<>();
 
     @Column(name = "sale")
     private boolean sale;
@@ -49,113 +52,110 @@ public class Product implements Serializable {
     @Transient
     private List<MultipartFile> imgData = new ArrayList<>();
 
-    public int getId() {
+    @Transient
+    private List<String> selectedColors = new ArrayList<>();
 
+    public List<String> getSelectedColors() {
+        return selectedColors;
+    }
+
+    public void setSelectedColors(List<String> selectedColors) {
+        this.selectedColors = selectedColors;
+    }
+
+    public int getId() {
         return id;
     }
 
-    public int getCode() {
+    public void setId(int id) {
+        this.id = id;
+    }
 
+    public int getCode() {
         return code;
     }
 
     public void setCode(int code) {
-
         this.code = code;
     }
 
-    public void setId(int id) {
-
-        this.id = id;
-    }
-
     public String getName() {
-
         return name;
     }
 
     public void setName(String name) {
-
         this.name = name;
     }
 
     public String getDescription() {
-
         return description;
     }
 
     public void setDescription(String description) {
-
         this.description = description;
     }
 
-    public double getPrice() {
-
+    public int getPrice() {
         return price;
     }
 
-    public void setPrice(double price) {
-
+    public void setPrice(int price) {
         this.price = price;
     }
 
     public boolean isSale() {
-
         return sale;
     }
 
     public void setSale(boolean sale) {
-
         this.sale = sale;
     }
 
     public boolean isStatus() {
-
         return status;
     }
 
     public void setStatus(boolean status) {
-
         this.status = status;
     }
 
     public boolean isAvailable() {
-
         return available;
     }
 
     public void setAvailable(boolean available) {
-
         this.available = available;
     }
 
     public Category getCategory() {
-
         return category;
     }
 
     public void setCategory(Category category) {
-
         this.category = category;
     }
 
     public List<Image> getImages() {
-
         return images;
     }
 
     public void setImages(List<Image> images) {
-
         this.images = images;
     }
 
     public List<MultipartFile> getImgData() {
-
         return imgData;
     }
 
     public void setImgData(List<MultipartFile> imgData) {
-
         this.imgData = imgData;
+    }
+
+    public List<ProductColor> getProductColors() {
+        return productColors;
+    }
+
+    public void setProductColors(List<ProductColor> productColors) {
+        this.productColors = productColors;
     }
 }

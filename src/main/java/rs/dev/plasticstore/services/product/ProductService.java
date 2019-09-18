@@ -15,6 +15,6 @@ public interface ProductService {
 
     void deleteProduct(int id);
 
-
+    Optional<Product> findProductByCode(int code);
 
 }
