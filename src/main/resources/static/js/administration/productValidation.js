@@ -1,6 +1,28 @@
 $(document).ready(function () {
-    $('#multiple-checkboxes').multiselect();
 
+    //aktivacija dropdown menija
+    $('#multiple-checkboxes').selectpicker();
+    $('#category').selectpicker();
+    $('#subcategory').selectpicker();
+
+    //aktivacija dropdown menija
+    $('#capacity').select2({
+        tags: true,
+        placeholder: "Unesite zapreminu"
+    });
+    $('#dimension').select2({
+        tags: true,
+        placeholder: "Unesite dimenzije"
+    });
+
+    //event na promenu kategorije
+    $("#category").on('change', function () {
+        sendAjaxRequest();
+    });
+    //okidanje event-a za dropdown kategorije
+    $("#category").trigger('change');
+
+    //validacija forme za unos proizvoda
     $('form').bootstrapValidator({
         excluded: [':disabled', ':hidden', ':not(:visible)'],
 
@@ -68,8 +90,21 @@ $('form').on("submit", function () {
     }
 });
 
-window.setTimeout(function() {
-    $(".alert").fadeTo(500, 0).slideUp(500, function(){
+//automatsko zatvaranje bootrstap popup-a
+window.setTimeout(function () {
+    $(".alert").fadeTo(500, 0).slideUp(500, function () {
         $(this).remove();
     });
 }, 5000);
+
+//slanje ajax zahteva za ucitavanje podkategorija
+function sendAjaxRequest() {
+    var category = $("#category").val();
+    $.get("/sub_categories?category=" + category, function (data) {
+        $("#subcategory").empty();
+        data.forEach(function (item, i) {
+            $('#subcategory').append($("<option></option>").attr("value", item.id).text(item.name));
+        });
+        $('#subcategory').selectpicker('refresh');
+    });
+};

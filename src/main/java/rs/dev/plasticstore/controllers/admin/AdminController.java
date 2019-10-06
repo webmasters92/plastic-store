@@ -8,12 +8,14 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 import rs.dev.plasticstore.model.*;
 import rs.dev.plasticstore.services.category.CategoryService;
+import rs.dev.plasticstore.services.category.SubcategoryService;
 import rs.dev.plasticstore.services.color.ColorService;
 import rs.dev.plasticstore.services.image.ImageService;
 import rs.dev.plasticstore.services.product.ProductService;
 
 import java.io.File;
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.concurrent.atomic.AtomicBoolean;
 
 @Controller
@@ -24,6 +26,9 @@ public class AdminController {
 
     @Autowired
     CategoryService categoryService;
+
+    @Autowired
+    SubcategoryService subcategoryService;
 
     @Autowired
     ProductService productService;
@@ -42,7 +47,7 @@ public class AdminController {
     }
 
     @GetMapping("/newProduct")
-    public String getNewProduct(@RequestParam(value = "message", required = false)String message,Model model) {
+    public String getNewProduct(@RequestParam(value = "message", required = false) String message, Model model) {
         model.addAttribute("categories", categoryService.findAll());
         model.addAttribute("allColors", colorService.findAll());
         model.addAttribute("product", new Product());
@@ -53,9 +58,9 @@ public class AdminController {
     @PostMapping("/saveProduct")
     public String addProduct(@ModelAttribute Product product, BindingResult result, RedirectAttributes redirectAttributes) {
 
-        redirectAttributes.addAttribute("message", "Proizvod nije uspesno sacuvan");
+        redirectAttributes.addAttribute("message", "Proizvod nije uspešno sačuvan");
         redirectAttributes.addFlashAttribute("alertClass", "alert-danger");
-        if (result.hasErrors()) {
+        if(result.hasErrors()) {
             return "redirect:/suggest-event";
         }
         AtomicBoolean update = new AtomicBoolean(false);
@@ -86,7 +91,7 @@ public class AdminController {
             product.getProductColors().add(productColor);
         });
         productService.saveProduct(product);
-        redirectAttributes.addAttribute("message", "Proizvod je uspesno sacuvan");
+        redirectAttributes.addAttribute("message", "Proizvod je uspešno sačuvan");
         redirectAttributes.addFlashAttribute("alertClass", "alert-success");
         return "redirect:/newProduct";
     }
@@ -100,6 +105,7 @@ public class AdminController {
             var color = colorService.findColorsByName(productColor.getName());
             product.getSelectedColors().add(String.valueOf(color.getId()));
         });
+        System.out.println(product.getCapacities().toString());
         model.addAttribute("product", product);
         model.addAttribute("editing", true);
         return "administration/product/adminProductNew";
@@ -114,5 +120,11 @@ public class AdminController {
         });
         productService.deleteProduct(Integer.parseInt(id));
         return "redirect:/productList";
+    }
+
+    @GetMapping(value = "/sub_categories")
+    @ResponseBody
+    public ArrayList<Subcategory> getSubCategories(@RequestParam String category) {
+        return (ArrayList<Subcategory>) subcategoryService.findSubcategoriesByCategoryId(Integer.parseInt(category));
     }
 }

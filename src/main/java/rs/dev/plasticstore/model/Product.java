@@ -1,6 +1,8 @@
 package rs.dev.plasticstore.model;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import org.springframework.web.multipart.MultipartFile;
+import rs.dev.plasticstore.Utils.StringListConverter;
 
 import javax.persistence.*;
 import java.io.Serializable;
@@ -27,12 +29,17 @@ public class Product implements Serializable {
     @Column(name = "description")
     private String description;
 
+    @Column(name = "manufacturer")
+    private String manufacturer;
+
     @Column(name = "price")
     private int price;
 
+    @JsonIgnore
     @OneToMany(mappedBy = "product", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<Image> images = new ArrayList<>();
 
+    @JsonIgnore
     @OneToMany(mappedBy = "product", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<ProductColor> productColors = new ArrayList<>();
 
@@ -46,8 +53,24 @@ public class Product implements Serializable {
     private boolean available;
 
     @ManyToOne
+    @JsonIgnore
     @JoinColumn(name = "category_id")
     private Category category;
+
+    @ManyToOne
+    @JsonIgnore
+    @JoinColumn(name = "sub_category_id")
+    private Subcategory subcategory;
+
+    @Column(name = "capacities")
+    @JsonIgnore
+    @Convert(converter = StringListConverter.class)
+    private List<String> capacities;
+
+    @Column(name = "dimensions")
+    @JsonIgnore
+    @Convert(converter = StringListConverter.class)
+    private List<String> dimensions;
 
     @Transient
     private List<MultipartFile> imgData = new ArrayList<>();
@@ -61,6 +84,14 @@ public class Product implements Serializable {
 
     public void setSelectedColors(List<String> selectedColors) {
         this.selectedColors = selectedColors;
+    }
+
+    public List<String> getDimensions() {
+        return dimensions;
+    }
+
+    public void setDimensions(List<String> dimensions) {
+        this.dimensions = dimensions;
     }
 
     public int getId() {
@@ -85,6 +116,22 @@ public class Product implements Serializable {
 
     public void setName(String name) {
         this.name = name;
+    }
+
+    public String getManufacturer() {
+        return manufacturer;
+    }
+
+    public void setManufacturer(String manufacturer) {
+        this.manufacturer = manufacturer;
+    }
+
+    public List<String> getCapacities() {
+        return capacities;
+    }
+
+    public void setCapacities(List<String> capacities) {
+        this.capacities = capacities;
     }
 
     public String getDescription() {
@@ -133,6 +180,14 @@ public class Product implements Serializable {
 
     public void setCategory(Category category) {
         this.category = category;
+    }
+
+    public Subcategory getSubcategory() {
+        return subcategory;
+    }
+
+    public void setSubcategory(Subcategory subcategory) {
+        this.subcategory = subcategory;
     }
 
     public List<Image> getImages() {

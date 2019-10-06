@@ -6,8 +6,8 @@ import javax.persistence.*;
 import java.util.List;
 
 @Entity
-@Table(name = "categories")
-public class Category {
+@Table(name = "sub_categories")
+public class Subcategory {
 
     @Id
     @Column(name = "id")
@@ -17,13 +17,13 @@ public class Category {
     @Column(name = "name")
     private String name;
 
-    @JsonIgnore
-    @OneToMany(mappedBy = "category")
+    @OneToMany(mappedBy = "subcategory")
     private List<Product> products;
 
+    @ManyToOne
     @JsonIgnore
-    @OneToMany(mappedBy = "category")
-    private List<Subcategory> subcategories;
+    @JoinColumn(name = "category_id")
+    private Category category;
 
     public int getId() {
         return id;
@@ -41,19 +41,19 @@ public class Category {
         this.name = name;
     }
 
+    public Category getCategory() {
+        return category;
+    }
+
+    public void setCategory(Category category) {
+        this.category = category;
+    }
+
     public List<Product> getProducts() {
         return products;
     }
 
     public void setProducts(List<Product> products) {
         this.products = products;
-    }
-
-    public List<Subcategory> getSubcategories() {
-        return subcategories;
-    }
-
-    public void setSubcategories(List<Subcategory> subcategories) {
-        this.subcategories = subcategories;
     }
 }
