@@ -32,9 +32,6 @@ public class Product implements Serializable {
     @Column(name = "manufacturer")
     private String manufacturer;
 
-    @Column(name = "price")
-    private int price;
-
     @JsonIgnore
     @OneToMany(mappedBy = "product", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<Image> images = new ArrayList<>();
@@ -62,15 +59,18 @@ public class Product implements Serializable {
     @JoinColumn(name = "sub_category_id")
     private Subcategory subcategory;
 
-    @Column(name = "capacities")
-    @JsonIgnore
-    @Convert(converter = StringListConverter.class)
-    private List<String> capacities;
+    @ElementCollection
+    @CollectionTable(name = "productAttributes", joinColumns = @JoinColumn(name = "product_id"))
+    @AttributeOverrides({@AttributeOverride(name = "size", column = @Column(name = "product_size")), @AttributeOverride(name = "price", column = @Column(name = "product_price"))})
+    private List<ProductAttributes> productAttributes = new ArrayList<>();
 
-    @Column(name = "dimensions")
-    @JsonIgnore
+    @Transient
     @Convert(converter = StringListConverter.class)
-    private List<String> dimensions;
+    private List<String> sizes = new ArrayList<>();
+
+    @Transient
+    @Convert(converter = StringListConverter.class)
+    private List<Integer> prices = new ArrayList<>();
 
     @Transient
     private List<MultipartFile> imgData = new ArrayList<>();
@@ -86,12 +86,12 @@ public class Product implements Serializable {
         this.selectedColors = selectedColors;
     }
 
-    public List<String> getDimensions() {
-        return dimensions;
+    public List<String> getSizes() {
+        return sizes;
     }
 
-    public void setDimensions(List<String> dimensions) {
-        this.dimensions = dimensions;
+    public void setSizes(List<String> sizes) {
+        this.sizes = sizes;
     }
 
     public int getId() {
@@ -126,14 +126,6 @@ public class Product implements Serializable {
         this.manufacturer = manufacturer;
     }
 
-    public List<String> getCapacities() {
-        return capacities;
-    }
-
-    public void setCapacities(List<String> capacities) {
-        this.capacities = capacities;
-    }
-
     public String getDescription() {
         return description;
     }
@@ -142,12 +134,20 @@ public class Product implements Serializable {
         this.description = description;
     }
 
-    public int getPrice() {
-        return price;
+    public List<Integer> getPrices() {
+        return prices;
     }
 
-    public void setPrice(int price) {
-        this.price = price;
+    public void setPrices(List<Integer> prices) {
+        this.prices = prices;
+    }
+
+    public List<ProductAttributes> getProductAttributes() {
+        return productAttributes;
+    }
+
+    public void setProductAttributes(List<ProductAttributes> productAttributes) {
+        this.productAttributes = productAttributes;
     }
 
     public boolean isSale() {

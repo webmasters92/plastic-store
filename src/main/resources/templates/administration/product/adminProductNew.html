@@ -10,7 +10,7 @@
         <div class="col-xl-12 col-lg-12 col-md-12 col-sm-4 col-12 c1867">
             <h4 data-type="header" id="ibxf1lw">UNOS PROIZVODA</h4>
             <hr>
-            <form enctype="multipart/form-data" id="i10l" method="post" th:action="@{/saveProduct}" th:object="${product}">
+            <form enctype="multipart/form-data" id="i10l" method="post" name="form" th:action="@{/saveProduct}" th:object="${product}">
                 <div class="form-group row" hidden><label class="col-sm-3 col-form-label" for="id">Id :</label>
                     <div class="col-sm-9">
                         <input class="form-control" id="id" placeholder="Id" th:field="*{id}" type="text"/>
@@ -18,7 +18,7 @@
                 </div>
                 <div class="form-group row"><label class="col-sm-3 col-form-label" for="password">Šifra :</label>
                     <div class="col-sm-9">
-                        <input class="form-control " th:disabled="${editing}" id="password" st placeholder="Šifra" th:name="code" th:field="*{code}" type="text"/>
+                        <input class="form-control " th:readonly="${editing}" id="password" placeholder="Šifra" th:name="code" th:field="*{code}" type="text"/>
                     </div>
                 </div>
                 <div class="form-group row"><label class="col-sm-3 col-form-label" for="name">Naziv :</label>
@@ -29,11 +29,6 @@
                 <div class="form-group row"><label class="col-sm-3 col-form-label" for="description">Opis :</label>
                     <div class="col-sm-9">
                         <textarea class="form-control" id="description" placeholder="Opis" rows="3" th:field="*{description}"></textarea>
-                    </div>
-                </div>
-                <div class="form-group row"><label class="col-sm-3 col-form-label" for="price">Cena :</label>
-                    <div class="col-sm-9">
-                        <input class="form-control" id="price" placeholder="Cena" th:field="*{price}" type="text"/>
                     </div>
                 </div>
                 <div class="form-group row"><label class="col-sm-3 col-form-label" for="manufacturer">Proizvođač :</label>
@@ -53,17 +48,17 @@
                         <select class="selectpicker form-control" id="subcategory" th:field="*{subcategory.id}"></select>
                     </div>
                 </div>
-                <div class="form-group row"><label class="col-form-label col-sm-3" for="capacity">Zapremina :</label>
+                <div class="form-group row"><label class="col-form-label col-sm-3" for="dimension">Dimenzije :</label>
                     <div class="col-sm-9">
-                        <select class="form-control" id="capacity" th:field="*{capacities}" multiple>
-                            <option th:each="capacity :  ${product.capacities}" th:text="${capacity}" th:value="${capacity}">
+                        <select class="form-control" id="dimension" th:field="*{sizes}" multiple>
+                            <option th:each="size :  ${product.sizes}" th:text="${size}" th:value="${size}">
                         </select>
                     </div>
                 </div>
-                <div class="form-group row"><label class="col-form-label col-sm-3" for="dimension">Dimenzije :</label>
+                <div class="form-group row"><label class="col-form-label col-sm-3" for="price">Cene :</label>
                     <div class="col-sm-9">
-                        <select class="form-control" id="dimension" th:field="*{dimensions}" multiple>
-                            <option th:each="dimension :  ${product.dimensions}" th:text="${dimension}" th:value="${dimension}">
+                        <select class="form-control" id="price" th:field="*{prices}" multiple>
+                            <option th:each="price :  ${product.prices}" th:text="${price}" th:value="${price}">
                         </select>
                     </div>
                 </div>
@@ -72,8 +67,7 @@
                     <div class="col-sm-9 input-group">
                             <span class="input-group-btn">
                                 <span class="btn btn-danger btn-file" id="chooseBtn">
-                                    Izaberi<input id="fileUpload" th:field="*{imgData}" type="file" required multiple oninvalid="this.setCustomValidity('Enter User Name Here')"
-                                                  oninput="this.setCustomValidity('')">
+                                    Izaberi<input id="fileUpload" th:field="*{imgData}" type="file" multiple required>
                                 </span>
                             </span>
                         <input class="form-control" readonly type="text">

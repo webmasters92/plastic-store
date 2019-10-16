@@ -57,11 +57,10 @@ public class AdminController {
 
     @PostMapping("/saveProduct")
     public String addProduct(@ModelAttribute Product product, BindingResult result, RedirectAttributes redirectAttributes) {
-
         redirectAttributes.addAttribute("message", "Proizvod nije uspešno sačuvan");
         redirectAttributes.addFlashAttribute("alertClass", "alert-danger");
         if(result.hasErrors()) {
-            return "redirect:/suggest-event";
+            return "redirect:/newProduct";
         }
         AtomicBoolean update = new AtomicBoolean(false);
         product.getImgData().forEach(multipartFile -> {
@@ -90,6 +89,14 @@ public class AdminController {
             productColor.setProduct(product);
             product.getProductColors().add(productColor);
         });
+
+        for(int i = 0; i < product.getSizes().size(); i++) {
+            var product_attributes = new ProductAttributes();
+            product_attributes.setSize(product.getSizes().get(i));
+            product_attributes.setPrice(product.getPrices().get(i));
+            product.getProductAttributes().add(product_attributes);
+        }
+
         productService.saveProduct(product);
         redirectAttributes.addAttribute("message", "Proizvod je uspešno sačuvan");
         redirectAttributes.addFlashAttribute("alertClass", "alert-success");
@@ -105,7 +112,11 @@ public class AdminController {
             var color = colorService.findColorsByName(productColor.getName());
             product.getSelectedColors().add(String.valueOf(color.getId()));
         });
-        System.out.println(product.getCapacities().toString());
+
+        product.getProductAttributes().forEach(productAttributes -> {
+            product.getSizes().add(productAttributes.getSize());
+            product.getPrices().add(productAttributes.getPrice());
+        });
         model.addAttribute("product", product);
         model.addAttribute("editing", true);
         return "administration/product/adminProductNew";

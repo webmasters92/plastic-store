@@ -263,11 +263,15 @@
     margin-left: 0px;
 }
 
-#magic-line {
-    position: absolute;
-    bottom: 0;
+.navbar-nav > li {
+    float: left;
+    position: relative;
+}
+.navbar-nav .active a::after {
+    border-bottom: 5px solid #5bc0eb;
+    bottom: -10px;
+    content: " ";
     left: 0;
-    width: 100px;
-    height: 4px;
-    background: #37affe;
+    position: absolute;
+    right: 0;
 }

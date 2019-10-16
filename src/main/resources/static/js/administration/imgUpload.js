@@ -1,4 +1,4 @@
-$("#fileUpload").on('change', function () {
+$("#fileUpload").on('change', function (event) {
     //Get count of selected files
     var countFiles = $(this)[0].files.length;
     if (countFiles <= 4) {
@@ -26,7 +26,7 @@ $("#fileUpload").on('change', function () {
             }
         } else {
             alert("Izaberite samo slike");
-            return false;
+            location.reload();
         }
     } else {
         alert("Maksimalan broj slika koje mozete uneti je 4");

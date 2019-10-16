@@ -1,18 +1,17 @@
 $(document).ready(function () {
-
     //aktivacija dropdown menija
     $('#multiple-checkboxes').selectpicker();
     $('#category').selectpicker();
     $('#subcategory').selectpicker();
 
-    //aktivacija dropdown menija
-    $('#capacity').select2({
-        tags: true,
-        placeholder: "Unesite zapreminu"
-    });
     $('#dimension').select2({
         tags: true,
         placeholder: "Unesite dimenzije"
+    });
+
+    $('#price').select2({
+        tags: true,
+        placeholder: "Unesite cene"
     });
 
     //event na promenu kategorije
@@ -54,13 +53,31 @@ $(document).ready(function () {
                     }
                 }
             },
-            price: {
+            sizes: {
+                validators: {
+                    notEmpty: {
+                        message: 'Veličina nije uneta'
+                    }
+                }
+            },
+            prices: {
                 validators: {
                     notEmpty: {
                         message: 'Cena nije uneta'
-                    },
-                    integer: {
-                        message: 'Morate uneti broj'
+                    }
+                }
+            },
+            imgData: {
+                validators: {
+                    notEmpty: {
+                        message: 'Slike nisu unete'
+                    }
+                }
+            },
+            selectedColors: {
+                validators: {
+                    notEmpty: {
+                        message: 'Boje nisu unete'
                     }
                 }
             },
@@ -79,11 +96,14 @@ $(document).ready(function () {
     });
 });
 
-$('form').on("submit", function () {
+$('form').on("submit", function (event) {
     var edit = $('#edit').val();
-    if ($('#multiple-checkboxes').val().length == 0) {
-        alert("Odaberte dostupne boje za izabrani proizvod");
-        return false;
+    var dimensions = $('#dimension :selected').length;
+    var prices = $('#price :selected').length;
+    if (dimensions !== prices) {
+        event.preventDefault();
+        alert("Broj veličina i cena mora biti isti");
+        location.reload();
     }
     if (edit) {
         $("#fileUpload").removeAttribute('required');
