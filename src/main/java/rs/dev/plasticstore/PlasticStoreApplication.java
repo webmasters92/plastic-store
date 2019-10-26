@@ -13,7 +13,7 @@ public class PlasticStoreApplication {
 
     public static void main(String[] args) {
         SpringApplication.run(PlasticStoreApplication.class, args);
-        browse("http://localhost:8080/productList");
+        browse("http://localhost:8080/");
     }
 
     public static void browse(String url) {

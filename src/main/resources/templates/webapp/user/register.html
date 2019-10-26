@@ -1,0 +1,97 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head th:replace="webapp/containers/headContainer :: headContainer"></head>
+<body>
+<div th:replace="webapp/containers/headerContainer :: headerContainer"  th:with="${categories}"></div>
+
+<!--=============================================
+	=            breadcrumb area         =
+	=============================================-->
+
+<div class="breadcrumb-area pt-15 pb-15">
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-12">
+                <!--=======  breadcrumb container  =======-->
+
+                <div class="breadcrumb-container">
+                    <nav>
+                        <ul>
+                            <li class="parent-page"><a th:href="@{/}">Početna</a></li>
+                            <li>Registracija</li>
+                        </ul>
+                    </nav>
+                </div>
+
+                <!--=======  End of breadcrumb container  =======-->
+            </div>
+        </div>
+    </div>
+</div>
+
+<!--=====  End of breadcrumb area  ======-->
+
+<!--=============================================
+   =            Login Register page content         =
+   =============================================-->
+
+<div class="page-section mb-50">
+    <div class="container">
+        <div class="row">
+            <div class="col-sm-12 col-md-12 col-lg-6 col-xs-12">
+                <form action="#">
+                    <div class="login-form">
+                        <h4 class="login-title">Registracija</h4>
+
+                        <div class="row">
+                            <div class="col-md-6 col-12 mb-20">
+                                <label>Ime</label>
+                                <input class="mb-0" type="text" placeholder="Ime">
+                            </div>
+                            <div class="col-md-6 col-12 mb-20">
+                                <label>Prezime</label>
+                                <input class="mb-0" type="text" placeholder="Prezime">
+                            </div>
+                            <div class="col-md-12 mb-20">
+                                <label>Mejl adresa*</label>
+                                <input class="mb-0" type="email" placeholder="Mejl adresa">
+                            </div>
+                            <div class="col-md-12 mb-20">
+                                <label>Korisničko ime*</label>
+                                <input class="mb-0" type="text" placeholder="Korisničko ime">
+                            </div>
+                            <div class="col-md-6 mb-20">
+                                <label>Šifra</label>
+                                <input class="mb-0" type="password" placeholder="Šifra">
+                            </div>
+                            <div class="col-md-6 mb-20">
+                                <label>Potvrdi šifru</label>
+                                <input class="mb-0" type="password" placeholder="Potvrdi šifru">
+                            </div>
+                            <div class="col-12">
+                                <button class="register-button mt-0">Registruj se</button>
+                            </div>
+                        </div>
+                    </div>
+
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+<!--FOOTER-->
+
+<div th:replace="webapp/containers/footerContainer :: footerContainer"></div>
+
+<!--END OF FOOTER-->
+<!--=====  End of Login Register page content  ======-->
+
+
+<!-- JS -->
+<script src="/js/webapp/vendor/jquery.min.js" type="text/javascript"></script>
+<script src="/js/webapp/popper.min.js" type="text/javascript"></script>
+<script src="/js/webapp/bootstrap.min.js" type="text/javascript"></script>
+<script src="/js/webapp/plugins.js" type="text/javascript"></script>
+<script src="/js/webapp/main.js" type="text/javascript"></script>
+</body>
+</html>
