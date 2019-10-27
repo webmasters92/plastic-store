@@ -34,7 +34,7 @@ $(document).ready(function () {
             code: {
                 validators: {
                     remote: {
-                        url: 'product/checkCode',
+                        url: '/product/checkCode',
                         type: 'GET',
                         message: "Sifra proizvoda vec postoji"
                     },
@@ -120,7 +120,7 @@ window.setTimeout(function () {
 //slanje ajax zahteva za ucitavanje podkategorija
 function sendAjaxRequest() {
     var category = $("#category").val();
-    $.get("/sub_categories?category=" + category, function (data) {
+    $.get("/administration/sub_categories?category=" + category, function (data) {
         $("#subcategory").empty();
         data.forEach(function (item, i) {
             $('#subcategory').append($("<option></option>").attr("value", item.id).text(item.name));

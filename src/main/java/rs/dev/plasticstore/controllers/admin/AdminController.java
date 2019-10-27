@@ -19,7 +19,7 @@ import java.util.ArrayList;
 import java.util.concurrent.atomic.AtomicBoolean;
 
 @Controller
-@RequestMapping("/")
+@RequestMapping("/administration")
 public class AdminController {
 
     public static String rootDir = System.getProperty("user.dir");
@@ -39,14 +39,14 @@ public class AdminController {
     @Autowired
     ImageService imageService;
 
-    @GetMapping("/productList")
+    @GetMapping("/product_list")
     public String showProductList(Model model) {
         model.addAttribute("categories", categoryService.findAll());
         model.addAttribute("products", productService.findAll());
         return "administration/product/adminProductList";
     }
 
-    @GetMapping("/newProduct")
+    @GetMapping("/new_product")
     public String getNewProduct(@RequestParam(value = "message", required = false) String message, Model model) {
         model.addAttribute("categories", categoryService.findAll());
         model.addAttribute("allColors", colorService.findAll());
@@ -55,12 +55,12 @@ public class AdminController {
         return "administration/product/adminProductNew";
     }
 
-    @PostMapping("/saveProduct")
+    @PostMapping("/save_product")
     public String addProduct(@ModelAttribute Product product, BindingResult result, RedirectAttributes redirectAttributes) {
         redirectAttributes.addAttribute("message", "Proizvod nije uspešno sačuvan");
         redirectAttributes.addFlashAttribute("alertClass", "alert-danger");
         if(result.hasErrors()) {
-            return "redirect:/newProduct";
+            return "redirect:/administration/new_product";
         }
         AtomicBoolean update = new AtomicBoolean(false);
         product.getImgData().forEach(multipartFile -> {
@@ -100,10 +100,10 @@ public class AdminController {
         productService.saveProduct(product);
         redirectAttributes.addAttribute("message", "Proizvod je uspešno sačuvan");
         redirectAttributes.addFlashAttribute("alertClass", "alert-success");
-        return "redirect:/newProduct";
+        return "redirect:/administration/new_product";
     }
 
-    @GetMapping("/editProduct/{id}")
+    @GetMapping("/edit_product/{id}")
     public String editProduct(@PathVariable String id, Model model) {
         model.addAttribute("categories", categoryService.findAll());
         model.addAttribute("allColors", colorService.findAll());
@@ -130,7 +130,7 @@ public class AdminController {
             if(imageFile.exists()) imageFile.delete();
         });
         productService.deleteProduct(Integer.parseInt(id));
-        return "redirect:/productList";
+        return "redirect:/product_list";
     }
 
     @GetMapping(value = "/sub_categories")

@@ -3738,6 +3738,7 @@ a#more-btn {
       display: block;
       position: relative; }
       .fl-product .image a img {
+        height: 200px;
         width: 100%; }
         .fl-product .image a img:first-child {
           visibility: visible;

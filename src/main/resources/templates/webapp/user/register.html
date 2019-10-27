@@ -32,37 +32,36 @@
 <!--=====  End of breadcrumb area  ======-->
 
 <!--=============================================
-   =            Login Register page content         =
+   =            Register page content         =
    =============================================-->
 
 <div class="page-section mb-50">
     <div class="container">
         <div class="row">
             <div class="col-sm-12 col-md-12 col-lg-6 col-xs-12">
-                <form action="#">
+                <form th:action="@{/registerUser}" method="post" th:object="${user}">
                     <div class="login-form">
                         <h4 class="login-title">Registracija</h4>
-
                         <div class="row">
                             <div class="col-md-6 col-12 mb-20">
                                 <label>Ime</label>
-                                <input class="mb-0" type="text" placeholder="Ime">
+                                <input class="mb-0" type="text" placeholder="Ime" th:field="*{firstName}">
                             </div>
                             <div class="col-md-6 col-12 mb-20">
                                 <label>Prezime</label>
-                                <input class="mb-0" type="text" placeholder="Prezime">
+                                <input class="mb-0" type="text" placeholder="Prezime" th:field="*{lastName}">
                             </div>
                             <div class="col-md-12 mb-20">
                                 <label>Mejl adresa*</label>
-                                <input class="mb-0" type="email" placeholder="Mejl adresa">
+                                <input class="mb-0" type="email" placeholder="Mejl adresa" th:field="*{email}">
                             </div>
                             <div class="col-md-12 mb-20">
                                 <label>Korisničko ime*</label>
-                                <input class="mb-0" type="text" placeholder="Korisničko ime">
+                                <input class="mb-0" type="text" placeholder="Korisničko ime" th:field="*{username}">
                             </div>
                             <div class="col-md-6 mb-20">
                                 <label>Šifra</label>
-                                <input class="mb-0" type="password" placeholder="Šifra">
+                                <input class="mb-0" type="password" placeholder="Šifra" th:field="*{password}">
                             </div>
                             <div class="col-md-6 mb-20">
                                 <label>Potvrdi šifru</label>
@@ -73,7 +72,6 @@
                             </div>
                         </div>
                     </div>
-
                 </form>
             </div>
         </div>

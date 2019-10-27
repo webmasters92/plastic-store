@@ -17,7 +17,7 @@ public class HomeController {
     ProductService productService;
 
     @RequestMapping("/")
-    public String showHomePage(Model model){
+    public String showHomePage(Model model) {
         model.addAttribute("categories", categoryService.findAll());
         return "webapp/shop/home";
     }

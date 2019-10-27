@@ -46,6 +46,18 @@ public class ProductServiceImpl implements ProductService {
 
     @Override
     @Transactional
+    public List<Product> findProductsByCategoryId(int code) {
+       return productRepository.findProductsByCategoryId(code);
+    }
+
+    @Override
+    @Transactional
+    public List<Product> findProductsBySubCategoryId(int code) {
+        return productRepository.findProductsBySubcategoryId(code);
+    }
+
+    @Override
+    @Transactional
     public void deleteProduct(int id) {
         productRepository.deleteById(id);
     }

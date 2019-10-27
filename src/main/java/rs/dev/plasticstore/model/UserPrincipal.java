@@ -20,12 +20,12 @@ public class UserPrincipal implements UserDetails {
     public UserPrincipal(User user) {
         this.username = user.getUsername();
         this.password = user.getPassword();
-        this.authorities = (List<GrantedAuthority>) getAuthorities();
+        this.authorities = user.getRoles().stream().map(role -> new SimpleGrantedAuthority(role.getRole())).collect(Collectors.toList());
     }
 
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
-        return getAuthorities().stream().map(role -> new SimpleGrantedAuthority("ROLE_" + ((GrantedAuthority) role).getAuthority())).collect(Collectors.toList());
+        return authorities;
     }
 
     @Override

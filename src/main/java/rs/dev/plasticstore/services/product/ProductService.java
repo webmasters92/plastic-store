@@ -17,4 +17,8 @@ public interface ProductService {
 
     Optional<Product> findProductByCode(int code);
 
+    List<Product> findProductsByCategoryId(int code);
+
+    List<Product> findProductsBySubCategoryId(int code);
+
 }

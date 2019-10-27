@@ -3,12 +3,20 @@ package rs.dev.plasticstore.model;
 import javax.persistence.*;
 
 @Entity
-@Table(name="roles")
+@Table(name = "roles")
 public class Role {
+
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private int roleId;
     private String role;
+
+    public Role() {
+    }
+
+    public Role(String role) {
+        this.role = role;
+    }
 
     public int getRoleId() {
         return roleId;

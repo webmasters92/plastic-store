@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<html lang="en" xmlns:th="http://www.thymeleaf.org" xmlns:sec="https://www.thymeleaf.org/thymeleaf-extras-springsecurity5">
 <head>
     <meta charset="UTF-8">
     <title>Title</title>
@@ -31,11 +31,13 @@
                             <a href="#" id="changeAccount"><span id="accountMenuName">Moj nalog <i class="fa fa-angle-down"></i></span></a>
                             <div class="language-currency-list hidden" id="accountList">
                                 <ul>
-                                    <li><a href="cart.html">Korpa</a></li>
-                                    <li><a href="checkout.html">Checkout</a></li>
-                                    <li><a href="my-account.html">Moj nalog</a></li>
-                                    <li><a th:href="@{/login}">Prjavi se</a></li>
-                                    <li><a th:href="@{/register}">Registruj se</a></li>
+                                    <li sec:authorize="isAuthenticated()"><a href="cart.html">Korpa</a></li>
+                                    <li sec:authorize="isAuthenticated()"><a href="@{/account_details}">Moj nalog</a></li>
+                                    <li sec:authorize="!isAuthenticated()"><a th:href="@{/login}">Prjavi se</a></li>
+                                    <li sec:authorize="!isAuthenticated()"><a th:href="@{/register}">Registruj se</a></li>
+                                    <li sec:authorize="hasRole('ADMIN')"><a th:href="@{/administration/product_list}">Administracija</a></li>
+                                    <li sec:authorize="isAuthenticated()"><a th:href="@{/logout}">Odjavi se </a></li>
+                                    <li sec:authorize="isAuthenticated()" th:text="${#authentication.getPrincipal().getUsername()}"></li>
                                 </ul>
                             </div>
                         </div>
@@ -149,10 +151,9 @@
                     <div class="main-menu">
                         <nav>
                             <ul >
-                                <li th:each="category: ${categories}" class="menu-item-has-children" ><a th:text="${category.name}" href="index.html">HOME</a>
+                                <li th:each="category: ${categories}" class="menu-item-has-children" ><a th:text="${category.name}" th:href="@{/product/product_list_category/__${category.id}__}"></a>
                                     <ul class="sub-menu">
-                                        <li th:each="sub_category: ${category.subcategories}"><a th:text="${sub_category.name}" href="index.html">Home Shop 1</a></li>
-
+                                        <li th:each="sub_category: ${category.subcategories}"><a th:text="${sub_category.name}" th:href="@{/product/product_list_sub_category/__${sub_category.id}__}"></a></li>
                                     </ul>
                                 </li>
 <!--                                <li><a href="contact.html">CONTACT</a></li>-->

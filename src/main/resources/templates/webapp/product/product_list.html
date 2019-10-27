@@ -1,0 +1,270 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head th:replace="webapp/containers/headContainer :: headContainer"></head>
+
+<body>
+
+<div th:replace="webapp/containers/headerContainer :: headerContainer" th:with="${categories}"></div>
+
+<!--=============================================
+=            breadcrumb area         =
+=============================================-->
+
+<div class="breadcrumb-area pt-15 pb-15">
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-12">
+                <!--=======  breadcrumb container  =======-->
+
+                <div class="breadcrumb-container">
+                    <nav>
+                        <ul>
+                            <li class="parent-page"><a href="@{/}">Početna</a></li>
+                            <li>Proizvodi</li>
+                        </ul>
+                    </nav>
+                </div>
+                <!--=======  End of breadcrumb container  =======-->
+            </div>
+        </div>
+    </div>
+</div>
+
+<!--=====  End of breadcrumb area  ======-->
+
+<!--=============================================
+=            shop page content         =
+=============================================-->
+
+<div class="shop-page-content mb-50">
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-3 order-2 order-lg-1">
+                <!--=======  page sidebar   =======-->
+
+                <div class="page-sidebar">
+                    <!--=======  single sidebar block  =======-->
+
+                    <div class="single-sidebar">
+                        <h3 class="sidebar-title">KATEGORIJE</h3>
+
+                        <div class="category">
+                            <ul>
+                                <li th:each="category : ${categories}"><a th:text="${category.name}" th:href="@{/product/product_list_category/__${category.id}__}"></a></li>
+                            </ul>
+                        </div>
+                    </div>
+
+                    <!--=======  End of single sidebar block  =======-->
+
+                    <!--=======  single sidebar block  =======-->
+
+                    <div class="single-sidebar price-range-bg">
+                        <h3 class="sidebar-title filter-price-title">FILTER PO CENI</h3>
+                        <div class="sidebar-price">
+                            <div id="price-range"></div>
+                            <input type="text" id="price-amount" class="price-amount" readonly>
+                        </div>
+                    </div>
+
+                    <!--=======  End of single sidebar block  =======-->
+
+                    <!--=======  single sidebar block  =======-->
+
+                    <div class="single-sidebar mb-30">
+                        <h3 class="sidebar-title color-title">BOJE</h3>
+                        <div class="color-category">
+                            <ul>
+                                <li><a href="shop-left-sidebar.html">Black</a> <span class="counter">(2)</span></li>
+                                <li><a href="shop-left-sidebar.html">Blue</a> <span class="counter">(4)</span></li>
+                                <li><a href="shop-left-sidebar.html">Red</a> <span class="counter">(1)</span></li>
+                                <li><a href="shop-left-sidebar.html">Yellow</a> <span class="counter">(5)</span></li>
+                            </ul>
+                        </div>
+                    </div>
+
+                    <!--=======  End of single sidebar block  =======-->
+
+                    <!--=======  single sidebar block  =======-->
+
+                    <div class="single-sidebar">
+                        <h3 class="sidebar-title">POPULARNI TAGOVI</h3>
+
+                        <!--=======  tag container  =======-->
+
+                        <ul class="tag-container">
+                            <li><a href="shop-left-sidebar.html">new</a> </li>
+                            <li><a href="shop-left-sidebar.html">bags</a> </li>
+                            <li><a href="shop-left-sidebar.html">new</a> </li>
+                            <li><a href="shop-left-sidebar.html">kids</a> </li>
+                            <li><a href="shop-left-sidebar.html">fashion</a> </li>
+                            <li><a href="shop-left-sidebar.html">Accessories</a> </li>
+                        </ul>
+
+                        <!--=======  End of tag container  =======-->
+                    </div>
+
+                    <!--=======  End of single sidebar block  =======-->
+                </div>
+
+                <!--=======  End of page sidebar   =======-->
+            </div>
+
+            <div class="col-lg-9 order-1 order-lg-2">
+
+                <!--=======  Shop header  =======-->
+
+                <div class="shop-header mb-30">
+                    <div class="row">
+                        <div class="col-lg-4 col-md-4 col-sm-12 d-flex align-items-center">
+                            <!--=======  view mode  =======-->
+
+                            <div class="view-mode-icons mb-xs-10">
+                                <a class="active" href="#" data-target="grid"><i class="icon ion-md-apps"></i></a>
+                                <a href="#" data-target="list"><i class="icon ion-ios-list"></i></a>
+                            </div>
+
+                            <!--=======  End of view mode  =======-->
+
+                        </div>
+                        <div class="col-lg-8 col-md-8 col-sm-12 d-flex flex-column flex-sm-row justify-content-between align-items-left align-items-sm-center">
+                            <!--=======  Sort by dropdown  =======-->
+
+                            <div class="sort-by-dropdown d-flex align-items-center mb-xs-10">
+                                <p class="mr-10 mb-0">Sortiraj po: </p>
+                                <select name="sort-by" id="sort-by" class="nice-select">
+                                    <option value="0">popularnosti</option>
+                                    <option value="0">ceni rastuće</option>
+                                    <option value="0">ceni opadajuće</option>
+                                    <option value="0">nazivu</option>
+                                </select>
+                            </div>
+
+                            <!--=======  End of Sort by dropdown  =======-->
+
+                            <p th:text="'Prikazano 1-12 od '+${products.size()}" class="result-show-message"></p>
+                        </div>
+                    </div>
+                </div>
+
+                <!--=======  End of Shop header  =======-->
+
+                <!--=======  shop product display area  =======-->
+                <div class="shop-product-wrap grid row mb-30 no-gutters">
+                    <div class="col-lg-3 col-md-6 col-sm-6 col-12" th:each="product : ${products}">
+                        <!--=======  grid view product  =======-->
+
+                        <!--=======  single product  =======-->
+
+                        <div class="fl-product shop-grid-view-product">
+                            <div class="image">
+                                <a href="single-product.html">
+                                    <img th:src="@{'/images/' + ${product.images.get(0).name}}" class="img-fluid" alt="">
+                                    <img th:src="@{'/images/' + ${product.images.get(0).name}}" class="img-fluid" alt="">
+                                </a>
+                            </div>
+                            <div class="content">
+                                <h2 class="product-title"> <a th:text="${product.getName()}" href="single-product.html">Officiis debitis</a></h2>
+                                <div class="rating">
+                                    <i class="fa fa-star active"></i>
+                                    <i class="fa fa-star active"></i>
+                                    <i class="fa fa-star active"></i>
+                                    <i class="fa fa-star"></i>
+                                    <i class="fa fa-star"></i>
+                                </div>
+                                <p class="product-price">
+<!--                                    <span   class="main-price discounted"></span>-->
+                                    <span th:text="${product.productAttributes.get(0).price}+' RSD'" class="discounted-price"></span>
+                                </p>
+
+                                <div class="hover-icons">
+                                    <ul>
+                                        <li><a href="#"  data-tooltip="Dodaj u korpu"><i class="icon ion-md-cart"></i></a></li>
+                                        <li><a href="#"  data-tooltip="Dodaj u listu želja"><i class="icon ion-md-heart-empty"></i></a></li>
+                                        <li><a href="#"  data-tooltip="Detaljnije" data-toggle = "modal" data-target="#quick-view-modal-container" ><i class="icon ion-md-open"></i></a></li>
+                                    </ul>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!--=======  End of single product  =======-->
+
+                        <!--=======  End of grid view product  =======-->
+
+                        <!--=======  list view product  =======-->
+
+                        <div class="fl-product shop-list-view-product">
+                            <div class="image">
+                                <a href="single-product.html">
+                                    <img src="assets/images/products/product01.jpg" class="img-fluid" alt="">
+                                    <img src="assets/images/products/product01-2.jpg" class="img-fluid" alt="">
+                                </a>
+                            </div>
+                            <div class="content">
+                                <h2 class="product-title"> <a href="single-product.html">Officiis debitis</a></h2>
+                                <div class="rating">
+                                    <i class="fa fa-star active"></i>
+                                    <i class="fa fa-star active"></i>
+                                    <i class="fa fa-star active"></i>
+                                    <i class="fa fa-star"></i>
+                                    <i class="fa fa-star"></i>
+                                </div>
+                                <p class="product-price">
+                                    <span class="main-price discounted">$71</span>
+                                    <span class="discounted-price">$65</span>
+                                </p>
+
+                                <p class="product-description">Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco,Proin lectus ipsum, gravida et mattis vulputate, tristique ut lectus</p>
+
+                                <div class="hover-icons">
+                                    <ul>
+                                        <li><a href="#"  data-tooltip="Add to Cart">Add to cart</a></li>
+                                        <li><a href="#" ><i class="icon ion-md-heart-empty"></i></a></li>
+                                        <li><a href="#"  data-tooltip="Compare"><i class="icon ion-md-options"></i></a></li>
+                                    </ul>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!--=======  End of list view product  =======-->
+
+
+                    </div>
+
+                </div>
+
+
+                <!--=======  End of shop product display area  =======-->
+
+                <!--=======  pagination area  =======-->
+
+                <div class="pagination-area mb-md-50 mb-sm-50">
+                    <ul>
+                        <li><a class="active" href="#">1</a></li>
+                        <li><a href="#">2</a></li>
+                        <li><a href="#">3</a></li>
+                        <li><a href="#"><i class="fa fa-angle-double-right"></i></a></li>
+                    </ul>
+                </div>
+
+                <!--=======  End of pagination area  =======-->
+            </div>
+        </div>
+    </div>
+</div>
+
+<!--=====  End of shop page content  ======-->
+
+<!--FOOTER-->
+
+<div th:replace="webapp/containers/footerContainer :: footerContainer"></div>
+
+
+<!-- JS -->
+<script src="/js/webapp/vendor/jquery.min.js" type="text/javascript"></script>
+<script src="/js/webapp/popper.min.js" type="text/javascript"></script>
+<script src="/js/webapp/bootstrap.min.js" type="text/javascript"></script>
+<script src="/js/webapp/plugins.js" type="text/javascript"></script>
+<script src="/js/webapp/main.js" type="text/javascript"></script>
+</body>
+</html>

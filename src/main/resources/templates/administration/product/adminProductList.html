@@ -15,10 +15,10 @@
                 <p><b>KATEGORIJE</b></p>
             </div>
             <ul class="list-group text-center" th:each="category: ${categories}">
-                <a> <li class="list-group-item"><span th:text="${category.name}">Kategorija</span></li></a>
+                <li class="list-group-item"><a><span th:text="${category.name}">Kategorija</span></a></li>
             </ul>
             <div class="newProduct">
-                <a th:href="@{/newProduct}">
+                <a th:href="@{/administration/new_product}">
                     <button class="btn btn-primary" type="button">Unesi proizvod</button>
                 </a>
             </div>
@@ -61,8 +61,8 @@
                     <td id="tblImg"><img alt="" border=3 height=40 th:src="@{'/images/' + ${product.images.get(0).name}}" width=40/></td>
                     <td hidden="hidden" id="categoryColumn" th:text="${product.category.name}"></td>
                     <td>
-                        <a class="btn btn-warning btn-sm" th:href="@{/editProduct/__${product.id}__}"><i class="fa fa-edit"></i></a>
-                        <a class="btn btn-danger btn-sm" th:href="@{/deleteProduct/__${product.id}__}"><i class="fa fa-times"></i></a>
+                        <a class="btn btn-warning btn-sm" th:href="@{/administration/edit_product/__${product.id}__}"><i class="fa fa-edit"></i></a>
+                        <a class="btn btn-danger btn-sm" th:href="@{/administration/delete_product/__${product.id}__}"><i class="fa fa-times"></i></a>
                     </td>
                 </tr>
             </table>

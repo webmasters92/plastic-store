@@ -19,36 +19,31 @@ public class SpringSecurityConfig extends WebSecurityConfigurerAdapter {
 
     @Override
     protected void configure(AuthenticationManagerBuilder auth) throws Exception {
-        auth.userDetailsService(userService);
+        auth.userDetailsService(userService).passwordEncoder(passwordEncoder());
     }
 
     @Override
     protected void configure(HttpSecurity http) throws Exception {
         http.authorizeRequests()
-                .antMatchers("/login").permitAll()
-                .antMatchers("/deleteProduct/**")
-                .hasRole("ADMIN")
-                .antMatchers("/newProduct")
-                .hasAnyRole("USER", "ADMIN")
-                .antMatchers("/editProduct")
-                .hasAnyRole("USER", "ADMIN")
-                .antMatchers("/productList").permitAll()
-                .and()
-                .csrf().disable()
+                .antMatchers("/administration/**").hasRole("ADMIN")
+                .antMatchers("/").permitAll()
+                .and().csrf().disable()
                 .formLogin()
+                .loginProcessingUrl("/loginUser")
                 .loginPage("/login").permitAll()
+                .defaultSuccessUrl("/")
+                .failureUrl("/login?error=true")
                 .and()
                 .logout()
                 .invalidateHttpSession(true)
                 .clearAuthentication(true)
                 .logoutRequestMatcher(new AntPathRequestMatcher("/logout"))
-                .logoutSuccessUrl("/logout_sucess_page").permitAll();
-
+                .logoutSuccessUrl("/").permitAll();
     }
 
     @Bean
-    public PasswordEncoder getPasswordEncoder() {
-        return new BCryptPasswordEncoder();
+    public PasswordEncoder passwordEncoder() {
+        return new BCryptPasswordEncoder(12);
     }
 
 }

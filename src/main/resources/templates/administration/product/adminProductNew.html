@@ -10,7 +10,7 @@
         <div class="col-xl-12 col-lg-12 col-md-12 col-sm-4 col-12 c1867">
             <h4 data-type="header" id="ibxf1lw">UNOS PROIZVODA</h4>
             <hr>
-            <form enctype="multipart/form-data" id="i10l" method="post" name="form" th:action="@{/saveProduct}" th:object="${product}">
+            <form enctype="multipart/form-data" id="i10l" method="post" name="form" th:action="@{/administration/save_product}" th:object="${product}">
                 <div class="form-group row" hidden><label class="col-sm-3 col-form-label" for="id">Id :</label>
                     <div class="col-sm-9">
                         <input class="form-control" id="id" placeholder="Id" th:field="*{id}" type="text"/>
@@ -118,7 +118,7 @@
                         <button class="btn btn-primary btn-lg" id="saveBtn" type="submit">Sačuvaj</button>
                     </div>
                     <div class="col-xl-6 col-lg-6 col-md-6 col-sm-12 col-12 c60086">
-                        <a class="btn btn-primary" id="btn-return" th:href="@{/productList}">Nazad</a>
+                        <a class="btn btn-primary" id="btn-return" th:href="@{/administration/product_list}">Nazad</a>
                     </div>
                 </div>
             </form>
