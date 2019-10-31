@@ -5,6 +5,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 import rs.dev.plasticstore.services.category.CategoryService;
+import rs.dev.plasticstore.services.category.SubcategoryService;
 import rs.dev.plasticstore.services.product.ProductService;
 
 @Controller
@@ -16,6 +17,9 @@ public class ProductController {
 
     @Autowired
     CategoryService categoryService;
+
+    @Autowired
+    SubcategoryService subcategoryService;
 
     @ResponseBody
     @GetMapping
@@ -30,6 +34,7 @@ public class ProductController {
     @RequestMapping(value = "/product_list_category/{id}")
     public String showProductListByCategory(@PathVariable String id, Model model) {
         model.addAttribute("categories", categoryService.findAll());
+        model.addAttribute("selected_category", categoryService.findCategoryById(Integer.parseInt(id)).get());
         model.addAttribute("products", productService.findProductsByCategoryId(Integer.parseInt(id)));
         return "webapp/product/product_list";
     }
@@ -38,7 +43,16 @@ public class ProductController {
     @RequestMapping(value = "/product_list_sub_category/{id}")
     public String showProductListBySubCategory(@PathVariable String id, Model model) {
         model.addAttribute("categories", categoryService.findAll());
+        model.addAttribute("selected_category", subcategoryService.findSubCategoryById(Integer.parseInt(id)).get());
         model.addAttribute("products", productService.findProductsBySubCategoryId(Integer.parseInt(id)));
         return "webapp/product/product_list";
+    }
+
+    @GetMapping
+    @RequestMapping(value = "/single_product/{id}")
+    public String showSingleProduct(@PathVariable String id, Model model) {
+        model.addAttribute("categories", categoryService.findAll());
+        model.addAttribute("product", productService.findProductById(Integer.parseInt(id)).get());
+        return "webapp/product/single_product";
     }
 }

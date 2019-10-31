@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html class="no-js" lang="zxx" xmlns:th="http://www.thymeleaf.org">
+<html class="no-js" lang="zxx" xmlns:th="http://www.thymeleaf.org" xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout" layout:decorate="~{home.html}">
 
 <head th:replace="webapp/containers/headContainer :: headContainer"></head>
 
@@ -2163,12 +2163,7 @@
 <a href="#" class="scroll-top"></a>
 <!-- END OF SCROLL TO TOP -->
 
-<!-- JS -->
-<script src="/js/webapp/vendor/jquery.min.js" type="text/javascript"></script>
-<script src="/js/webapp/popper.min.js" type="text/javascript"></script>
-<script src="/js/webapp/bootstrap.min.js" type="text/javascript"></script>
-<script src="/js/webapp/plugins.js" type="text/javascript"></script>
-<script src="/js/webapp/main.js" type="text/javascript"></script>
+<div th:insert="webapp/containers/scriptsContainer :: scriptsContainer" ></div>
 
 </body>
 
