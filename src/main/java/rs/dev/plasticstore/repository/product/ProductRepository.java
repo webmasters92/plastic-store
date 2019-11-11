@@ -15,4 +15,10 @@ public interface ProductRepository extends JpaRepository<Product, Integer> {
     List<Product> findProductsByCategoryId(int code);
 
     List<Product> findProductsBySubcategoryId(int code);
+
+    List<Product> findTop15BySale(boolean sale);
+
+    List<Product> findTop15ByStatus(boolean status);
+
+    List<Product> findTop15ByAvailable(boolean available);
 }

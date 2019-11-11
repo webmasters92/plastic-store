@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+<!--=======  banner slider  =======-->
+<div th:fragment="slider_fragment" id="slider_fragment" class="fl-slider banner-slider">
+    <!--=======  single product  =======-->
+
+    <div  th:each="product:${slider_products}" class="fl-product">
+        <div class="image sale-product">
+            <a th:href="@{/product/single_product/__${product.id}__}">
+                <img th:src="@{'/images/' + ${product.images.get(0).name}}" class="img-fluid" alt="">
+                <img th:src="@{'/images/' + ${product.images.get(0).name}}" class="img-fluid" alt="">
+            </a>
+            <!-- wishlist icon -->
+            <span class="wishlist-icon"><a href="#"><i class="icon ion-md-heart-empty"></i></a></span>
+        </div>
+        <div class="content">
+            <h2 class="product-title"><a th:text="${product.name}" th:href="@{/product/single_product/__${product.id}__}"></a></h2>
+            <div class="rating">
+                <i class="fa fa-star active"></i>
+                <i class="fa fa-star active"></i>
+                <i class="fa fa-star active"></i>
+                <i class="fa fa-star"></i>
+                <i class="fa fa-star"></i>
+            </div>
+            <p class="product-price">
+                <!--                                <span class="main-price discounted">$71</span>-->
+                <span th:text="${product.productAttributes.get(0).price}+' RSD'" class="discounted-price"></span>
+            </p>
+
+            <div class="hover-icons">
+                <ul>
+                    <li><a href="#" data-tooltip="Dodaj u korpu"><i class="icon ion-md-cart"></i></a></li>
+                    <li><a href="#" data-tooltip="Dodaj u listu želja"><i class="icon ion-md-heart-empty"></i></a></li>
+                    <li><a href="#" id="details" data-target="#quick-view-modal-container" data-toggle="modal" data-tooltip="Detaljnije" th:onclick="'javascript:setId(\'' + ${product.id} + '\');'"><i class="icon ion-md-open"></i></a></li>
+                </ul>
+            </div>
+        </div>
+    </div>
+    <!--=======  End of single product  =======-->
+</div>
+<!--=======  End of banner slider  =======-->
+</body>
+</html>

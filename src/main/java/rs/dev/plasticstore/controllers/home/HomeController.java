@@ -19,6 +19,9 @@ public class HomeController {
     @RequestMapping("/")
     public String showHomePage(Model model) {
         model.addAttribute("categories", categoryService.findAll());
+        model.addAttribute("popular_products", productService.findPopularProducts());
+        model.addAttribute("new_products", productService.findNewProducts());
+        model.addAttribute("sale_products", productService.findProductsOnSale());
         return "webapp/shop/home";
     }
 }

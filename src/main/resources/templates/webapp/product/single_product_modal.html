@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<body>
+    <div th:fragment="product_modal" class="modal-dialog modal-dialog-centered" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <div class="row">
+                    <div class="col-lg-5 col-md-6 col-xs-12 mb-xxs-25 mb-xs-25 mb-sm-25">
+                        <!-- single product tabstyle one image gallery -->
+                        <div class="product-image-slider fl-product-image-slider fl3-product-image-slider quickview-product-image-slider">
+                            <!--product large image start -->
+                            <div class="tab-content product-large-image-list fl-product-large-image-list fl3-product-large-image-list quickview-product-large-image-list" id="myTabContent2">
+                                <div th:each="image,iStat : ${product.images}" th:class="${iStat.count==1} ? 'tab-pane fade show active':'tab-pane fade'" th:id="'single-slide-'+${iStat.count}+'-q'" role="tabpanel" th:aria-labelledby="'single-slide-tab-'+${iStat.count}+'-q'">
+                                    <!--Single Product Image Start-->
+                                    <div class="single-product-img img-full">
+                                        <img th:src="@{'/images/' + ${image.name}}" class="img-fluid" alt="">
+                                    </div>
+                                    <!--Single Product Image End-->
+                                </div>
+                            </div>
+                            <!--product large image End-->
+
+                            <!--product small image slider Start-->
+                            <div class="product-small-image-list fl-product-small-image-list fl3-product-small-image-list quickview-product-small-image-list">
+                                <div class="nav small-image-slider fl3-small-image-slider" role="tablist">
+                                    <div th:each="image,iStat  : ${product.images}" class="single-small-image img-full">
+                                        <a data-toggle="tab" th:id="'single-slide-tab-'+${iStat.count}+'-q'" th:href="@{'#single-slide-'+${iStat.count}+'-q'}">
+                                            <img th:src="@{'/images/' + ${image.name}}" class="img-fluid" alt="">
+                                        </a>
+                                    </div>
+                                </div>
+                            </div>
+                            <!--product small image slider End-->
+                        </div>
+                        <!-- end of single product tabstyle one image gallery -->
+                    </div>
+                    <div class="col-lg-7 col-md-6 col-xs-12">
+                        <!-- product quick view description -->
+                        <div class="product-feature-details">
+                            <h2 th:text="${product.name}" class="product-title mb-15"></h2>
+
+                            <h2 class="product-price mb-15">
+<!--                                <span class="main-price discounted">$12.90</span>-->
+                                <span th:text="${product.productAttributes.get(0).getPrice()}+' DIN'" class="discounted-price"></span>
+<!--                                <span class="discount-percentage">Save 8%</span>-->
+                            </h2>
+
+                            <p th:text="${product.description}" class="product-description mb-20"></p>
+
+
+                            <div class="cart-buttons mb-20">
+                                <div class="pro-qty mr-10">
+                                    <input type="text" value="1">
+                                </div>
+                                <div class="add-to-cart-btn">
+                                    <a href="#" class="fl-btn"><i class="fa fa-shopping-cart"></i> Add to Cart</a>
+                                </div>
+                            </div>
+
+                            <div class="social-share-buttons">
+                                <h3>share this product</h3>
+                                <ul>
+                                    <li><a class="twitter" href="#"><i class="fa fa-twitter"></i></a></li>
+                                    <li><a class="facebook" href="#"><i class="fa fa-facebook"></i></a></li>
+                                    <li><a class="google-plus" href="#"><i class="fa fa-google-plus"></i></a></li>
+                                    <li><a class="pinterest" href="#"><i class="fa fa-pinterest"></i></a></li>
+                                </ul>
+                            </div>
+                        </div>
+                        <!-- end of product quick view description -->
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</body>
+</html>

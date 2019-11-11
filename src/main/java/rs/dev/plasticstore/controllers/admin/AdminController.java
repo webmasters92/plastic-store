@@ -122,7 +122,7 @@ public class AdminController {
         return "administration/product/adminProductNew";
     }
 
-    @GetMapping("/deleteProduct/{id}")
+    @GetMapping("/delete_product/{id}")
     public String deleteProduct(@PathVariable String id) {
         var product = productService.findProductById(Integer.parseInt(id)).get();
         product.getImages().forEach(image -> {
