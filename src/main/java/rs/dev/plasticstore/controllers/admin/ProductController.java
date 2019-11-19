@@ -55,16 +55,15 @@ public class ProductController {
     @RequestMapping(value = "/single_product/{id}")
     public String showSingleProduct(@PathVariable String id, Model model) {
         model.addAttribute("categories", categoryService.findAll());
-        model.addAttribute("product", productService.findProductById(Integer.parseInt(id)).get());
+        model.addAttribute("product", productService.findProductById(Integer.parseInt(id)));
         return "webapp/product/single_product";
     }
 
     @GetMapping
     @RequestMapping(value = "/product_modal/{id}")
     public String showSingleProductModal(@PathVariable String id, Model model) {
-        model.addAttribute("categories", categoryService.findAll());
-        model.addAttribute("product", productService.findProductById(Integer.parseInt(id)).get());
-        return "webapp/product/single_product_modal :: product_modal";
+        model.addAttribute("product", productService.findProductById(Integer.parseInt(id)));
+        return "webapp/product/single_product_modal :: modal_fragment";
     }
 
     @GetMapping

@@ -159,7 +159,7 @@
                                             <ul>
                                                 <li><a href="#" data-tooltip="Dodaj u korpu"><i class="icon ion-md-cart"></i></a></li>
                                                 <li><a href="#" data-tooltip="Dodaj u listu želja"><i class="icon ion-md-heart-empty"></i></a></li>
-                                                <li><a href="#" data-tooltip="Detaljnije" data-toggle="modal" data-target="#quick-view-modal-container" th:onclick="'javascript:setId(\'' + ${popular_product.id} + '\');'"><i class="icon ion-md-open"></i></a></li>
+                                                <li><a href="#" data-tooltip="Detaljnije" th:onclick="'javascript:openProductModal(\'' + ${popular_product.id} + '\');'"><i class="icon ion-md-open"></i></a></li>
                                             </ul>
                                         </div>
                                     </div>
@@ -205,7 +205,7 @@
                                             <ul>
                                                 <li><a href="#" data-tooltip="Dodaj u korpu"><i class="icon ion-md-cart"></i></a></li>
                                                 <li><a href="#" data-tooltip="Dodaj u listu želja"><i class="icon ion-md-heart-empty"></i></a></li>
-                                                <li><a href="#" data-tooltip="Detaljnije" data-toggle="modal" data-target="#quick-view-modal-container" th:onclick="'javascript:setId(\'' + ${new_product.id} + '\');'"><i class="icon ion-md-open"></i></a></li>
+                                                <li><a href="#" data-tooltip="Detaljnije"  th:onclick="'javascript:openProductModal(\'' + ${new_product.id} + '\');'"><i class="icon ion-md-open"></i></a></li>
                                             </ul>
                                         </div>
                                     </div>
@@ -251,7 +251,7 @@
                                             <ul>
                                                 <li><a href="#" data-tooltip="Dodaj u korpu"><i class="icon ion-md-cart"></i></a></li>
                                                 <li><a href="#" data-tooltip="Dodaj u listu želja"><i class="icon ion-md-heart-empty"></i></a></li>
-                                                <li><a href="#" data-tooltip="Detaljnije" data-toggle="modal" data-target="#quick-view-modal-container" th:onclick="'javascript:setId(\'' + ${sale_product.id} + '\');'"><i class="icon ion-md-open"></i></a></li>
+                                                <li><a href="#" data-tooltip="Detaljnije" th:onclick="'javascript:openProductModal(\'' + ${sale_product.id} + '\');'"><i class="icon ion-md-open"></i></a></li>
                                             </ul>
                                         </div>
                                     </div>
@@ -402,7 +402,7 @@
                                 <h3 class="slider-sidebar-title">KUHINJA</h3>
                                 <div class="sidebar-list">
                                     <ul>
-                                        <li th:each="subcategory,iter:${categories.get(4).subcategories} " th:if="${iter.count<=10}"><a  th:text="${subcategory.name}" th:onclick="'javascript:showThirdProductsBySubcategory(\''+ ${subcategory.id} +'\');'"></a></li>
+                                        <li th:each="subcategory,iter:${categories.get(4).subcategories} " th:if="${iter.count<=10}"><a th:text="${subcategory.name}" th:onclick="'javascript:showThirdProductsBySubcategory(\''+ ${subcategory.id} +'\');'"></a></li>
                                     </ul>
                                 </div>
                             </div>
@@ -458,9 +458,8 @@
 <!--END OF SEARCH OVERLAY-->
 
 <!--QUICK VIEW MODAL-->
-
 <div class="modal fade quick-view-modal-container" id="quick-view-modal-container" tabindex="-1" role="dialog" aria-hidden="true">
-<!--    <div th:replace="webapp/product/single_product_modal :: product_modal"></div>-->
+
 </div>
 
 <!--END OF QUICK VIEW MODAL-->
@@ -474,14 +473,16 @@
 <div th:insert="webapp/containers/scriptsContainer :: scriptsContainer"></div>
 
 <script th:inline="javascript" type="text/javascript">
-    var id;
+
     $(document).ready(function () {
         showFirstProductsBySubcategory(9);
         showSecondProductsBySubcategory(37);
         showThirdProductsBySubcategory(19);
-        // $('#quick-view-modal-container').on('shown.bs.modal', function () {
-        //     openProductModal(id);
-        // });
+        $('.modal').on('shown.bs.modal', function (e) {
+            $('.small-image-slider').resize();
+            addProductSlider();
+            console.log("on modal show");
+        });
     });
 
     function openProductModal(productID) {
@@ -489,7 +490,8 @@
             url: '/product/product_modal/' + productID,
             type: 'get',
             success: function (response) {
-                $('.modal-dialog modal-dialog-centered').replaceWith(response);
+                $(".modal").html(response);
+                $(".modal").modal('show');
             }
         });
     }
@@ -580,12 +582,58 @@
         });
     }
 
-    function setId(id) {
-        this.id = id;
+    function addProductSlider() {
+        $('.small-image-slider, .quickview-small-image-slider').slick({
+            prevArrow: '<i class="fa fa-angle-left slick-prev"></i>',
+            nextArrow: '<i class="fa fa-angle-right slick-next"></i>',
+            arrows: true,
+            dots: false,
+            slidesToShow: 4,
+            responsive: [
+                {
+                    breakpoint: 1499,
+                    settings: {
+                        slidesToShow: 4,
+                    }
+                },
+                {
+                    breakpoint: 1199,
+                    settings: {
+                        slidesToShow: 3,
+                    }
+                },
+                {
+                    breakpoint: 991,
+                    settings: {
+                        slidesToShow: 3,
+                    }
+                },
+                {
+                    breakpoint: 767,
+                    settings: {
+                        slidesToShow: 3,
+                        arrows: false
+                    }
+                },
+                {
+                    breakpoint: 575,
+                    settings: {
+                        slidesToShow: 3,
+                        arrows: false
+                    }
+                },
+                {
+                    breakpoint: 479,
+                    settings: {
+                        slidesToShow: 2,
+                        arrows: false
+                    }
+                }
+            ]
+        });
     }
 
 </script>
-
 </body>
 
 </html>

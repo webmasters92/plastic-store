@@ -79,7 +79,7 @@ public class AdminController {
             } else update.set(true);
         });
 
-        if(update.get()) product.getImages().addAll(productService.findProductById(product.getId()).get().getImages());
+        if(update.get()) product.getImages().addAll(productService.findProductById(product.getId()).getImages());
 
         product.getSelectedColors().forEach(colorID -> {
             var color = colorService.findColorsById(Integer.parseInt(colorID));
@@ -107,7 +107,7 @@ public class AdminController {
     public String editProduct(@PathVariable String id, Model model) {
         model.addAttribute("categories", categoryService.findAll());
         model.addAttribute("allColors", colorService.findAll());
-        var product = productService.findProductById(Integer.parseInt(id)).get();
+        var product = productService.findProductById(Integer.parseInt(id));
         product.getProductColors().forEach(productColor -> {
             var color = colorService.findColorsByName(productColor.getName());
             product.getSelectedColors().add(String.valueOf(color.getId()));
@@ -124,7 +124,7 @@ public class AdminController {
 
     @GetMapping("/delete_product/{id}")
     public String deleteProduct(@PathVariable String id) {
-        var product = productService.findProductById(Integer.parseInt(id)).get();
+        var product = productService.findProductById(Integer.parseInt(id));
         product.getImages().forEach(image -> {
             File imageFile = new File(rootDir + "/images", image.getName());
             if(imageFile.exists()) imageFile.delete();

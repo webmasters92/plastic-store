@@ -9,7 +9,7 @@ public interface ProductService {
 
     void saveProduct(Product product);
     void deleteProduct(int id);
-    Optional<Product> findProductById(int id);
+    Product findProductById(int id);
     Optional<Product> findProductByCode(int code);
     List<Product> findAll();
     List<Product> findProductsByCategoryId(int code);
