@@ -20,7 +20,7 @@
                     <nav>
                         <ul>
                             <li class="parent-page"><a th:href="@{/}">Početna</a></li>
-                            <li th:text="${selected_category.name}"></li>
+                            <li id="breadcrumb" th:text="${selected_category.name}"></li>
                         </ul>
                     </nav>
                 </div>
@@ -50,7 +50,7 @@
 
                         <div class="category">
                             <ul>
-                                <li th:each="category : ${categories}"><a th:text="${category.name}" th:href="@{/product/product_list_category/__${category.id}__}"></a></li>
+                                <li th:each="category : ${categories}"><a th:text="${category.name}" th:onclick="'javascript:showProductList(\''+ ${category.id} +'\');'"></a></li>
                             </ul>
                         </div>
                     </div>
@@ -149,11 +149,84 @@
 
                 <!--=======  End of Shop header  =======-->
 
-                <!--=======  shop product display area  =======-->
+                <!--=======  shop products display area  =======-->
+                <div class="shop-product-wrap grid row mb-30 no-gutters">
+                    <div class="col-lg-3 col-md-6 col-sm-6 col-12" th:each="product : ${products}">
+                        <!--=======  grid view product  =======-->
 
-                <div th:replace="webapp/product/product_list_fragment :: product_list_fragment" th:with="${products}"></div>
+                        <div class="fl-product shop-grid-view-product">
+                            <div class="image">
+                                <a th:href="@{/product/single_product/__${product.id}__}">
+                                    <img th:src="@{'/images/' + ${product.images.get(0).name}}" class="img-fluid" alt="">
+                                    <img th:src="@{'/images/' + ${product.images.get(0).name}}" class="img-fluid" alt="">
+                                </a>
+                            </div>
+                            <div class="content">
+                                <h2 class="product-title"><a th:text="${product.getName()}" href="single-product.html">Officiis debitis</a></h2>
+                                <div class="rating">
+                                    <i class="fa fa-star active"></i>
+                                    <i class="fa fa-star active"></i>
+                                    <i class="fa fa-star active"></i>
+                                    <i class="fa fa-star"></i>
+                                    <i class="fa fa-star"></i>
+                                </div>
+                                <p class="product-price">
+                                    <!--                                    <span   class="main-price discounted"></span>-->
+                                    <span th:text="${product.productAttributes.get(0).price}+' RSD'" class="discounted-price"></span>
+                                </p>
 
-                <!--=======  End of shop product display area  =======-->
+                                <div class="hover-icons">
+                                    <ul>
+                                        <li><a href="#" data-tooltip="Dodaj u korpu"><i class="icon ion-md-cart"></i></a></li>
+                                        <li><a href="#" data-tooltip="Dodaj u listu želja"><i class="icon ion-md-heart-empty"></i></a></li>
+                                        <li><a href="#" data-tooltip="Detaljnije" th:onclick="'javascript:openProductModal(\'' + ${product.id} + '\');'"><i class="icon ion-md-open"></i></a></li>
+                                    </ul>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!--=======  End of grid view product  =======-->
+
+                        <!--=======  list view product  =======-->
+
+                        <div class="fl-product shop-list-view-product">
+                            <div class="image">
+                                <a th:href="@{/product/single_product/__${product.id}__}">
+                                    <img th:src="@{'/images/' + ${product.images.get(0).name}}" class="img-fluid" alt="">
+                                    <img th:src="@{'/images/' + ${product.images.get(0).name}}" class="img-fluid" alt="">
+                                </a>
+                            </div>
+                            <div class="content">
+                                <h2 class="product-title"><a th:text="${product.name}" href="single-product.html">Officiis debitis</a></h2>
+                                <div class="rating">
+                                    <i class="fa fa-star active"></i>
+                                    <i class="fa fa-star active"></i>
+                                    <i class="fa fa-star active"></i>
+                                    <i class="fa fa-star"></i>
+                                    <i class="fa fa-star"></i>
+                                </div>
+                                <p class="product-price">
+                                    <!--                                    <span   class="main-price discounted"></span>-->
+                                    <span th:text="${product.productAttributes.get(0).price}+' RSD'" class="discounted-price"></span>
+                                </p>
+
+                                <p th:text="${product.description}" class="product-description"></p>
+
+                                <div class="hover-icons">
+                                    <ul>
+                                        <li><a href="#" data-tooltip="Dodaj u korpu">Dodaj u korpu</a></li>
+                                        <li><a href="#" data-tooltip="Dodaj u listu želja"><i class="icon ion-md-heart-empty"></i></a></li>
+                                        <li><a href="#" data-tooltip="Detaljnije" data-toggle="modal" data-target="#quick-view-modal-container"><i class="icon ion-md-open"></i></a></li>
+                                    </ul>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!--=======  End of list view product  =======-->
+                    </div>
+                </div>
+
+                <!--=======  End of shop products display area  =======-->
 
                 <!--=======  pagination area  =======-->
 
@@ -171,13 +244,109 @@
         </div>
     </div>
 </div>
-
+<!--QUICK VIEW MODAL-->
+<div class="modal fade quick-view-modal-container" id="quick-view-modal-container" tabindex="-1" role="dialog" aria-hidden="true"></div>
 <!--=====  End of shop page content  ======-->
 
 <!--FOOTER-->
 
 <div th:replace="webapp/containers/footerContainer :: footerContainer"></div>
 
-<div th:insert="webapp/containers/scriptsContainer :: scriptsContainer" ></div>
+<div th:insert="webapp/containers/scriptsContainer :: scriptsContainer"></div>
+
+<script th:inline="javascript" type="text/javascript">
+
+    $(document).ready(function () {
+        $('.modal').on('shown.bs.modal', function (e) {
+            $('.small-image-slider').resize();
+            addProductSlider();
+        });
+    });
+
+    function openProductModal(productID) {
+        $.ajax({
+            url: '/product/product_modal/' + productID,
+            type: 'get',
+            success: function (response) {
+                $(".modal").html(response);
+                $(".modal").modal('show');
+            }
+        });
+    }
+
+    function showProductList(id) {
+        showSelectedCategory(id);
+        $.ajax({
+            url: '/product/product_list_category_fragment/' + id,
+            type: 'get',
+            success: function (response) {
+                $('.shop-product-wrap').html(response);
+            }
+        });
+    }
+
+    function showSelectedCategory(id) {
+        $.ajax({
+            url: '/product/find_selected_category/' + id,
+            type: 'get',
+            success: function (response) {
+                console.log(response);
+                $("#breadcrumb").text(response);
+            }
+        });
+    }
+
+    function addProductSlider() {
+        $('.small-image-slider, .quickview-small-image-slider').slick({
+            prevArrow: '<i class="fa fa-angle-left slick-prev"></i>',
+            nextArrow: '<i class="fa fa-angle-right slick-next"></i>',
+            arrows: true,
+            dots: false,
+            slidesToShow: 4,
+            responsive: [
+                {
+                    breakpoint: 1499,
+                    settings: {
+                        slidesToShow: 4,
+                    }
+                },
+                {
+                    breakpoint: 1199,
+                    settings: {
+                        slidesToShow: 3,
+                    }
+                },
+                {
+                    breakpoint: 991,
+                    settings: {
+                        slidesToShow: 3,
+                    }
+                },
+                {
+                    breakpoint: 767,
+                    settings: {
+                        slidesToShow: 3,
+                        arrows: false
+                    }
+                },
+                {
+                    breakpoint: 575,
+                    settings: {
+                        slidesToShow: 3,
+                        arrows: false
+                    }
+                },
+                {
+                    breakpoint: 479,
+                    settings: {
+                        slidesToShow: 2,
+                        arrows: false
+                    }
+                }
+            ]
+        });
+    }
+
+</script>
 </body>
 </html>

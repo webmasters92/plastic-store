@@ -379,7 +379,7 @@
                                 <ul>
                                     <li><a href="#" data-tooltip="Dodaj u korpu"><i class="icon ion-md-cart"></i></a></li>
                                     <li><a href="#" data-tooltip="Dodaj u listu želja"><i class="icon ion-md-heart-empty"></i></a></li>
-                                    <li><a href="#" id="details" data-target="#quick-view-modal-container" data-toggle="modal" data-tooltip="Detaljnije" th:onclick="'javascript:setId(\'' + ${product.id} + '\');'"><i class="icon ion-md-open"></i></a></li>
+                                    <li><a href="#" id="details" data-tooltip="Detaljnije" th:onclick="'javascript:openProductModal(\'' + ${product.id} + '\');'"><i class="icon ion-md-open"></i></a></li>
                                 </ul>
                             </div>
                         </div>
@@ -416,11 +416,7 @@
 
 <!--QUICK VIEW MODAL-->
 
-<div class="modal fade quick-view-modal-container" id="quick-view-modal-container" tabindex="-1" role="dialog" aria-hidden="true">
-
-    <div th:replace="webapp/product/single_product_modal :: product_modal"></div>
-
-</div>
+<div class="modal fade quick-view-modal-container" id="quick-view-modal-container" tabindex="-1" role="dialog" aria-hidden="true"></div>
 
 <!--END OF QUICK VIEW MODAL-->
 
@@ -431,11 +427,10 @@
 <div th:replace="webapp/containers/scriptsContainer :: scriptsContainer"></div>
 
 <script th:inline="javascript" type="text/javascript">
-    var id;
     $(document).ready(function () {
-        $('#quick-view-modal-container').on('shown.bs.modal', function () {
-            console.log(id);
-            openProductModal(id);
+        $('.modal').on('shown.bs.modal', function (e) {
+            $('.small-image-slider').resize();
+            addProductSlider();
         });
     });
 
@@ -444,13 +439,60 @@
             url: '/product/product_modal/' + productID,
             type: 'get',
             success: function (response) {
-                $('.modal-dialog modal-dialog-centered').replaceWith(response);
+                $(".modal").html(response);
+                $(".modal").modal('show');
             }
         });
     }
-
-    function setId(id) {
-        this.id = id;
+    function addProductSlider() {
+        $('.small-image-slider, .quickview-small-image-slider').slick({
+            prevArrow: '<i class="fa fa-angle-left slick-prev"></i>',
+            nextArrow: '<i class="fa fa-angle-right slick-next"></i>',
+            arrows: true,
+            dots: false,
+            slidesToShow: 4,
+            responsive: [
+                {
+                    breakpoint: 1499,
+                    settings: {
+                        slidesToShow: 4,
+                    }
+                },
+                {
+                    breakpoint: 1199,
+                    settings: {
+                        slidesToShow: 3,
+                    }
+                },
+                {
+                    breakpoint: 991,
+                    settings: {
+                        slidesToShow: 3,
+                    }
+                },
+                {
+                    breakpoint: 767,
+                    settings: {
+                        slidesToShow: 3,
+                        arrows: false
+                    }
+                },
+                {
+                    breakpoint: 575,
+                    settings: {
+                        slidesToShow: 3,
+                        arrows: false
+                    }
+                },
+                {
+                    breakpoint: 479,
+                    settings: {
+                        slidesToShow: 2,
+                        arrows: false
+                    }
+                }
+            ]
+        });
     }
 
 </script>

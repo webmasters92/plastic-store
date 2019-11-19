@@ -5,14 +5,9 @@
     <title>Title</title>
 </head>
 <body>
-
-<div th:fragment="product_list_fragment" class="shop-product-wrap grid row mb-30 no-gutters">
-    <!--/*@thymesVar id="products" type="rs.dev.plasticstore.model.Product"*/-->
-
-    <div class="col-lg-3 col-md-6 col-sm-6 col-12" th:each="product : ${products}">
+<div class="shop-product-wrap grid row mb-30 no-gutters">
+    <div th:fragment="product_list_fragment" class="col-lg-3 col-md-6 col-sm-6 col-12" th:each="product : ${products}">
         <!--=======  grid view product  =======-->
-
-        <!--=======  single product  =======-->
 
         <div class="fl-product shop-grid-view-product">
             <div class="image">
@@ -39,13 +34,11 @@
                     <ul>
                         <li><a href="#" data-tooltip="Dodaj u korpu"><i class="icon ion-md-cart"></i></a></li>
                         <li><a href="#" data-tooltip="Dodaj u listu želja"><i class="icon ion-md-heart-empty"></i></a></li>
-                        <li><a href="#" data-tooltip="Detaljnije" data-toggle="modal" data-target="#quick-view-modal-container"><i class="icon ion-md-open"></i></a></li>
+                        <li><a href="#" data-tooltip="Detaljnije" th:onclick="'javascript:openProductModal(\'' + ${product.id} + '\');'"><i class="icon ion-md-open"></i></a></li>
                     </ul>
                 </div>
             </div>
         </div>
-
-        <!--=======  End of single product  =======-->
 
         <!--=======  End of grid view product  =======-->
 
@@ -85,7 +78,6 @@
         </div>
 
         <!--=======  End of list view product  =======-->
-
     </div>
 </div>
 </body>

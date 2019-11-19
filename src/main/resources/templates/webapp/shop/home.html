@@ -133,7 +133,7 @@
                                 <!--=======  single product  =======-->
 
                                 <div th:each="popular_product:${popular_products}" class="fl-product">
-                                    <div class="image sale-product">
+                                    <div class="image">
                                         <a th:href="@{/product/single_product/__${popular_product.id}__}">
                                             <img th:src="@{'/images/' + ${popular_product.images.get(0).name}}" class="img-fluid" alt="">
                                             <img th:src="@{'/images/' + ${popular_product.images.get(0).name}}" class="img-fluid" alt="">
@@ -175,11 +175,11 @@
                         <div class="tab-pane fade" id="new-arrivals" role="tabpanel" aria-labelledby="new-arrival-tab">
                             <!--=======  tab product slider  =======-->
 
-                            <div class="fl-slider tab-product-slider" data-row="2">
+                            <div class="fl-slider tab-product-slider">
                                 <!--=======  single product  =======-->
 
                                 <div th:each="new_product:${new_products}" class="fl-product">
-                                    <div class="image sale-product">
+                                    <div class="image">
                                         <a th:href="@{/product/single_product/__${new_product.id}__}">
                                             <img th:src="@{'/images/' + ${new_product.images.get(0).name}}" class="img-fluid" alt="">
                                             <img th:src="@{'/images/' + ${new_product.images.get(0).name}}" class="img-fluid" alt="">
@@ -365,9 +365,9 @@
 
                             <div class="slider-banner home-one-banner banner-bg banner-bg-2">
                                 <div class="banner-text">
-                                    <p>Look of The Week</p>
-                                    <p class="big-text">Minimal Chair Modern</p>
-                                    <p>Only from $209</p>
+                                    <p>Proizvod nedelje</p>
+                                    <p class="big-text">Pertini Igračka</p>
+                                    <p>Za samo 350 RSD</p>
                                 </div>
                             </div>
 
@@ -420,9 +420,9 @@
 
                             <div class="slider-banner home-one-banner banner-bg banner-bg-3">
                                 <div class="banner-text">
-                                    <p>Look of The Week</p>
-                                    <p class="big-text">Lamps Light Color</p>
-                                    <p>Only from $209</p>
+                                    <p>Proizvod nedelje</p>
+                                    <p class="big-text">Činija četvrtasta</p>
+                                    <p>Za samo 79 RSD</p>
                                 </div>
                             </div>
 
@@ -458,9 +458,7 @@
 <!--END OF SEARCH OVERLAY-->
 
 <!--QUICK VIEW MODAL-->
-<div class="modal fade quick-view-modal-container" id="quick-view-modal-container" tabindex="-1" role="dialog" aria-hidden="true">
-
-</div>
+<div class="modal fade quick-view-modal-container" id="quick-view-modal-container" tabindex="-1" role="dialog" aria-hidden="true"></div>
 
 <!--END OF QUICK VIEW MODAL-->
 

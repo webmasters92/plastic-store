@@ -1,5 +1,6 @@
 package rs.dev.plasticstore.controllers.admin;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -34,12 +35,27 @@ public class ProductController {
     }
 
     @GetMapping
+    @ResponseBody
+    @RequestMapping(value = "/find_selected_category/{id}")
+    public String findSelectedCategory(@PathVariable String id) {
+        return categoryService.findCategoryById(Integer.parseInt(id)).get().getName();
+    }
+
+    @GetMapping
     @RequestMapping(value = "/product_list_category/{id}")
     public String showProductListByCategory(@PathVariable String id, Model model) {
         model.addAttribute("categories", categoryService.findAll());
         model.addAttribute("selected_category", categoryService.findCategoryById(Integer.parseInt(id)).get());
         model.addAttribute("products", productService.findProductsByCategoryId(Integer.parseInt(id)));
         return "webapp/product/product_list";
+    }
+
+    @GetMapping
+    @RequestMapping(value = "/product_list_category_fragment/{id}")
+    public String showProductListFragment(@PathVariable String id, Model model) {
+        model.addAttribute("selected_category", categoryService.findCategoryById(Integer.parseInt(id)).get());
+        model.addAttribute("products", productService.findProductsByCategoryId(Integer.parseInt(id)));
+        return "webapp/product/product_list_fragment :: product_list_fragment";
     }
 
     @GetMapping
