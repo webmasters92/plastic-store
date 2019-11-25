@@ -84,7 +84,7 @@
                         <!-- cart floating box -->
                         <div class="cart-floating-box hidden" id="cart-floating-box">
                             <div class="cart-items">
-<!--                                dinamicko dodavanje artikala u korpu ide foreach-->
+                                <!--                                dinamicko dodavanje artikala u korpu ide foreach-->
                                 <div class="cart-float-single-item d-flex">
                                     <span class="remove-item" id="remove-item"><a href="#"><i class="icon ion-md-close"></i></a></span>
                                     <div class="cart-float-single-item-image">
@@ -150,30 +150,27 @@
                     <!-- navigation section -->
                     <div class="main-menu">
                         <nav>
-                            <ul >
-                                <li th:each="category: ${categories}" class="menu-item-has-children" ><a th:text="${category.name}" th:href="@{/product/product_list_category/__${category.id}__}"></a>
+                            <ul>
+                                <li th:each="category: ${categories}" class="menu-item-has-children"><a th:text="${category.name}" th:href="@{/product/product_list_category/__${category.id}__}"></a>
                                     <ul class="sub-menu">
                                         <li th:each="sub_category: ${category.subcategories}"><a th:text="${sub_category.name}" th:href="@{/product/product_list_sub_category/__${sub_category.id}__}"></a></li>
                                     </ul>
                                 </li>
-<!--                                <li><a href="contact.html">CONTACT</a></li>-->
                             </ul>
                         </nav>
                     </div>
                     <!-- end of navigation section -->
                 </div>
-
-                <div class="col-12 col-lg-3" id="search-section">
-                    <!--=======  navigation search bar  =======-->
-
-                    <div class="navigation-search d-none d-lg-block">
-                        <input type="search" placeholder="Pretraga proizvoda ...">
-                        <button><i class="icon ion-md-search"></i></button>
+                <form id="searchForm" th:action="@{/product/searchProductsByName}" th:object="${search}" method="get">
+                    <div class="col-12 col-lg-3" id="search-section">
+                        <!--=======  navigation search bar  =======-->
+                        <div class="navigation-search d-none d-lg-block">
+                            <input required type="search" name="search" id="search" th:value="${search}" placeholder="Pretraga proizvoda ...">
+                            <button type="submit"><i class="icon ion-md-search"></i></button>
+                        </div>
+                        <!--=======  End of navigation search bar  =======-->
                     </div>
-
-                    <!--=======  End of navigation search bar  =======-->
-                </div>
-
+                </form>
                 <div class="col-12 d-block d-lg-none">
                     <!-- Mobile Menu -->
                     <div class="mobile-menu"></div>
@@ -185,6 +182,5 @@
     <!--=====  End of navigation menu  ======-->
 
 </div>
-
 </body>
 </html>

@@ -1,7 +1,8 @@
 package rs.dev.plasticstore.controllers.admin;
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
@@ -10,7 +11,7 @@ import rs.dev.plasticstore.services.category.CategoryService;
 import rs.dev.plasticstore.services.category.SubcategoryService;
 import rs.dev.plasticstore.services.product.ProductService;
 
-import java.util.ArrayList;
+import java.util.stream.Collectors;
 
 @Controller
 @RequestMapping("/product")
@@ -42,30 +43,101 @@ public class ProductController {
     }
 
     @GetMapping
-    @RequestMapping(value = "/product_list_category/{id}")
-    public String showProductListByCategory(@PathVariable String id, Model model) {
-        model.addAttribute("categories", categoryService.findAll());
-        model.addAttribute("selected_category", categoryService.findCategoryById(Integer.parseInt(id)).get());
-        model.addAttribute("products", productService.findProductsByCategoryId(Integer.parseInt(id)));
-        return "webapp/product/product_list";
+    @RequestMapping(value = "/refresh_pagination/{id}/{page}")
+    public String refreshPaginationByCategoryId(@PathVariable String id, @PathVariable String page, Model model) {
+        int pageNumber = Integer.parseInt(page);
+        int size = 12;
+        Page<Product> pageableProduct = productService.findProductsByCategoryId(Integer.parseInt(id), PageRequest.of(pageNumber, size));
+        model.addAttribute("pagination", pageableProduct);
+        return "webapp/product/pagination_fragment :: pagination_fragment";
     }
 
     @GetMapping
-    @RequestMapping(value = "/product_list_category_fragment/{id}")
-    public String showProductListFragment(@PathVariable String id, Model model) {
+    @RequestMapping(value = "/refresh_search_pagination/{search}/{page}")
+    public String refreshPaginationBySearch(@PathVariable String search, @PathVariable String page, Model model) {
+        int pageNumber = Integer.parseInt(page);
+        int size = 12;
+        Page<Product> pageableProduct = productService.findProductsByNameLike(search, PageRequest.of(pageNumber, size));
+        model.addAttribute("pagination", pageableProduct);
+        return "webapp/product/pagination_fragment :: pagination_fragment";
+    }
+
+    @GetMapping
+    @RequestMapping(value = "/refresh_product_header/{id}/{page}")
+    public String refreshProductHeader(@PathVariable String id, @PathVariable String page, Model model) {
+        int pageNumber = Integer.parseInt(page);
+        int size = 12;
+        Page<Product> pageableProduct = productService.findProductsByCategoryId(Integer.parseInt(id), PageRequest.of(pageNumber, size));
+        model.addAttribute("pagination", pageableProduct);
+        return "webapp/product/products_header_fragment :: products_header";
+    }
+
+    @GetMapping
+    @RequestMapping(value = "/product_list_category/{id}")
+    public String showProductListByCategory(@PathVariable String id, Model model) {
+        int page = 0;
+        int size = 12;
+        Page<Product> pageableProduct = productService.findProductsByCategoryId(Integer.parseInt(id), PageRequest.of(page, size));
+
+        model.addAttribute("categories", categoryService.findAll());
         model.addAttribute("selected_category", categoryService.findCategoryById(Integer.parseInt(id)).get());
-        model.addAttribute("products", productService.findProductsByCategoryId(Integer.parseInt(id)));
-        return "webapp/product/product_list_fragment :: product_list_fragment";
+        model.addAttribute("products", pageableProduct.get().collect(Collectors.toList()));
+        model.addAttribute("pagination", pageableProduct);
+        return "webapp/product/product_list";
     }
 
     @GetMapping
     @RequestMapping(value = "/product_list_sub_category/{id}")
     public String showProductListBySubCategory(@PathVariable String id, Model model) {
+        int page = 0;
+        int size = 12;
+        var subCategory = subcategoryService.findSubCategoryById(Integer.parseInt(id)).get();
+        Page<Product> pageableProduct = productService.findProductsBySubCategoryId(subCategory.getId(), PageRequest.of(page, size));
+
         model.addAttribute("categories", categoryService.findAll());
-        model.addAttribute("selected_category", subcategoryService.findSubCategoryById(Integer.parseInt(id)).get());
-        model.addAttribute("products", productService.findProductsBySubCategoryId(Integer.parseInt(id)));
+        model.addAttribute("selected_category", subCategory.getCategory());
+        model.addAttribute("products", pageableProduct.get().collect(Collectors.toList()));
+        model.addAttribute("pagination", pageableProduct);
         return "webapp/product/product_list";
     }
+
+    @GetMapping(value = "/product_list_searched_fragment/{search}/{page}")
+    public String showSearchedProductsByName(@PathVariable String search, @PathVariable String page,Model model) {
+        int pageNumber = Integer.parseInt(page);
+        int size = 12;
+
+        Page<Product> pageableProduct = productService.findProductsByNameLike(search, PageRequest.of(pageNumber, size));
+
+        model.addAttribute("products", pageableProduct.get().collect(Collectors.toList()));
+        model.addAttribute("pagination", pageableProduct);
+        return "webapp/product/product_list_searched_fragment :: searched_products";
+    }
+
+    @GetMapping(value = "/searchProductsByName")
+    public String searchProductsByName(@RequestParam(value = "search", required = false) String name, Model model) {
+        int page = 0;
+        int size = 12;
+
+        Page<Product> pageableProduct = productService.findProductsByNameLike(name, PageRequest.of(page, size));
+
+        model.addAttribute("categories", categoryService.findAll());
+        model.addAttribute("products", pageableProduct.get().collect(Collectors.toList()));
+        model.addAttribute("pagination", pageableProduct);
+        model.addAttribute("search", name);
+        return "webapp/product/product_list_searched";
+    }
+
+    @GetMapping
+    @RequestMapping(value = "/product_list_category_fragment/{id}/{page}")
+    public String showProductListFragment(@PathVariable String id, @PathVariable String page, Model model) {
+        int size = 12;
+        int pageNumber = Integer.parseInt(page);
+        Page<Product> pageableProduct = productService.findProductsByCategoryId(Integer.parseInt(id), PageRequest.of(pageNumber, size));
+        model.addAttribute("selected_category", categoryService.findCategoryById(Integer.parseInt(id)).get());
+        model.addAttribute("products", pageableProduct.get().collect(Collectors.toList()));
+        return "webapp/product/product_list_fragment :: product_list_fragment";
+    }
+
 
     @GetMapping
     @RequestMapping(value = "/single_product/{id}")

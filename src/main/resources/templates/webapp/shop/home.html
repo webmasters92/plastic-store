@@ -138,8 +138,6 @@
                                             <img th:src="@{'/images/' + ${popular_product.images.get(0).name}}" class="img-fluid" alt="">
                                             <img th:src="@{'/images/' + ${popular_product.images.get(0).name}}" class="img-fluid" alt="">
                                         </a>
-                                        <!-- wishlist icon -->
-                                        <span class="wishlist-icon"><a href="#"><i class="icon ion-md-heart-empty"></i></a></span>
                                     </div>
                                     <div class="content">
                                         <h2 class="product-title"><a th:text="${popular_product.getName()}" th:href="@{/product/single_product/__${popular_product.id}__}"></a></h2>
@@ -184,8 +182,6 @@
                                             <img th:src="@{'/images/' + ${new_product.images.get(0).name}}" class="img-fluid" alt="">
                                             <img th:src="@{'/images/' + ${new_product.images.get(0).name}}" class="img-fluid" alt="">
                                         </a>
-                                        <!-- wishlist icon -->
-                                        <span class="wishlist-icon"><a href="#"><i class="icon ion-md-heart-empty"></i></a></span>
                                     </div>
                                     <div class="content">
                                         <h2 class="product-title"><a th:text="${new_product.getName()}" th:href="@{/product/single_product/__${new_product.id}__}"></a></h2>
@@ -205,7 +201,7 @@
                                             <ul>
                                                 <li><a href="#" data-tooltip="Dodaj u korpu"><i class="icon ion-md-cart"></i></a></li>
                                                 <li><a href="#" data-tooltip="Dodaj u listu želja"><i class="icon ion-md-heart-empty"></i></a></li>
-                                                <li><a href="#" data-tooltip="Detaljnije"  th:onclick="'javascript:openProductModal(\'' + ${new_product.id} + '\');'"><i class="icon ion-md-open"></i></a></li>
+                                                <li><a href="#" data-tooltip="Detaljnije" th:onclick="'javascript:openProductModal(\'' + ${new_product.id} + '\');'"><i class="icon ion-md-open"></i></a></li>
                                             </ul>
                                         </div>
                                     </div>
@@ -230,8 +226,6 @@
                                             <img th:src="@{'/images/' + ${sale_product.images.get(0).name}}" class="img-fluid" alt="">
                                             <img th:src="@{'/images/' + ${sale_product.images.get(0).name}}" class="img-fluid" alt="">
                                         </a>
-                                        <!-- wishlist icon -->
-                                        <span class="wishlist-icon"><a href="#"><i class="icon ion-md-heart-empty"></i></a></span>
                                     </div>
                                     <div class="content">
                                         <h2 class="product-title"><a th:text="${sale_product.getName()}" th:href="@{/product/single_product/__${sale_product.id}__}"></a></h2>
@@ -291,7 +285,7 @@
 
                             <div class="slider-sidebar">
                                 <h3 class="slider-sidebar-title">SAKSIJE I BAŠTA</h3>
-                                <div class="sidebar-list">
+                                <div class="sidebar-first">
                                     <ul>
                                         <li th:each="subcategory:${categories.get(2).subcategories}"><a th:text="${subcategory.name}" th:onclick="'javascript:showFirstProductsBySubcategory(\''+ ${subcategory.id} +'\');'"></a></li>
                                     </ul>
@@ -344,7 +338,7 @@
 
                             <div class="slider-sidebar">
                                 <h3 class="slider-sidebar-title">DEČIJI PROGRAM</h3>
-                                <div class="sidebar-list">
+                                <div  class="sidebar-second">
                                     <ul>
                                         <li th:each="subcategory:${categories.get(5).subcategories}"><a th:text="${subcategory.name}" th:onclick="'javascript:showSecondProductsBySubcategory(\''+ ${subcategory.id} +'\');'"></a></li>
                                     </ul>
@@ -400,7 +394,7 @@
 
                             <div class="slider-sidebar">
                                 <h3 class="slider-sidebar-title">KUHINJA</h3>
-                                <div class="sidebar-list">
+                                <div class="sidebar-third">
                                     <ul>
                                         <li th:each="subcategory,iter:${categories.get(4).subcategories} " th:if="${iter.count<=10}"><a th:text="${subcategory.name}" th:onclick="'javascript:showThirdProductsBySubcategory(\''+ ${subcategory.id} +'\');'"></a></li>
                                     </ul>
@@ -479,9 +473,53 @@
         $('.modal').on('shown.bs.modal', function (e) {
             $('.small-image-slider').resize();
             addProductSlider();
-            console.log("on modal show");
+        });
+
+         $('.sidebar-first > ul > li a:first').addClass('active');
+         $('.sidebar-second > ul > li a:first').addClass('active');
+         $('.sidebar-third > ul > li a:first').addClass('active');
+
+        $('.main-menu >nav > ul > li a').on('click', function () {
+            $('.main-menu > nav > ul > li a').removeClass();
+            $(this).addClass('active');
+        });
+
+        $('.sidebar-first > ul > li a').on('click', function () {
+            $('.sidebar-first > ul > li a').removeClass();
+            $(this).addClass('active');
+        });
+        $('.sidebar-second > ul > li a').on('click', function () {
+            $('.sidebar-second > ul > li a').removeClass();
+            $(this).addClass('active');
+        });
+        $('.sidebar-third > ul > li a').on('click', function () {
+            $('.sidebar-third > ul > li a').removeClass();
+            $(this).addClass('active');
         });
     });
+
+    function setInputValue() {
+
+    }
+
+    $('#searchForm').keypress(function (e) {
+        if (e.which == 13) {
+            $('#searchForm').submit();
+            return false;
+        }
+    });
+
+    function searchProducts() {
+        var name = $('input[type="search"]').val();
+        console.log(name);
+        $.ajax({
+            url: '/product/searchProductsByName/' + name,
+            type: 'get',
+            success: function (response) {
+                console.log(response);
+            }
+        });
+    }
 
     function openProductModal(productID) {
         $.ajax({

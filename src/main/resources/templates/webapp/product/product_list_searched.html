@@ -1,7 +1,6 @@
 <!DOCTYPE html>
 <html lang="en" xmlns:th="http://www.thymeleaf.org">
 <head th:replace="webapp/containers/headContainer :: headContainer"></head>
-
 <body>
 
 <div th:replace="webapp/containers/headerContainer :: headerContainer" th:with="${categories}"></div>
@@ -20,7 +19,7 @@
                     <nav>
                         <ul>
                             <li class="parent-page"><a th:href="@{/}">Početna</a></li>
-                            <li id="breadcrumb" th:value="${selected_category.id}" th:text="${selected_category.name}"></li>
+                            <li th:text="Pretraga"></li>
                         </ul>
                     </nav>
                 </div>
@@ -30,87 +29,10 @@
     </div>
 </div>
 
-<!--=====  End of breadcrumb area  ======-->
-
-<!--=============================================
-=            shop page content         =
-=============================================-->
-
 <div class="shop-page-content mb-50">
     <div class="container">
         <div class="row">
-            <div class="col-lg-3 order-2 order-lg-1">
-                <!--=======  page sidebar   =======-->
-
-                <div class="page-sidebar">
-                    <!--=======  single sidebar block  =======-->
-
-                    <div class="single-sidebar">
-                        <h3 class="sidebar-title">KATEGORIJE</h3>
-
-                        <div class="category">
-                            <ul>
-                                <li th:each="category : ${categories}"><a th:value="${category.id}" th:text="${category.name}" th:onclick="'javascript:showProductList(\''+ ${category.id} +'\',\'' + 0 + '\');'"></a></li>
-                            </ul>
-                        </div>
-                    </div>
-
-                    <!--=======  End of single sidebar block  =======-->
-
-                    <!--=======  single sidebar block  =======-->
-
-                    <div class="single-sidebar price-range-bg">
-                        <h3 class="sidebar-title filter-price-title">FILTER PO CENI</h3>
-                        <div class="sidebar-price">
-                            <div id="price-range"></div>
-                            <input type="text" id="price-amount" class="price-amount" readonly>
-                        </div>
-                    </div>
-
-                    <!--=======  End of single sidebar block  =======-->
-
-                    <!--=======  single sidebar block  =======-->
-
-                    <div class="single-sidebar mb-30">
-                        <h3 class="sidebar-title color-title">BOJE</h3>
-                        <div class="color-category">
-                            <ul>
-                                <li><a href="shop-left-sidebar.html">Black</a> <span class="counter">(2)</span></li>
-                                <li><a href="shop-left-sidebar.html">Blue</a> <span class="counter">(4)</span></li>
-                                <li><a href="shop-left-sidebar.html">Red</a> <span class="counter">(1)</span></li>
-                                <li><a href="shop-left-sidebar.html">Yellow</a> <span class="counter">(5)</span></li>
-                            </ul>
-                        </div>
-                    </div>
-
-                    <!--=======  End of single sidebar block  =======-->
-
-                    <!--=======  single sidebar block  =======-->
-
-                    <div class="single-sidebar">
-                        <h3 class="sidebar-title">POPULARNI TAGOVI</h3>
-
-                        <!--=======  tag container  =======-->
-
-                        <ul class="tag-container">
-                            <li><a href="shop-left-sidebar.html">new</a> </li>
-                            <li><a href="shop-left-sidebar.html">bags</a> </li>
-                            <li><a href="shop-left-sidebar.html">new</a> </li>
-                            <li><a href="shop-left-sidebar.html">kids</a> </li>
-                            <li><a href="shop-left-sidebar.html">fashion</a> </li>
-                            <li><a href="shop-left-sidebar.html">Accessories</a> </li>
-                        </ul>
-
-                        <!--=======  End of tag container  =======-->
-                    </div>
-
-                    <!--=======  End of single sidebar block  =======-->
-                </div>
-
-                <!--=======  End of page sidebar   =======-->
-            </div>
-
-            <div class="col-lg-9 order-1 order-lg-2">
+            <div class="col-lg-12 order-1 order-lg-2">
 
                 <!--=======  Shop header  =======-->
 
@@ -149,10 +71,12 @@
 
                 <!--=======  End of Shop header  =======-->
 
-                <!--=======  shop products display area  =======-->
+                <!--=======  shop product display area  =======-->
                 <div class="shop-product-wrap grid row mb-30 no-gutters">
-                    <div class="col-lg-3 col-md-6 col-sm-6 col-12" th:each="product : ${products}">
+                    <div th:each="product : ${products}" class="col-lg-3 col-md-6 col-sm-6 col-12">
                         <!--=======  grid view product  =======-->
+
+                        <!--=======  single product  =======-->
 
                         <div class="fl-product shop-grid-view-product">
                             <div class="image">
@@ -162,7 +86,7 @@
                                 </a>
                             </div>
                             <div class="content">
-                                <h2 class="product-title"><a th:text="${product.getName()}" href="single-product.html">Officiis debitis</a></h2>
+                                <h2 class="product-title"><a th:text="${product.name}" th:href="@{/product/single_product/__${product.id}__}"></a></h2>
                                 <div class="rating">
                                     <i class="fa fa-star active"></i>
                                     <i class="fa fa-star active"></i>
@@ -171,7 +95,7 @@
                                     <i class="fa fa-star"></i>
                                 </div>
                                 <p class="product-price">
-                                    <!--                                    <span   class="main-price discounted"></span>-->
+                                    <!--                                <span class="main-price discounted">$71</span>-->
                                     <span th:text="${product.productAttributes.get(0).price}+' RSD'" class="discounted-price"></span>
                                 </p>
 
@@ -179,11 +103,13 @@
                                     <ul>
                                         <li><a href="#" data-tooltip="Dodaj u korpu"><i class="icon ion-md-cart"></i></a></li>
                                         <li><a href="#" data-tooltip="Dodaj u listu želja"><i class="icon ion-md-heart-empty"></i></a></li>
-                                        <li><a href="#" data-tooltip="Detaljnije" th:onclick="'javascript:openProductModal(\'' + ${product.id} + '\');'"><i class="icon ion-md-open"></i></a></li>
+                                        <li><a href="#" id="details" data-tooltip="Detaljnije" th:onclick="'javascript:openProductModal(\'' + ${product.id} + '\');'"><i class="icon ion-md-open"></i></a></li>
                                     </ul>
                                 </div>
                             </div>
                         </div>
+
+                        <!--=======  End of single product  =======-->
 
                         <!--=======  End of grid view product  =======-->
 
@@ -197,7 +123,7 @@
                                 </a>
                             </div>
                             <div class="content">
-                                <h2 class="product-title"><a th:text="${product.name}" href="single-product.html">Officiis debitis</a></h2>
+                                <h2 class="product-title"><a th:text="${product.name}" th:href="@{/product/single_product/__${product.id}__}"></a></h2>
                                 <div class="rating">
                                     <i class="fa fa-star active"></i>
                                     <i class="fa fa-star active"></i>
@@ -206,36 +132,37 @@
                                     <i class="fa fa-star"></i>
                                 </div>
                                 <p class="product-price">
-                                    <!--                                    <span   class="main-price discounted"></span>-->
+                                    <!--                                <span class="main-price discounted">$71</span>-->
                                     <span th:text="${product.productAttributes.get(0).price}+' RSD'" class="discounted-price"></span>
                                 </p>
 
-                                <p th:text="${product.description}" class="product-description"></p>
+                                <p class="product-description" th:text="${product.description}"></p>
 
                                 <div class="hover-icons">
                                     <ul>
                                         <li><a href="#" data-tooltip="Dodaj u korpu">Dodaj u korpu</a></li>
-                                        <li><a href="#" data-tooltip="Dodaj u listu želja"><i class="icon ion-md-heart-empty"></i></a></li>
-                                        <li><a href="#" data-tooltip="Detaljnije" data-toggle="modal" data-target="#quick-view-modal-container"><i class="icon ion-md-open"></i></a></li>
+                                        <li><a href="#"><i class="icon ion-md-heart-empty"></i></a></li>
+                                        <li><a href="#" data-tooltip="Detaljnije" th:onclick="'javascript:openProductModal(\'' + ${product.id} + '\');'"><i class="icon ion-md-options"></i></a></li>
                                     </ul>
                                 </div>
                             </div>
                         </div>
 
                         <!--=======  End of list view product  =======-->
+
                     </div>
                 </div>
 
-                <!--=======  End of shop products display area  =======-->
+                <!--=======  End of shop product display area  =======-->
 
                 <!--=======  pagination area  =======-->
 
-                <div th:if="${pagination.getTotalPages() > 0}" class="pagination-area mb-md-50 mb-sm-50">
+                <div th:if="${pagination.getTotalPages() > 0}" class="pagination-area">
                     <ul>
                         <li th:each="pageNumber : ${#numbers.sequence(0, pagination.getTotalPages() - 1)}">
                             <a th:onclick="'javascript:loadPage(\''+ ${pageNumber} +'\');'" th:classappend="${pageNumber eq pagination.getNumber()} ? 'active'" th:text="${pageNumber}+1"></a></li>
                         <li th:classappend="${pagination.getNumber()+1 eq pagination.getTotalPages()} ? 'disabled'">
-                            <a th:onclick="'javascript:loadPage(\''+ ${pagination.getNumber()+1} +'\');'" >
+                            <a th:onclick="'javascript:loadPage(\''+ ${pagination.getNumber()+1} +'\');'">
                                 <i class="fa fa-angle-double-right"></i></a></li>
                     </ul>
                 </div>
@@ -245,11 +172,9 @@
         </div>
     </div>
 </div>
+
 <!--QUICK VIEW MODAL-->
 <div class="modal fade quick-view-modal-container" id="quick-view-modal-container" tabindex="-1" role="dialog" aria-hidden="true"></div>
-<!--=====  End of shop page content  ======-->
-
-<!--FOOTER-->
 
 <div th:replace="webapp/containers/footerContainer :: footerContainer"></div>
 
@@ -262,22 +187,6 @@
             $('.small-image-slider').resize();
             addProductSlider();
         });
-
-        $('.category > ul > li a').each(function () {
-            if ($(this).attr('value') === $("#breadcrumb").attr('value')) {
-                $(this).addClass('active');
-            }
-        });
-
-        $('.category > ul > li a').on('click', function () {
-            $('.category > ul > li a').removeClass();
-            $(this).addClass('active');
-        });
-
-        // $('.pagination-area > ul > li a').on('click', function () {
-        //     $('.pagination-area > ul > li a').removeClass();
-        //     $(this).addClass('active');
-        // });
     });
 
     function openProductModal(productID) {
@@ -291,32 +200,21 @@
         });
     }
 
-    function showProductList(categoryID, page) {
-        showSelectedCategory(categoryID);
+    function showSearchedProductList(search, page) {
         $.ajax({
-            url: '/product/product_list_category_fragment/' + categoryID + '/' + page,
+            url: '/product/product_list_searched_fragment/' + search + '/' + page,
             type: 'get',
             success: function (response) {
                 $('.shop-product-wrap').html(response);
             }
         });
-        refreshPagination(categoryID, page);
-        refreshProductHeader(categoryID,page);
+        refreshPagination(search, page);
+     //   refreshProductHeader(search,page);
     }
 
-    function showSelectedCategory(id) {
+    function refreshPagination(search, page) {
         $.ajax({
-            url: '/product/find_selected_category/' + id,
-            type: 'get',
-            success: function (response) {
-                $("#breadcrumb").text(response);
-            }
-        });
-    }
-
-    function refreshPagination(categoryId, page) {
-        $.ajax({
-            url: '/product/refresh_pagination/' + categoryId + '/' + page,
+            url: '/product/refresh_search_pagination/' + search + '/' + page,
             type: 'get',
             success: function (response) {
                 $(".pagination-area").replaceWith(response);
@@ -324,7 +222,7 @@
         });
     }
 
-    function refreshProductHeader(categoryId,page) {
+    function refreshProductHeader(categoryId, page) {
         $.ajax({
             url: '/product/refresh_product_header/' + categoryId + '/' + page,
             type: 'get',
@@ -335,9 +233,11 @@
     }
 
     function loadPage(page) {
-        var id = $(".category> ul > li a.active").attr("value");
-        showProductList(id, page);
-        //  refreshProductHeader();
+        /*<![CDATA[*/
+        var search = /*[[${search}]]*/ 'SearchParam';
+        /*]]>*/
+        console.log(search);
+        showSearchedProductList(search,page);
     }
 
     function addProductSlider() {

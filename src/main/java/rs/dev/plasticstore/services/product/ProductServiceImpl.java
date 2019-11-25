@@ -1,6 +1,8 @@
 package rs.dev.plasticstore.services.product;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import rs.dev.plasticstore.model.Product;
@@ -28,8 +30,8 @@ public class ProductServiceImpl implements ProductService {
 
     @Override
     @Transactional
-    public List<Product> findAll() {
-        return productRepository.findAll();
+    public void deleteProduct(int id) {
+        productRepository.deleteById(id);
     }
 
     @Override
@@ -46,8 +48,20 @@ public class ProductServiceImpl implements ProductService {
 
     @Override
     @Transactional
-    public List<Product> findProductsByCategoryId(int code) {
-       return productRepository.findProductsByCategoryId(code);
+    public List<Product> findAll() {
+        return productRepository.findAll();
+    }
+
+    @Override
+    @Transactional
+    public Page<Product> findProductsByCategoryId(int code, Pageable pageRequest) {
+        return productRepository.findProductsByCategoryId(code, pageRequest);
+    }
+
+    @Override
+    @Transactional
+    public Page<Product> findProductsBySubCategoryId(int code, Pageable pageRequest) {
+        return productRepository.findProductsBySubcategoryId(code, pageRequest);
     }
 
     @Override
@@ -76,7 +90,7 @@ public class ProductServiceImpl implements ProductService {
 
     @Override
     @Transactional
-    public void deleteProduct(int id) {
-        productRepository.deleteById(id);
+    public Page<Product> findProductsByNameLike(String name, Pageable pageRequest) {
+        return productRepository.findProductsByNameLike("%"+name+"%", pageRequest);
     }
 }

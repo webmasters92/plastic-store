@@ -5,9 +5,12 @@
     <title>Title</title>
 </head>
 <body>
+
 <div class="shop-product-wrap grid row mb-30 no-gutters">
-    <div th:fragment="product_list_fragment" class="col-lg-3 col-md-6 col-sm-6 col-12" th:each="product : ${products}">
+    <div th:fragment="searched_products" th:each="product : ${products}" class="col-lg-3 col-md-6 col-sm-6 col-12">
         <!--=======  grid view product  =======-->
+
+        <!--=======  single product  =======-->
 
         <div class="fl-product shop-grid-view-product">
             <div class="image">
@@ -17,7 +20,7 @@
                 </a>
             </div>
             <div class="content">
-                <h2 class="product-title"><a th:text="${product.getName()}" th:href="@{/product/single_product/__${product.id}__}"></a></h2>
+                <h2 class="product-title"><a th:text="${product.name}" th:href="@{/product/single_product/__${product.id}__}"></a></h2>
                 <div class="rating">
                     <i class="fa fa-star active"></i>
                     <i class="fa fa-star active"></i>
@@ -26,7 +29,7 @@
                     <i class="fa fa-star"></i>
                 </div>
                 <p class="product-price">
-                    <!--                                    <span   class="main-price discounted"></span>-->
+                    <!--                                <span class="main-price discounted">$71</span>-->
                     <span th:text="${product.productAttributes.get(0).price}+' RSD'" class="discounted-price"></span>
                 </p>
 
@@ -34,11 +37,13 @@
                     <ul>
                         <li><a href="#" data-tooltip="Dodaj u korpu"><i class="icon ion-md-cart"></i></a></li>
                         <li><a href="#" data-tooltip="Dodaj u listu želja"><i class="icon ion-md-heart-empty"></i></a></li>
-                        <li><a href="#" data-tooltip="Detaljnije" th:onclick="'javascript:openProductModal(\'' + ${product.id} + '\');'"><i class="icon ion-md-open"></i></a></li>
+                        <li><a href="#" id="details" data-tooltip="Detaljnije" th:onclick="'javascript:openProductModal(\'' + ${product.id} + '\');'"><i class="icon ion-md-open"></i></a></li>
                     </ul>
                 </div>
             </div>
         </div>
+
+        <!--=======  End of single product  =======-->
 
         <!--=======  End of grid view product  =======-->
 
@@ -52,7 +57,7 @@
                 </a>
             </div>
             <div class="content">
-                <h2 class="product-title"><a th:text="${product.name}" href="single-product.html">Officiis debitis</a></h2>
+                <h2 class="product-title"><a th:text="${product.name}" th:href="@{/product/single_product/__${product.id}__}"></a></h2>
                 <div class="rating">
                     <i class="fa fa-star active"></i>
                     <i class="fa fa-star active"></i>
@@ -61,23 +66,24 @@
                     <i class="fa fa-star"></i>
                 </div>
                 <p class="product-price">
-                    <!--                                    <span   class="main-price discounted"></span>-->
+                    <!--                                <span class="main-price discounted">$71</span>-->
                     <span th:text="${product.productAttributes.get(0).price}+' RSD'" class="discounted-price"></span>
                 </p>
 
-                <p th:text="${product.description}" class="product-description"></p>
+                <p class="product-description" th:text="${product.description}"></p>
 
                 <div class="hover-icons">
                     <ul>
                         <li><a href="#" data-tooltip="Dodaj u korpu">Dodaj u korpu</a></li>
-                        <li><a href="#" data-tooltip="Dodaj u listu želja"><i class="icon ion-md-heart-empty"></i></a></li>
-                        <li><a href="#" data-tooltip="Detaljnije" data-toggle="modal" data-target="#quick-view-modal-container"><i class="icon ion-md-open"></i></a></li>
+                        <li><a href="#"><i class="icon ion-md-heart-empty"></i></a></li>
+                        <li><a href="#" data-tooltip="Detaljnije" th:onclick="'javascript:openProductModal(\'' + ${product.id} + '\');'"><i class="icon ion-md-options"></i></a></li>
                     </ul>
                 </div>
             </div>
         </div>
 
         <!--=======  End of list view product  =======-->
+
     </div>
 </div>
 </body>

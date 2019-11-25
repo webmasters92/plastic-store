@@ -1,5 +1,6 @@
 package rs.dev.plasticstore.services.product;
 
+import org.springframework.data.domain.*;
 import rs.dev.plasticstore.model.Product;
 
 import java.util.List;
@@ -12,10 +13,12 @@ public interface ProductService {
     Product findProductById(int id);
     Optional<Product> findProductByCode(int code);
     List<Product> findAll();
-    List<Product> findProductsByCategoryId(int code);
+    Page<Product> findProductsByCategoryId(int code, Pageable pageRequest);
+    Page<Product> findProductsBySubCategoryId(int code,Pageable pageRequest);
     List<Product> findProductsBySubCategoryId(int code);
     List<Product> findPopularProducts();
     List<Product> findNewProducts();
     List<Product> findProductsOnSale();
+    Page<Product> findProductsByNameLike(String name,Pageable pageRequest);
 
 }

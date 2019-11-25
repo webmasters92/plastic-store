@@ -24,7 +24,6 @@ public class HomeController {
         model.addAttribute("new_products", productService.findNewProducts());
         model.addAttribute("sale_products", productService.findProductsOnSale());
         model.addAttribute("product", productService.findProductById(2));
-
         return "webapp/shop/home";
     }
 }

@@ -13,9 +13,9 @@
 	<version>0.0.1-SNAPSHOT</version>
 	<name>plastic-store</name>
 	<description>Spring boot app for selling plastics</description>
-
+	<packaging>jar</packaging>
 	<properties>
-		<java.version>11</java.version>
+		<java.version>12</java.version>
 	</properties>
 
 	<dependencies>
@@ -82,6 +82,11 @@
 			<plugin>
 				<groupId>org.springframework.boot</groupId>
 				<artifactId>spring-boot-maven-plugin</artifactId>
+				<configuration>
+					<mainClass>rs.dev.plasticstore.PlasticStoreApplication</mainClass>
+					<excludeDevtools>false</excludeDevtools>
+					<executable>true</executable>
+				</configuration>
 			</plugin>
 		</plugins>
 	</build>
