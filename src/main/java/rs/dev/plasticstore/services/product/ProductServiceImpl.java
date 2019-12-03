@@ -91,6 +91,11 @@ public class ProductServiceImpl implements ProductService {
     @Override
     @Transactional
     public Page<Product> findProductsByNameLike(String name, Pageable pageRequest) {
-        return productRepository.findProductsByNameLike("%"+name+"%", pageRequest);
+        return productRepository.findProductsByNameLike("%" + name + "%", pageRequest);
+    }
+
+    @Override
+    public Page<Product> findProductsByPrice(int categoryId, int min, int max, Pageable pageRequest) {
+        return productRepository.findProductsByPrice(categoryId, min, max, pageRequest);
     }
 }

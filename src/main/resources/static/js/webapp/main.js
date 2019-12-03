@@ -494,7 +494,6 @@
     /*----------  banner slider  ----------*/
 
 
-
     /*----------  vertical banner slider  ----------*/
 
     $('.vertical-banner-slider').each(function () {
@@ -996,13 +995,13 @@
     $('#price-range').slider({
         range: true,
         min: 0,
-        max: 2000,
-        values: [25, 970],
+        max: 10000,
+        values: [0, 10000],
         slide: function (event, ui) {
-            $('#price-amount').val('Price: ' + '$' + ui.values[0] + ' - $' + ui.values[1]);
+            $('#price-amount').val('Cena: ' + '$' + ui.values[0] + ' - $' + ui.values[1]);
         }
     });
-    $('#price-amount').val('Price: ' + '$' + $('#price-range').slider('values', 0) +
+    $('#price-amount').val('Cena: ' + '$' + $('#price-range').slider('values', 0) +
         ' - $' + $('#price-range').slider('values', 1));
 
 

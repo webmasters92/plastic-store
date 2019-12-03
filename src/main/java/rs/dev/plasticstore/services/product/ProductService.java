@@ -20,5 +20,6 @@ public interface ProductService {
     List<Product> findNewProducts();
     List<Product> findProductsOnSale();
     Page<Product> findProductsByNameLike(String name,Pageable pageRequest);
+    Page<Product> findProductsByPrice(int category_id,int min,int max,Pageable pageRequest);
 
 }
