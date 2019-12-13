@@ -2,6 +2,7 @@ package rs.dev.plasticstore.model;
 
 import javax.persistence.*;
 import java.io.Serializable;
+import java.util.Objects;
 
 @Entity
 @Table(name = "product_color")
@@ -57,7 +58,20 @@ public class ProductColor implements Serializable {
     }
 
     @Override
+    public int hashCode() {
+        return Objects.hash(name, code);
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if(this == o) return true;
+        if(!(o instanceof ProductColor)) return false;
+        ProductColor that = (ProductColor) o;
+        return getName().equals(that.getName());
+    }
+
+    @Override
     public String toString() {
-        return super.toString();
+        return "ProductColor{" + "id=" + id + ", name='" + name + '\'' + ", code='" + code + '\'' + ", product=" + product + '}';
     }
 }

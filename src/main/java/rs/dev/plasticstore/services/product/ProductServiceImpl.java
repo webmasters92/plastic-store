@@ -10,8 +10,7 @@ import rs.dev.plasticstore.repository.product.ProductRepository;
 
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
-import java.util.List;
-import java.util.Optional;
+import java.util.*;
 
 @Service
 public class ProductServiceImpl implements ProductService {
@@ -90,12 +89,37 @@ public class ProductServiceImpl implements ProductService {
 
     @Override
     @Transactional
-    public Page<Product> findProductsByNameLike(String name, Pageable pageRequest) {
-        return productRepository.findProductsByNameLike("%" + name + "%", pageRequest);
+    public Page<Product> findProductsBySearch(String name, int minPrice, int maxPrice, Pageable pageRequest) {
+        return productRepository.findProductsBySearch("%" + name + "%", minPrice, maxPrice, pageRequest);
     }
 
     @Override
-    public Page<Product> findProductsByPrice(int categoryId, int min, int max, Pageable pageRequest) {
-        return productRepository.findProductsByPrice(categoryId, min, max, pageRequest);
+    @Transactional
+    public Page<Product> findProductsByPrice(int categoryId, int min, int max, ArrayList<String> colors, Pageable pageRequest) {
+        return productRepository.findProductsByPrice(categoryId, min, max, colors, pageRequest);
+    }
+
+    @Override
+    @Transactional
+    public int findMinProductPrice() {
+        return productRepository.findMinProductPrice();
+    }
+
+    @Override
+    @Transactional
+    public int findMaxProductPrice() {
+        return productRepository.findMaxProductPrice();
+    }
+
+    @Override
+    @Transactional
+    public int findMinProductPrice(int parseInt) {
+        return productRepository.findMinProductPriceByCategory(parseInt);
+    }
+
+    @Override
+    @Transactional
+    public int findMaxProductPrice(int parseInt) {
+        return productRepository.findMaxProductPriceByCategory(parseInt);
     }
 }

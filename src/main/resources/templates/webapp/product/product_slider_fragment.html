@@ -27,7 +27,7 @@
             </div>
             <p class="product-price">
                 <!--                                <span class="main-price discounted">$71</span>-->
-                <span th:text="${product.productAttributes.get(0).price}+' RSD'" class="discounted-price"></span>
+                <span class="discounted-price" th:text="${product.getMinPrice()}+' - '+${product.getMaxPrice()}+ ' RSD'"></span>
             </p>
 
             <div class="hover-icons">

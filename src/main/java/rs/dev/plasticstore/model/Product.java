@@ -76,7 +76,31 @@ public class Product implements Serializable {
     private List<MultipartFile> imgData = new ArrayList<>();
 
     @Transient
+    private int minPrice;
+
+    @Transient
+    private int maxPrice;
+
+    @Transient
     private List<String> selectedColors = new ArrayList<>();
+
+    @Transient
+    public int getMinPrice() {
+        return minPrice;
+    }
+
+    @Transient
+    public void setMinPrice(int minPrice) {
+        this.minPrice = minPrice;
+    }
+
+    public int getMaxPrice() {
+        return maxPrice;
+    }
+
+    public void setMaxPrice(int maxPrice) {
+        this.maxPrice = maxPrice;
+    }
 
     public List<String> getSelectedColors() {
         return selectedColors;

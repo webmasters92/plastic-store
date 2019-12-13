@@ -6324,6 +6324,11 @@ a#more-btn {
     margin-bottom: 15px;
 }
 
+.single-sidebar .color-category ul li.active:before {
+    background: #9acf6a;
+    border-color: #1a39cf;
+}
+
 .single-sidebar .color-category ul li a {
     color: #363f4d;
 }

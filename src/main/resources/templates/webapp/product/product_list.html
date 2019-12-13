@@ -63,7 +63,7 @@
                         <h3 class="sidebar-title filter-price-title">FILTER PO CENI</h3>
                         <div class="sidebar-price">
                             <div id="price-range"></div>
-                            <input type="text" id="price-amount" class="price-amount" readonly>
+                            <input class="price-amount" data-max="0" data-min="0" id="price-amount" readonly type="text">
                         </div>
                     </div>
 
@@ -71,14 +71,11 @@
 
                     <!--=======  single sidebar block  =======-->
 
-                    <div class="single-sidebar mb-30">
+                    <div class="single-sidebar mb-30" id="product_colors">
                         <h3 class="sidebar-title color-title">BOJE</h3>
                         <div class="color-category">
-                            <ul>
-                                <li><a href="shop-left-sidebar.html">Black</a> <span class="counter">(2)</span></li>
-                                <li><a href="shop-left-sidebar.html">Blue</a> <span class="counter">(4)</span></li>
-                                <li><a href="shop-left-sidebar.html">Red</a> <span class="counter">(1)</span></li>
-                                <li><a href="shop-left-sidebar.html">Yellow</a> <span class="counter">(5)</span></li>
+                            <ul id="selected_colors">
+                                <li th:each="entry:${colorMap}"><a th:text="${entry.key.getName()}"></a> <span class="counter" th:text="'('+${entry.value}+')'"></span></li>
                             </ul>
                         </div>
                     </div>
@@ -137,7 +134,6 @@
                                     <option value="max-price">Najskuplje prvo</option>
                                     <option selected value="name-asc">Naziv A-Z</option>
                                     <option value="name-desc">Naziv Z-A</option>
-                                    <!--                                    <option value="0">Ocena</option>-->
                                 </select>
                             </div>
 
@@ -173,7 +169,7 @@
                                 </div>
                                 <p class="product-price">
                                     <!--                                    <span   class="main-price discounted"></span>-->
-                                    <span th:text="${product.productAttributes.get(0).price}+' RSD'" class="discounted-price"></span>
+                                    <span class="discounted-price" th:text="${product.getMinPrice()}+' - '+${product.getMaxPrice()}+ ' RSD'"></span>
                                 </p>
 
                                 <div class="hover-icons">
@@ -208,7 +204,7 @@
                                 </div>
                                 <p class="product-price">
                                     <!--                                    <span   class="main-price discounted"></span>-->
-                                    <span th:text="${product.productAttributes.get(0).price}+' RSD'" class="discounted-price"></span>
+                                    <span class="discounted-price" th:text="${product.getMinPrice()}+' - '+${product.getMaxPrice()}+ ' RSD'"></span>
                                 </p>
 
                                 <p th:text="${product.description}" class="product-description"></p>
@@ -233,11 +229,9 @@
 
                 <div th:if="${pagination.getTotalPages() > 0}" class="pagination-area mb-md-50 mb-sm-50">
                     <ul>
-                        <li th:each="pageNumber : ${#numbers.sequence(0, pagination.getTotalPages() - 1)}">
-                            <a th:onclick="'javascript:loadPage(\''+ ${pageNumber} +'\');'" th:classappend="${pageNumber eq pagination.getNumber()} ? 'active'" th:text="${pageNumber}+1"></a></li>
-                        <li th:classappend="${pagination.getNumber()+1 eq pagination.getTotalPages()} ? 'disabled'">
-                            <a th:onclick="'javascript:loadPage(\''+ ${pagination.getNumber()+1} +'\');'">
-                                <i class="fa fa-angle-double-right"></i></a></li>
+                        <li th:classappend="${pagination.getNumber() eq 0} ? 'disabled'"><a th:onclick="'javascript:loadPage(\''+ ${pagination.getNumber()-1} +'\');'"><i class="fa fa-angle-double-left"></i></a></li>
+                        <li th:each="pageNumber : ${#numbers.sequence(0, pagination.getTotalPages() - 1)}"><a th:classappend="${pageNumber eq pagination.getNumber()} ? 'active'" th:onclick="'javascript:loadPage(\''+ ${pageNumber} +'\');'" th:text="${pageNumber}+1"></a></li>
+                        <li th:classappend="${pagination.getNumber()+1 eq pagination.getTotalPages()} ? 'disabled'"><a th:onclick="'javascript:loadPage(\''+ ${pagination.getNumber()+1} +'\');'"><i class="fa fa-angle-double-right"></i></a></li>
                     </ul>
                 </div>
 
@@ -246,6 +240,9 @@
         </div>
     </div>
 </div>
+
+<a class="scroll-top" href="#"></a>
+
 <!--QUICK VIEW MODAL-->
 <div class="modal fade quick-view-modal-container" id="quick-view-modal-container" tabindex="-1" role="dialog" aria-hidden="true"></div>
 <!--=====  End of shop page content  ======-->
@@ -257,8 +254,15 @@
 <div th:insert="webapp/containers/scriptsContainer :: scriptsContainer"></div>
 
 <script th:inline="javascript" type="text/javascript">
+    var minPrice = 0;
+    var maxPrice = 0;
 
     $(document).ready(function () {
+        /*<![CDATA[*/
+        var categoryId = /*[[${selected_category.id}]]*/ 'SearchParam';
+        /*]]>*/
+        setSliderMinMaxPrice(categoryId);
+
         $('.modal').on('shown.bs.modal', function (e) {
             $('.small-image-slider').resize();
             addProductSlider();
@@ -270,31 +274,50 @@
             }
         });
 
-        $('.category > ul > li a').on('click', function () {
+        $('.category > ul > li a').on('click', function (e) {
             $('.category > ul > li a').removeClass();
             $(this).addClass('active');
-            $("#price-range").slider('values', 0, 0);
-            $("#price-range").slider('values', 1, 10000);
-            $('#price-amount').val('Cena: ' + '$' + 0 + ' - $' + 10000);
-            var min = $("#price-range").slider("option", "min");
-            var max = $("#price-range").slider("option", "max");
+
+            setSliderMinMaxPrice($(this).attr("value"));
+            $('.nice-select').niceSelect('destroy');
+            $('#sort-by').removeAttr('style');
+            $('#sort-by').val('name-asc');
+            $('.nice-select').niceSelect();
+            $('.color-category > ul > li > a').each(function () {
+                $(this).parent().removeClass();
+            });
             refreshBreadCrumb($(this).text());
-            showProductList($(this).attr("value"), 0, min, max, "name-asc");
+            showProductList($(this).attr("value"), 0, minPrice, maxPrice, "name-asc", 'empty');
         });
 
         $('#sort-by').on('change', function () {
             var categoryId = $(".category > ul > li a.active").attr("value");
-            var min = $("#price-range").slider("option", "min");
-            var max = $("#price-range").slider("option", "max");
-            showProductList(categoryId, 0, min, max, this.value);
+            var min = $("#price-range").slider("values", 0);
+            var max = $("#price-range").slider("values", 1);
+            var selected_colors = 'empty';
+            $('.color-category > ul > li > a').each(function () {
+                if ($(this).parent().hasClass('active')) {
+                    selected_colors += ' ' + $(this).text();
+                }
+            });
+            showProductList(categoryId, 0, min, max, this.value, selected_colors);
         });
 
         $('#price-range').slider({
             change: function (event, ui) {
                 var categoryId = $(".category > ul > li a.active").attr("value");
-                showProductList(categoryId, 0, ui.values[0], ui.values[1], $('#sort-by').val());
+                var selected_colors = 'empty';
+                $('.color-category > ul > li > a').each(function () {
+                    if ($(this).parent().hasClass('active')) {
+                        selected_colors += ' ' + $(this).text();
+                    }
+                });
+                showProductList(categoryId, 0, ui.values[0], ui.values[1], $('#sort-by').val(), selected_colors);
             }
-        })
+        });
+
+        refreshProductHeader($(".category > ul > li a.active").attr("value"), 0, minPrice, maxPrice, 'empty');
+        refreshProductColors($(".category > ul > li a.active").attr("value"), 0, minPrice, maxPrice, "name-asc", 'empty');
     });
 
     function openProductModal(productID) {
@@ -308,25 +331,52 @@
         });
     }
 
-    function showProductList(categoryID, page, minPrice, maxPrice, sort) {
+    function setSliderMinMaxPrice(categoryId) {
         $.ajax({
-            url: '/product/product_list_category_fragment/' + categoryID + '/' + page + '/' + minPrice + '/' + maxPrice + '/' + sort,
+            url: '/product/products_min_price/' + categoryId,
+            type: 'get',
+            async: false,
+            success: function (response) {
+                $("#price-range").slider('option', 'min', response);
+                minPrice = response;
+                $('#price-amount').val('Cena: ' + 'RSD ' + minPrice + ' - RSD ' + maxPrice);
+            }
+        });
+        $.ajax({
+            url: '/product/products_max_price/' + categoryId,
+            type: 'get',
+            async: false,
+            success: function (response) {
+                $("#price-range").slider('option', 'max', response);
+                maxPrice = response;
+                $('#price-amount').val('Cena: ' + 'RSD ' + minPrice + ' - RSD ' + maxPrice);
+            }
+        });
+    }
+
+    function showProductList(categoryID, page, minPrice, maxPrice, sort, colors) {
+        $.ajax({
+            url: '/product/product_list_category_fragment/' + categoryID + '/' + page + '/' + minPrice + '/' + maxPrice + '/' + sort + '/' + colors,
             type: 'get',
             success: function (response) {
                 $('.shop-product-wrap').html(response);
             }
         });
-        refreshPagination(categoryID, page, minPrice, maxPrice, sort);
-        refreshProductHeader(categoryID, page, minPrice, maxPrice);
+
+        refreshPagination(categoryID, page, minPrice, maxPrice, sort, colors);
+        refreshProductHeader(categoryID, page, minPrice, maxPrice, colors);
+        if (page <= 0) {
+            refreshProductColors(categoryID, page, minPrice, maxPrice, sort, colors);
+        }
     }
 
     function refreshBreadCrumb(name) {
         $("#breadcrumb").text(name);
     }
 
-    function refreshPagination(categoryId, page, min, max, sort) {
+    function refreshPagination(categoryId, page, min, max, sort, colors) {
         $.ajax({
-            url: '/product/refresh_pagination/' + categoryId + '/' + page + '/' + min + '/' + max + '/' + sort,
+            url: '/product/refresh_pagination/' + categoryId + '/' + page + '/' + min + '/' + max + '/' + sort + '/' + colors,
             type: 'get',
             success: function (response) {
                 $(".pagination-area").replaceWith(response);
@@ -334,22 +384,64 @@
         });
     }
 
-    function refreshProductHeader(categoryId, page, min, max) {
+    function refreshProductColors(categoryID, page, minPrice, maxPrice, sort, colors) {
         $.ajax({
-            url: '/product/refresh_product_header/' + categoryId + '/' + page + '/' + min + '/' + max,
+            url: '/product/refresh_colors/' + categoryID + '/' + page + '/' + minPrice + '/' + maxPrice + '/' + sort,
+            type: 'get',
+            success: function (response) {
+                $("#product_colors").replaceWith(response);
+
+                $('.color-category > ul > li > a').each(function () {
+                    if (colors !== 'empty' && colors.includes($(this).text())) {
+                        $(this).parent().addClass('active');
+                    } else
+                        $(this).parent().removeClass();
+                });
+
+                $('.color-category > ul > li >a').on('click', function () {
+                    if ($(this).parent().hasClass('active')) {
+                        $(this).parent().removeClass();
+                    } else {
+                        $(this).parent().addClass('active');
+                    }
+                    var selected_colors = 'empty';
+                    $('.color-category > ul > li > a').each(function () {
+                        if ($(this).parent().hasClass('active')) {
+                            selected_colors += ' ' + $(this).text();
+                        }
+                    });
+                    var id = $(".category> ul > li a.active").attr("value");
+                    var min = $("#price-range").slider("values", 0);
+                    var max = $("#price-range").slider("values", 1);
+                    var sort = $('#sort-by').val();
+                    showProductList(id, 0, min, max, sort, selected_colors);
+                });
+            }
+        });
+    }
+
+    function refreshProductHeader(categoryId, page, min, max, colors) {
+        $.ajax({
+            url: '/product/refresh_product_header/' + categoryId + '/' + page + '/' + min + '/' + max + '/' + colors,
             type: 'get',
             success: function (response) {
                 $(".result-show-message").replaceWith(response);
-                $("#sort-by option[value='name-asc']").attr("selected", true);            }
+            }
         });
     }
 
     function loadPage(page) {
         var id = $(".category> ul > li a.active").attr("value");
-        var min = $("#price-range").slider("option", "min");
-        var max = $("#price-range").slider("option", "max");
+        var min = $("#price-range").slider("values", 0);
+        var max = $("#price-range").slider("values", 1);
         var sort = $('#sort-by').val();
-        showProductList(id, page, min, max, sort);
+        var selected_colors = 'empty';
+        $('.color-category > ul > li > a').each(function () {
+            if ($(this).parent().hasClass('active')) {
+                selected_colors += ' ' + $(this).text();
+            }
+        });
+        showProductList(id, page, min, max, sort, selected_colors);
     }
 
     function addProductSlider() {

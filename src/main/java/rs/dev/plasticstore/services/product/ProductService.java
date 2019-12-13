@@ -1,25 +1,44 @@
 package rs.dev.plasticstore.services.product;
 
-import org.springframework.data.domain.*;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import rs.dev.plasticstore.model.Product;
 
-import java.util.List;
-import java.util.Optional;
+import java.util.*;
 
 public interface ProductService {
 
     void saveProduct(Product product);
-    void deleteProduct(int id);
-    Product findProductById(int id);
-    Optional<Product> findProductByCode(int code);
-    List<Product> findAll();
-    Page<Product> findProductsByCategoryId(int code, Pageable pageRequest);
-    Page<Product> findProductsBySubCategoryId(int code,Pageable pageRequest);
-    List<Product> findProductsBySubCategoryId(int code);
-    List<Product> findPopularProducts();
-    List<Product> findNewProducts();
-    List<Product> findProductsOnSale();
-    Page<Product> findProductsByNameLike(String name,Pageable pageRequest);
-    Page<Product> findProductsByPrice(int category_id,int min,int max,Pageable pageRequest);
 
+    void deleteProduct(int id);
+
+    Product findProductById(int id);
+
+    Optional<Product> findProductByCode(int code);
+
+    List<Product> findAll();
+
+    Page<Product> findProductsByCategoryId(int code, Pageable pageRequest);
+
+    Page<Product> findProductsBySubCategoryId(int code, Pageable pageRequest);
+
+    List<Product> findProductsBySubCategoryId(int code);
+
+    List<Product> findPopularProducts();
+
+    List<Product> findNewProducts();
+
+    List<Product> findProductsOnSale();
+
+    Page<Product> findProductsBySearch(String name, int minPrice, int maxPrice, Pageable pageRequest);
+
+    Page<Product> findProductsByPrice(int category_id, int min, int max, ArrayList<String> colors, Pageable pageRequest);
+
+    int findMinProductPrice();
+
+    int findMaxProductPrice();
+
+    int findMinProductPrice(int parseInt);
+
+    int findMaxProductPrice(int parseInt);
 }

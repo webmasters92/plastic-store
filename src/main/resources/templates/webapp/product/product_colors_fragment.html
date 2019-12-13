@@ -1,0 +1,17 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+<div class="single-sidebar mb-30" id="product_colors" th:fragment="product_colors">
+    <h3 class="sidebar-title color-title">BOJE</h3>
+    <div class="color-category">
+        <ul>
+            <li th:each="entry:${colorMap}"><a th:text="${entry.key.getName()}"></a> <span class="counter" th:text="'('+${entry.value}+')'"></span></li>
+        </ul>
+    </div>
+</div>
+</body>
+</html>

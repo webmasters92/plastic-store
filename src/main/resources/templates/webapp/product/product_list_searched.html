@@ -53,12 +53,12 @@
                             <!--=======  Sort by dropdown  =======-->
 
                             <div class="sort-by-dropdown d-flex align-items-center mb-xs-10">
-                                <p class="mr-10 mb-0">Sortiraj po: </p>
+                                <p class="mr-10 mb-0">Sortiraj: </p>
                                 <select name="sort-by" id="sort-by" class="nice-select">
-                                    <option value="0">Popularnosti</option>
-                                    <option value="0">Ceni rastuće</option>
-                                    <option value="0">Ceni opadajuće</option>
-                                    <option value="0">Nazivu</option>
+                                    <option value="min-price">Najjeftinije prvo</option>
+                                    <option value="max-price">Najskuplje prvo</option>
+                                    <option selected value="name-asc">Naziv A-Z</option>
+                                    <option value="name-desc">Naziv Z-A</option>
                                 </select>
                             </div>
 
@@ -96,7 +96,7 @@
                                 </div>
                                 <p class="product-price">
                                     <!--                                <span class="main-price discounted">$71</span>-->
-                                    <span th:text="${product.productAttributes.get(0).price}+' RSD'" class="discounted-price"></span>
+                                    <span class="discounted-price" th:text="${product.getMinPrice()}+' - '+${product.getMaxPrice()}+ ' RSD'"></span>
                                 </p>
 
                                 <div class="hover-icons">
@@ -133,7 +133,7 @@
                                 </div>
                                 <p class="product-price">
                                     <!--                                <span class="main-price discounted">$71</span>-->
-                                    <span th:text="${product.productAttributes.get(0).price}+' RSD'" class="discounted-price"></span>
+                                    <span class="discounted-price" th:text="${product.getMinPrice()}+' - '+${product.getMaxPrice()}+ ' RSD'"></span>
                                 </p>
 
                                 <p class="product-description" th:text="${product.description}"></p>
@@ -159,11 +159,9 @@
 
                 <div th:if="${pagination.getTotalPages() > 0}" class="pagination-area">
                     <ul>
-                        <li th:each="pageNumber : ${#numbers.sequence(0, pagination.getTotalPages() - 1)}">
-                            <a th:onclick="'javascript:loadPage(\''+ ${pageNumber} +'\');'" th:classappend="${pageNumber eq pagination.getNumber()} ? 'active'" th:text="${pageNumber}+1"></a></li>
-                        <li th:classappend="${pagination.getNumber()+1 eq pagination.getTotalPages()} ? 'disabled'">
-                            <a th:onclick="'javascript:loadPage(\''+ ${pagination.getNumber()+1} +'\');'">
-                                <i class="fa fa-angle-double-right"></i></a></li>
+                        <li th:classappend="${pagination.getNumber() eq 0} ? 'disabled'"><a th:onclick="'javascript:loadPage(\''+ ${pagination.getNumber()-1} +'\');'"><i class="fa fa-angle-double-left"></i></a></li>
+                        <li th:each="pageNumber : ${#numbers.sequence(0, pagination.getTotalPages() - 1)}"><a th:classappend="${pageNumber eq pagination.getNumber()} ? 'active'" th:onclick="'javascript:loadPage(\''+ ${pageNumber} +'\');'" th:text="${pageNumber}+1"></a></li>
+                        <li th:classappend="${pagination.getNumber()+1 eq pagination.getTotalPages()} ? 'disabled'"><a th:onclick="'javascript:loadPage(\''+ ${pagination.getNumber()+1} +'\');'"><i class="fa fa-angle-double-right"></i></a></li>
                     </ul>
                 </div>
 
@@ -172,6 +170,8 @@
         </div>
     </div>
 </div>
+
+<a class="scroll-top" href="#"></a>
 
 <!--QUICK VIEW MODAL-->
 <div class="modal fade quick-view-modal-container" id="quick-view-modal-container" tabindex="-1" role="dialog" aria-hidden="true"></div>
@@ -187,6 +187,13 @@
             $('.small-image-slider').resize();
             addProductSlider();
         });
+        /*<![CDATA[*/
+        var search = /*[[${search}]]*/ 'SearchParam';
+        /*]]>*/
+        $('#sort-by').on('change', function () {
+            showSearchedProductList(search, 0, $('#sort-by').val());
+        });
+        refreshProductHeader(search, 0);
     });
 
     function openProductModal(productID) {
@@ -200,16 +207,16 @@
         });
     }
 
-    function showSearchedProductList(search, page) {
+    function showSearchedProductList(search, page, sort) {
         $.ajax({
-            url: '/product/product_list_searched_fragment/' + search + '/' + page,
+            url: '/product/product_list_searched_fragment/' + search + '/' + page + '/' + sort,
             type: 'get',
             success: function (response) {
                 $('.shop-product-wrap').html(response);
             }
         });
         refreshPagination(search, page);
-     //   refreshProductHeader(search,page);
+        refreshProductHeader(search, page);
     }
 
     function refreshPagination(search, page) {
@@ -224,7 +231,7 @@
 
     function refreshProductHeader(categoryId, page) {
         $.ajax({
-            url: '/product/refresh_product_header/' + categoryId + '/' + page,
+            url: '/product/refresh_searched_product_header/' + categoryId + '/' + page,
             type: 'get',
             success: function (response) {
                 $(".result-show-message").replaceWith(response);
@@ -236,7 +243,7 @@
         /*<![CDATA[*/
         var search = /*[[${search}]]*/ 'SearchParam';
         /*]]>*/
-        showSearchedProductList(search,page);
+        showSearchedProductList(search, page, $('#sort-by').val());
     }
 
     function addProductSlider() {
