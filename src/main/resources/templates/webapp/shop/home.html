@@ -133,7 +133,7 @@
                                 <!--=======  single product  =======-->
 
                                 <div th:each="popular_product:${popular_products}" class="fl-product">
-                                    <div class="image">
+                                    <div class="image" th:classappend="${popular_product.isSale()}?'sale-product'">
                                         <a th:href="@{/product/single_product/__${popular_product.id}__}">
                                             <img th:src="@{'/images/' + ${popular_product.images.get(0).name}}" class="img-fluid" alt="">
                                             <img th:src="@{'/images/' + ${popular_product.images.get(0).name}}" class="img-fluid" alt="">
@@ -149,8 +149,13 @@
                                             <i class="fa fa-star"></i>
                                         </div>
                                         <p class="product-price">
-                                            <!--                                    <span   class="main-price discounted"></span>-->
-                                            <span th:text="${popular_product.productAttributes.get(0).price}+' RSD'" class="discounted-price"></span>
+                                            <span class="main-price discounted" th:if="${popular_product.isSale()&&popular_product.productAttributes.size()>1}" th:text="${popular_product.getMinPrice()}+' - '+${popular_product.getMaxPrice()}+ ' RSD'"></span>
+                                            <span class="main-price discounted" th:if="${popular_product.isSale()&&popular_product.productAttributes.size()==1}" th:text="${popular_product.getMinPrice()}+ ' RSD'"></span>
+                                            <br th:if="${popular_product.isSale()&&popular_product.productAttributes.size()>1}">
+                                            <span class="discounted-price" th:if="${popular_product.isSale()&&popular_product.productAttributes.size()>1}" th:text="${popular_product.getMinDiscountedPrice()}+' - '+${popular_product.getMaxDiscountedPrice()}+ ' RSD'"></span>
+                                            <span class="discounted-price" th:if="${popular_product.isSale()&&popular_product.productAttributes.size()==1}" th:text="${popular_product.getMinDiscountedPrice()}+ ' RSD'"></span>
+                                            <span class="discounted-price" th:if="${!popular_product.isSale()&&popular_product.productAttributes.size()>1}" th:text="${popular_product.getMinPrice()}+' - '+${popular_product.getMaxPrice()}+ ' RSD'"></span>
+                                            <span class="discounted-price" th:if="${!popular_product.isSale()&&popular_product.productAttributes.size()==1}" th:text="${popular_product.getMinPrice()}+ ' RSD'"></span>
                                         </p>
 
                                         <div class="hover-icons">
@@ -177,7 +182,7 @@
                                 <!--=======  single product  =======-->
 
                                 <div th:each="new_product:${new_products}" class="fl-product">
-                                    <div class="image">
+                                    <div class="image" th:classappend="${new_product.isSale()}?'sale-product'">
                                         <a th:href="@{/product/single_product/__${new_product.id}__}">
                                             <img th:src="@{'/images/' + ${new_product.images.get(0).name}}" class="img-fluid" alt="">
                                             <img th:src="@{'/images/' + ${new_product.images.get(0).name}}" class="img-fluid" alt="">
@@ -193,8 +198,13 @@
                                             <i class="fa fa-star"></i>
                                         </div>
                                         <p class="product-price">
-                                            <!--                                    <span   class="main-price discounted"></span>-->
-                                            <span th:text="${new_product.productAttributes.get(0).price}+' RSD'" class="discounted-price"></span>
+                                            <span class="main-price discounted" th:if="${new_product.isSale()&&new_product.productAttributes.size()>1}" th:text="${new_product.getMinPrice()}+' - '+${new_product.getMaxPrice()}+ ' RSD'"></span>
+                                            <span class="main-price discounted" th:if="${new_product.isSale()&&new_product.productAttributes.size()==1}" th:text="${new_product.getMinPrice()}+ ' RSD'"></span>
+                                            <br th:if="${new_product.isSale()&&new_product.productAttributes.size()>1}">
+                                            <span class="discounted-price" th:if="${new_product.isSale()&&new_product.productAttributes.size()>1}" th:text="${new_product.getMinDiscountedPrice()}+' - '+${new_product.getMaxDiscountedPrice()}+ ' RSD'"></span>
+                                            <span class="discounted-price" th:if="${new_product.isSale()&&new_product.productAttributes.size()==1}" th:text="${new_product.getMinDiscountedPrice()}+ ' RSD'"></span>
+                                            <span class="discounted-price" th:if="${!new_product.isSale()&&new_product.productAttributes.size()>1}" th:text="${new_product.getMinPrice()}+' - '+${new_product.getMaxPrice()}+ ' RSD'"></span>
+                                            <span class="discounted-price" th:if="${!new_product.isSale()&&new_product.productAttributes.size()==1}" th:text="${new_product.getMinPrice()}+ ' RSD'"></span>
                                         </p>
 
                                         <div class="hover-icons">
@@ -221,7 +231,7 @@
                                 <!--=======  single product  =======-->
 
                                 <div th:each="sale_product:${sale_products}" class="fl-product">
-                                    <div class="image sale-product">
+                                    <div class="image" th:classappend="${sale_product.isSale()} ? 'sale-product'">
                                         <a th:href="@{/product/single_product/__${sale_product.id}__}">
                                             <img th:src="@{'/images/' + ${sale_product.images.get(0).name}}" class="img-fluid" alt="">
                                             <img th:src="@{'/images/' + ${sale_product.images.get(0).name}}" class="img-fluid" alt="">
@@ -237,8 +247,13 @@
                                             <i class="fa fa-star"></i>
                                         </div>
                                         <p class="product-price">
-                                            <!--                                    <span   class="main-price discounted"></span>-->
-                                            <span th:text="${sale_product.productAttributes.get(0).price}+' RSD'" class="discounted-price"></span>
+                                            <span class="main-price discounted" th:if="${sale_product.isSale()&&sale_product.productAttributes.size()>1}" th:text="${product.getMinPrice()}+' - '+${sale_product.getMaxPrice()}+ ' RSD'"></span>
+                                            <span class="main-price discounted" th:if="${sale_product.isSale()&&sale_product.productAttributes.size()==1}" th:text="${product.getMinPrice()}+ ' RSD'"></span>
+                                            <br th:if="${sale_product.isSale()&&sale_product.productAttributes.size()>1}">
+                                            <span class="discounted-price" th:if="${sale_product.isSale()&&sale_product.productAttributes.size()>1}" th:text="${product.getMinDiscountedPrice()}+' - '+${sale_product.getMaxDiscountedPrice()}+ ' RSD'"></span>
+                                            <span class="discounted-price" th:if="${sale_product.isSale()&&sale_product.productAttributes.size()==1}" th:text="${product.getMinDiscountedPrice()}+ ' RSD'"></span>
+                                            <span class="discounted-price" th:if="${!sale_product.isSale()&&sale_product.productAttributes.size()>1}" th:text="${product.getMinPrice()}+' - '+${sale_product.getMaxPrice()}+ ' RSD'"></span>
+                                            <span class="discounted-price" th:if="${!sale_product.isSale()&&sale_product.productAttributes.size()==1}" th:text="${product.getMinPrice()}+ ' RSD'"></span>
                                         </p>
 
                                         <div class="hover-icons">

@@ -165,7 +165,7 @@
                     <div class="col-12 col-lg-3" id="search-section">
                         <!--=======  navigation search bar  =======-->
                         <div class="navigation-search d-none d-lg-block">
-                            <input required type="search" name="search" id="search" th:value="${search}" placeholder="Pretraga proizvoda ...">
+                            <input id="search" name="search" oninput="setCustomValidity('')" oninvalid="this.setCustomValidity('Unesite reč pretrage')" placeholder="Pretraga proizvoda ..." required th:value="${search}" type="search">
                             <button type="submit"><i class="icon ion-md-search"></i></button>
                         </div>
                         <!--=======  End of navigation search bar  =======-->

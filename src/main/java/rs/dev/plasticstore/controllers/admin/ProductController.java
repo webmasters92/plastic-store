@@ -110,17 +110,14 @@ public class ProductController {
         Page<Product> pageableProduct = productService.findProductsByCategoryId(Integer.parseInt(id), PageRequest.of(page, size, Sort.by("name").ascending()));
         var map = new HashMap<ProductColor, Integer>();
 
-        pageableProduct.getContent().forEach(product -> {
-            product.getProductAttributes().forEach(productAttributes -> product.getPrices().add(productAttributes.getPrice()));
-            product.setMinPrice(MinMax.findMin(product.getPrices()));
-            product.setMaxPrice(MinMax.findMax(product.getPrices()));
-        });
+        findMinMaxPrice(pageableProduct.getContent());
 
         for(Product product : pageableProduct.getContent()) {
             for(ProductColor productColor : product.getProductColors()) {
                 map.merge(productColor, 1, Integer::sum);
             }
         }
+
         model.addAttribute("categories", categoryService.findAll());
         model.addAttribute("selected_category", categoryService.findCategoryById(Integer.parseInt(id)).get());
         model.addAttribute("products", pageableProduct.getContent());
@@ -175,11 +172,7 @@ public class ProductController {
                 map.merge(productColor, 1, Integer::sum);
             }
         }
-        pageableProduct.getContent().forEach(product -> {
-            product.getProductAttributes().forEach(productAttributes -> product.getPrices().add(productAttributes.getPrice()));
-            product.setMinPrice(MinMax.findMin(product.getPrices()));
-            product.setMaxPrice(MinMax.findMax(product.getPrices()));
-        });
+        findMinMaxPrice(pageableProduct.getContent());
         model.addAttribute("categories", categoryService.findAll());
         model.addAttribute("selected_category", subCategory.getCategory());
         model.addAttribute("products", pageableProduct.getContent());
@@ -195,11 +188,7 @@ public class ProductController {
         int minPrice = productService.findMinProductPrice();
         int maxPrice = productService.findMaxProductPrice();
         Page<Product> pageableProduct = productService.findProductsBySearch(search, minPrice, maxPrice, PageRequest.of(pageNumber, size, Sorting.returnSortedOrder(sort)));
-        pageableProduct.getContent().forEach(product -> {
-            product.getProductAttributes().forEach(productAttributes -> product.getPrices().add(productAttributes.getPrice()));
-            product.setMinPrice(MinMax.findMin(product.getPrices()));
-            product.setMaxPrice(MinMax.findMax(product.getPrices()));
-        });
+        findMinMaxPrice(pageableProduct.getContent());
         model.addAttribute("products", pageableProduct.getContent());
         model.addAttribute("pagination", pageableProduct);
         return "webapp/product/product_list_searched_fragment :: searched_products";
@@ -212,11 +201,7 @@ public class ProductController {
         int minPrice = productService.findMinProductPrice();
         int maxPrice = productService.findMaxProductPrice();
         Page<Product> pageableProduct = productService.findProductsBySearch(name, minPrice, maxPrice, PageRequest.of(page, size, Sorting.returnSortedOrder("name-asc")));
-        pageableProduct.getContent().forEach(product -> {
-            product.getProductAttributes().forEach(productAttributes -> product.getPrices().add(productAttributes.getPrice()));
-            product.setMinPrice(MinMax.findMin(product.getPrices()));
-            product.setMaxPrice(MinMax.findMax(product.getPrices()));
-        });
+        findMinMaxPrice(pageableProduct.getContent());
         model.addAttribute("categories", categoryService.findAll());
         model.addAttribute("products", pageableProduct.getContent());
         model.addAttribute("pagination", pageableProduct);
@@ -241,11 +226,7 @@ public class ProductController {
         } else selected_colors = new ArrayList<>(Arrays.asList(colors.replace("empty", "").trim().split(" ")));
 
         Page<Product> pageableProduct = productService.findProductsByPrice(category_id, min, max, selected_colors, PageRequest.of(pageNumber, 12, Sorting.returnSortedOrder(sort)));
-        pageableProduct.getContent().forEach(product -> {
-            product.getProductAttributes().forEach(productAttributes -> product.getPrices().add(productAttributes.getPrice()));
-            product.setMinPrice(MinMax.findMin(product.getPrices()));
-            product.setMaxPrice(MinMax.findMax(product.getPrices()));
-        });
+        findMinMaxPrice(pageableProduct.getContent());
         model.addAttribute("selected_category", categoryService.findCategoryById(Integer.parseInt(id)).get());
         model.addAttribute("products", pageableProduct.getContent());
         return "webapp/product/product_list_fragment :: product_list_fragment";
@@ -253,8 +234,12 @@ public class ProductController {
 
     @GetMapping(value = "/single_product/{id}")
     public String showSingleProduct(@PathVariable String id, Model model) {
+        var product = productService.findProductById(Integer.parseInt(id));
+        var similar_products = productService.findSimilarProductsByProductId(product.getCategory().getId());
+        findMinMaxPrice(similar_products);
         model.addAttribute("categories", categoryService.findAll());
-        model.addAttribute("product", productService.findProductById(Integer.parseInt(id)));
+        model.addAttribute("product", product);
+        model.addAttribute("similar_products", similar_products);
         return "webapp/product/single_product";
     }
 
@@ -266,7 +251,9 @@ public class ProductController {
 
     @GetMapping(value = "/products_by_sub_category/{id}")
     public String showProductsBySubCategory(@PathVariable String id, Model model) {
-        model.addAttribute("slider_products", productService.findProductsBySubCategoryId(Integer.parseInt(id)));
+        var products = productService.findProductsBySubCategoryId(Integer.parseInt(id));
+        findMinMaxPrice(products);
+        model.addAttribute("slider_products", products);
         return "webapp/product/product_slider_fragment :: slider_fragment";
     }
 
@@ -280,5 +267,16 @@ public class ProductController {
     @GetMapping(value = "/products_max_price/{categoryId}")
     public int returnMaxPriceByCategory(@PathVariable String categoryId) {
         return productService.findMaxProductPrice(Integer.parseInt(categoryId));
+    }
+
+    private void findMinMaxPrice(List<Product> list) {
+        list.forEach(product -> {
+            product.getProductAttributes().forEach(productAttributes -> product.getPrices().add(productAttributes.getPrice()));
+            product.getProductAttributes().forEach(productAttributes -> product.getDiscounted_prices().add(productAttributes.getDiscounted_price()));
+            product.setMinPrice(MinMax.findMin(product.getPrices()));
+            product.setMaxPrice(MinMax.findMax(product.getPrices()));
+            product.setMinDiscountedPrice(MinMax.findMin(product.getDiscounted_prices()));
+            product.setMaxDiscountedPrice(MinMax.findMax(product.getDiscounted_prices()));
+        });
     }
 }

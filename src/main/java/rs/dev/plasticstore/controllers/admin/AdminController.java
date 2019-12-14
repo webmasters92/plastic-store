@@ -59,9 +59,8 @@ public class AdminController {
     public String addProduct(@ModelAttribute Product product, BindingResult result, RedirectAttributes redirectAttributes) {
         redirectAttributes.addAttribute("message", "Proizvod nije uspešno sačuvan");
         redirectAttributes.addFlashAttribute("alertClass", "alert-danger");
-        if(result.hasErrors()) {
-            return "redirect:/administration/new_product";
-        }
+        if(result.hasErrors()) return "redirect:/administration/new_product";
+
         AtomicBoolean update = new AtomicBoolean(false);
         product.getImgData().forEach(multipartFile -> {
             if(!multipartFile.isEmpty()) {
@@ -94,6 +93,8 @@ public class AdminController {
             var product_attributes = new ProductAttributes();
             product_attributes.setSize(product.getSizes().get(i));
             product_attributes.setPrice(product.getPrices().get(i));
+            if(product.getDiscounted_prices().size() > 0)
+                product_attributes.setDiscounted_price(product.getDiscounted_prices().get(i));
             product.getProductAttributes().add(product_attributes);
         }
 
@@ -116,6 +117,7 @@ public class AdminController {
         product.getProductAttributes().forEach(productAttributes -> {
             product.getSizes().add(productAttributes.getSize());
             product.getPrices().add(productAttributes.getPrice());
+            product.getDiscounted_prices().add(productAttributes.getDiscounted_price());
         });
         model.addAttribute("product", product);
         model.addAttribute("editing", true);

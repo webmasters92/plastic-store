@@ -9,6 +9,8 @@ public class ProductAttributes {
     @NotNull
     private int price;
 
+    private int discounted_price;
+
     @NotNull
     private String size;
 
@@ -26,5 +28,13 @@ public class ProductAttributes {
 
     public void setSize(String size) {
         this.size = size;
+    }
+
+    public int getDiscounted_price() {
+        return discounted_price;
+    }
+
+    public void setDiscounted_price(int discounted_price) {
+        this.discounted_price = discounted_price;
     }
 }

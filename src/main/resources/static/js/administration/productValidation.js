@@ -3,7 +3,12 @@ $(document).ready(function () {
     $('#multiple-checkboxes').selectpicker();
     $('#category').selectpicker();
     $('#subcategory').selectpicker();
-
+    $('#price-discounted').prop('disabled', 'disabled');
+    if ($("#sale").is(":checked")) {
+        $('#price-discounted').prop('disabled', false);
+    } else {
+        $('#price-discounted').empty();
+    }
     $('#dimension').select2({
         tags: true,
         placeholder: "Unesite dimenzije"
@@ -12,6 +17,20 @@ $(document).ready(function () {
     $('#price').select2({
         tags: true,
         placeholder: "Unesite cene"
+    });
+
+    $('#price-discounted').select2({
+        tags: true,
+        placeholder: "Unesite akcijske cene"
+    });
+    var edit = $('#edit').val();
+    $('#sale').on('change', function () {
+        if ($("#sale").is(":checked")) {
+            $('#price-discounted').prop('disabled', false);
+        } else {
+            $('#price-discounted').prop('disabled', 'disabled');
+            $('#price-discounted').empty();
+        }
     });
 
     //event na promenu kategorije
@@ -67,6 +86,13 @@ $(document).ready(function () {
                     }
                 }
             },
+            // discounted_prices: {
+            //     validators: {
+            //         notEmpty: {
+            //             message: 'Akcijska cena nije uneta'
+            //         }
+            //     }
+            // },
             imgData: {
                 validators: {
                     notEmpty: {
@@ -100,10 +126,18 @@ $('form').on("submit", function (event) {
     var edit = $('#edit').val();
     var dimensions = $('#dimension :selected').length;
     var prices = $('#price :selected').length;
+    var discounted_prices = $('#price-discounted :selected').length;
     if (dimensions !== prices) {
         event.preventDefault();
-        alert("Broj veličina i cena mora biti isti");
+        alert("Odnos veličina i cena mora biti isti");
         location.reload();
+    }
+    if ($('#sale').is(":checked")) {
+        if (prices !== discounted_prices) {
+            event.preventDefault();
+            alert("Odnos cena i cena na akciji mora biti isti");
+            location.reload();
+        }
     }
     if (edit) {
         $("#fileUpload").removeAttribute('required');

@@ -85,25 +85,24 @@
                     <p class="d-inline-block ml-10 review-link"><a href="#">(1 ocena)</a></p>
 
                     <h2 class="product-price mb-0">
-                        <!--                        <span class="main-price discounted">$12.90</span>-->
-                        <span th:text="${product.productAttributes.get(0).getPrice()}+' DIN'" class="discounted-price"></span>
+                        <span class="main-price" th:classappend="${product.isSale()} ? 'discounted'" th:text="${product.productAttributes.get(0).getPrice()}+' DIN'"></span>
+                        <span class="discounted-price" th:if="${product.isSale()}" th:text="${product.productAttributes.get(0).getDiscounted_price()}+' DIN'"></span>
                     </h2>
 
                     <p class="product-description mb-20" th:text="${product.description}"></p>
 
                     <div class="size mb-20">
-                        <span class="title"> Size:</span> <br>
+                        <span class="title"> Veličina:</span> <br>
                         <select name="chooseSize" id="chooseSize" class="nice-select">
-                            <option th:each="attribute : ${product.productAttributes}" th:value="${attribute}" th:text="${attribute.size}"></option>
+                            <option th:each="attribute : ${product.productAttributes}" th:text="${attribute.size}" th:value="${attribute.price}+'-'+${attribute.getDiscounted_price()}"></option>
                         </select>
                     </div>
 
                     <div class="color mb-20">
                         <span class="title"> Boja:</span> <br>
-                        <a href="#"><span class="color-block color-choice-1"></span></a>
-                        <a href="#"><span class="color-block color-choice-2"></span></a>
-                        <a href="#"><span class="color-block color-choice-3 active"></span></a>
+                        <a href="#" th:each="color,iter:${product.getProductColors()}"><span class="color-block" th:classappend="${iter.first}?'active'" th:style="'background-color:'+${color.code}+';'"></span></a>
                     </div>
+
                     <div class="cart-buttons mb-20">
                         <span class="quantity-title mr-10">Količina: </span>
                         <div class="pro-qty mb-20">
@@ -352,13 +351,13 @@
                 <div class="fl-slider tab-product-slider">
                     <!--=======  single product  =======-->
 
-                    <div class="fl-product">
-                        <div class="image sale-product">
+                    <div class="fl-product" th:each="product :${similar_products}">
+                        <div class="image" th:classappend="${product.isSale()}?'sale-product'">
                             <a th:href="@{/product/single_product/__${product.id}__}">
                                 <img th:src="@{'/images/' + ${product.images.get(0).name}}" class="img-fluid" alt="">
                                 <img th:src="@{'/images/' + ${product.images.get(0).name}}" class="img-fluid" alt="">
                             </a>
-                             </div>
+                        </div>
                         <div class="content">
                             <h2 class="product-title"><a th:text="${product.name}" th:href="@{/product/single_product/__${product.id}__}"></a></h2>
                             <div class="rating">
@@ -369,8 +368,13 @@
                                 <i class="fa fa-star"></i>
                             </div>
                             <p class="product-price">
-                                <!--                                <span class="main-price discounted">$71</span>-->
-                                <span th:text="${product.productAttributes.get(0).price}+' RSD'" class="discounted-price"></span>
+                                <span class="main-price discounted" th:if="${product.isSale()&&product.productAttributes.size()>1}" th:text="${product.getMinPrice()}+' - '+${product.getMaxPrice()}+ ' RSD'"></span>
+                                <span class="main-price discounted" th:if="${product.isSale()&&product.productAttributes.size()==1}" th:text="${product.getMinPrice()}+ ' RSD'"></span>
+                                <br th:if="${product.isSale()&&product.productAttributes.size()>1}">
+                                <span class="discounted-price" th:if="${product.isSale()&&product.productAttributes.size()>1}" th:text="${product.getMinDiscountedPrice()}+' - '+${product.getMaxDiscountedPrice()}+ ' RSD'"></span>
+                                <span class="discounted-price" th:if="${product.isSale()&&product.productAttributes.size()==1}" th:text="${product.getMinDiscountedPrice()}+ ' RSD'"></span>
+                                <span class="discounted-price" th:if="${!product.isSale()&&product.productAttributes.size()>1}" th:text="${product.getMinPrice()}+' - '+${product.getMaxPrice()}+ ' RSD'"></span>
+                                <span class="discounted-price" th:if="${!product.isSale()&&product.productAttributes.size()==1}" th:text="${product.getMinPrice()}+ ' RSD'"></span>
                             </p>
 
                             <div class="hover-icons">
@@ -430,7 +434,26 @@
             $('.small-image-slider').resize();
             addProductSlider();
         });
+
+        $('#chooseSize').on('change', function () {
+            var value = this.value.split("-");
+            var price = value[0];
+            var discounted_price = value[1];
+            if (discounted_price !== 0) {
+                $('.main-price').addClass('discounted');
+                $('.main-price').text(price + ' DIN');
+                $('.discounted-price').text(discounted_price + ' DIN');
+            } else {
+                $('.main-price').text(price + ' DIN');
+            }
+        });
+
+        $('.color span.color-block').on('click', function (e) {
+            $('.color span.color-block').removeClass('active');
+            $(this).addClass('active');
+        });
     });
+
 
     function openProductModal(productID) {
         $.ajax({
@@ -442,6 +465,7 @@
             }
         });
     }
+
     function addProductSlider() {
         $('.small-image-slider, .quickview-small-image-slider').slick({
             prevArrow: '<i class="fa fa-angle-left slick-prev"></i>',

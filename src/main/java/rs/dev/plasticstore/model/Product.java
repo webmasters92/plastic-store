@@ -61,7 +61,7 @@ public class Product implements Serializable {
 
     @ElementCollection
     @CollectionTable(name = "productAttributes", joinColumns = @JoinColumn(name = "product_id"))
-    @AttributeOverrides({@AttributeOverride(name = "size", column = @Column(name = "product_size")), @AttributeOverride(name = "price", column = @Column(name = "product_price"))})
+    @AttributeOverrides({@AttributeOverride(name = "size", column = @Column(name = "product_size")), @AttributeOverride(name = "price", column = @Column(name = "product_price")), @AttributeOverride(name = "discounted_price", column = @Column(name = "discounted_price"))})
     private List<ProductAttributes> productAttributes = new ArrayList<>();
 
     @Transient
@@ -73,6 +73,10 @@ public class Product implements Serializable {
     private List<Integer> prices = new ArrayList<>();
 
     @Transient
+    @Convert(converter = StringListConverter.class)
+    private List<Integer> discounted_prices = new ArrayList<>();
+
+    @Transient
     private List<MultipartFile> imgData = new ArrayList<>();
 
     @Transient
@@ -80,6 +84,12 @@ public class Product implements Serializable {
 
     @Transient
     private int maxPrice;
+
+    @Transient
+    private int minDiscountedPrice;
+
+    @Transient
+    private int maxDiscountedPrice;
 
     @Transient
     private List<String> selectedColors = new ArrayList<>();
@@ -152,6 +162,22 @@ public class Product implements Serializable {
 
     public String getDescription() {
         return description;
+    }
+
+    public int getMinDiscountedPrice() {
+        return minDiscountedPrice;
+    }
+
+    public void setMinDiscountedPrice(int minDiscountedPrice) {
+        this.minDiscountedPrice = minDiscountedPrice;
+    }
+
+    public int getMaxDiscountedPrice() {
+        return maxDiscountedPrice;
+    }
+
+    public void setMaxDiscountedPrice(int maxDiscountedPrice) {
+        this.maxDiscountedPrice = maxDiscountedPrice;
     }
 
     public void setDescription(String description) {
@@ -236,5 +262,13 @@ public class Product implements Serializable {
 
     public void setProductColors(List<ProductColor> productColors) {
         this.productColors = productColors;
+    }
+
+    public List<Integer> getDiscounted_prices() {
+        return discounted_prices;
+    }
+
+    public void setDiscounted_prices(List<Integer> discounted_prices) {
+        this.discounted_prices = discounted_prices;
     }
 }

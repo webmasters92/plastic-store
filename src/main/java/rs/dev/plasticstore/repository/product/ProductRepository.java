@@ -24,6 +24,8 @@ public interface ProductRepository extends JpaRepository<Product, Integer> {
 
     List<Product> findTop15ByStatus(boolean status);
 
+    List<Product> findTop15ByCategoryId(int code);
+
     List<Product> findTop15ByAvailable(boolean available);
 
     @Query(value = "select * from products p left join productAttributes pa on p.id=pa.product_id where p.name like ?1 and pa.product_price between ?2 and ?3 group by p.id", countQuery = "select count(*) from products p inner join productAttributes pa on p.id=pa.product_id  where p.name like ?1 and pa.product_price between ?2 and ?3 group by p.id", nativeQuery = true)

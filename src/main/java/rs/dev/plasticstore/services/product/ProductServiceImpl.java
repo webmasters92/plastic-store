@@ -122,4 +122,9 @@ public class ProductServiceImpl implements ProductService {
     public int findMaxProductPrice(int parseInt) {
         return productRepository.findMaxProductPriceByCategory(parseInt);
     }
+
+    @Override
+    public List<Product> findSimilarProductsByProductId(int id) {
+        return productRepository.findTop15ByCategoryId(id);
+    }
 }

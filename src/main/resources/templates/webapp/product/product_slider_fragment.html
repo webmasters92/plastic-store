@@ -10,7 +10,7 @@
     <!--=======  single product  =======-->
 
     <div th:each="product:${slider_products}" class="fl-product">
-        <div class="image sale-product">
+        <div class="image" th:classappend="${product.isSale()}?'sale-product'">
             <a th:href="@{/product/single_product/__${product.id}__}">
                 <img th:src="@{'/images/' + ${product.images.get(0).name}}" class="img-fluid" alt="">
                 <img th:src="@{'/images/' + ${product.images.get(0).name}}" class="img-fluid" alt="">
@@ -26,8 +26,13 @@
                 <i class="fa fa-star"></i>
             </div>
             <p class="product-price">
-                <!--                                <span class="main-price discounted">$71</span>-->
-                <span class="discounted-price" th:text="${product.getMinPrice()}+' - '+${product.getMaxPrice()}+ ' RSD'"></span>
+                <span class="main-price discounted" th:if="${product.isSale()&&product.productAttributes.size()>1}" th:text="${product.getMinPrice()}+' - '+${product.getMaxPrice()}+ ' RSD'"></span>
+                <span class="main-price discounted" th:if="${product.isSale()&&product.productAttributes.size()==1}" th:text="${product.getMinPrice()}+ ' RSD'"></span>
+                <br th:if="${product.isSale()&&product.productAttributes.size()>1}">
+                <span class="discounted-price" th:if="${product.isSale()&&product.productAttributes.size()>1}" th:text="${product.getMinDiscountedPrice()}+' - '+${product.getMaxDiscountedPrice()}+ ' RSD'"></span>
+                <span class="discounted-price" th:if="${product.isSale()&&product.productAttributes.size()==1}" th:text="${product.getMinDiscountedPrice()}+ ' RSD'"></span>
+                <span class="discounted-price" th:if="${!product.isSale()&&product.productAttributes.size()>1}" th:text="${product.getMinPrice()}+' - '+${product.getMaxPrice()}+ ' RSD'"></span>
+                <span class="discounted-price" th:if="${!product.isSale()&&product.productAttributes.size()==1}" th:text="${product.getMinPrice()}+ ' RSD'"></span>
             </p>
 
             <div class="hover-icons">

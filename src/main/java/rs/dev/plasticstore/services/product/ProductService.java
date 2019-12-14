@@ -41,4 +41,6 @@ public interface ProductService {
     int findMinProductPrice(int parseInt);
 
     int findMaxProductPrice(int parseInt);
+
+    List<Product> findSimilarProductsByProductId(int id);
 }
