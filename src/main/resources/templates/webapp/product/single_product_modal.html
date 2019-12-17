@@ -45,37 +45,60 @@
                         <h2 th:text="${product.name}" class="product-title mb-15"></h2>
 
                         <h2 class="product-price mb-15">
-                            <!--                                <span class="main-price discounted">$12.90</span>-->
-                            <span th:text="${product.productAttributes.get(0).getPrice()}+' DIN'" class="discounted-price"></span>
-                            <!--                                <span class="discount-percentage">Save 8%</span>-->
+                            <span class="main-price-modal" th:classappend="${product.isSale()} ? 'discounted'" th:text="${product.productAttributes.get(0).getPrice()}+' DIN'"></span>
+                            <span class="discounted-price-modal" th:if="${product.isSale()}" th:text="${product.productAttributes.get(0).getDiscounted_price()}+' DIN'"></span>
+                            <span class="discount-percentage" th:if="${product.isSale()}" th:text="'Ušteda '+${(product.productAttributes.get(0).getPrice()-product.productAttributes.get(0).getDiscounted_price())*100/product.productAttributes.get(0).getPrice()}+'%'">Save 8%</span>
                         </h2>
 
-                        <p th:text="${product.description}" class="product-description mb-20"></p>
-
-
-                        <div class="cart-buttons mb-20">
-                            <div class="pro-qty mr-10">
-                                <input type="text" value="1">
-                            </div>
-                            <div class="add-to-cart-btn">
-                                <a href="#" class="fl-btn"><i class="fa fa-shopping-cart"></i> Add to Cart</a>
-                            </div>
+                        <div class="manufacturer mb-0">
+                            <span class="title">Proizvođač:  </span>
+                            <p class="product-manufacturer mb-20" th:text="' '+${product.manufacturer}"></p>
                         </div>
 
-                        <div class="social-share-buttons">
-                            <h3>share this product</h3>
-                            <ul>
-                                <li><a class="twitter" href="#"><i class="fa fa-twitter"></i></a></li>
-                                <li><a class="facebook" href="#"><i class="fa fa-facebook"></i></a></li>
-                                <li><a class="google-plus" href="#"><i class="fa fa-google-plus"></i></a></li>
-                                <li><a class="pinterest" href="#"><i class="fa fa-pinterest"></i></a></li>
-                            </ul>
+                        <p class="product-description mb-15" th:text="${product.description}"></p>
+
+                        <div class="size mb-15">
+                            <span class="title"> Veličina:</span> <br>
+                            <select class="nice-select-modal" id="chooseSize" name="chooseSize">
+                                <option th:each="attribute : ${product.productAttributes}" th:text="${attribute.size}" th:value="${attribute.price}+'-'+${attribute.getDiscounted_price()}"></option>
+                            </select>
+                        </div>
+
+                        <div class="color mb-15">
+                            <span class="title"> Boja:</span> <br>
+                            <a th:each="color,iter:${product.getProductColors()}"><span class="color-block" th:classappend="${iter.first}?'active'" th:style="'background-color:'+${color.code}+';'"></span></a>
                         </div>
                     </div>
                     <!-- end of product quick view description -->
                 </div>
             </div>
         </div>
+        <script th:inline="javascript" type="text/javascript">
+            $(document).ready(function () {
+
+                $('.nice-select-modal').niceSelect();
+
+                $('#chooseSize').on('change', function () {
+                    var value = this.value.split("-");
+                    var price = value[0];
+                    var discounted_price = value[1];
+                    if (discounted_price > 0) {
+                        var discount_percentage = (price - discounted_price) * 100 / price;
+                        $('.main-price-modal').addClass('discounted');
+                        $('.main-price-modal').text(price + ' DIN');
+                        $('.discounted-price-modal').text(discounted_price + ' DIN');
+                        $('.discount-percentage').text('Ušteda ' + discount_percentage + ' %');
+                    } else {
+                        $('.main-price-modal').text(price + ' DIN');
+                    }
+                });
+
+                $('.color span.color-block').on('click', function (e) {
+                    $('.color span.color-block').removeClass('active');
+                    $(this).addClass('active');
+                });
+            });
+        </script>
     </div>
 </div>
 </body>

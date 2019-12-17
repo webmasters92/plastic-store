@@ -490,8 +490,8 @@ a.scroll-top:hover {
 }
 
 .pagination-area ul li.disabled {
-    pointer-events:none;
-    opacity:0.7;
+    pointer-events: none;
+    opacity: 0.7;
 }
 
 .pagination-area ul li a {
@@ -599,6 +599,12 @@ a.scroll-top:hover {
     color: #9acf6a;
 }
 
+.product-feature-details h2.product-price span.main-price-modal {
+    font-size: 28px;
+    font-weight: 500;
+    color: #9acf6a;
+}
+
 .product-feature-details h2.product-price span.discounted {
     font-size: 24px;
     color: #999999;
@@ -608,6 +614,12 @@ a.scroll-top:hover {
 }
 
 .product-feature-details h2.product-price span.discounted-price {
+    font-size: 28px;
+    font-weight: 500;
+    color: #9acf6a;
+}
+
+.product-feature-details h2.product-price span.discounted-price-modal {
     font-size: 28px;
     font-weight: 500;
     color: #9acf6a;
@@ -631,7 +643,7 @@ a.scroll-top:hover {
 .product-feature-details p.product-description {
     border-top: 1px solid #ddd;
     border-bottom: 1px solid #ddd;
-    padding: 20px 0;
+    padding: 5px 0;
 }
 
 .product-feature-details .social-share-buttons h3 {
@@ -5551,7 +5563,17 @@ a#more-btn {
     margin-right: 5px;
 }
 
+.fl-product .content p.product-price span.main-price-modal {
+    margin-right: 5px;
+}
+
 .fl-product .content p.product-price span.main-price.discounted {
+    color: #a4a4a4;
+    text-decoration: line-through;
+    font-weight: 400;
+}
+
+.fl-product .content p.product-price span.main-price-modal.discounted {
     color: #a4a4a4;
     text-decoration: line-through;
     font-weight: 400;
@@ -6165,19 +6187,19 @@ a#more-btn {
     z-index: 9;
 }
 
-.slider-sidebar .sidebar-first ul,.slider-sidebar .sidebar-second ul,.slider-sidebar .sidebar-third ul {
+.slider-sidebar .sidebar-first ul, .slider-sidebar .sidebar-second ul, .slider-sidebar .sidebar-third ul {
     padding: 10px 30px;
 }
 
-.slider-sidebar .sidebar-first ul li,.slider-sidebar .sidebar-second ul li,.slider-sidebar .sidebar-third ul li {
+.slider-sidebar .sidebar-first ul li, .slider-sidebar .sidebar-second ul li, .slider-sidebar .sidebar-third ul li {
     border-bottom: 1px solid #ebebeb;
 }
 
-.slider-sidebar .sidebar-first ul li:last-child,.slider-sidebar .sidebar-second ul li:last-child,.slider-sidebar .sidebar-third ul li:last-child {
+.slider-sidebar .sidebar-first ul li:last-child, .slider-sidebar .sidebar-second ul li:last-child, .slider-sidebar .sidebar-third ul li:last-child {
     border-bottom: 0;
 }
 
-.slider-sidebar .sidebar-first ul li a,.slider-sidebar .sidebar-second ul li a,.slider-sidebar .sidebar-third ul li a {
+.slider-sidebar .sidebar-first ul li a, .slider-sidebar .sidebar-second ul li a, .slider-sidebar .sidebar-third ul li a {
     font-size: 14px;
     line-height: 35px;
     display: block;
@@ -6290,14 +6312,14 @@ a#more-btn {
 }
 
 .single-sidebar .category ul li a.active {
-  color: #9acf6a;
-}
-
-.sidebar-first ul li a:hover,.sidebar-second ul li a:hover,.sidebar-third ul li a:hover  {
     color: #9acf6a;
 }
 
-.sidebar-first ul li a.active,.sidebar-second ul li a.active,.sidebar-third ul li a.active {
+.sidebar-first ul li a:hover, .sidebar-second ul li a:hover, .sidebar-third ul li a:hover {
+    color: #9acf6a;
+}
+
+.sidebar-first ul li a.active, .sidebar-second ul li a.active, .sidebar-third ul li a.active {
     color: #9acf6a;
 }
 
@@ -6604,6 +6626,10 @@ a#more-btn {
     border-top: none;
 }
 
+.product-feature-details .product-description {
+    border-top: none;
+}
+
 .single-product-content-area .product-feature-details .size {
     font-weight: 400;
     color: #666;
@@ -6611,7 +6637,18 @@ a#more-btn {
     line-height: 16px;
 }
 
+.product-feature-details .size {
+    font-weight: 400;
+    color: #666;
+    font-size: 14px;
+    line-height: 16px;
+}
+
 .single-product-content-area .product-feature-details .size span.title {
+    font-weight: 500;
+}
+
+.product-feature-details .size span.title {
     font-weight: 500;
 }
 
@@ -6623,7 +6660,51 @@ a#more-btn {
     float: none;
 }
 
+.product-feature-details .size .nice-select {
+    width: 100px;
+    border: 1px solid #ddd;
+    padding: 5px;
+    margin-top: 5px;
+    float: none;
+}
+
+.single-product-content-area .product-feature-details .manufacturer {
+    font-weight: 400;
+    color: #666;
+    font-size: 14px;
+    line-height: 16px;
+}
+
+.single-product-content-area .product-feature-details .manufacturer span.title {
+    font-weight: 500;
+}
+
+.single-product-content-area .product-feature-details .manufacturer .product-manufacturer {
+    width: 100px;
+    display: inline-block;
+}
+
+.product-feature-details .manufacturer {
+    font-weight: 400;
+    color: #666;
+    font-size: 14px;
+    line-height: 16px;
+}
+
+.product-feature-details .manufacturer span.title {
+    font-weight: 500;
+}
+
+.product-feature-details .manufacturer .product-manufacturer {
+    width: 100px;
+    display: inline-block;
+}
+
 .single-product-content-area .product-feature-details .size .nice-select span.current {
+    padding-left: 10px;
+}
+
+.product-feature-details .size .nice-select span.current {
     padding-left: 10px;
 }
 
@@ -6646,22 +6727,29 @@ a#more-btn {
     margin-top: 10px;
 }
 
-.single-product-content-area .product-feature-details .color span.color-choice-1 {
-    background-color: #B09603;
-}
-
-.single-product-content-area .product-feature-details .color span.color-choice-2 {
-    background-color: #C8BDBB;
-}
-
-.single-product-content-area .product-feature-details .color span.color-choice-3 {
-    background-color: #225170;
-}
-
 .single-product-content-area .product-feature-details .color span.active {
     border: 2px solid #030402;
     width: 32px;
     height: 32px;
+}
+
+.product-feature-details .color {
+    font-weight: 400;
+    color: #666;
+    font-size: 14px;
+    line-height: 16px;
+}
+
+.product-feature-details .color span.title {
+    font-weight: 500;
+}
+
+.product-feature-details .color span.color-block {
+    width: 30px;
+    height: 30px;
+    display: inline-block;
+    margin-right: 5px;
+    margin-top: 10px;
 }
 
 .single-product-content-area .product-feature-details .cart-buttons .quantity-title {

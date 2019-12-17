@@ -1,11 +1,14 @@
 package rs.dev.plasticstore.model;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import org.hibernate.annotations.CreationTimestamp;
+import org.hibernate.annotations.UpdateTimestamp;
 import org.springframework.web.multipart.MultipartFile;
 import rs.dev.plasticstore.Utils.StringListConverter;
 
 import javax.persistence.*;
 import java.io.Serializable;
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -91,6 +94,14 @@ public class Product implements Serializable {
     @Transient
     private int maxDiscountedPrice;
 
+    @Column(name = "date_created", updatable = false)
+    @CreationTimestamp
+    private LocalDateTime date_created;
+
+    @Column(name = "date_updated")
+    @UpdateTimestamp
+    private LocalDateTime date_updated;
+
     @Transient
     private List<String> selectedColors = new ArrayList<>();
 
@@ -102,6 +113,22 @@ public class Product implements Serializable {
     @Transient
     public void setMinPrice(int minPrice) {
         this.minPrice = minPrice;
+    }
+
+    public LocalDateTime getDate_created() {
+        return date_created;
+    }
+
+    public void setDate_created(LocalDateTime date_created) {
+        this.date_created = date_created;
+    }
+
+    public LocalDateTime getDate_updated() {
+        return date_updated;
+    }
+
+    public void setDate_updated(LocalDateTime date_updated) {
+        this.date_updated = date_updated;
     }
 
     public int getMaxPrice() {
@@ -164,6 +191,10 @@ public class Product implements Serializable {
         return description;
     }
 
+    public void setDescription(String description) {
+        this.description = description;
+    }
+
     public int getMinDiscountedPrice() {
         return minDiscountedPrice;
     }
@@ -178,10 +209,6 @@ public class Product implements Serializable {
 
     public void setMaxDiscountedPrice(int maxDiscountedPrice) {
         this.maxDiscountedPrice = maxDiscountedPrice;
-    }
-
-    public void setDescription(String description) {
-        this.description = description;
     }
 
     public List<Integer> getPrices() {

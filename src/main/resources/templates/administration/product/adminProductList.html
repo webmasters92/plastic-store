@@ -4,7 +4,7 @@
 </head>
 <body>
 
-<nav th:replace="administration/admin/adminLayoutMenu :: adminLayoutMenu"/>
+<nav th:replace="administration/admin/adminLayoutMenu :: adminLayoutMenu"></nav>
 
 <div class="container">
     <h4 data-type="header" id="header">PRIKAZ PROIZVODA </h4>
@@ -14,8 +14,9 @@
             <div class="text-left">
                 <p><b>KATEGORIJE</b></p>
             </div>
-            <ul class="list-group text-center" th:each="category: ${categories}">
-                <li class="list-group-item"><a><span th:text="${category.name}">Kategorija</span></a></li>
+            <ul class="list-group text-center">
+                <li class="list-group-item" id="allProducts"><a><span>Svi proizvodi</span></a></li>
+                <li class="list-group-item" th:each="category: ${categories}"><a><span th:text="${category.name}">Kategorija</span></a></li>
             </ul>
             <div class="newProduct">
                 <a th:href="@{/administration/new_product}">

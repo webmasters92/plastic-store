@@ -998,11 +998,11 @@
         max: 10000,
         values: [0, 10000],
         slide: function (event, ui) {
-            $('#price-amount').val('Cena: ' + '$' + ui.values[0] + ' - $' + ui.values[1]);
+            $('#price-amount').val('Cena: ' + ui.values[0] + ' - ' + ui.values[1] + ' RSD');
         }
     });
-    $('#price-amount').val('Cena: ' + '$' + $('#price-range').slider('values', 0) +
-        ' - $' + $('#price-range').slider('values', 1));
+    $('#price-amount').val('Cena: ' + $('#price-range').slider('values', 0) +
+        ' - ' + $('#price-range').slider('values', 1) + ' RSD');
 
 
     /*----------  product view mode  ----------*/

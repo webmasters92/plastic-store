@@ -51,14 +51,23 @@
                         </div>
                         <div class="col-lg-8 col-md-8 col-sm-12 d-flex flex-column flex-sm-row justify-content-between align-items-left align-items-sm-center">
                             <!--=======  Sort by dropdown  =======-->
-
                             <div class="sort-by-dropdown d-flex align-items-center mb-xs-10">
                                 <p class="mr-10 mb-0">Sortiraj: </p>
-                                <select name="sort-by" id="sort-by" class="nice-select">
+                                <select class="nice-select" id="sort-by" name="sort-by">
                                     <option value="min-price">Najjeftinije prvo</option>
                                     <option value="max-price">Najskuplje prvo</option>
                                     <option selected value="name-asc">Naziv A-Z</option>
                                     <option value="name-desc">Naziv Z-A</option>
+                                </select>
+                            </div>
+
+                            <div class="sort-by-dropdown d-flex align-items-center mb-xs-10">
+                                <p class="mr-10 mb-0">Prikaži: </p>
+                                <select class="nice-select" id="show-by" name="show-by">
+                                    <option value="16">16</option>
+                                    <option value="30">30</option>
+                                    <option value="60">60</option>
+                                    <option value="100">100</option>
                                 </select>
                             </div>
 
@@ -201,9 +210,13 @@
         var search = /*[[${search}]]*/ 'SearchParam';
         /*]]>*/
         $('#sort-by').on('change', function () {
-            showSearchedProductList(search, 0, $('#sort-by').val());
+            showSearchedProductList(search, 0, $('#show-by').val(), $('#sort-by').val());
         });
-        refreshProductHeader(search, 0);
+
+        $('#show-by').on('change', function () {
+            showSearchedProductList(search, 0, $('#show-by').val(), $('#sort-by').val());
+        });
+        refreshProductHeader(search, 0, $('#show-by').val(), $('#sort-by').val());
     });
 
     function openProductModal(productID) {
@@ -217,21 +230,21 @@
         });
     }
 
-    function showSearchedProductList(search, page, sort) {
+    function showSearchedProductList(search, page, size, sort) {
         $.ajax({
-            url: '/product/product_list_searched_fragment/' + search + '/' + page + '/' + sort,
+            url: '/product/product_list_searched_fragment/' + search + '/' + page + '/' + size + '/' + sort,
             type: 'get',
             success: function (response) {
                 $('.shop-product-wrap').html(response);
             }
         });
-        refreshPagination(search, page);
-        refreshProductHeader(search, page);
+        refreshPagination(search, page, size);
+        refreshProductHeader(search, page, size);
     }
 
-    function refreshPagination(search, page) {
+    function refreshPagination(search, page, size) {
         $.ajax({
-            url: '/product/refresh_search_pagination/' + search + '/' + page,
+            url: '/product/refresh_search_pagination/' + search + '/' + page + '/' + size,
             type: 'get',
             success: function (response) {
                 $(".pagination-area").replaceWith(response);
@@ -239,9 +252,9 @@
         });
     }
 
-    function refreshProductHeader(categoryId, page) {
+    function refreshProductHeader(categoryId, page, size) {
         $.ajax({
-            url: '/product/refresh_searched_product_header/' + categoryId + '/' + page,
+            url: '/product/refresh_searched_product_header/' + categoryId + '/' + page + '/' + size,
             type: 'get',
             success: function (response) {
                 $(".result-show-message").replaceWith(response);
@@ -253,7 +266,10 @@
         /*<![CDATA[*/
         var search = /*[[${search}]]*/ 'SearchParam';
         /*]]>*/
-        showSearchedProductList(search, page, $('#sort-by').val());
+        showSearchedProductList(search, page, $('#show-by').val(), $('#sort-by').val());
+        $('html,body').animate({
+            scrollTop: 0
+        }, 1000);
     }
 
     function addProductSlider() {

@@ -15,6 +15,8 @@ import rs.dev.plasticstore.services.product.ProductService;
 
 import java.io.File;
 import java.io.IOException;
+import java.nio.file.Files;
+import java.nio.file.Paths;
 import java.util.ArrayList;
 import java.util.concurrent.atomic.AtomicBoolean;
 
@@ -69,9 +71,13 @@ public class AdminController {
                 image.setUrl("/images/" + multipartFile.getOriginalFilename());
                 image.setProduct(product);
                 product.getImages().add(image);
-                var imageFile = new File(rootDir + "/images", image.getName());
+                var imageDir = rootDir + "/images";
+                var imageFile = new File(imageDir, image.getName());
                 try {
-                    if(!imageFile.exists()) multipartFile.transferTo(imageFile);
+                    if(!imageFile.exists()) {
+                        Files.createDirectory(Paths.get(imageDir));
+                        multipartFile.transferTo(imageFile);
+                    }
                 } catch(IOException e) {
                     e.printStackTrace();
                 }
@@ -119,6 +125,7 @@ public class AdminController {
             product.getPrices().add(productAttributes.getPrice());
             product.getDiscounted_prices().add(productAttributes.getDiscounted_price());
         });
+
         model.addAttribute("product", product);
         model.addAttribute("editing", true);
         return "administration/product/adminProductNew";

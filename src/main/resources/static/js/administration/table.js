@@ -17,26 +17,26 @@ $(document).ready(function () {
         }
     });
 
-    $(".list-group > a li:first").before('<li class="list-group-item" id="allProducts"><span>Svi proizvodi</span></li>');
-    $(".list-group > a li:first").on('click', function (e) {
-         location.reload();
+    $(".list-group li:first").on('click', function (e) {
+        location.reload();
     });
-    $(".list-group a li:first").addClass("active");
-    $('.list-group > a li').on('click', function (e) {
-        var $this = $(this);
+
+    $(".list-group li:first").addClass("active");
+
+    $('.list-group li').on('click', function () {
         $('#example').DataTable().column(7).search(
-            $this.find('span').text()
+            $(this).find('span').text()
         ).draw();
     });
 
-    $(".list-group > a li").on('click',function (e) {
-        $(".list-group > a li").removeClass("active");
-        $(e.target).addClass("active");
+    $(".list-group li").on('click', function (e) {
+        $(".list-group li").removeClass("active");
+        $(this).addClass("active");
     });
 
-    $( '#navcol-1 ul li a' ).on( 'click', function () {
-        $( '#navcol-1 ul' ).find( 'li.active' ).removeClass( 'active' );
-        $( this ).parent( 'li' ).addClass( 'active' );
+    $('#navcol-1 ul li a').on('click', function () {
+        $('#navcol-1 ul').find('li.active').removeClass('active');
+        $(this).parent('li').addClass('active');
     });
 });
 

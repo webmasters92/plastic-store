@@ -1,12 +1,10 @@
-
 /*=============================================
 =            02. Modal            =
 =============================================*/
 
 
-
 /*----------  quick view modal style  ----------*/
-.quick-view-modal-container { 
+.quick-view-modal-container {
     .modal-header {
         border-bottom: 0;
         padding: 0.5rem 1rem 0 0;
@@ -17,7 +15,7 @@
         }
     }
 
-    .modal-content{
+    .modal-content {
         border-radius: 0;
     }
 
@@ -40,11 +38,11 @@
 }
 
 
-.single-product-img.img-full{
+.single-product-img.img-full {
     text-align: center;
 }
 
-.product-image-slider{
+.product-image-slider {
     @media #{$large-mobile}{
         margin-bottom: 30px;
     }
@@ -65,27 +63,45 @@
 
     h2.product-price {
         position: relative;
-        span{
-            &.main-price{
-                
+
+        span {
+            &.main-price {
+
                 font-size: 28px;
                 font-weight: 500;
                 color: $theme-color;
-                
+
             }
-            &.discounted{
+
+            &.main-price-modal {
+
+                font-size: 28px;
+                font-weight: 500;
+                color: $theme-color;
+
+            }
+
+            &.discounted {
                 font-size: 24px;
                 color: #999999;
                 padding-right: 5px;
                 text-decoration: line-through;
                 font-weight: 400;
             }
-            &.discounted-price{
+
+            &.discounted-price {
                 font-size: 28px;
                 font-weight: 500;
-                color: $theme-color; 
-            } 
-            &.discount-percentage{
+                color: $theme-color;
+            }
+
+            &.discounted-price-modal {
+                font-size: 28px;
+                font-weight: 500;
+                color: $theme-color;
+            }
+
+            &.discount-percentage {
                 font-weight: 700;
                 font-size: 12px;
                 color: white;
@@ -102,7 +118,7 @@
         }
     }
 
-    p.product-description{
+    p.product-description {
         border-top: 1px solid #ddd;
         border-bottom: 1px solid #ddd;
         padding: 20px 0;
@@ -110,12 +126,13 @@
     }
 
     .social-share-buttons {
-        h3{
+        h3 {
             text-transform: uppercase;
             font-size: 16px;
-            font-weight: 500; 
+            font-weight: 500;
             line-height: 30px;
         }
+
         ul {
             margin-bottom: 15px;
 
@@ -189,28 +206,29 @@
                     }
                 }
             }
-        } 
+        }
     }
 
 
-    .pro-qty{
+    .pro-qty {
         @media #{$extra-small-mobile}{
             margin-bottom: 20px;
         }
     }
 
 
-    .add-to-cart-btn{
+    .add-to-cart-btn {
         display: inline-block;
-        a{
+
+        a {
             padding: 15px 50px;
             @include fl-button;
             background-color: $heading-text-color;
             color: $white;
 
-            &:hover{
+            &:hover {
                 background-color: $hover-color;
-                
+
             }
         }
     }

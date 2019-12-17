@@ -87,7 +87,13 @@
                     <h2 class="product-price mb-0">
                         <span class="main-price" th:classappend="${product.isSale()} ? 'discounted'" th:text="${product.productAttributes.get(0).getPrice()}+' DIN'"></span>
                         <span class="discounted-price" th:if="${product.isSale()}" th:text="${product.productAttributes.get(0).getDiscounted_price()}+' DIN'"></span>
+                        <span class="discount-percentage" th:if="${product.isSale()}" th:text="'Ušteda '+${(product.productAttributes.get(0).getPrice()-product.productAttributes.get(0).getDiscounted_price())*100/product.productAttributes.get(0).getPrice()}+'%'">Save 8%</span>
                     </h2>
+                    <br>
+                    <div class="manufacturer mb-0">
+                        <span class="title">Proizvođač:  </span>
+                        <p class="product-manufacturer mb-20" th:text="' '+${product.manufacturer}"></p>
+                    </div>
 
                     <p class="product-description mb-20" th:text="${product.description}"></p>
 
@@ -100,7 +106,7 @@
 
                     <div class="color mb-20">
                         <span class="title"> Boja:</span> <br>
-                        <a href="#" th:each="color,iter:${product.getProductColors()}"><span class="color-block" th:classappend="${iter.first}?'active'" th:style="'background-color:'+${color.code}+';'"></span></a>
+                        <a th:each="color,iter:${product.getProductColors()}"><span class="color-block" th:classappend="${iter.first}?'active'" th:style="'background-color:'+${color.code}+';'"></span></a>
                     </div>
 
                     <div class="cart-buttons mb-20">
@@ -108,7 +114,7 @@
                         <div class="pro-qty mb-20">
                             <input type="text" value="1">
                         </div>
-                        <div class="add-to-cart-btn d-block">
+                        <div class="add-to-cart-btn ml-10 d-inline-block">
                             <a href="#" class="fl-btn"><i class="fa fa-shopping-cart"></i> Dodaj u korpu</a>
                         </div>
                     </div>
@@ -118,13 +124,9 @@
                     </p>
 
                     <div class="category-list-container mb-20">
-                        <span>Categories: </span>
+                        <span>Kategorije: </span>
                         <ul>
-                            <li><a href="#">Beds</a>,</li>
-                            <li><a href="#">Chests &amp; Dressers</a>,</li>
-                            <li><a href="#">HeadBoards</a>,</li>
-                            <li><a href="#">Lighting</a>,</li>
-                            <li><a href="#">Nightstands</a></li>
+                            <li th:each="sub_category:${product.category.subcategories}"><a th:href="@{/product/product_list_sub_category/__${sub_category.id}__}" th:text="${sub_category.getName()}"></a>,</li>
                         </ul>
                     </div>
                 </div>
@@ -439,10 +441,12 @@
             var value = this.value.split("-");
             var price = value[0];
             var discounted_price = value[1];
-            if (discounted_price !== 0) {
+            if (discounted_price > 0) {
+                var discount_percentage = (price - discounted_price) * 100 / price;
                 $('.main-price').addClass('discounted');
                 $('.main-price').text(price + ' DIN');
                 $('.discounted-price').text(discounted_price + ' DIN');
+                $('.discount-percentage').text('Ušteda ' + discount_percentage + ' %');
             } else {
                 $('.main-price').text(price + ' DIN');
             }

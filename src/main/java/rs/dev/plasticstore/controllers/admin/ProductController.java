@@ -39,10 +39,10 @@ public class ProductController {
         return "{\"valid\":false}";
     }
 
-    @GetMapping(value = "/refresh_pagination/{id}/{page}/{minPrice}/{maxPrice}/{sort}/{colors}")
-    public String refreshPagination(@PathVariable String id, @PathVariable String page, @PathVariable String minPrice, @PathVariable String maxPrice, @PathVariable String sort, @PathVariable String colors, Model model) {
+    @GetMapping(value = "/refresh_pagination/{id}/{page}/{size}/{minPrice}/{maxPrice}/{sort}/{colors}")
+    public String refreshPagination(@PathVariable String id, @PathVariable String page, @PathVariable String size, @PathVariable String minPrice, @PathVariable String maxPrice, @PathVariable String sort, @PathVariable String colors, Model model) {
         int pageNumber = Integer.parseInt(page);
-        int size = 12;
+        int page_size = Integer.parseInt(size);
         int min = Integer.parseInt(minPrice);
         int max = Integer.parseInt(maxPrice);
         var colors_db = colorService.findAll();
@@ -54,26 +54,26 @@ public class ProductController {
             }
             selected_colors = new ArrayList<>(Arrays.asList(str.trim().split(" ")));
         } else selected_colors = new ArrayList<>(Arrays.asList(colors.replace("empty", "").trim().split(" ")));
-        Page<Product> pageableProduct = productService.findProductsByPrice(Integer.parseInt(id), min, max, selected_colors, PageRequest.of(pageNumber, size, Sorting.returnSortedOrder(sort)));
+        Page<Product> pageableProduct = productService.findProductsByPrice(Integer.parseInt(id), min, max, selected_colors, PageRequest.of(pageNumber, page_size, Sorting.returnSortedOrder(sort)));
         model.addAttribute("pagination", pageableProduct);
         return "webapp/product/pagination_fragment :: pagination_fragment";
     }
 
-    @GetMapping(value = "/refresh_search_pagination/{search}/{page}")
-    public String refreshPaginationBySearch(@PathVariable String search, @PathVariable String page, Model model) {
+    @GetMapping(value = "/refresh_search_pagination/{search}/{page}/{size}")
+    public String refreshPaginationBySearch(@PathVariable String search, @PathVariable String page, @PathVariable String size, Model model) {
         int pageNumber = Integer.parseInt(page);
-        int size = 12;
+        int page_size = Integer.parseInt(size);
         int minPrice = productService.findMinProductPrice();
         int maxPrice = productService.findMaxProductPrice();
-        Page<Product> pageableProduct = productService.findProductsBySearch(search, minPrice, maxPrice, PageRequest.of(pageNumber, size));
+        Page<Product> pageableProduct = productService.findProductsBySearch(search, minPrice, maxPrice, PageRequest.of(pageNumber, page_size));
         model.addAttribute("pagination", pageableProduct);
         return "webapp/product/pagination_fragment :: pagination_fragment";
     }
 
-    @GetMapping(value = "/refresh_product_header/{id}/{page}/{minPrice}/{maxPrice}/{colors}")
-    public String refreshProductHeader(@PathVariable String id, @PathVariable String page, @PathVariable String minPrice, @PathVariable String maxPrice, @PathVariable String colors, Model model) {
+    @GetMapping(value = "/refresh_product_header/{id}/{page}/{size}/{minPrice}/{maxPrice}/{colors}")
+    public String refreshProductHeader(@PathVariable String id, @PathVariable String page, @PathVariable String size, @PathVariable String minPrice, @PathVariable String maxPrice, @PathVariable String colors, Model model) {
         int pageNumber = Integer.parseInt(page);
-        int size = 12;
+        int page_size = Integer.parseInt(size);
         int min = Integer.parseInt(minPrice);
         int max = Integer.parseInt(maxPrice);
         var colors_db = colorService.findAll();
@@ -85,19 +85,19 @@ public class ProductController {
             }
             selected_colors = new ArrayList<>(Arrays.asList(str.trim().split(" ")));
         } else selected_colors = new ArrayList<>(Arrays.asList(colors.replace("empty", "").trim().split(" ")));
-        Page<Product> pageableProduct = productService.findProductsByPrice(Integer.parseInt(id), min, max, selected_colors, PageRequest.of(pageNumber, size));
+        Page<Product> pageableProduct = productService.findProductsByPrice(Integer.parseInt(id), min, max, selected_colors, PageRequest.of(pageNumber, page_size));
         model.addAttribute("pagination", pageableProduct);
         model.addAttribute("offset", pageableProduct.getPageable().getOffset());
         return "webapp/product/products_header_fragment :: products_header";
     }
 
-    @GetMapping(value = "/refresh_searched_product_header/{search}/{page}")
-    public String refreshProductHeader(@PathVariable String search, @PathVariable String page, Model model) {
+    @GetMapping(value = "/refresh_searched_product_header/{search}/{page}/{size}")
+    public String refreshProductHeader(@PathVariable String search, @PathVariable String page, @PathVariable String size, Model model) {
         int pageNumber = Integer.parseInt(page);
-        int size = 12;
+        int page_size = Integer.parseInt(size);
         int minPrice = productService.findMinProductPrice();
         int maxPrice = productService.findMaxProductPrice();
-        Page<Product> pageableProduct = productService.findProductsBySearch(search, minPrice, maxPrice, PageRequest.of(pageNumber, size));
+        Page<Product> pageableProduct = productService.findProductsBySearch(search, minPrice, maxPrice, PageRequest.of(pageNumber, page_size));
         model.addAttribute("pagination", pageableProduct);
         model.addAttribute("offset", pageableProduct.getPageable().getOffset());
         return "webapp/product/products_header_fragment :: products_header";
@@ -106,7 +106,7 @@ public class ProductController {
     @GetMapping(value = "/product_list_category/{id}")
     public String showProductListByCategory(@PathVariable String id, Model model) {
         int page = 0;
-        int size = 12;
+        int size = 16;
         Page<Product> pageableProduct = productService.findProductsByCategoryId(Integer.parseInt(id), PageRequest.of(page, size, Sort.by("name").ascending()));
         var map = new HashMap<ProductColor, Integer>();
 
@@ -126,10 +126,11 @@ public class ProductController {
         return "webapp/product/product_list";
     }
 
-    @GetMapping(value = "/refresh_colors/{id}/{page}/{minPrice}/{maxPrice}/{sort}")
-    public String refreshProductColors(@PathVariable String id, @PathVariable String page, @PathVariable String minPrice, @PathVariable String maxPrice, @PathVariable String sort, Model model) {
+    @GetMapping(value = "/refresh_colors/{id}/{page}/{size}/{minPrice}/{maxPrice}/{sort}")
+    public String refreshProductColors(@PathVariable String id, @PathVariable String page, @PathVariable String size, @PathVariable String minPrice, @PathVariable String maxPrice, @PathVariable String sort, Model model) {
         int category_id = Integer.parseInt(id);
         int pageNumber = Integer.parseInt(page);
+        int page_size = Integer.parseInt(size);
         int min = Integer.parseInt(minPrice);
         int max = Integer.parseInt(maxPrice);
         var colors = colorService.findAll();
@@ -141,7 +142,7 @@ public class ProductController {
         }
         selected_colors = new ArrayList<>(Arrays.asList(str.trim().split(" ")));
 
-        Page<Product> pageableProduct = productService.findProductsByPrice(category_id, min, max, selected_colors, PageRequest.of(pageNumber, 12, Sorting.returnSortedOrder(sort)));
+        Page<Product> pageableProduct = productService.findProductsByPrice(category_id, min, max, selected_colors, PageRequest.of(pageNumber, page_size, Sorting.returnSortedOrder(sort)));
         var list = new ArrayList<>(pageableProduct.getContent());
 
         while(pageableProduct.hasNext()) {
@@ -165,7 +166,7 @@ public class ProductController {
     @GetMapping(value = "/product_list_sub_category/{id}")
     public String showProductListBySubCategory(@PathVariable String id, Model model) {
         var subCategory = subcategoryService.findSubCategoryById(Integer.parseInt(id)).get();
-        Page<Product> pageableProduct = productService.findProductsBySubCategoryId(subCategory.getId(), PageRequest.of(0, 12));
+        Page<Product> pageableProduct = productService.findProductsBySubCategoryId(subCategory.getId(), PageRequest.of(0, 16));
         var map = new HashMap<ProductColor, Integer>();
         for(Product product : pageableProduct.getContent()) {
             for(ProductColor productColor : product.getProductColors()) {
@@ -181,13 +182,13 @@ public class ProductController {
         return "webapp/product/product_list";
     }
 
-    @GetMapping(value = "/product_list_searched_fragment/{search}/{page}/{sort}")
-    public String showSearchedProductsByName(@PathVariable String search, @PathVariable String page, @PathVariable String sort, Model model) {
+    @GetMapping(value = "/product_list_searched_fragment/{search}/{page}/{size}/{sort}")
+    public String showSearchedProductsByName(@PathVariable String search, @PathVariable String page, @PathVariable String size, @PathVariable String sort, Model model) {
         int pageNumber = Integer.parseInt(page);
-        int size = 12;
+        int page_size = Integer.parseInt(size);
         int minPrice = productService.findMinProductPrice();
         int maxPrice = productService.findMaxProductPrice();
-        Page<Product> pageableProduct = productService.findProductsBySearch(search, minPrice, maxPrice, PageRequest.of(pageNumber, size, Sorting.returnSortedOrder(sort)));
+        Page<Product> pageableProduct = productService.findProductsBySearch(search, minPrice, maxPrice, PageRequest.of(pageNumber, page_size, Sorting.returnSortedOrder(sort)));
         findMinMaxPrice(pageableProduct.getContent());
         model.addAttribute("products", pageableProduct.getContent());
         model.addAttribute("pagination", pageableProduct);
@@ -197,7 +198,7 @@ public class ProductController {
     @GetMapping(value = "/searchProductsByName")
     public String searchProductsByName(@RequestParam(value = "search", required = false) String name, Model model) {
         int page = 0;
-        int size = 12;
+        int size = 16;
         int minPrice = productService.findMinProductPrice();
         int maxPrice = productService.findMaxProductPrice();
         Page<Product> pageableProduct = productService.findProductsBySearch(name, minPrice, maxPrice, PageRequest.of(page, size, Sorting.returnSortedOrder("name-asc")));
@@ -209,10 +210,11 @@ public class ProductController {
         return "webapp/product/product_list_searched";
     }
 
-    @GetMapping(value = "/product_list_category_fragment/{id}/{page}/{minPrice}/{maxPrice}/{sort}/{colors}")
-    public String showProductListFragment(@PathVariable String id, @PathVariable String page, @PathVariable String minPrice, @PathVariable String maxPrice, @PathVariable String sort, @PathVariable String colors, Model model) {
+    @GetMapping(value = "/product_list_category_fragment/{id}/{page}/{size}/{minPrice}/{maxPrice}/{sort}/{colors}")
+    public String showProductListFragment(@PathVariable String id, @PathVariable String page, @PathVariable String size, @PathVariable String minPrice, @PathVariable String maxPrice, @PathVariable String sort, @PathVariable String colors, Model model) {
         int category_id = Integer.parseInt(id);
         int pageNumber = Integer.parseInt(page);
+        int page_size = Integer.parseInt(size);
         int min = Integer.parseInt(minPrice);
         int max = Integer.parseInt(maxPrice);
         var colors_db = colorService.findAll();
@@ -225,7 +227,7 @@ public class ProductController {
             selected_colors = new ArrayList<>(Arrays.asList(str.trim().split(" ")));
         } else selected_colors = new ArrayList<>(Arrays.asList(colors.replace("empty", "").trim().split(" ")));
 
-        Page<Product> pageableProduct = productService.findProductsByPrice(category_id, min, max, selected_colors, PageRequest.of(pageNumber, 12, Sorting.returnSortedOrder(sort)));
+        Page<Product> pageableProduct = productService.findProductsByPrice(category_id, min, max, selected_colors, PageRequest.of(pageNumber, page_size, Sorting.returnSortedOrder(sort)));
         findMinMaxPrice(pageableProduct.getContent());
         model.addAttribute("selected_category", categoryService.findCategoryById(Integer.parseInt(id)).get());
         model.addAttribute("products", pageableProduct.getContent());

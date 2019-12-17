@@ -119,6 +119,16 @@
                     }
                 }
 
+                &.main-price-modal {
+                    margin-right: 5px;
+
+                    &.discounted {
+                        color: #a4a4a4;
+                        text-decoration: line-through;
+                        font-weight: 400;
+                    }
+                }
+
             }
         }
 

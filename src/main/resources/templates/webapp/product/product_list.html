@@ -137,6 +137,16 @@
                                 </select>
                             </div>
 
+                            <div class="sort-by-dropdown d-flex align-items-center mb-xs-10">
+                                <p class="mr-10 mb-0">Prikaži: </p>
+                                <select class="nice-select" id="show-by" name="show-by">
+                                    <option value="16">16</option>
+                                    <option value="30">30</option>
+                                    <option value="60">60</option>
+                                    <option value="100">100</option>
+                                </select>
+                            </div>
+
                             <!--=======  End of Sort by dropdown  =======-->
 
                             <p th:text="'Prikazano 1-12 od '+${pagination.getTotalElements()}" class="result-show-message"></p>
@@ -292,12 +302,14 @@
             $('.nice-select').niceSelect('destroy');
             $('#sort-by').removeAttr('style');
             $('#sort-by').val('name-asc');
+            $('#show-by').removeAttr('style');
+            $('#show-by').val('16');
             $('.nice-select').niceSelect();
             $('.color-category > ul > li > a').each(function () {
                 $(this).parent().removeClass();
             });
             refreshBreadCrumb($(this).text());
-            showProductList($(this).attr("value"), 0, minPrice, maxPrice, "name-asc", 'empty');
+            showProductList($(this).attr("value"), 0, $('#show-by').val(), minPrice, maxPrice, "name-asc", 'empty');
         });
 
         $('#sort-by').on('change', function () {
@@ -310,7 +322,20 @@
                     selected_colors += ' ' + $(this).text();
                 }
             });
-            showProductList(categoryId, 0, min, max, this.value, selected_colors);
+            showProductList(categoryId, 0, $('#show-by').val(), min, max, this.value, selected_colors);
+        });
+
+        $('#show-by').on('change', function () {
+            var categoryId = $(".category > ul > li a.active").attr("value");
+            var min = $("#price-range").slider("values", 0);
+            var max = $("#price-range").slider("values", 1);
+            var selected_colors = 'empty';
+            $('.color-category > ul > li > a').each(function () {
+                if ($(this).parent().hasClass('active')) {
+                    selected_colors += ' ' + $(this).text();
+                }
+            });
+            showProductList(categoryId, 0, this.value, min, max, $('#sort-by').val(), selected_colors);
         });
 
         $('#price-range').slider({
@@ -322,12 +347,12 @@
                         selected_colors += ' ' + $(this).text();
                     }
                 });
-                showProductList(categoryId, 0, ui.values[0], ui.values[1], $('#sort-by').val(), selected_colors);
+                showProductList(categoryId, 0, $('#show-by').val(), ui.values[0], ui.values[1], $('#sort-by').val(), selected_colors);
             }
         });
 
-        refreshProductHeader($(".category > ul > li a.active").attr("value"), 0, minPrice, maxPrice, 'empty');
-        refreshProductColors($(".category > ul > li a.active").attr("value"), 0, minPrice, maxPrice, "name-asc", 'empty');
+        refreshProductHeader($(".category > ul > li a.active").attr("value"), 0, $('#show-by').val(), minPrice, maxPrice, 'empty');
+        refreshProductColors($(".category > ul > li a.active").attr("value"), 0, $('#show-by').val(), minPrice, maxPrice, "name-asc", 'empty');
     });
 
     function openProductModal(productID) {
@@ -349,7 +374,7 @@
             success: function (response) {
                 $("#price-range").slider('option', 'min', response);
                 minPrice = response;
-                $('#price-amount').val('Cena: ' + 'RSD ' + minPrice + ' - RSD ' + maxPrice);
+                $('#price-amount').val('Cena: ' + minPrice + ' - ' + maxPrice + ' RSD');
             }
         });
         $.ajax({
@@ -359,24 +384,24 @@
             success: function (response) {
                 $("#price-range").slider('option', 'max', response);
                 maxPrice = response;
-                $('#price-amount').val('Cena: ' + 'RSD ' + minPrice + ' - RSD ' + maxPrice);
+                $('#price-amount').val('Cena: ' + minPrice + ' - ' + maxPrice + ' RSD');
             }
         });
     }
 
-    function showProductList(categoryID, page, minPrice, maxPrice, sort, colors) {
+    function showProductList(categoryID, page, size, minPrice, maxPrice, sort, colors) {
         $.ajax({
-            url: '/product/product_list_category_fragment/' + categoryID + '/' + page + '/' + minPrice + '/' + maxPrice + '/' + sort + '/' + colors,
+            url: '/product/product_list_category_fragment/' + categoryID + '/' + page + '/' + size + '/' + minPrice + '/' + maxPrice + '/' + sort + '/' + colors,
             type: 'get',
             success: function (response) {
                 $('.shop-product-wrap').html(response);
             }
         });
 
-        refreshPagination(categoryID, page, minPrice, maxPrice, sort, colors);
-        refreshProductHeader(categoryID, page, minPrice, maxPrice, colors);
+        refreshPagination(categoryID, page, size, minPrice, maxPrice, sort, colors);
+        refreshProductHeader(categoryID, page, size, minPrice, maxPrice, colors);
         if (page <= 0) {
-            refreshProductColors(categoryID, page, minPrice, maxPrice, sort, colors);
+            refreshProductColors(categoryID, page, size, minPrice, maxPrice, sort, colors);
         }
     }
 
@@ -384,9 +409,9 @@
         $("#breadcrumb").text(name);
     }
 
-    function refreshPagination(categoryId, page, min, max, sort, colors) {
+    function refreshPagination(categoryId, page, size, min, max, sort, colors) {
         $.ajax({
-            url: '/product/refresh_pagination/' + categoryId + '/' + page + '/' + min + '/' + max + '/' + sort + '/' + colors,
+            url: '/product/refresh_pagination/' + categoryId + '/' + page + '/' + size + '/' + min + '/' + max + '/' + sort + '/' + colors,
             type: 'get',
             success: function (response) {
                 $(".pagination-area").replaceWith(response);
@@ -394,9 +419,9 @@
         });
     }
 
-    function refreshProductColors(categoryID, page, minPrice, maxPrice, sort, colors) {
+    function refreshProductColors(categoryID, page, size, minPrice, maxPrice, sort, colors) {
         $.ajax({
-            url: '/product/refresh_colors/' + categoryID + '/' + page + '/' + minPrice + '/' + maxPrice + '/' + sort,
+            url: '/product/refresh_colors/' + categoryID + '/' + page + '/' + size + '/' + minPrice + '/' + maxPrice + '/' + sort,
             type: 'get',
             success: function (response) {
                 $("#product_colors").replaceWith(response);
@@ -424,15 +449,16 @@
                     var min = $("#price-range").slider("values", 0);
                     var max = $("#price-range").slider("values", 1);
                     var sort = $('#sort-by').val();
-                    showProductList(id, 0, min, max, sort, selected_colors);
+                    var size = $('#show-by').val();
+                    showProductList(id, 0, size, min, max, sort, selected_colors);
                 });
             }
         });
     }
 
-    function refreshProductHeader(categoryId, page, min, max, colors) {
+    function refreshProductHeader(categoryId, page, size, min, max, colors) {
         $.ajax({
-            url: '/product/refresh_product_header/' + categoryId + '/' + page + '/' + min + '/' + max + '/' + colors,
+            url: '/product/refresh_product_header/' + categoryId + '/' + page + '/' + size + '/' + min + '/' + max + '/' + colors,
             type: 'get',
             success: function (response) {
                 $(".result-show-message").replaceWith(response);
@@ -445,13 +471,17 @@
         var min = $("#price-range").slider("values", 0);
         var max = $("#price-range").slider("values", 1);
         var sort = $('#sort-by').val();
+        var size = $('#show-by').val();
         var selected_colors = 'empty';
         $('.color-category > ul > li > a').each(function () {
             if ($(this).parent().hasClass('active')) {
                 selected_colors += ' ' + $(this).text();
             }
         });
-        showProductList(id, page, min, max, sort, selected_colors);
+        showProductList(id, page, size, min, max, sort, selected_colors);
+        $('html,body').animate({
+            scrollTop: 0
+        }, 1000);
     }
 
     function addProductSlider() {
