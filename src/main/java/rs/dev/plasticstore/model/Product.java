@@ -63,7 +63,7 @@ public class Product implements Serializable {
     private Subcategory subcategory;
 
     @ElementCollection
-    @CollectionTable(name = "productAttributes", joinColumns = @JoinColumn(name = "product_id"))
+    @CollectionTable(name = "product_attributes", joinColumns = @JoinColumn(name = "product_id"))
     @AttributeOverrides({@AttributeOverride(name = "size", column = @Column(name = "product_size")), @AttributeOverride(name = "price", column = @Column(name = "product_price")), @AttributeOverride(name = "discounted_price", column = @Column(name = "discounted_price"))})
     private List<ProductAttributes> productAttributes = new ArrayList<>();
 

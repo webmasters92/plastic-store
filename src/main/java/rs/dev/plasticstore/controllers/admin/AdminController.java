@@ -139,7 +139,7 @@ public class AdminController {
             if(imageFile.exists()) imageFile.delete();
         });
         productService.deleteProduct(Integer.parseInt(id));
-        return "redirect:/product_list";
+        return "redirect:/administration/product_list";
     }
 
     @GetMapping(value = "/sub_categories")

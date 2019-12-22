@@ -247,13 +247,13 @@
                                             <i class="fa fa-star"></i>
                                         </div>
                                         <p class="product-price">
-                                            <span class="main-price discounted" th:if="${sale_product.isSale()&&sale_product.productAttributes.size()>1}" th:text="${product.getMinPrice()}+' - '+${sale_product.getMaxPrice()}+ ' RSD'"></span>
-                                            <span class="main-price discounted" th:if="${sale_product.isSale()&&sale_product.productAttributes.size()==1}" th:text="${product.getMinPrice()}+ ' RSD'"></span>
+                                            <span class="main-price discounted" th:if="${sale_product.isSale()&&sale_product.productAttributes.size()>1}" th:text="${sale_product.getMinPrice()}+' - '+${sale_product.getMaxPrice()}+ ' RSD'"></span>
+                                            <span class="main-price discounted" th:if="${sale_product.isSale()&&sale_product.productAttributes.size()==1}" th:text="${sale_product.getMinPrice()}+ ' RSD'"></span>
                                             <br th:if="${sale_product.isSale()&&sale_product.productAttributes.size()>1}">
-                                            <span class="discounted-price" th:if="${sale_product.isSale()&&sale_product.productAttributes.size()>1}" th:text="${product.getMinDiscountedPrice()}+' - '+${sale_product.getMaxDiscountedPrice()}+ ' RSD'"></span>
-                                            <span class="discounted-price" th:if="${sale_product.isSale()&&sale_product.productAttributes.size()==1}" th:text="${product.getMinDiscountedPrice()}+ ' RSD'"></span>
-                                            <span class="discounted-price" th:if="${!sale_product.isSale()&&sale_product.productAttributes.size()>1}" th:text="${product.getMinPrice()}+' - '+${sale_product.getMaxPrice()}+ ' RSD'"></span>
-                                            <span class="discounted-price" th:if="${!sale_product.isSale()&&sale_product.productAttributes.size()==1}" th:text="${product.getMinPrice()}+ ' RSD'"></span>
+                                            <span class="discounted-price" th:if="${sale_product.isSale()&&sale_product.productAttributes.size()>1}" th:text="${sale_product.getMinDiscountedPrice()}+' - '+${sale_product.getMaxDiscountedPrice()}+ ' RSD'"></span>
+                                            <span class="discounted-price" th:if="${sale_product.isSale()&&sale_product.productAttributes.size()==1}" th:text="${sale_product.getMinDiscountedPrice()}+ ' RSD'"></span>
+                                            <span class="discounted-price" th:if="${!sale_product.isSale()&&sale_product.productAttributes.size()>1}" th:text="${sale_product.getMinPrice()}+' - '+${sale_product.getMaxPrice()}+ ' RSD'"></span>
+                                            <span class="discounted-price" th:if="${!sale_product.isSale()&&sale_product.productAttributes.size()==1}" th:text="${sale_product.getMinPrice()}+ ' RSD'"></span>
                                         </p>
 
                                         <div class="hover-icons">

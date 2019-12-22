@@ -3,7 +3,7 @@ package rs.dev.plasticstore.model;
 import javax.persistence.*;
 
 @Entity
-@Table(name = "image")
+@Table(name = "images")
 public class Image {
 
     @Id

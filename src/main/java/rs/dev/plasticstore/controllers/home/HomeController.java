@@ -26,7 +26,7 @@ public class HomeController {
         model.addAttribute("popular_products", setMinMaxPriceToProducts((ArrayList<Product>) productService.findPopularProducts()));
         model.addAttribute("new_products", setMinMaxPriceToProducts((ArrayList<Product>) productService.findNewProducts()));
         model.addAttribute("sale_products", setMinMaxPriceToProducts((ArrayList<Product>) productService.findProductsOnSale()));
-        model.addAttribute("product", productService.findProductById(2));
+      //  model.addAttribute("product", productService.findProductById(2));
         return "webapp/shop/home";
     }
 
