@@ -485,6 +485,7 @@
         showFirstProductsBySubcategory(9);
         showSecondProductsBySubcategory(37);
         showThirdProductsBySubcategory(19);
+
         $('.modal').on('shown.bs.modal', function (e) {
             $('.small-image-slider').resize();
             addProductSlider();
@@ -512,10 +513,6 @@
             $(this).addClass('active');
         });
     });
-
-    function setInputValue() {
-
-    }
 
     $('#searchForm').keypress(function (e) {
         if (e.which == 13) {

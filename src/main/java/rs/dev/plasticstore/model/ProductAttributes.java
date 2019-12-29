@@ -9,10 +9,10 @@ public class ProductAttributes {
     @NotNull
     private int price;
 
-    private int discounted_price;
-
     @NotNull
     private String size;
+
+    private int discounted_price;
 
     public int getPrice() {
         return price;

@@ -75,10 +75,15 @@
         </div>
         <script th:inline="javascript" type="text/javascript">
             $(document).ready(function () {
-
+                /*<![CDATA[*/
+                var savings = /*[[${(product.productAttributes.get(0).getPrice()-product.productAttributes.get(0).getDiscounted_price())*100/product.productAttributes.get(0).getPrice()}
+]]*/ 'SearchParam';
+                /*]]>*/
+                $('.discount-percentage').text('Ušteda ' + Math.round(parseInt(savings)) + ' %');
                 $('.nice-select-modal').niceSelect();
 
                 $('#chooseSize').on('change', function () {
+                    console.log('modal radi');
                     var value = this.value.split("-");
                     var price = value[0];
                     var discounted_price = value[1];
@@ -87,7 +92,7 @@
                         $('.main-price-modal').addClass('discounted');
                         $('.main-price-modal').text(price + ' DIN');
                         $('.discounted-price-modal').text(discounted_price + ' DIN');
-                        $('.discount-percentage').text('Ušteda ' + discount_percentage + ' %');
+                        $('.discount-percentage').text('Ušteda ' + Math.round(discount_percentage) + ' %');
                     } else {
                         $('.main-price-modal').text(price + ' DIN');
                     }

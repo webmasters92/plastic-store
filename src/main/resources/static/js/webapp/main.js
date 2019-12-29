@@ -841,7 +841,7 @@
         ]
     });
 
-    $('.fl3-small-image-slider, .quickview-small-image-slider').slick({
+    $('.image-slider').slick({
         prevArrow: '<i class="fa fa-angle-left slick-prev"></i>',
         nextArrow: '<i class="fa fa-angle-right slick-next"></i>',
         arrows: true,

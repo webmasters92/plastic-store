@@ -240,7 +240,7 @@ public class ProductController {
         var similar_products = productService.findSimilarProductsByProductId(product.getCategory().getId());
         findMinMaxPrice(similar_products);
         model.addAttribute("categories", categoryService.findAll());
-        model.addAttribute("product", product);
+        model.addAttribute("single_product", product);
         model.addAttribute("similar_products", similar_products);
         return "webapp/product/single_product";
     }

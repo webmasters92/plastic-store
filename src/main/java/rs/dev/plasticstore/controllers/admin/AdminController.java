@@ -59,6 +59,7 @@ public class AdminController {
 
     @PostMapping("/save_product")
     public String addProduct(@ModelAttribute Product product, BindingResult result, RedirectAttributes redirectAttributes) {
+
         redirectAttributes.addAttribute("message", "Proizvod nije uspešno sačuvan");
         redirectAttributes.addFlashAttribute("alertClass", "alert-danger");
         if(result.hasErrors()) return "redirect:/administration/new_product";
@@ -73,11 +74,15 @@ public class AdminController {
                 product.getImages().add(image);
                 var imageDir = rootDir + "/images";
                 var imageFile = new File(imageDir, image.getName());
-                try {
-                    if(!imageFile.exists()) {
+                if(!Files.exists(Paths.get(imageDir))) {
+                    try {
                         Files.createDirectory(Paths.get(imageDir));
-                        multipartFile.transferTo(imageFile);
+                    } catch(IOException e) {
+                        e.printStackTrace();
                     }
+                }
+                try {
+                    multipartFile.transferTo(imageFile);
                 } catch(IOException e) {
                     e.printStackTrace();
                 }
@@ -107,6 +112,7 @@ public class AdminController {
         productService.saveProduct(product);
         redirectAttributes.addAttribute("message", "Proizvod je uspešno sačuvan");
         redirectAttributes.addFlashAttribute("alertClass", "alert-success");
+
         return "redirect:/administration/new_product";
     }
 

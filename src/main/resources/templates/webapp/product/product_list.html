@@ -209,7 +209,7 @@
                                 </a>
                             </div>
                             <div class="content">
-                                <h2 class="product-title"><a th:text="${product.name}" href="single-product.html">Officiis debitis</a></h2>
+                                <h2 class="product-title"><a th:href="@{/product/single_product/__${product.id}__}" th:text="${product.name}">Officiis debitis</a></h2>
                                 <div class="rating">
                                     <i class="fa fa-star active"></i>
                                     <i class="fa fa-star active"></i>
@@ -233,7 +233,7 @@
                                     <ul>
                                         <li><a href="#" data-tooltip="Dodaj u korpu">Dodaj u korpu</a></li>
                                         <li><a href="#" data-tooltip="Dodaj u listu želja"><i class="icon ion-md-heart-empty"></i></a></li>
-                                        <li><a href="#" data-tooltip="Detaljnije" data-toggle="modal" data-target="#quick-view-modal-container"><i class="icon ion-md-open"></i></a></li>
+                                        <li><a data-tooltip="Detaljnije" href="#" th:onclick="'javascript:openProductModal(\'' + ${product.id} + '\');'"><i class="icon ion-md-open"></i></a></li>
                                     </ul>
                                 </div>
                             </div>

@@ -29,21 +29,21 @@ public interface ProductRepository extends JpaRepository<Product, Integer> {
     @Query(value = "select * from products p order by date_created desc limit 15", nativeQuery = true)
     List<Product> findTop15ByAvailable(boolean available);
 
-    @Query(value = "select * from products p left join productAttributes pa on p.id=pa.product_id where p.name like ?1 and pa.product_price between ?2 and ?3 group by p.id", countQuery = "select count(*) from products p inner join productAttributes pa on p.id=pa.product_id  where p.name like ?1 and pa.product_price between ?2 and ?3 group by p.id", nativeQuery = true)
+    @Query(value = "select * from products p left join product_attributes pa on p.id=pa.product_id where p.name like ?1 and pa.product_price between ?2 and ?3 group by p.id", countQuery = "select count(*) from products p inner join product_attributes pa on p.id=pa.product_id  where p.name like ?1 and pa.product_price between ?2 and ?3 group by p.id", nativeQuery = true)
     Page<Product> findProductsBySearch(String name, int minPrice, int maxPrice, Pageable pageRequest);
 
-    @Query(value = "select * from products p left join productAttributes pa on p.id=pa.product_id left join product_color pc on p.id = pc.product_id where p.category_id=?1 and pa.product_price between ?2 and ?3 and pc.name in ?4 group by p.id", countQuery = "select count(*) from products p inner join productAttributes pa on p.id=pa.product_id left join product_color pc on p.id = pc.product_id where p.category_id=?1 and pa.product_price between ?2 and ?3 and pc.name in ?4 group by p.id", nativeQuery = true)
+    @Query(value = "select * from products p left join product_attributes pa on p.id=pa.product_id left join product_color pc on p.id = pc.product_id where p.category_id=?1 and pa.product_price between ?2 and ?3 and pc.name in ?4 group by p.id", countQuery = "select count(*) from products p inner join product_attributes pa on p.id=pa.product_id left join product_color pc on p.id = pc.product_id where p.category_id=?1 and pa.product_price between ?2 and ?3 and pc.name in ?4 group by p.id", nativeQuery = true)
     Page<Product> findProductsByPrice(int categoryId, int minPrice, int maxPrice, ArrayList<String> colors, Pageable pageable);
 
-    @Query(value = "select min(pa.product_price) from products p join productAttributes pa on p.id=pa.product_id", nativeQuery = true)
+    @Query(value = "select min(pa.product_price) from products p join product_attributes pa on p.id=pa.product_id", nativeQuery = true)
     int findMinProductPrice();
 
-    @Query(value = "select max(pa.product_price) from products p join productAttributes pa on p.id=pa.product_id", nativeQuery = true)
+    @Query(value = "select max(pa.product_price) from products p join product_attributes pa on p.id=pa.product_id", nativeQuery = true)
     int findMaxProductPrice();
 
-    @Query(value = "select min(pa.product_price) from products p join productAttributes pa on p.id=pa.product_id where p.category_id=?1", nativeQuery = true)
+    @Query(value = "select min(pa.product_price) from products p join product_attributes pa on p.id=pa.product_id where p.category_id=?1", nativeQuery = true)
     int findMinProductPriceByCategory(int categoryId);
 
-    @Query(value = "select max(pa.product_price) from products p join productAttributes pa on p.id=pa.product_id where p.category_id=?1", nativeQuery = true)
+    @Query(value = "select max(pa.product_price) from products p join product_attributes pa on p.id=pa.product_id where p.category_id=?1", nativeQuery = true)
     int findMaxProductPriceByCategory(int categoryId);
 }

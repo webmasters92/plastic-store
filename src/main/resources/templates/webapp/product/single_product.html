@@ -21,8 +21,8 @@
                     <nav>
                         <ul>
                             <li class="parent-page"><a th:href="@{/}">Početna</a></li>
-                            <li class="parent-page"><a th:text="${product.category.name}" th:href="@{/product/product_list_category/__${product.category.id}__}"></a></li>
-                            <li th:text="${product.getName()}"></li>
+                            <li class="parent-page"><a th:href="@{/product/product_list_category/__${single_product.category.id}__}" th:text="${single_product.category.name}"></a></li>
+                            <li th:text="${single_product.getName()}"></li>
                         </ul>
                     </nav>
                 </div>
@@ -46,7 +46,7 @@
                 <div class="product-image-slider fl-product-image-slider fl3-product-image-slider">
                     <!--product large image start -->
                     <div class="tab-content product-large-image-list fl-product-large-image-list fl3-product-large-image-list" id="myTabContent">
-                        <div th:each="image,iStat : ${product.images}" th:class="${iStat.count==1} ? 'tab-pane fade show active':'tab-pane fade'" th:id="'single-slide-'+${iStat.count}" role="tabpanel" th:aria-labelledby="'single-slide-tab-'+${iStat.count}">
+                        <div role="tabpanel" th:aria-labelledby="'single-slide-tab-'+${iStat.count}" th:class="${iStat.count==1} ? 'tab-pane fade show active':'tab-pane fade'" th:each="image,iStat : ${single_product.images}" th:id="'single-slide-'+${iStat.count}">
                             <!--Single Product Image Start-->
                             <div class="single-product-img img-full">
                                 <img th:src="@{'/images/' + ${image.name}}" class="img-fluid" alt="">
@@ -59,8 +59,8 @@
 
                     <!--product small image slider Start-->
                     <div class="product-small-image-list fl-product-small-image-list fl3-product-small-image-list">
-                        <div class="nav small-image-slider fl3-small-image-slider" role="tablist">
-                            <div th:each="image,iStat  : ${product.images}" class="single-small-image img-full">
+                        <div class="nav image-slider fl3-image-slider" role="tablist">
+                            <div class="single-small-image img-full" th:each="image,iStat  : ${single_product.images}">
                                 <a data-toggle="tab" th:id="'single-slide-tab-'+${iStat.count}" th:href="@{'#single-slide-'+${iStat.count}}"><img th:src="@{'/images/' + ${image.name}}" class="img-fluid" alt=""></a>
                             </div>
                         </div>
@@ -72,7 +72,7 @@
             <div class="col-lg-7 col-md-6 col-xs-12">
                 <!-- product view description -->
                 <div class="product-feature-details">
-                    <h2 class="product-title mb-15" th:text="${product.getName()}"></h2>
+                    <h2 class="product-title mb-15" th:text="${single_product.getName()}"></h2>
 
                     <div class="rating d-inline-block mb-15">
                         <i class="fa fa-star active"></i>
@@ -85,28 +85,28 @@
                     <p class="d-inline-block ml-10 review-link"><a href="#">(1 ocena)</a></p>
 
                     <h2 class="product-price mb-0">
-                        <span class="main-price" th:classappend="${product.isSale()} ? 'discounted'" th:text="${product.productAttributes.get(0).getPrice()}+' DIN'"></span>
-                        <span class="discounted-price" th:if="${product.isSale()}" th:text="${product.productAttributes.get(0).getDiscounted_price()}+' DIN'"></span>
-                        <span class="discount-percentage" th:if="${product.isSale()}" th:text="'Ušteda '+${(product.productAttributes.get(0).getPrice()-product.productAttributes.get(0).getDiscounted_price())*100/product.productAttributes.get(0).getPrice()}+'%'">Save 8%</span>
+                        <span class="main-price" th:classappend="${single_product.isSale()} ? 'discounted'" th:text="${single_product.productAttributes.get(0).getPrice()}+' DIN'"></span>
+                        <span class="discounted-price" th:if="${single_product.isSale()}" th:text="${single_product.productAttributes.get(0).getDiscounted_price()}+' DIN'"></span>
+                        <span class="discount-percentage" th:if="${single_product.isSale()}" th:text="'Ušteda '+${(single_product.productAttributes.get(0).getPrice()-single_product.productAttributes.get(0).getDiscounted_price())*100/single_product.productAttributes.get(0).getPrice()}+'%'">Save 8%</span>
                     </h2>
                     <br>
                     <div class="manufacturer mb-0">
                         <span class="title">Proizvođač:  </span>
-                        <p class="product-manufacturer mb-20" th:text="' '+${product.manufacturer}"></p>
+                        <p class="product-manufacturer mb-20" th:text="' '+${single_product.manufacturer}"></p>
                     </div>
 
-                    <p class="product-description mb-20" th:text="${product.description}"></p>
+                    <p class="product-description mb-20" th:text="${single_product.description}"></p>
 
                     <div class="size mb-20">
                         <span class="title"> Veličina:</span> <br>
                         <select name="chooseSize" id="chooseSize" class="nice-select">
-                            <option th:each="attribute : ${product.productAttributes}" th:text="${attribute.size}" th:value="${attribute.price}+'-'+${attribute.getDiscounted_price()}"></option>
+                            <option th:each="attribute : ${single_product.productAttributes}" th:text="${attribute.size}" th:value="${attribute.price}+'-'+${attribute.getDiscounted_price()}"></option>
                         </select>
                     </div>
 
                     <div class="color mb-20">
                         <span class="title"> Boja:</span> <br>
-                        <a th:each="color,iter:${product.getProductColors()}"><span class="color-block" th:classappend="${iter.first}?'active'" th:style="'background-color:'+${color.code}+';'"></span></a>
+                        <a th:each="color,iter:${single_product.getProductColors()}"><span class="color-block" th:classappend="${iter.first}?'active'" th:style="'background-color:'+${color.code}+';'"></span></a>
                     </div>
 
                     <div class="cart-buttons mb-20">
@@ -126,7 +126,7 @@
                     <div class="category-list-container mb-20">
                         <span>Kategorije: </span>
                         <ul>
-                            <li th:each="sub_category:${product.category.subcategories}"><a th:href="@{/product/product_list_sub_category/__${sub_category.id}__}" th:text="${sub_category.getName()}"></a>,</li>
+                            <li th:each="sub_category:${single_product.category.subcategories}"><a th:href="@{/product/product_list_sub_category/__${sub_category.id}__}" th:text="${sub_category.getName()}"></a>,</li>
                         </ul>
                     </div>
                 </div>
@@ -353,15 +353,15 @@
                 <div class="fl-slider tab-product-slider">
                     <!--=======  single product  =======-->
 
-                    <div class="fl-product" th:each="product :${similar_products}">
-                        <div class="image" th:classappend="${product.isSale()}?'sale-product'">
-                            <a th:href="@{/product/single_product/__${product.id}__}">
-                                <img th:src="@{'/images/' + ${product.images.get(0).name}}" class="img-fluid" alt="">
-                                <img th:src="@{'/images/' + ${product.images.get(0).name}}" class="img-fluid" alt="">
+                    <div class="fl-product" th:each="similar_product :${similar_products}">
+                        <div class="image" th:classappend="${similar_product.isSale()}?'sale-product'">
+                            <a th:href="@{/product/single_product/__${similar_product.id}__}">
+                                <img alt="" class="img-fluid" th:src="@{'/images/' + ${similar_product.images.get(0).name}}">
+                                <img alt="" class="img-fluid" th:src="@{'/images/' + ${similar_product.images.get(0).name}}">
                             </a>
                         </div>
                         <div class="content">
-                            <h2 class="product-title"><a th:text="${product.name}" th:href="@{/product/single_product/__${product.id}__}"></a></h2>
+                            <h2 class="product-title"><a th:href="@{/product/single_product/__${similar_product.id}__}" th:text="${similar_product.name}"></a></h2>
                             <div class="rating">
                                 <i class="fa fa-star active"></i>
                                 <i class="fa fa-star active"></i>
@@ -370,28 +370,26 @@
                                 <i class="fa fa-star"></i>
                             </div>
                             <p class="product-price">
-                                <span class="main-price discounted" th:if="${product.isSale()&&product.productAttributes.size()>1}" th:text="${product.getMinPrice()}+' - '+${product.getMaxPrice()}+ ' RSD'"></span>
-                                <span class="main-price discounted" th:if="${product.isSale()&&product.productAttributes.size()==1}" th:text="${product.getMinPrice()}+ ' RSD'"></span>
-                                <br th:if="${product.isSale()&&product.productAttributes.size()>1}">
-                                <span class="discounted-price" th:if="${product.isSale()&&product.productAttributes.size()>1}" th:text="${product.getMinDiscountedPrice()}+' - '+${product.getMaxDiscountedPrice()}+ ' RSD'"></span>
-                                <span class="discounted-price" th:if="${product.isSale()&&product.productAttributes.size()==1}" th:text="${product.getMinDiscountedPrice()}+ ' RSD'"></span>
-                                <span class="discounted-price" th:if="${!product.isSale()&&product.productAttributes.size()>1}" th:text="${product.getMinPrice()}+' - '+${product.getMaxPrice()}+ ' RSD'"></span>
-                                <span class="discounted-price" th:if="${!product.isSale()&&product.productAttributes.size()==1}" th:text="${product.getMinPrice()}+ ' RSD'"></span>
+                                <span class="main-price discounted" th:if="${similar_product.isSale()&&similar_product.productAttributes.size()>1}" th:text="${similar_product.getMinPrice()}+' - '+${similar_product.getMaxPrice()}+ ' RSD'"></span>
+                                <span class="main-price discounted" th:if="${similar_product.isSale()&&similar_product.productAttributes.size()==1}" th:text="${similar_product.getMinPrice()}+ ' RSD'"></span>
+                                <br th:if="${similar_product.isSale()&&similar_product.productAttributes.size()>1}">
+                                <span class="discounted-price" th:if="${similar_product.isSale()&&similar_product.productAttributes.size()>1}" th:text="${similar_product.getMinDiscountedPrice()}+' - '+${similar_product.getMaxDiscountedPrice()}+ ' RSD'"></span>
+                                <span class="discounted-price" th:if="${similar_product.isSale()&&similar_product.productAttributes.size()==1}" th:text="${similar_product.getMinDiscountedPrice()}+ ' RSD'"></span>
+                                <span class="discounted-price" th:if="${!similar_product.isSale()&&similar_product.productAttributes.size()>1}" th:text="${similar_product.getMinPrice()}+' - '+${similar_product.getMaxPrice()}+ ' RSD'"></span>
+                                <span class="discounted-price" th:if="${!similar_product.isSale()&&similar_product.productAttributes.size()==1}" th:text="${similar_product.getMinPrice()}+ ' RSD'"></span>
                             </p>
 
                             <div class="hover-icons">
                                 <ul>
                                     <li><a href="#" data-tooltip="Dodaj u korpu"><i class="icon ion-md-cart"></i></a></li>
                                     <li><a href="#" data-tooltip="Dodaj u listu želja"><i class="icon ion-md-heart-empty"></i></a></li>
-                                    <li><a href="#" data-tooltip="Detaljnije" th:onclick="'javascript:openProductModal(\'' + ${product.id} + '\');'"><i class="icon ion-md-open"></i></a></li>
+                                    <li><a data-tooltip="Detaljnije" href="#" th:onclick="'javascript:openProductModal(\'' + ${similar_product.id} + '\');'"><i class="icon ion-md-open"></i></a></li>
                                 </ul>
                             </div>
                         </div>
                     </div>
                     <!--=======  End of single product  =======-->
-
                 </div>
-
                 <!--=======  End of tab product slider  =======-->
             </div>
         </div>
@@ -419,7 +417,6 @@
 <!--END OF SEARCH OVERLAY-->
 
 <!--QUICK VIEW MODAL-->
-
 <div class="modal fade quick-view-modal-container" id="quick-view-modal-container" tabindex="-1" role="dialog" aria-hidden="true"></div>
 
 <!--END OF QUICK VIEW MODAL-->
@@ -428,7 +425,7 @@
 <a href="#" class="scroll-top"></a>
 <!-- END OF SCROLL TO TOP -->
 
-<div th:replace="webapp/containers/scriptsContainer :: scriptsContainer"></div>
+<div th:insert="webapp/containers/scriptsContainer :: scriptsContainer"></div>
 
 <script th:inline="javascript" type="text/javascript">
     $(document).ready(function () {
@@ -436,7 +433,11 @@
             $('.small-image-slider').resize();
             addProductSlider();
         });
-
+        /*<![CDATA[*/
+        var savings = /*[[${(single_product.productAttributes.get(0).getPrice()-single_product.productAttributes.get(0).getDiscounted_price())*100/single_product.productAttributes.get(0).getPrice()}
+]]*/ 'SearchParam';
+        /*]]>*/
+        $('.discount-percentage').text('Ušteda ' + Math.round(parseInt(savings)) + ' %');
         $('#chooseSize').on('change', function () {
             var value = this.value.split("-");
             var price = value[0];
@@ -446,7 +447,7 @@
                 $('.main-price').addClass('discounted');
                 $('.main-price').text(price + ' DIN');
                 $('.discounted-price').text(discounted_price + ' DIN');
-                $('.discount-percentage').text('Ušteda ' + discount_percentage + ' %');
+                $('.discount-percentage').text('Ušteda ' + Math.round(discount_percentage) + ' %');
             } else {
                 $('.main-price').text(price + ' DIN');
             }
@@ -457,7 +458,6 @@
             $(this).addClass('active');
         });
     });
-
 
     function openProductModal(productID) {
         $.ajax({
@@ -522,7 +522,6 @@
     }
 
 </script>
-
 
 </body>
 </html>
