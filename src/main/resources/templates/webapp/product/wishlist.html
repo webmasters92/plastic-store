@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head th:replace="webapp/containers/headContainer :: headContainer"></head>
+<body>
+<div th:replace="webapp/containers/headerContainer :: headerContainer" th:with="${categories}"></div>
+
+<div class="breadcrumb-area pt-15 pb-15">
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-12">
+                <!--=======  breadcrumb container  =======-->
+
+                <div class="breadcrumb-container">
+                    <nav>
+                        <ul>
+                            <li class="parent-page"><a th:href="@{/}">Početna</a></li>
+                            <li>Lista želja</li>
+                        </ul>
+                    </nav>
+                </div>
+                <!--=======  End of breadcrumb container  =======-->
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="page-section mb-50">
+    <div class="container">
+        <div class="row">
+            <div class="col-12">
+                <form action="#">
+                    <!--=======  wishlist table  =======-->
+
+                    <div class="cart-table table-responsive">
+                        <table class="table">
+                            <thead>
+                            <tr>
+                                <th class="pro-thumbnail">Slika</th>
+                                <th class="pro-title">Naziv</th>
+                                <th class="pro-quantity">Dimenzije</th>
+                                <th class="pro-price">Cena</th>
+                                <th class="pro-remove">Obriši</th>
+                            </tr>
+                            </thead>
+                            <tbody>
+                            <tr th:each="product : ${products}">
+                                <td class="pro-thumbnail">
+                                    <a th:href="@{/product/single_product/__${product.id}__}"><img alt="Product" class="img-fluid" th:src="@{'/images/' + ${product.images.get(0).name}}"></a></td>
+                                <td class="pro-title"><a th:href="@{/product/single_product/__${product.id}__}" th:text="${product.getName()}"></a></td>
+                                <td class="pro-quantity" th:classappend="${product.id}">
+                                    <select>
+                                        <option th:each="attr : ${product.productAttributes}" th:text="${attr.getSize()}" th:value="${attr.getPrice()}"></option>
+                                    </select>
+                                </td>
+                                <td class="pro-price"><span th:id="${product.id}" th:text="${product.getMinPrice()}+' - '+${product.getMaxPrice()}+ ' RSD'"></span></td>
+                                <td class="pro-remove"><a th:href="@{/product/delete_wishlist/__${product.id}__}"><i class="fa fa-trash-o"></i></a></td>
+                            </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                    <!--=======  End of wishlist table  =======-->
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+
+<a class="scroll-top" href="#"></a>
+
+<div th:replace="webapp/containers/footerContainer :: footerContainer"></div>
+
+<div th:insert="webapp/containers/scriptsContainer :: scriptsContainer"></div>
+
+<script th:inline="javascript" type="text/javascript">
+    $(document).ready(function () {
+        $('.pro-quantity select').on('change', function () {
+            var price = this.value;
+            var id = $(this).parent().attr('class').split(' ')[1];
+            $('span#' + id + '').text(price + ' RSD');
+        });
+
+        $('.pro-quantity select').trigger("change");
+    });
+</script>
+>
+</body>
+</html>

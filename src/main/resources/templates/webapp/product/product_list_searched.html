@@ -116,7 +116,7 @@
                                 <div class="hover-icons">
                                     <ul>
                                         <li><a href="#" data-tooltip="Dodaj u korpu"><i class="icon ion-md-cart"></i></a></li>
-                                        <li><a href="#" data-tooltip="Dodaj u listu želja"><i class="icon ion-md-heart-empty"></i></a></li>
+                                        <li><a data-tooltip="Dodaj u listu želja" href="#" th:onclick="|openWishListDialog(${product.id})|"> <i class="icon ion-md-heart-empty"></i></a></li>
                                         <li><a href="#" id="details" data-tooltip="Detaljnije" th:onclick="'javascript:openProductModal(\'' + ${product.id} + '\');'"><i class="icon ion-md-open"></i></a></li>
                                     </ul>
                                 </div>
@@ -218,6 +218,40 @@
         });
         refreshProductHeader(search, 0, $('#show-by').val(), $('#sort-by').val());
     });
+
+    function openWishListDialog(productID) {
+        $.ajax({
+            url: '/product/add_product_to_wishlist/' + productID,
+            type: 'get',
+            success: function (response) {
+                bootbox.dialog({
+                    title: 'Lista želja',
+                    message: 'Uspešno ste dodali artikal ' + response + ' u listu želja',
+                    size: 'medium',
+                    onEscape: false,
+                    buttons: {
+                        cancel: {
+                            label: "Nastavi sa kupovinom",
+                            className: 'btn-success',
+                            callback: function () {
+                            }
+                        },
+                        ok: {
+                            label: "Pregledaj listu želja",
+                            className: 'btn-success',
+                            callback: function () {
+                                showWishListProducts();
+                            }
+                        }
+                    }
+                });
+            }
+        });
+    }
+
+    function showWishListProducts() {
+        window.location = '/product/show_wishlist';
+    }
 
     function openProductModal(productID) {
         $.ajax({

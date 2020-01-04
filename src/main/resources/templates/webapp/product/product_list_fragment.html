@@ -38,7 +38,7 @@
                 <div class="hover-icons">
                     <ul>
                         <li><a href="#" data-tooltip="Dodaj u korpu"><i class="icon ion-md-cart"></i></a></li>
-                        <li><a href="#" data-tooltip="Dodaj u listu želja"><i class="icon ion-md-heart-empty"></i></a></li>
+                        <li><a data-tooltip="Dodaj u listu želja" href="#" th:onclick="|openWishListDialog(${product.id})|"> <i class="icon ion-md-heart-empty"></i></a></li>
                         <li><a href="#" data-tooltip="Detaljnije" th:onclick="'javascript:openProductModal(\'' + ${product.id} + '\');'"><i class="icon ion-md-open"></i></a></li>
                     </ul>
                 </div>
@@ -80,7 +80,7 @@
                 <div class="hover-icons">
                     <ul>
                         <li><a href="#" data-tooltip="Dodaj u korpu">Dodaj u korpu</a></li>
-                        <li><a href="#" data-tooltip="Dodaj u listu želja"><i class="icon ion-md-heart-empty"></i></a></li>
+                        <li><a data-tooltip="Dodaj u listu želja" href="#" th:onclick="|openWishListDialog(${product.id})|"> <i class="icon ion-md-heart-empty"></i></a></li>
                         <li><a data-tooltip="Detaljnije" href="#" th:onclick="'javascript:openProductModal(\'' + ${product.id} + '\');'"><i class="icon ion-md-open"></i></a></li>
                     </ul>
                 </div>

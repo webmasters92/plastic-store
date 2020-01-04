@@ -9,8 +9,7 @@ import rs.dev.plasticstore.Utils.StringListConverter;
 import javax.persistence.*;
 import java.io.Serializable;
 import java.time.LocalDateTime;
-import java.util.ArrayList;
-import java.util.List;
+import java.util.*;
 
 @Entity
 @Table(name = "products")
@@ -36,7 +35,7 @@ public class Product implements Serializable {
     private String manufacturer;
 
     @JsonIgnore
-    @OneToMany(mappedBy = "product", cascade = CascadeType.ALL, orphanRemoval = true)
+    @OneToMany(mappedBy = "product", cascade = CascadeType.ALL, orphanRemoval = true, fetch = FetchType.EAGER)
     private List<Image> images = new ArrayList<>();
 
     @JsonIgnore
@@ -62,7 +61,7 @@ public class Product implements Serializable {
     @JoinColumn(name = "sub_category_id")
     private Subcategory subcategory;
 
-    @ElementCollection
+    @ElementCollection(fetch = FetchType.LAZY)
     @CollectionTable(name = "product_attributes", joinColumns = @JoinColumn(name = "product_id"))
     @AttributeOverrides({@AttributeOverride(name = "size", column = @Column(name = "product_size")), @AttributeOverride(name = "price", column = @Column(name = "product_price")), @AttributeOverride(name = "discounted_price", column = @Column(name = "discounted_price"))})
     private List<ProductAttributes> productAttributes = new ArrayList<>();
@@ -297,5 +296,18 @@ public class Product implements Serializable {
 
     public void setDiscounted_prices(List<Integer> discounted_prices) {
         this.discounted_prices = discounted_prices;
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(getCode());
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if(this == o) return true;
+        if(!(o instanceof Product)) return false;
+        Product product = (Product) o;
+        return getCode() == product.getCode();
     }
 }

@@ -3,11 +3,14 @@ package rs.dev.plasticstore.model;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
 import javax.persistence.*;
+import java.io.Serializable;
 import java.util.List;
 
 @Entity
 @Table(name = "categories")
-public class Category {
+public class Category implements Serializable {
+
+    private static final long serialVersionUID = 2681531852204068105L;
 
     @Id
     @Column(name = "id")

@@ -34,13 +34,19 @@ public interface ProductService {
 
     Page<Product> findProductsByPrice(int category_id, int min, int max, ArrayList<String> colors, Pageable pageRequest);
 
+    Page<Product> findProductsByPriceAndSubCategory(int subcategory_id, int min, int max, ArrayList<String> colors, Pageable pageRequest);
+
     int findMinProductPrice();
 
     int findMaxProductPrice();
 
-    int findMinProductPrice(int parseInt);
+    int findMinProductPriceByCategory(int id);
 
-    int findMaxProductPrice(int parseInt);
+    int findMaxProductPriceByCategory(int id);
+
+    int findMinProductPriceBySubCategory(int id);
+
+    int findMaxProductPriceBySubCategory(int id);
 
     List<Product> findSimilarProductsByProductId(int id);
 }

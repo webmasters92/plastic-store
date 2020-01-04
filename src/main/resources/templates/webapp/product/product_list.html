@@ -20,7 +20,8 @@
                     <nav>
                         <ul>
                             <li class="parent-page"><a th:href="@{/}">Početna</a></li>
-                            <li id="breadcrumb" th:value="${selected_category.id}" th:text="${selected_category.name}"></li>
+                            <li id="breadcrumb_category" th:class="${selected_subcategory!=null}?'parent-page'" th:value="${selected_category.id}"><a th:href="@{/product/product_list_category/__${selected_category.id}__}" th:text="${selected_category.name}"></a></li>
+                            <li id="breadcrumb_subcategory" th:if="${selected_subcategory!=null}" th:value="${selected_subcategory.id}"><a th:href="@{/product/product_list_sub_category/__${selected_subcategory.id}__}" th:text="${selected_subcategory.name}"></a></li>
                         </ul>
                     </nav>
                 </div>
@@ -190,7 +191,7 @@
                                 <div class="hover-icons">
                                     <ul>
                                         <li><a href="#" data-tooltip="Dodaj u korpu"><i class="icon ion-md-cart"></i></a></li>
-                                        <li><a href="#" data-tooltip="Dodaj u listu želja"><i class="icon ion-md-heart-empty"></i></a></li>
+                                        <li><a data-tooltip="Dodaj u listu želja" href="#" th:onclick="|openWishListDialog(${product.id})|"> <i class="icon ion-md-heart-empty"></i></a></li>
                                         <li><a href="#" data-tooltip="Detaljnije" th:onclick="'javascript:openProductModal(\'' + ${product.id} + '\');'"><i class="icon ion-md-open"></i></a></li>
                                     </ul>
                                 </div>
@@ -232,7 +233,7 @@
                                 <div class="hover-icons">
                                     <ul>
                                         <li><a href="#" data-tooltip="Dodaj u korpu">Dodaj u korpu</a></li>
-                                        <li><a href="#" data-tooltip="Dodaj u listu želja"><i class="icon ion-md-heart-empty"></i></a></li>
+                                        <li><a data-tooltip="Dodaj u listu želja" href="#" th:onclick="|openWishListDialog(${product.id})|"> <i class="icon ion-md-heart-empty"></i></a></li>
                                         <li><a data-tooltip="Detaljnije" href="#" th:onclick="'javascript:openProductModal(\'' + ${product.id} + '\');'"><i class="icon ion-md-open"></i></a></li>
                                     </ul>
                                 </div>
@@ -281,7 +282,11 @@
         /*<![CDATA[*/
         var categoryId = /*[[${selected_category.id}]]*/ 'SearchParam';
         /*]]>*/
-        setSliderMinMaxPrice(categoryId);
+        var subcategoryId = $("#breadcrumb_subcategory").attr('value');
+        setSliderMinMaxPriceByCategory(categoryId);
+        if (subcategoryId !== undefined)
+            console.log(subcategoryId);
+        setSliderMinMaxPriceBySubCategory(subcategoryId);
 
         $('.modal').on('shown.bs.modal', function (e) {
             $('.small-image-slider').resize();
@@ -289,7 +294,7 @@
         });
 
         $('.category > ul > li a').each(function () {
-            if ($(this).attr('value') === $("#breadcrumb").attr('value')) {
+            if ($(this).attr('value') === $("#breadcrumb_category").attr('value')) {
                 $(this).addClass('active');
             }
         });
@@ -298,7 +303,7 @@
             $('.category > ul > li a').removeClass();
             $(this).addClass('active');
 
-            setSliderMinMaxPrice($(this).attr("value"));
+            setSliderMinMaxPriceByCategory($(this).attr("value"));
             $('.nice-select').niceSelect('destroy');
             $('#sort-by').removeAttr('style');
             $('#sort-by').val('name-asc');
@@ -308,12 +313,13 @@
             $('.color-category > ul > li > a').each(function () {
                 $(this).parent().removeClass();
             });
-            refreshBreadCrumb($(this).text());
+            refreshBreadCrumb($(this).text(), '');
             showProductList($(this).attr("value"), 0, $('#show-by').val(), minPrice, maxPrice, "name-asc", 'empty');
         });
 
         $('#sort-by').on('change', function () {
             var categoryId = $(".category > ul > li a.active").attr("value");
+            var subcategoryId = $("#breadcrumb_subcategory").attr("value");
             var min = $("#price-range").slider("values", 0);
             var max = $("#price-range").slider("values", 1);
             var selected_colors = 'empty';
@@ -322,11 +328,16 @@
                     selected_colors += ' ' + $(this).text();
                 }
             });
-            showProductList(categoryId, 0, $('#show-by').val(), min, max, this.value, selected_colors);
+
+            if (subcategoryId !== undefined)
+                showProductListBySubCategory(subcategoryId, 0, $('#show-by').val(), min, max, this.value, selected_colors);
+            else
+                showProductList(categoryId, 0, $('#show-by').val(), min, max, this.value, selected_colors);
         });
 
         $('#show-by').on('change', function () {
             var categoryId = $(".category > ul > li a.active").attr("value");
+            var subcategoryId = $("#breadcrumb_subcategory").attr("value");
             var min = $("#price-range").slider("values", 0);
             var max = $("#price-range").slider("values", 1);
             var selected_colors = 'empty';
@@ -335,25 +346,71 @@
                     selected_colors += ' ' + $(this).text();
                 }
             });
-            showProductList(categoryId, 0, this.value, min, max, $('#sort-by').val(), selected_colors);
+            if (subcategoryId !== undefined)
+                showProductListBySubCategory(subcategoryId, 0, this.value, min, max, $('#sort-by').val(), selected_colors);
+            else
+                showProductList(categoryId, 0, this.value, min, max, $('#sort-by').val(), selected_colors);
         });
 
         $('#price-range').slider({
             change: function (event, ui) {
                 var categoryId = $(".category > ul > li a.active").attr("value");
+                var subcategoryId = $("#breadcrumb_subcategory").attr("value");
                 var selected_colors = 'empty';
                 $('.color-category > ul > li > a').each(function () {
                     if ($(this).parent().hasClass('active')) {
                         selected_colors += ' ' + $(this).text();
                     }
                 });
-                showProductList(categoryId, 0, $('#show-by').val(), ui.values[0], ui.values[1], $('#sort-by').val(), selected_colors);
+                if (subcategoryId !== undefined)
+                    showProductListBySubCategory(subcategoryId, 0, $('#show-by').val(), ui.values[0], ui.values[1], $('#sort-by').val(), selected_colors);
+                else
+                    showProductList(categoryId, 0, $('#show-by').val(), ui.values[0], ui.values[1], $('#sort-by').val(), selected_colors);
             }
         });
 
-        refreshProductHeader($(".category > ul > li a.active").attr("value"), 0, $('#show-by').val(), minPrice, maxPrice, 'empty');
-        refreshProductColors($(".category > ul > li a.active").attr("value"), 0, $('#show-by').val(), minPrice, maxPrice, "name-asc", 'empty');
+        if (subcategoryId !== undefined) {
+            refreshProductHeaderBySubCategory(subcategoryId, 0, $('#show-by').val(), minPrice, maxPrice, 'empty');
+            refreshProductColorsBySubCategory(subcategoryId, 0, $('#show-by').val(), minPrice, maxPrice, "name-asc", 'empty');
+        } else {
+            refreshProductHeader($(".category > ul > li a.active").attr("value"), 0, $('#show-by').val(), minPrice, maxPrice, 'empty');
+            refreshProductColors($(".category > ul > li a.active").attr("value"), 0, $('#show-by').val(), minPrice, maxPrice, "name-asc", 'empty');
+        }
     });
+
+    function openWishListDialog(productID) {
+        $.ajax({
+            url: '/product/add_product_to_wishlist/' + productID,
+            type: 'get',
+            success: function (response) {
+                bootbox.dialog({
+                    title: 'Lista želja',
+                    message: 'Uspešno ste dodali artikal ' + response + ' u listu želja',
+                    size: 'medium',
+                    onEscape: false,
+                    buttons: {
+                        cancel: {
+                            label: "Nastavi sa kupovinom",
+                            className: 'btn-success',
+                            callback: function () {
+                            }
+                        },
+                        ok: {
+                            label: "Pregledaj listu želja",
+                            className: 'btn-success',
+                            callback: function () {
+                                showWishListProducts();
+                            }
+                        }
+                    }
+                });
+            }
+        });
+    }
+
+    function showWishListProducts() {
+        window.location = '/product/show_wishlist';
+    }
 
     function openProductModal(productID) {
         $.ajax({
@@ -366,9 +423,9 @@
         });
     }
 
-    function setSliderMinMaxPrice(categoryId) {
+    function setSliderMinMaxPriceByCategory(categoryId) {
         $.ajax({
-            url: '/product/products_min_price/' + categoryId,
+            url: '/product/products_min_price_by_category/' + categoryId,
             type: 'get',
             async: false,
             success: function (response) {
@@ -378,7 +435,7 @@
             }
         });
         $.ajax({
-            url: '/product/products_max_price/' + categoryId,
+            url: '/product/products_max_price_by_category/' + categoryId,
             type: 'get',
             async: false,
             success: function (response) {
@@ -387,6 +444,31 @@
                 $('#price-amount').val('Cena: ' + minPrice + ' - ' + maxPrice + ' RSD');
             }
         });
+    }
+
+    function setSliderMinMaxPriceBySubCategory(id) {
+        if (id !== undefined) {
+            $.ajax({
+                url: '/product/products_min_price_by_subcategory/' + id,
+                type: 'get',
+                async: false,
+                success: function (response) {
+                    $("#price-range").slider('option', 'min', response);
+                    minPrice = response;
+                    $('#price-amount').val('Cena: ' + minPrice + ' - ' + maxPrice + ' RSD');
+                }
+            });
+            $.ajax({
+                url: '/product/products_max_price_by_subcategory/' + id,
+                type: 'get',
+                async: false,
+                success: function (response) {
+                    $("#price-range").slider('option', 'max', response);
+                    maxPrice = response;
+                    $('#price-amount').val('Cena: ' + minPrice + ' - ' + maxPrice + ' RSD');
+                }
+            });
+        }
     }
 
     function showProductList(categoryID, page, size, minPrice, maxPrice, sort, colors) {
@@ -405,13 +487,40 @@
         }
     }
 
-    function refreshBreadCrumb(name) {
-        $("#breadcrumb").text(name);
+    function showProductListBySubCategory(subcategoryID, page, size, minPrice, maxPrice, sort, colors) {
+        $.ajax({
+            url: '/product/product_list_subcategory_fragment/' + subcategoryID + '/' + page + '/' + size + '/' + minPrice + '/' + maxPrice + '/' + sort + '/' + colors,
+            type: 'get',
+            success: function (response) {
+                $('.shop-product-wrap').html(response);
+            }
+        });
+
+        refreshPaginationBySubCategory(subcategoryID, page, size, minPrice, maxPrice, sort, colors);
+        refreshProductHeaderBySubCategory(subcategoryID, page, size, minPrice, maxPrice, colors);
+        if (page <= 0) {
+            refreshProductColorsBySubCategory(subcategoryID, page, size, minPrice, maxPrice, sort, colors);
+        }
+    }
+
+    function refreshBreadCrumb(categoryName, subcategoryName) {
+        $("#breadcrumb_category").text(categoryName);
+        $("#breadcrumb_subcategory").text(subcategoryName);
     }
 
     function refreshPagination(categoryId, page, size, min, max, sort, colors) {
         $.ajax({
             url: '/product/refresh_pagination/' + categoryId + '/' + page + '/' + size + '/' + min + '/' + max + '/' + sort + '/' + colors,
+            type: 'get',
+            success: function (response) {
+                $(".pagination-area").replaceWith(response);
+            }
+        });
+    }
+
+    function refreshPaginationBySubCategory(subcategoryId, page, size, min, max, sort, colors) {
+        $.ajax({
+            url: '/product/refresh_pagination_by_subcategory/' + subcategoryId + '/' + page + '/' + size + '/' + min + '/' + max + '/' + sort + '/' + colors,
             type: 'get',
             success: function (response) {
                 $(".pagination-area").replaceWith(response);
@@ -456,6 +565,43 @@
         });
     }
 
+    function refreshProductColorsBySubCategory(subcategoryID, page, size, minPrice, maxPrice, sort, colors) {
+        $.ajax({
+            url: '/product/refresh_colors_by_subcategory/' + subcategoryID + '/' + page + '/' + size + '/' + minPrice + '/' + maxPrice + '/' + sort,
+            type: 'get',
+            success: function (response) {
+                $("#product_colors").replaceWith(response);
+
+                $('.color-category > ul > li > a').each(function () {
+                    if (colors !== 'empty' && colors.includes($(this).text())) {
+                        $(this).parent().addClass('active');
+                    } else
+                        $(this).parent().removeClass();
+                });
+
+                $('.color-category > ul > li >a').on('click', function () {
+                    if ($(this).parent().hasClass('active')) {
+                        $(this).parent().removeClass();
+                    } else {
+                        $(this).parent().addClass('active');
+                    }
+                    var selected_colors = 'empty';
+                    $('.color-category > ul > li > a').each(function () {
+                        if ($(this).parent().hasClass('active')) {
+                            selected_colors += ' ' + $(this).text();
+                        }
+                    });
+                    var id = $("#breadcrumb_subcategory").attr("value");
+                    var min = $("#price-range").slider("values", 0);
+                    var max = $("#price-range").slider("values", 1);
+                    var sort = $('#sort-by').val();
+                    var size = $('#show-by').val();
+                    showProductListBySubCategory(id, 0, size, min, max, sort, selected_colors);
+                });
+            }
+        });
+    }
+
     function refreshProductHeader(categoryId, page, size, min, max, colors) {
         $.ajax({
             url: '/product/refresh_product_header/' + categoryId + '/' + page + '/' + size + '/' + min + '/' + max + '/' + colors,
@@ -466,19 +612,32 @@
         });
     }
 
+    function refreshProductHeaderBySubCategory(subcategoryId, page, size, min, max, colors) {
+        $.ajax({
+            url: '/product/refresh_product_header_by_subcategory/' + subcategoryId + '/' + page + '/' + size + '/' + min + '/' + max + '/' + colors,
+            type: 'get',
+            success: function (response) {
+                $(".result-show-message").replaceWith(response);
+            }
+        });
+    }
+
     function loadPage(page) {
-        var id = $(".category> ul > li a.active").attr("value");
+        var categoryId = $(".category> ul > li a.active").attr("value");
+        var subcategoryId = $("#breadcrumb_subcategory").attr("value");
         var min = $("#price-range").slider("values", 0);
         var max = $("#price-range").slider("values", 1);
         var sort = $('#sort-by').val();
         var size = $('#show-by').val();
         var selected_colors = 'empty';
+
         $('.color-category > ul > li > a').each(function () {
             if ($(this).parent().hasClass('active')) {
                 selected_colors += ' ' + $(this).text();
             }
         });
-        showProductList(id, page, size, min, max, sort, selected_colors);
+        if (subcategoryId !== undefined) showProductListBySubCategory(subcategoryId, page, size, min, max, sort, selected_colors);
+        else showProductList(categoryId, page, size, min, max, sort, selected_colors);
         $('html,body').animate({
             scrollTop: 0
         }, 1000);
@@ -536,5 +695,6 @@
     }
 
 </script>
+
 </body>
 </html>

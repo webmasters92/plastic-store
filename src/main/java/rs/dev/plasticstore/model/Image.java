@@ -1,10 +1,13 @@
 package rs.dev.plasticstore.model;
 
 import javax.persistence.*;
+import java.io.Serializable;
 
 @Entity
 @Table(name = "images")
-public class Image {
+public class Image implements Serializable {
+
+    private static final long serialVersionUID = 2681531852204068105L;
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)

@@ -101,6 +101,12 @@ public class ProductServiceImpl implements ProductService {
 
     @Override
     @Transactional
+    public Page<Product> findProductsByPriceAndSubCategory(int subcategoryId, int min, int max, ArrayList<String> colors, Pageable pageRequest) {
+        return productRepository.findProductsByPriceAndSubcategory(subcategoryId, min, max, colors, pageRequest);
+    }
+
+    @Override
+    @Transactional
     public int findMinProductPrice() {
         return productRepository.findMinProductPrice();
     }
@@ -113,14 +119,26 @@ public class ProductServiceImpl implements ProductService {
 
     @Override
     @Transactional
-    public int findMinProductPrice(int parseInt) {
-        return productRepository.findMinProductPriceByCategory(parseInt);
+    public int findMinProductPriceByCategory(int id) {
+        return productRepository.findMinProductPriceByCategory(id);
     }
 
     @Override
     @Transactional
-    public int findMaxProductPrice(int parseInt) {
-        return productRepository.findMaxProductPriceByCategory(parseInt);
+    public int findMaxProductPriceByCategory(int id) {
+        return productRepository.findMaxProductPriceByCategory(id);
+    }
+
+    @Override
+    @Transactional
+    public int findMinProductPriceBySubCategory(int id) {
+        return productRepository.findMinProductPriceBySubCategory(id);
+    }
+
+    @Override
+    @Transactional
+    public int findMaxProductPriceBySubCategory(int id) {
+        return productRepository.findMaxProductPriceBySubCategory(id);
     }
 
     @Override

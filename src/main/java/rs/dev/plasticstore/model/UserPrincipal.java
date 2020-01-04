@@ -10,6 +10,7 @@ import java.util.stream.Collectors;
 
 public class UserPrincipal implements UserDetails {
 
+    private int userId;
     private String username;
     private String password;
     private List<GrantedAuthority> authorities;
@@ -18,6 +19,7 @@ public class UserPrincipal implements UserDetails {
     }
 
     public UserPrincipal(User user) {
+        this.userId = user.getUserId();
         this.username = user.getUsername();
         this.password = user.getPassword();
         this.authorities = user.getRoles().stream().map(role -> new SimpleGrantedAuthority(role.getRole())).collect(Collectors.toList());
@@ -26,6 +28,10 @@ public class UserPrincipal implements UserDetails {
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
         return authorities;
+    }
+
+    public int getUserId() {
+        return userId;
     }
 
     @Override
