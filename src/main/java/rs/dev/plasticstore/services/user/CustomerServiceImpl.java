@@ -4,27 +4,27 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
-import rs.dev.plasticstore.model.User;
+import rs.dev.plasticstore.model.Customer;
 import rs.dev.plasticstore.model.UserPrincipal;
-import rs.dev.plasticstore.repository.user.UserRepository;
+import rs.dev.plasticstore.repository.user.CustomerRepository;
 
 import java.util.Optional;
 
 @Service
-public class UserServiceImpl implements UserService {
+public class CustomerServiceImpl implements CustomerService {
 
     @Autowired
-    UserRepository userRepository;
+    CustomerRepository customerRepository;
 
     @Override
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
-        Optional<User> user = userRepository.findByUsername(username);
-        user.orElseThrow(()-> new UsernameNotFoundException("Not found: "+username));
-        return user.map(UserPrincipal::new).get();
+        Optional<Customer> customer = customerRepository.findByUsername(username);
+        customer.orElseThrow(() -> new UsernameNotFoundException("Not found: " + username));
+        return customer.map(UserPrincipal::new).get();
     }
 
     @Override
-    public void save(User user) {
-        userRepository.save(user);
+    public void save(Customer customer) {
+        customerRepository.save(customer);
     }
 }

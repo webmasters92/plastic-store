@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en" xmlns:th="http://www.thymeleaf.org" xmlns:sec="https://www.thymeleaf.org/thymeleaf-extras-springsecurity5">
+<html lang="en" xmlns:sec="https://www.thymeleaf.org/thymeleaf-extras-springsecurity5" xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta charset="UTF-8">
     <title>Title</title>
@@ -33,7 +33,7 @@
                             <a href="#" id="changeAccount" sec:authorize="isAuthenticated()"><span id="accountMenuName" th:text="${#authentication.getPrincipal().getUsername()}"></span><span><i class="fa fa-angle-down"></i></span></a>
                             <div class="language-currency-list hidden" id="accountList">
                                 <ul>
-                                    <li sec:authorize="isAuthenticated()"><a href="#">Korpa</a></li>
+                                    <li sec:authorize="isAuthenticated()"><a th:href="@{/cart/show_cart}">Korpa</a></li>
                                     <li sec:authorize="isAuthenticated()"><a href="#">Moj nalog</a></li>
                                     <li sec:authorize="hasRole('ADMIN')"><a th:href="@{/administration/product_list}">Administracija</a></li>
                                     <li sec:authorize="isAuthenticated()"><a th:href="@{/logout}">Odjavi se </a></li>
@@ -63,7 +63,7 @@
 
                     <div class="logo">
                         <a th:href="@{/}">
-                            <img th:src="@{'/img/logo.png'}" class="img-fluid" alt="">
+                            <img alt="" class="img-fluid" th:src="@{'/img/logo.png'}">
                         </a>
                     </div>
 
@@ -76,39 +76,41 @@
                     <div class="minicart-section">
                         <a href="#" id="cart-icon">
                             <span class="image"><i class="icon ion-md-cart"></i></span>
-                            <h5>215.00 RSD <i class="fa fa-angle-down"></i></h5>
-                            <p>3 artikla</p>
+                            <h5 th:text="${session.cart.getTotal()}+' RSD'">215.00 RSD <i class="fa fa-angle-down"></i></h5>
+                            <p th:text="${session.cart.getCartItems().size()}+' artikla'"></p>
                         </a>
 
                         <!-- cart floating box -->
                         <div class="cart-floating-box hidden" id="cart-floating-box">
                             <div class="cart-items">
-                                <!--                                dinamicko dodavanje artikala u korpu ide foreach-->
-                                <div class="cart-float-single-item d-flex">
-                                    <span class="remove-item" id="remove-item"><a href="#"><i class="icon ion-md-close"></i></a></span>
+                                <div class="cart-float-single-item d-flex" th:each=" item:${session.cart.getCartItems()}">
+<span class="remove-item" id="remove-item"><a
+        onclick=deleteFromMiniCart(this.getAttribute('data-size'),this.getAttribute('data-price'),this.getAttribute('data-color'));
+        th:data-color="${item.getColor()}"
+        th:data-price="${item.getPrice()}"
+        th:data-size="${item.getSize()}"><i class="icon ion-md-close"></i></a></span>
                                     <div class="cart-float-single-item-image">
-                                        <a href="single-product.html"><img src="assets/images/products/product01.jpg" class="img-fluid" alt=""></a>
+                                        <a th:href="@{/product/single_product/__${item.product.id}__}"><img alt="" class="img-fluid" th:src="@{'/images/' + ${item.product.images.get(0).name}}"></a>
                                     </div>
                                     <div class="cart-float-single-item-desc">
-                                        <p class="product-title"><a href="single-product.html">Artikal 1 </a></p>
-                                        <p class="quantity">Količina: 1</p>
-                                        <p class="price">100 RSD</p>
+                                        <p class="product-title"><a th:href="@{/product/single_product/__${item.product.id}__}" th:text="${item.product.getName()}"></a></p>
+                                        <p class="quantity" th:text="'Količina:' +${item.getQuantity()}"></p>
+                                        <p class="price" th:text="${item.getTotalPrice()}+' RSD'"></p>
                                     </div>
                                 </div>
                             </div>
                             <div class="cart-calculation">
                                 <div class="calculation-details">
-                                    <p class="total">Ukupno <span>100 RSD</span></p>
+                                    <p class="total">Ukupno <span th:text="${session.cart.getTotal()+ ' RSD'}"></span></p>
                                 </div>
                                 <div class="floating-cart-btn text-center">
-                                    <a class="fl-btn pull-left" href="cart.html">Korpa</a>
-                                    <a class="fl-btn pull-right" href="checkout.html">Završi kupovinu</a>
+                                    <a class="fl-btn pull-left" th:href="@{/cart/show_cart}">Korpa</a>
+                                    <a class="fl-btn pull-right" href="#">Završi kupovinu</a>
                                 </div>
                             </div>
                         </div>
                         <!-- end of cart floating box -->
                     </div>
-
                     <!--=======  End of cart icon  =======-->
                 </div>
             </div>
@@ -129,7 +131,7 @@
 
                 <div class="sticky-logo">
                     <a th:href="@{/}">
-                        <img th:src="@{'/img/logo.png'}" class="img-fluid" alt="">
+                        <img alt="" class="img-fluid" th:src="@{'/img/logo.png'}">
                     </a>
                 </div>
 
@@ -150,9 +152,9 @@
                     <div class="main-menu">
                         <nav>
                             <ul>
-                                <li th:each="category: ${categories}" class="menu-item-has-children"><a th:text="${category.name}" th:href="@{/product/product_list_category/__${category.id}__}"></a>
+                                <li class="menu-item-has-children" th:each="category: ${categories}"><a th:href="@{/product/product_list_category/__${category.id}__}" th:text="${category.name}"></a>
                                     <ul class="sub-menu">
-                                        <li th:each="sub_category: ${category.subcategories}"><a th:text="${sub_category.name}" th:href="@{/product/product_list_sub_category/__${sub_category.id}__}"></a></li>
+                                        <li th:each="sub_category: ${category.subcategories}"><a th:href="@{/product/product_list_sub_category/__${sub_category.id}__}" th:text="${sub_category.name}"></a></li>
                                     </ul>
                                 </li>
                             </ul>
@@ -160,7 +162,7 @@
                     </div>
                     <!-- end of navigation section -->
                 </div>
-                <form id="searchForm" th:action="@{/product/searchProductsByName}" th:object="${search}" method="get">
+                <form id="searchForm" method="get" th:action="@{/product/searchProductsByName}" th:object="${search}">
                     <div class="col-12 col-lg-3" id="search-section">
                         <!--=======  navigation search bar  =======-->
                         <div class="navigation-search d-none d-lg-block">

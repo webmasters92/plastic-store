@@ -151,7 +151,7 @@ public class ProductController {
     }
 
     @GetMapping(value = "/product_list_category/{id}")
-    public String showProductListByCategory(@PathVariable String id, Model model) {
+    public String showProductListByCategory(@PathVariable String id, Model model, HttpSession session) {
         int page = 0;
         int size = 16;
         Page<Product> pageableProduct = productService.findProductsByCategoryId(Integer.parseInt(id), PageRequest.of(page, size, Sort.by("name").ascending()));
@@ -170,6 +170,7 @@ public class ProductController {
         model.addAttribute("products", pageableProduct.getContent());
         model.addAttribute("pagination", pageableProduct);
         model.addAttribute("colorMap", map);
+        System.out.println(session.getAttribute("cart"));
         return "webapp/product/product_list";
     }
 
@@ -343,14 +344,15 @@ public class ProductController {
         return "webapp/product/product_list_fragment :: product_list_fragment";
     }
 
-
     @GetMapping(value = "/single_product/{id}")
     public String showSingleProduct(@PathVariable String id, Model model) {
+        System.out.println("prikaz single product");
         var product = productService.findProductById(Integer.parseInt(id));
         var similar_products = productService.findSimilarProductsByProductId(product.getCategory().getId());
         findMinMaxPrice(similar_products);
         model.addAttribute("categories", categoryService.findAll());
         model.addAttribute("single_product", product);
+        model.addAttribute("selected_product", new Product());
         model.addAttribute("similar_products", similar_products);
         return "webapp/product/single_product";
     }

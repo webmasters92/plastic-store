@@ -18,11 +18,11 @@ public class UserPrincipal implements UserDetails {
     public UserPrincipal() {
     }
 
-    public UserPrincipal(User user) {
-        this.userId = user.getUserId();
-        this.username = user.getUsername();
-        this.password = user.getPassword();
-        this.authorities = user.getRoles().stream().map(role -> new SimpleGrantedAuthority(role.getRole())).collect(Collectors.toList());
+    public UserPrincipal(Customer customer) {
+        this.userId = customer.getId();
+        this.username = customer.getUsername();
+        this.password = customer.getPassword();
+        this.authorities = customer.getRoles().stream().map(role -> new SimpleGrantedAuthority(role.getRole())).collect(Collectors.toList());
     }
 
     @Override

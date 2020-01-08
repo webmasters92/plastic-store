@@ -160,7 +160,7 @@
 
                                         <div class="hover-icons">
                                             <ul>
-                                                <li><a href="#" data-tooltip="Dodaj u korpu"><i class="icon ion-md-cart"></i></a></li>
+                                                <li><a data-tooltip="Dodaj u korpu" th:href="@{/product/single_product/__${popular_product.id}__}"><i class="icon ion-md-cart"></i></a></li>
                                                 <li><a data-tooltip="Dodaj u listu želja" href="#" th:onclick="|openWishListDialog(${popular_product.id})|"> <i class="icon ion-md-heart-empty"></i></a></li>
                                                 <li><a href="#" data-tooltip="Detaljnije" th:onclick="'javascript:openProductModal(\'' + ${popular_product.id} + '\');'"><i class="icon ion-md-open"></i></a></li>
                                             </ul>
@@ -209,7 +209,7 @@
 
                                         <div class="hover-icons">
                                             <ul>
-                                                <li><a href="#" data-tooltip="Dodaj u korpu"><i class="icon ion-md-cart"></i></a></li>
+                                                <li><a data-tooltip="Dodaj u korpu" th:href="@{/product/single_product/__${new_product.id}__}"><i class="icon ion-md-cart"></i></a></li>
                                                 <li><a data-tooltip="Dodaj u listu želja" href="#" th:onclick="|openWishListDialog(${new_product.id})|">
                                                     <i class="icon ion-md-heart-empty"></i></a></li>
                                                 <li><a href="#" data-tooltip="Detaljnije" th:onclick="'javascript:openProductModal(\'' + ${new_product.id} + '\');'"><i class="icon ion-md-open"></i></a></li>
@@ -259,7 +259,7 @@
 
                                         <div class="hover-icons">
                                             <ul>
-                                                <li><a href="#" data-tooltip="Dodaj u korpu"><i class="icon ion-md-cart"></i></a></li>
+                                                <li><a data-tooltip="Dodaj u korpu" th:href="@{/product/single_product/__${sale_product.id}__}"><i class="icon ion-md-cart"></i></a></li>
                                                 <li><a data-tooltip="Dodaj u listu želja" href="#" th:onclick="|openWishListDialog(${sale_product.id})|">
                                                     <i class="icon ion-md-heart-empty"></i></a></li>
                                                 <li><a href="#" data-tooltip="Detaljnije" th:onclick="'javascript:openProductModal(\'' + ${sale_product.id} + '\');'"><i class="icon ion-md-open"></i></a></li>

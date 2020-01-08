@@ -1,0 +1,183 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head th:replace="webapp/containers/headContainer :: headContainer"></head>
+<body>
+<div th:replace="webapp/containers/headerContainer :: headerContainer" th:with="${categories}"></div>
+<div class="breadcrumb-area pt-15 pb-15">
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-12">
+                <!--=======  breadcrumb container  =======-->
+
+                <div class="breadcrumb-container">
+                    <nav>
+                        <ul>
+                            <li class="parent-page"><a th:href="@{/}">Početna</a></li>
+                            <li>Korpa</li>
+                        </ul>
+                    </nav>
+                </div>
+                <!--=======  End of breadcrumb container  =======-->
+            </div>
+        </div>
+    </div>
+</div>
+<div class="page-section mb-50">
+    <div class="container">
+        <div class="row">
+            <div class="col-12">
+                <form action="#">
+                    <!--=======  cart table  =======-->
+                    <div class="cart-table table-responsive mb-40">
+                        <table class="table">
+                            <thead>
+                            <tr>
+                                <th class="pro-thumbnail">Slika</th>
+                                <th class="pro-title">Artikal</th>
+                                <th class="pro-color">Boja</th>
+                                <th class="pro-size">Veličina</th>
+                                <th class="pro-price">Cena</th>
+                                <th class="pro-quantity">Količina</th>
+                                <th class="pro-subtotal">Ukupno</th>
+                                <th class="pro-remove">Obriši</th>
+                            </tr>
+                            </thead>
+                            <tbody>
+                            <tr th:each="item : ${cart.getCartItems()}">
+                                <td class="pro-thumbnail">
+                                    <a th:href="@{/product/single_product/__${item.product.id}__}"><img alt="Product" class="img-fluid" th:src="@{'/images/' + ${item.product.images.get(0).name}}"></a>
+                                </td>
+                                <td class="pro-title"><a th:href="@{/product/single_product/__${item.product.id}__}" th:text="${item.product.getName()}"></a></td>
+                                <td class="pro-color"><span class="color-block" th:style="'background-color:'+${item.product_color.code}+';'"></span></td>
+                                <td class="pro-size"><span th:text="${item.size}"></span></td>
+                                <td class="pro-price" th:id="${item.product.id}+${item.getSize()}+${item.getPrice()}+${item.getColor()}"><span th:text="${item.price}+ ' RSD'"></span></td>
+                                <td class="pro-quantity">
+                                    <div class="pro-qty" th:classappend="${item.product.id}+${item.getSize()}+${item.getPrice()}+${item.getColor()}">
+                                        <input th:value="${item.quantity}" type="text">
+                                    </div>
+                                </td>
+                                <td class="pro-subtotal"><span th:id="${item.product.id}+${item.getSize()}+${item.getPrice()}+${item.getColor()}" th:text="${item.price*item.quantity}+' RSD'"></span>
+                                </td>
+                                <td class="pro-remove"><a th:href="@{/cart/delete_cart_item/__${item.getSize()}__/__${item.getPrice()}__/__${item.getColor()}__}"><i class="fa fa-trash-o"></i></a></td>
+                            </tr>
+                            </tbody>
+                        </table>
+                    </div>
+
+                    <!--=======  End of cart table  =======-->
+
+                </form>
+
+                <div class="row">
+
+                    <div class="col-lg-6 col-12">
+                        <!--=======  Calculate Shipping  =======-->
+
+                        <div class="calculate-shipping">
+                            <h4>Calculate Shipping</h4>
+                            <form action="#">
+                                <div class="row">
+                                    <div class="col-md-6 col-12 mb-25">
+                                        <select class="nice-select">
+                                            <option>Bangladesh</option>
+                                            <option>China</option>
+                                            <option>country</option>
+                                            <option>India</option>
+                                            <option>Japan</option>
+                                        </select>
+                                    </div>
+                                    <div class="col-md-6 col-12 mb-25">
+                                        <select class="nice-select">
+                                            <option>Dhaka</option>
+                                            <option>Barisal</option>
+                                            <option>Khulna</option>
+                                            <option>Comilla</option>
+                                            <option>Chittagong</option>
+                                        </select>
+                                    </div>
+                                    <div class="col-md-6 col-12 mb-25">
+                                        <input placeholder="Postcode / Zip" type="text">
+                                    </div>
+                                    <div class="col-md-6 col-12 mb-25">
+                                        <input type="submit" value="Estimate">
+                                    </div>
+                                </div>
+                            </form>
+                        </div>
+
+                        <!--=======  End of Calculate Shipping  =======-->
+
+                        <!--=======  Discount Coupon  =======-->
+
+                        <div class="discount-coupon">
+                            <h4>Discount Coupon Code</h4>
+                            <form action="#">
+                                <div class="row">
+                                    <div class="col-md-6 col-12 mb-25">
+                                        <input placeholder="Coupon Code" type="text">
+                                    </div>
+                                    <div class="col-md-6 col-12 mb-25">
+                                        <input type="submit" value="Apply Code">
+                                    </div>
+                                </div>
+                            </form>
+                        </div>
+
+                        <!--=======  End of Discount Coupon  =======-->
+
+                    </div>
+
+
+                    <div class="col-lg-6 col-12 d-flex">
+                        <!--=======  Cart summery  =======-->
+
+                        <div class="cart-summary">
+                            <div class="cart-summary-wrap">
+                                <h4>Cart Summary</h4>
+                                <p>Sub Total <span>$1250.00</span></p>
+                                <p>Shipping Cost <span>$00.00</span></p>
+                                <h2>Grand Total <span>$1250.00</span></h2>
+                            </div>
+                            <div class="cart-summary-button">
+                                <button class="checkout-btn">Checkout</button>
+                                <button class="update-btn">Update Cart</button>
+                            </div>
+                        </div>
+
+                        <!--=======  End of Cart summery  =======-->
+
+                    </div>
+
+                </div>
+
+            </div>
+        </div>
+    </div>
+</div>
+
+<a class="scroll-top" href="#"></a>
+
+<div th:replace="webapp/containers/footerContainer :: footerContainer"></div>
+
+<div th:insert="webapp/containers/scriptsContainer :: scriptsContainer"></div>
+
+<script th:inline="javascript" type="text/javascript">
+    $(document).ready(function () {
+        $('.inc').on('click', function () {
+            updateSubTotal($(this));
+        });
+        $('.dec').on('click', function () {
+            updateSubTotal($(this));
+        });
+    });
+
+    function updateSubTotal(inc) {
+        var id = inc.parent().attr('class').split(' ')[1];
+        var price = $('td#' + id + '').children().text().split(' ')[0];
+        var quantity = inc.parent().children(":first").val();
+        var subtotal = price * quantity;
+        inc.parent().parent().next().children(":first").text(subtotal + ' RSD');
+    }
+</script>
+</body>
+</html>

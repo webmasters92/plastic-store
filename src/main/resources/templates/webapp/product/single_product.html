@@ -106,16 +106,18 @@
 
                     <div class="color mb-20">
                         <span class="title"> Boja:</span> <br>
-                        <a th:each="color,iter:${single_product.getProductColors()}"><span class="color-block" th:classappend="${iter.first}?'active'" th:style="'background-color:'+${color.code}+';'"></span></a>
+                        <a th:each="color,iter:${single_product.getProductColors()}" th:value="${color.name}">
+                            <span class="color-block" th:classappend="${iter.first}?'active'" th:style="'background-color:'+${color.code}+';'"></span>
+                        </a>
                     </div>
 
                     <div class="cart-buttons mb-20">
                         <span class="quantity-title mr-10">Količina: </span>
                         <div class="pro-qty mb-20">
-                            <input type="text" value="1">
+                            <input id="quantity" type="text" value="1">
                         </div>
                         <div class="add-to-cart-btn ml-10 d-inline-block">
-                            <a href="#" class="fl-btn"><i class="fa fa-shopping-cart"></i> Dodaj u korpu</a>
+                            <a class="fl-btn" href="#" th:onclick="'javascript:addToCart();'"><i class="fa fa-shopping-cart"></i> Dodaj u korpu</a>
                         </div>
                     </div>
 
@@ -381,7 +383,7 @@
 
                             <div class="hover-icons">
                                 <ul>
-                                    <li><a href="#" data-tooltip="Dodaj u korpu"><i class="icon ion-md-cart"></i></a></li>
+                                    <li><a data-tooltip="Dodaj u korpu" th:href="@{/product/single_product/__${similar_product.id}__}"><i class="icon ion-md-cart"></i></a></li>
                                     <li><a data-tooltip="Dodaj u listu želja" href="#" th:onclick="|openWishListDialog(${similar_product.id})|"> <i class="icon ion-md-heart-empty"></i></a></li>
                                     <li><a data-tooltip="Detaljnije" href="#" th:onclick="'javascript:openProductModal(\'' + ${similar_product.id} + '\');'"><i class="icon ion-md-open"></i></a></li>
                                 </ul>
@@ -438,6 +440,7 @@
 ]]*/ 'SearchParam';
         /*]]>*/
         $('.discount-percentage').text('Ušteda ' + Math.round(parseInt(savings)) + ' %');
+
         $('#chooseSize').on('change', function () {
             var value = this.value.split("-");
             var price = value[0];
@@ -457,6 +460,8 @@
             $('.color span.color-block').removeClass('active');
             $(this).addClass('active');
         });
+
+
     });
 
     function openWishListDialog(productID) {
@@ -491,6 +496,57 @@
 
     function showWishListProducts() {
         window.location = '/product/show_wishlist';
+    }
+
+    function addToCart() {
+        /*<![CDATA[*/
+        var product_id = /*[[${single_product.id}]]*/ 'SearchParam';
+        var sale = /*[[${single_product.isSale()}]]*/ 'SearchParam';
+        /*]]>*/
+        var price = '';
+        if (sale) price = $('.product-price span.discounted-price').text().split(' DIN')[0];
+        else price = $('.product-price span.main-price').text().split(' DIN')[0];
+        var quantity = $('#quantity').val();
+        var size = $('.nice-select > span.current').text();
+        var color = $(".color").find("span").filter(".active").parent().attr('value');
+        var cartItem = {
+            "product_id": product_id,
+            "quantity": quantity,
+            "size": size,
+            "color": color,
+            "price": price
+        };
+
+        $.ajax({
+            type: "POST",
+            contentType: 'application/json; charset=utf-8',
+            dataType: 'json',
+            url: "/cart/add_to_cart",
+            data: JSON.stringify(cartItem),
+            success: function (result) {
+                refreshMinicart();
+            }
+        });
+    }
+
+    function refreshMinicart() {
+        $.ajax({
+            url: '/cart/refresh_minicart',
+            type: 'get',
+            success: function (response) {
+                $(".navigation-menu-top").replaceWith(response);
+                $("#cart-icon").on("click", function (event) {
+                    event.stopPropagation();
+                    $("#cart-floating-box").slideToggle();
+                    $("#accountList").slideUp("slow");
+                    $("#languageList").slideUp("slow");
+                });
+
+                $("body:not(#cart-icon)").on("click", function () {
+                    $("#cart-floating-box").slideUp("slow");
+                });
+            }
+        });
     }
 
     function openProductModal(productID) {

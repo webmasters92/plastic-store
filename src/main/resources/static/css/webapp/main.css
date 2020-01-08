@@ -757,6 +757,24 @@ a.scroll-top:hover {
     background-color: #9acf6a;
 }
 
+.product-feature-details .add-to-cart-btn button {
+    padding: 15px 50px;
+    background: #f2f2f2;
+    line-height: 12px;
+    display: inline-block;
+    padding: 15px 30px;
+    border-radius: 3px;
+    color: #363f4d;
+    font-weight: 500;
+    font-size: 12px;
+    background-color: #363f4d;
+    color: #ffffff;
+}
+
+.product-feature-details .add-to-cart-btn button:hover {
+    background-color: #9acf6a;
+}
+
 /*=====  End of 02. Modal  ======*/
 /*=============================================
 =           03.  Header            =
@@ -6752,6 +6770,14 @@ a#more-btn {
     margin-top: 10px;
 }
 
+.cart-table td.pro-color span.color-block {
+    width: 30px;
+    height: 30px;
+    display: inline-block;
+    margin-right: 5px;
+    margin-top: 10px;
+}
+
 .single-product-content-area .product-feature-details .cart-buttons .quantity-title {
     font-weight: 500;
 }
@@ -6762,6 +6788,15 @@ a#more-btn {
 }
 
 .single-product-content-area .product-feature-details .add-to-cart-btn a:hover {
+    background-color: #363f4d;
+}
+
+.single-product-content-area .product-feature-details .add-to-cart-btn button {
+    border-radius: 30px;
+    background-color: #9acf6a;
+}
+
+.single-product-content-area .product-feature-details .add-to-cart-btn button:hover {
     background-color: #363f4d;
 }
 
@@ -8057,6 +8092,10 @@ h3.comment-counter {
     min-width: 200px;
 }
 
+.cart-table th.pro-color, .cart-table td.pro-color {
+    min-width: 60px;
+}
+
 .cart-table td.pro-thumbnail a {
     display: block;
 }
@@ -8077,6 +8116,13 @@ h3.comment-counter {
 }
 
 .cart-table td.pro-price span {
+    display: block;
+    font-size: 15px;
+    font-weight: 500;
+    color: #7a7a7a;
+}
+
+.cart-table td.pro-size span {
     display: block;
     font-size: 15px;
     font-weight: 500;

@@ -92,26 +92,37 @@
         & a {
             font-size: 16px;
             font-weight: 500;
-            color: $body-text-color;
+          color: $body-text-color;
 
-            &:hover{
-                color: $hover-color;
-            }
+          &:hover {
+            color: $hover-color;
+          }
         }
     }
-    & td.pro-price {
-        & span {
-            display: block;
-            font-size: 15px;
-            font-weight: 500;
-            color: $body-text-color;
-        }
+
+  & td.pro-price {
+    & span {
+      display: block;
+      font-size: 15px;
+      font-weight: 500;
+      color: $body-text-color;
     }
-    & td.pro-quantity {   
-        
-        /*----------  Additional cart quantity style will be placed here  ----------*/
-        
+  }
+
+  & td.pro-size {
+    & span {
+      display: block;
+      font-size: 15px;
+      font-weight: 500;
+      color: $body-text-color;
     }
+  }
+
+  & td.pro-quantity {
+
+    /*----------  Additional cart quantity style will be placed here  ----------*/
+
+  }
     & td.pro-subtotal {
         & span {
             display: block;

@@ -1,15 +1,18 @@
 package rs.dev.plasticstore.model;
 
 import javax.persistence.*;
+import java.util.HashSet;
+import java.util.Set;
 
 @Entity
 @Table(name = "customers")
 public class Customer {
 
     @Id
-    @Column(name = "id")
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @GeneratedValue(strategy = GenerationType.AUTO)
     private int id;
+    private String username;
+    private String password;
 
     @Column(name = "firstName")
     private String firstName;
@@ -20,11 +23,39 @@ public class Customer {
     @Column(name = "zipCode")
     private int zipCode;
 
-    @Column(name = "emailAddress")
-    private String emailAddress;
+    @Column(name = "email")
+    private String email;
 
     @Column(name = "phoneNumber")
     private String phoneNumber;
+
+    @OneToMany(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
+    @JoinTable(name = "user_role", joinColumns = @JoinColumn(name = "userId"), inverseJoinColumns = @JoinColumn(name = "roleId"))
+    private Set<Role> roles = new HashSet<>();
+
+    public Set<Role> getRoles() {
+        return roles;
+    }
+
+    public void setRoles(Set<Role> roles) {
+        this.roles = roles;
+    }
+
+    public String getUsername() {
+        return username;
+    }
+
+    public void setUsername(String username) {
+        this.username = username;
+    }
+
+    public String getPassword() {
+        return password;
+    }
+
+    public void setPassword(String password) {
+        this.password = password;
+    }
 
     public int getId() {
 
@@ -66,14 +97,14 @@ public class Customer {
         this.zipCode = zipCode;
     }
 
-    public String getEmailAddress() {
+    public String getEmail() {
 
-        return emailAddress;
+        return email;
     }
 
-    public void setEmailAddress(String emailAddress) {
+    public void setEmailAddress(String email) {
 
-        this.emailAddress = emailAddress;
+        this.email = email;
     }
 
     public String getPhoneNumber() {

@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+<div class="navigation-menu-top pt-35 pb-35 pt-md-15 pb-md-15 pt-sm-15 pb-sm-15" th:fragment="minicart">
+    <div class="container">
+        <div class="row align-items-center">
+            <div class="col-6 col-lg-2 col-md-6 col-sm-6 order-1 order-lg-1">
+                <!--=======  logo  =======-->
+
+                <div class="logo">
+                    <a th:href="@{/}">
+                        <img alt="" class="img-fluid" th:src="@{'/img/logo.png'}">
+                    </a>
+                </div>
+
+                <!--=======  End of logo  =======-->
+            </div>
+            <div class="col-12 col-lg-8 col-md-12 col-sm-12 order-3 order-lg-2"></div>
+            <div class=" col-6 col-lg-2 col-md-6 col-sm-6 order-2 order-lg-3">
+                <!--=======  cart icon  =======-->
+
+                <div class="minicart-section">
+                    <a href="#" id="cart-icon">
+                        <span class="image"><i class="icon ion-md-cart"></i></span>
+                        <h5 th:text="${session.cart.getTotal()}+' RSD'">215.00 RSD <i class="fa fa-angle-down"></i></h5>
+                        <p th:text="${session.cart.getCartItems().size()}+' artikla'">3 artikla</p>
+                    </a>
+
+                    <!-- cart floating box -->
+                    <div class="cart-floating-box hidden" id="cart-floating-box">
+                        <div class="cart-items">
+                            <div class="cart-float-single-item d-flex" th:each=" item:${session.cart.getCartItems()}">
+                                <span class="remove-item" id="remove-item"><a
+                                        onclick=deleteFromMiniCart(this.getAttribute('data-size'),this.getAttribute('data-price'),this.getAttribute('data-color'));
+                                        th:data-color="${item.getColor()}"
+                                        th:data-price="${item.getPrice()}"
+                                        th:data-size="${item.getSize()}">
+                                    <i class="icon ion-md-close"></i></a></span>
+                                <div class="cart-float-single-item-image">
+                                    <a th:href="@{/product/single_product/__${item.product.id}__}"><img alt="" class="img-fluid" th:src="@{'/images/' + ${item.product.images.get(0).name}}"></a>
+                                </div>
+                                <div class="cart-float-single-item-desc">
+                                    <p class="product-title"><a th:href="@{/product/single_product/__${item.product.id}__}" th:text="${item.product.getName()}"></a></p>
+                                    <p class="quantity" th:text="'Količina:' +${item.getQuantity()}"></p>
+                                    <p class="price" th:text="${item.getTotalPrice()}+' RSD'"></p>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="cart-calculation">
+                            <div class="calculation-details">
+                                <p class="total">Ukupno <span th:text="${session.cart.getTotal()+ ' RSD'}"></span></p>
+                            </div>
+                            <div class="floating-cart-btn text-center">
+                                <a class="fl-btn pull-left" th:href="@{/cart/show_cart}">Korpa</a>
+                                <a class="fl-btn pull-right" href="#">Završi kupovinu</a>
+                            </div>
+                        </div>
+                    </div>
+                    <!-- end of cart floating box -->
+                </div>
+                <!--=======  End of cart icon  =======-->
+            </div>
+        </div>
+    </div>
+</div>
+</body>
+</html>

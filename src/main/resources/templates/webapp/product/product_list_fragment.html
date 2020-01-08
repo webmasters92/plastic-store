@@ -6,18 +6,18 @@
 </head>
 <body>
 <div class="shop-product-wrap grid row mb-30 no-gutters">
-    <div th:fragment="product_list_fragment" class="col-lg-3 col-md-6 col-sm-6 col-12" th:each="product : ${products}">
+    <div class="col-lg-3 col-md-6 col-sm-6 col-12" th:each="product : ${products}" th:fragment="product_list_fragment">
         <!--=======  grid view product  =======-->
 
         <div class="fl-product shop-grid-view-product">
             <div class="image" th:classappend="${product.isSale()}?'sale-product'">
                 <a th:href="@{/product/single_product/__${product.id}__}">
-                    <img th:src="@{'/images/' + ${product.images.get(0).name}}" class="img-fluid" alt="">
-                    <img th:src="@{'/images/' + ${product.images.get(0).name}}" class="img-fluid" alt="">
+                    <img alt="" class="img-fluid" th:src="@{'/images/' + ${product.images.get(0).name}}">
+                    <img alt="" class="img-fluid" th:src="@{'/images/' + ${product.images.get(0).name}}">
                 </a>
             </div>
             <div class="content">
-                <h2 class="product-title"><a th:text="${product.getName()}" th:href="@{/product/single_product/__${product.id}__}"></a></h2>
+                <h2 class="product-title"><a th:href="@{/product/single_product/__${product.id}__}" th:text="${product.getName()}"></a></h2>
                 <div class="rating">
                     <i class="fa fa-star active"></i>
                     <i class="fa fa-star active"></i>
@@ -37,9 +37,9 @@
 
                 <div class="hover-icons">
                     <ul>
-                        <li><a href="#" data-tooltip="Dodaj u korpu"><i class="icon ion-md-cart"></i></a></li>
+                        <li><a data-tooltip="Dodaj u korpu" th:href="@{/product/single_product/__${product.id}__}"><i class="icon ion-md-cart"></i></a></li>
                         <li><a data-tooltip="Dodaj u listu želja" href="#" th:onclick="|openWishListDialog(${product.id})|"> <i class="icon ion-md-heart-empty"></i></a></li>
-                        <li><a href="#" data-tooltip="Detaljnije" th:onclick="'javascript:openProductModal(\'' + ${product.id} + '\');'"><i class="icon ion-md-open"></i></a></li>
+                        <li><a data-tooltip="Detaljnije" href="#" th:onclick="'javascript:openProductModal(\'' + ${product.id} + '\');'"><i class="icon ion-md-open"></i></a></li>
                     </ul>
                 </div>
             </div>
@@ -52,8 +52,8 @@
         <div class="fl-product shop-list-view-product">
             <div class="image" th:classappend="${product.isSale()}?'sale-product'">
                 <a th:href="@{/product/single_product/__${product.id}__}">
-                    <img th:src="@{'/images/' + ${product.images.get(0).name}}" class="img-fluid" alt="">
-                    <img th:src="@{'/images/' + ${product.images.get(0).name}}" class="img-fluid" alt="">
+                    <img alt="" class="img-fluid" th:src="@{'/images/' + ${product.images.get(0).name}}">
+                    <img alt="" class="img-fluid" th:src="@{'/images/' + ${product.images.get(0).name}}">
                 </a>
             </div>
             <div class="content">
@@ -75,11 +75,11 @@
                     <span class="discounted-price" th:if="${!product.isSale()&&product.productAttributes.size()==1}" th:text="${product.getMinPrice()}+ ' RSD'"></span>
                 </p>
 
-                <p th:text="${product.description}" class="product-description"></p>
+                <p class="product-description" th:text="${product.description}"></p>
 
                 <div class="hover-icons">
                     <ul>
-                        <li><a href="#" data-tooltip="Dodaj u korpu">Dodaj u korpu</a></li>
+                        <li><a data-tooltip="Dodaj u korpu" th:href="@{/product/single_product/__${product.id}__}">Dodaj u korpu</a></li>
                         <li><a data-tooltip="Dodaj u listu želja" href="#" th:onclick="|openWishListDialog(${product.id})|"> <i class="icon ion-md-heart-empty"></i></a></li>
                         <li><a data-tooltip="Detaljnije" href="#" th:onclick="'javascript:openProductModal(\'' + ${product.id} + '\');'"><i class="icon ion-md-open"></i></a></li>
                     </ul>
