@@ -13,7 +13,7 @@
                     <nav>
                         <ul>
                             <li class="parent-page"><a th:href="@{/}">Početna</a></li>
-                            <li>Korpa</li>
+                            <li>Sadržaj Vaše korpe</li>
                         </ul>
                     </nav>
                 </div>
@@ -22,7 +22,7 @@
         </div>
     </div>
 </div>
-<div class="page-section mb-50">
+<div class="page-section mb-50" th:if="${session.cart.getCartItems().size()>0}">
     <div class="container">
         <div class="row">
             <div class="col-12">
@@ -50,13 +50,14 @@
                                 <td class="pro-title"><a th:href="@{/product/single_product/__${item.product.id}__}" th:text="${item.product.getName()}"></a></td>
                                 <td class="pro-color"><span class="color-block" th:style="'background-color:'+${item.product_color.code}+';'"></span></td>
                                 <td class="pro-size"><span th:text="${item.size}"></span></td>
-                                <td class="pro-price" th:id="${item.product.id}+${item.getSize()}+${item.getPrice()}+${item.getColor()}"><span th:text="${item.price}+ ' RSD'"></span></td>
+                                <td class="pro-price" th:id="${item.product.id}+'-'+${item.getSize()}+'-'+${item.getPrice()}+'-'+${item.getColor()}"><span th:text="${item.price}+ ' RSD'"></span></td>
                                 <td class="pro-quantity">
-                                    <div class="pro-qty" th:classappend="${item.product.id}+${item.getSize()}+${item.getPrice()}+${item.getColor()}">
-                                        <input th:value="${item.quantity}" type="text">
+                                    <div class="pro-qty" th:classappend="${item.product.id}+'-'+${item.getSize()}+'-'+${item.getPrice()}+'-'+${item.getColor()}">
+                                        <input id="input_value" onkeypress="onEnter(this,event);" th:value="${item.quantity}" type="text">
                                     </div>
                                 </td>
-                                <td class="pro-subtotal"><span th:id="${item.product.id}+${item.getSize()}+${item.getPrice()}+${item.getColor()}" th:text="${item.price*item.quantity}+' RSD'"></span>
+                                <td class="pro-subtotal">
+                                    <span th:id="${item.product.id}+'-'+${item.getSize()}+'-'+${item.getPrice()}+'-'+${item.getColor()}" th:text="${item.price*item.quantity}+' RSD'"></span>
                                 </td>
                                 <td class="pro-remove"><a th:href="@{/cart/delete_cart_item/__${item.getSize()}__/__${item.getPrice()}__/__${item.getColor()}__}"><i class="fa fa-trash-o"></i></a></td>
                             </tr>
@@ -70,77 +71,20 @@
 
                 <div class="row">
 
-                    <div class="col-lg-6 col-12">
-                        <!--=======  Calculate Shipping  =======-->
-
-                        <div class="calculate-shipping">
-                            <h4>Calculate Shipping</h4>
-                            <form action="#">
-                                <div class="row">
-                                    <div class="col-md-6 col-12 mb-25">
-                                        <select class="nice-select">
-                                            <option>Bangladesh</option>
-                                            <option>China</option>
-                                            <option>country</option>
-                                            <option>India</option>
-                                            <option>Japan</option>
-                                        </select>
-                                    </div>
-                                    <div class="col-md-6 col-12 mb-25">
-                                        <select class="nice-select">
-                                            <option>Dhaka</option>
-                                            <option>Barisal</option>
-                                            <option>Khulna</option>
-                                            <option>Comilla</option>
-                                            <option>Chittagong</option>
-                                        </select>
-                                    </div>
-                                    <div class="col-md-6 col-12 mb-25">
-                                        <input placeholder="Postcode / Zip" type="text">
-                                    </div>
-                                    <div class="col-md-6 col-12 mb-25">
-                                        <input type="submit" value="Estimate">
-                                    </div>
-                                </div>
-                            </form>
-                        </div>
-
-                        <!--=======  End of Calculate Shipping  =======-->
-
-                        <!--=======  Discount Coupon  =======-->
-
-                        <div class="discount-coupon">
-                            <h4>Discount Coupon Code</h4>
-                            <form action="#">
-                                <div class="row">
-                                    <div class="col-md-6 col-12 mb-25">
-                                        <input placeholder="Coupon Code" type="text">
-                                    </div>
-                                    <div class="col-md-6 col-12 mb-25">
-                                        <input type="submit" value="Apply Code">
-                                    </div>
-                                </div>
-                            </form>
-                        </div>
-
-                        <!--=======  End of Discount Coupon  =======-->
-
-                    </div>
-
+                    <div class="col-lg-6 col-12"></div>
 
                     <div class="col-lg-6 col-12 d-flex">
                         <!--=======  Cart summery  =======-->
 
                         <div class="cart-summary">
                             <div class="cart-summary-wrap">
-                                <h4>Cart Summary</h4>
-                                <p>Sub Total <span>$1250.00</span></p>
-                                <p>Shipping Cost <span>$00.00</span></p>
-                                <h2>Grand Total <span>$1250.00</span></h2>
+                                <h4>Kupovina</h4>
+                                <p>Ukupno <span th:text="${session.cart.getTotal()}+ ' RSD'"></span></p>
+                                <p>Poštarina <span>-</span></p>
+                                <h2>Ukupan iznos za uplatu <span th:text="${session.cart.getTotal()}+' RSD'"></span></h2>
                             </div>
                             <div class="cart-summary-button">
-                                <button class="checkout-btn">Checkout</button>
-                                <button class="update-btn">Update Cart</button>
+                                <button class="checkout-btn">Završi kupovinu</button>
                             </div>
                         </div>
 
@@ -150,6 +94,15 @@
 
                 </div>
 
+            </div>
+        </div>
+    </div>
+</div>
+<div class="page-section mb-50" th:unless="${session.cart.getCartItems().size()>0}">
+    <div class="container">
+        <div class="row">
+            <div class="col-12">
+                <p style="text-align: center; line-height: 100px; font-weight: bold; font-size: 20px">Vaša korpa je trenutno prazna</p>
             </div>
         </div>
     </div>
@@ -165,11 +118,51 @@
     $(document).ready(function () {
         $('.inc').on('click', function () {
             updateSubTotal($(this));
+            var id = $(this).parent().attr('class').split(' ')[1];
+            var value = $(this).parent().parent().next().children(":first").text().split(' RSD')[0];
+            var quantity = $(this).parent().children(":first").val();
+            updateMiniCart($(this).parent().children(":first"), id, value, quantity);
         });
         $('.dec').on('click', function () {
             updateSubTotal($(this));
+            var id = $(this).parent().attr('class').split(' ')[1];
+            var value = $(this).parent().parent().next().children(":first").text().split(' RSD')[0];
+            var quantity = $(this).parent().children(":first").val();
+            updateMiniCart($(this).parent().children(":first"), id, value, quantity);
+
         });
     });
+
+    function updateMiniCart(input, id, value, quantity) {
+        $.ajax({
+            url: '/cart/update_minicart/' + id + '/' + value + '/' + quantity,
+            type: 'get',
+            success: function (response) {
+                $(".navigation-menu-top").replaceWith(response);
+                updateCartSummary();
+                $("#cart-icon").on("click", function (event) {
+                    event.stopPropagation();
+                    $("#cart-floating-box").slideToggle();
+                    $("#accountList").slideUp("slow");
+                    $("#languageList").slideUp("slow");
+                });
+
+                $("body:not(#cart-icon)").on("click", function () {
+                    $("#cart-floating-box").slideUp("slow");
+                });
+            }
+        });
+    }
+
+    function updateCartSummary() {
+        $.ajax({
+            url: '/cart/update_cart_summary',
+            type: 'get',
+            success: function (response) {
+                $(".cart-summary").replaceWith(response);
+            }
+        });
+    }
 
     function updateSubTotal(inc) {
         var id = inc.parent().attr('class').split(' ')[1];
@@ -178,6 +171,26 @@
         var subtotal = price * quantity;
         inc.parent().parent().next().children(":first").text(subtotal + ' RSD');
     }
+
+    function updateSubTotalOnEnter(input) {
+        var id = input.parent().attr('class').split(' ')[1];
+        var price = $('td#' + id + '').children().text().split(' ')[0];
+        var quantity = input.parent().children(":first").val();
+        var subtotal = price * quantity;
+        input.parent().parent().next().children(":first").text(subtotal + ' RSD');
+    }
+
+    function onEnter(input_value, event) {
+        if (event.which == 13) {
+            updateSubTotalOnEnter($(input_value));
+            var id = $(input_value).parent().attr('class').split(' ')[1];
+            var value = $(input_value).parent().parent().next().children(":first").text().split(' RSD')[0];
+            var quantity = $(input_value).parent().children(":first").val();
+            updateMiniCart($(input_value).parent().children(":first"), id, value, quantity);
+            return false;
+        }
+    }
+
 </script>
 </body>
 </html>

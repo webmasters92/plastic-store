@@ -51,7 +51,7 @@
 
                         <div class="category">
                             <ul>
-                                <li th:each="category : ${categories}"><a th:value="${category.id}" th:text="${category.name}"></a></li>
+                                <li th:each="category : ${categories}"><a th:text="${category.name}" th:value="${category.id}"></a></li>
                             </ul>
                         </div>
                     </div>
@@ -91,12 +91,22 @@
                         <!--=======  tag container  =======-->
 
                         <ul class="tag-container">
-                            <li><a href="shop-left-sidebar.html">new</a> </li>
-                            <li><a href="shop-left-sidebar.html">bags</a> </li>
-                            <li><a href="shop-left-sidebar.html">new</a> </li>
-                            <li><a href="shop-left-sidebar.html">kids</a> </li>
-                            <li><a href="shop-left-sidebar.html">fashion</a> </li>
-                            <li><a href="shop-left-sidebar.html">Accessories</a> </li>
+                            <li><a th:href="@{/product/product_list_sub_category/__${categories.get(0).getSubcategories().get(1).getId()}__}" th:text="${categories.get(0).getSubcategories().get(1).getName()}"></a>
+                            </li>
+                            <li><a th:href="@{/product/product_list_sub_category/__${categories.get(1).getSubcategories().get(1).getId()}__}" th:text="${categories.get(1).getSubcategories().get(1).getName()}"></a>
+                            </li>
+                            <li><a th:href="@{/product/product_list_sub_category/__${categories.get(2).getSubcategories().get(3).getId()}__}" th:text="${categories.get(2).getSubcategories().get(3).getName()}"></a>
+                            </li>
+                            <li><a th:href="@{/product/product_list_sub_category/__${categories.get(3).getSubcategories().get(1).getId()}__}" th:text="${categories.get(3).getSubcategories().get(1).getName()}"></a>
+                            </li>
+                            <li><a th:href="@{/product/product_list_sub_category/__${categories.get(4).getSubcategories().get(8).getId()}__}" th:text="${categories.get(4).getSubcategories().get(8).getName()}"></a>
+                            </li>
+                            <li><a th:href="@{/product/product_list_sub_category/__${categories.get(5).getSubcategories().get(5).getId()}__}" th:text="${categories.get(5).getSubcategories().get(5).getName()}"></a>
+                            </li>
+                            <li><a th:href="@{/product/product_list_sub_category/__${categories.get(6).getSubcategories().get(3).getId()}__}" th:text="${categories.get(6).getSubcategories().get(3).getName()}"></a>
+                            </li>
+                            <li><a th:href="@{/product/product_list_sub_category/__${categories.get(6).getSubcategories().get(6).getId()}__}" th:text="${categories.get(6).getSubcategories().get(6).getName()}"></a>
+                            </li>
                         </ul>
 
                         <!--=======  End of tag container  =======-->
@@ -118,8 +128,8 @@
                             <!--=======  view mode  =======-->
 
                             <div class="view-mode-icons mb-xs-10">
-                                <a class="active" href="#" data-target="grid"><i class="icon ion-md-apps"></i></a>
-                                <a href="#" data-target="list"><i class="icon ion-ios-list"></i></a>
+                                <a class="active" data-target="grid" href="#"><i class="icon ion-md-apps"></i></a>
+                                <a data-target="list" href="#"><i class="icon ion-ios-list"></i></a>
                             </div>
 
                             <!--=======  End of view mode  =======-->
@@ -130,7 +140,7 @@
 
                             <div class="sort-by-dropdown d-flex align-items-center mb-xs-10">
                                 <p class="mr-10 mb-0">Sortiraj: </p>
-                                <select name="sort-by" id="sort-by" class="nice-select">
+                                <select class="nice-select" id="sort-by" name="sort-by">
                                     <option value="min-price">Najjeftinije prvo</option>
                                     <option value="max-price">Najskuplje prvo</option>
                                     <option selected value="name-asc">Naziv A-Z</option>
@@ -141,16 +151,16 @@
                             <div class="sort-by-dropdown d-flex align-items-center mb-xs-10">
                                 <p class="mr-10 mb-0">Prikaži: </p>
                                 <select class="nice-select" id="show-by" name="show-by">
-                                    <option value="16">16</option>
-                                    <option value="30">30</option>
-                                    <option value="60">60</option>
+                                    <option value="20">20</option>
+                                    <option value="40">40</option>
+                                    <option value="80">80</option>
                                     <option value="100">100</option>
                                 </select>
                             </div>
 
                             <!--=======  End of Sort by dropdown  =======-->
 
-                            <p th:text="'Prikazano 1-12 od '+${pagination.getTotalElements()}" class="result-show-message"></p>
+                            <p class="result-show-message" th:text="'Prikazano 1-12 od '+${pagination.getTotalElements()}"></p>
                         </div>
                     </div>
                 </div>
@@ -165,18 +175,18 @@
                         <div class="fl-product shop-grid-view-product">
                             <div class="image" th:classappend="${product.isSale()}?'sale-product'">
                                 <a th:href="@{/product/single_product/__${product.id}__}">
-                                    <img th:src="@{'/images/' + ${product.images.get(0).name}}" class="img-fluid" alt="">
-                                    <img th:src="@{'/images/' + ${product.images.get(0).name}}" class="img-fluid" alt="">
+                                    <img alt="" class="img-fluid" th:src="@{'/images/' + ${product.images.get(0).name}}">
+                                    <img alt="" class="img-fluid" th:src="@{'/images/' + ${product.images.get(0).name}}">
                                 </a>
                             </div>
                             <div class="content">
-                                <h2 class="product-title"><a th:text="${product.getName()}" href="single-product.html">Officiis debitis</a></h2>
-                                <div class="rating">
-                                    <i class="fa fa-star active"></i>
-                                    <i class="fa fa-star active"></i>
-                                    <i class="fa fa-star active"></i>
-                                    <i class="fa fa-star"></i>
-                                    <i class="fa fa-star"></i>
+                                <h2 class="product-title"><a th:href="@{/product/single_product/__${product.id}__}" th:text="${product.getName()}">Officiis debitis</a></h2>
+                                <div class="rating" id="grid-rating">
+                                    <i class="fa fa-star" th:classappend="${product.getAverageRating()>=1}?'active'"></i>
+                                    <i class="fa fa-star" th:classappend="${product.getAverageRating()>=2}?'active'"></i>
+                                    <i class="fa fa-star" th:classappend="${product.getAverageRating()>=3}?'active'"></i>
+                                    <i class="fa fa-star" th:classappend="${product.getAverageRating()>=4}?'active'"></i>
+                                    <i class="fa fa-star" th:classappend="${product.getAverageRating()>=5}?'active'"></i>
                                 </div>
                                 <p class="product-price">
                                     <span class="main-price discounted" th:if="${product.isSale()&&product.productAttributes.size()>1}" th:text="${product.getMinPrice()}+' - '+${product.getMaxPrice()}+ ' RSD'"></span>
@@ -192,7 +202,7 @@
                                     <ul>
                                         <li><a data-tooltip="Dodaj u korpu" th:href="@{/product/single_product/__${product.id}__}"><i class="icon ion-md-cart"></i></a></li>
                                         <li><a data-tooltip="Dodaj u listu želja" href="#" th:onclick="|openWishListDialog(${product.id})|"> <i class="icon ion-md-heart-empty"></i></a></li>
-                                        <li><a href="#" data-tooltip="Detaljnije" th:onclick="'javascript:openProductModal(\'' + ${product.id} + '\');'"><i class="icon ion-md-open"></i></a></li>
+                                        <li><a data-tooltip="Detaljnije" href="#" th:onclick="'javascript:openProductModal(\'' + ${product.id} + '\');'"><i class="icon ion-md-open"></i></a></li>
                                     </ul>
                                 </div>
                             </div>
@@ -205,18 +215,18 @@
                         <div class="fl-product shop-list-view-product">
                             <div class="image" th:classappend="${product.isSale()}?'sale-product'">
                                 <a th:href="@{/product/single_product/__${product.id}__}">
-                                    <img th:src="@{'/images/' + ${product.images.get(0).name}}" class="img-fluid" alt="">
-                                    <img th:src="@{'/images/' + ${product.images.get(0).name}}" class="img-fluid" alt="">
+                                    <img alt="" class="img-fluid" th:src="@{'/images/' + ${product.images.get(0).name}}">
+                                    <img alt="" class="img-fluid" th:src="@{'/images/' + ${product.images.get(0).name}}">
                                 </a>
                             </div>
                             <div class="content">
                                 <h2 class="product-title"><a th:href="@{/product/single_product/__${product.id}__}" th:text="${product.name}">Officiis debitis</a></h2>
                                 <div class="rating">
-                                    <i class="fa fa-star active"></i>
-                                    <i class="fa fa-star active"></i>
-                                    <i class="fa fa-star active"></i>
-                                    <i class="fa fa-star"></i>
-                                    <i class="fa fa-star"></i>
+                                    <i class="fa fa-star" th:classappend="${product.getAverageRating()>=1}?'active'"></i>
+                                    <i class="fa fa-star" th:classappend="${product.getAverageRating()>=2}?'active'"></i>
+                                    <i class="fa fa-star" th:classappend="${product.getAverageRating()>=3}?'active'"></i>
+                                    <i class="fa fa-star" th:classappend="${product.getAverageRating()>=4}?'active'"></i>
+                                    <i class="fa fa-star" th:classappend="${product.getAverageRating()>=5}?'active'"></i>
                                 </div>
                                 <p class="product-price">
                                     <span class="main-price discounted" th:if="${product.isSale()&&product.productAttributes.size()>1}" th:text="${product.getMinPrice()}+' - '+${product.getMaxPrice()}+ ' RSD'"></span>
@@ -228,7 +238,7 @@
                                     <span class="discounted-price" th:if="${!product.isSale()&&product.productAttributes.size()==1}" th:text="${product.getMinPrice()}+ ' RSD'"></span>
                                 </p>
 
-                                <p th:text="${product.description}" class="product-description"></p>
+                                <p class="product-description" th:text="${product.description}"></p>
 
                                 <div class="hover-icons">
                                     <ul>
@@ -248,7 +258,7 @@
 
                 <!--=======  pagination area  =======-->
 
-                <div th:if="${pagination.getTotalPages() > 0}" class="pagination-area mb-md-50 mb-sm-50">
+                <div class="pagination-area mb-md-50 mb-sm-50" th:if="${pagination.getTotalPages() > 0}">
                     <ul>
                         <li th:classappend="${pagination.getNumber() eq 0} ? 'disabled'"><a th:onclick="'javascript:loadPage(\''+ ${pagination.getNumber()-1} +'\');'"><i class="fa fa-angle-double-left"></i></a></li>
                         <li th:each="pageNumber : ${#numbers.sequence(0, pagination.getTotalPages() - 1)}"><a th:classappend="${pageNumber eq pagination.getNumber()} ? 'active'" th:onclick="'javascript:loadPage(\''+ ${pageNumber} +'\');'" th:text="${pageNumber}+1"></a></li>
@@ -265,7 +275,7 @@
 <a class="scroll-top" href="#"></a>
 
 <!--QUICK VIEW MODAL-->
-<div class="modal fade quick-view-modal-container" id="quick-view-modal-container" tabindex="-1" role="dialog" aria-hidden="true"></div>
+<div aria-hidden="true" class="modal fade quick-view-modal-container" id="quick-view-modal-container" role="dialog" tabindex="-1"></div>
 <!--=====  End of shop page content  ======-->
 
 <!--FOOTER-->
@@ -308,7 +318,7 @@
             $('#sort-by').removeAttr('style');
             $('#sort-by').val('name-asc');
             $('#show-by').removeAttr('style');
-            $('#show-by').val('16');
+            $('#show-by').val('20');
             $('.nice-select').niceSelect();
             $('.color-category > ul > li > a').each(function () {
                 $(this).parent().removeClass();
@@ -393,6 +403,7 @@
                             label: "Nastavi sa kupovinom",
                             className: 'btn-success',
                             callback: function () {
+                                refreshMinicart();
                             }
                         },
                         ok: {
@@ -403,6 +414,26 @@
                             }
                         }
                     }
+                });
+            }
+        });
+    }
+
+    function refreshMinicart() {
+        $.ajax({
+            url: '/cart/refresh_minicart',
+            type: 'get',
+            success: function (response) {
+                $(".navigation-menu-top").replaceWith(response);
+                $("#cart-icon").on("click", function (event) {
+                    event.stopPropagation();
+                    $("#cart-floating-box").slideToggle();
+                    $("#accountList").slideUp("slow");
+                    $("#languageList").slideUp("slow");
+                });
+
+                $("body:not(#cart-icon)").on("click", function () {
+                    $("#cart-floating-box").slideUp("slow");
                 });
             }
         });

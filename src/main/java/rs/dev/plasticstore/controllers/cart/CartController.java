@@ -42,9 +42,17 @@ public class CartController {
         cartItem.setProduct(product);
         cartItem.setProduct_color(product_color);
         cartItem.setTotalPrice(cartItem.getQuantity() * cartItem.getPrice());
+
         cart.setCustomerId(0);
         cart.getCartItems().add(cartItem);
+        cart.getCartItems().forEach(cartItem1 -> {
+            if(cartItem1.equals(cartItem)) {
+                cartItem1.setQuantity(cartItem.getQuantity());
+                cartItem1.setTotalPrice(cartItem.getQuantity() * cartItem.getPrice());
+            }
+        });
         cart.setTotal(cart.getCartItems().stream().map(CartItem::getTotalPrice).reduce(0, Integer::sum));
+
         session.setAttribute("cart", cart);
         if(principal != null) {
             var cartDb = cartService.findCartByCustomerId(principal.getUserId());
@@ -116,6 +124,34 @@ public class CartController {
 
     @GetMapping(value = "/refresh_minicart")
     public String refreshMinicartFragment() {
+        return "webapp/cart/minicart_fragment :: minicart";
+    }
+
+    @GetMapping(value = "/update_cart_summary")
+    public String updateCartSummary() {
+        return "webapp/cart/cart_summary :: summary";
+    }
+
+
+    @GetMapping(value = "/update_minicart/{id}/{value}/{quantity}")
+    public String refreshMinicartFragment(@PathVariable String id, @PathVariable String value, @PathVariable String quantity, HttpSession session) {
+        var item_id = Integer.parseInt(id.split("-")[0]);
+        var item_price = Integer.parseInt(id.split("-")[2]);
+        var item_size = id.split("-")[1];
+        var item_color = id.split("-")[3];
+        int item_total = Integer.parseInt(value);
+        int item_quantity = Integer.parseInt(quantity);
+        var cart = (Cart) session.getAttribute("cart");
+        if(cart != null) {
+            cart.getCartItems().forEach(cartItem -> {
+                if(cartItem.getProduct_id() == item_id && cartItem.getPrice() == item_price && cartItem.getSize().equals(item_size) && cartItem.getColor().equals(item_color)) {
+                    cartItem.setQuantity(item_quantity);
+                    cartItem.setTotalPrice(item_total);
+                }
+            });
+            cart.setTotal(cart.getCartItems().stream().map(CartItem::getTotalPrice).reduce(0, Integer::sum));
+            session.setAttribute("cart", cart);
+        }
         return "webapp/cart/minicart_fragment :: minicart";
     }
 

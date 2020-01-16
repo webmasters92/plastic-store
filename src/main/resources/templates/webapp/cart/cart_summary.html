@@ -1,0 +1,20 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+<div class="cart-summary" th:fragment="summary">
+    <div class="cart-summary-wrap">
+        <h4>Kupovina</h4>
+        <p>Ukupno <span th:text="${session.cart.getTotal()}+' RSD'"></span></p>
+        <p>Poštarina <span>-</span></p>
+        <h2>Ukupan iznos za uplatu <span th:text="${session.cart.getTotal()}+' RSD'"></span></h2>
+    </div>
+    <div class="cart-summary-button">
+        <button class="checkout-btn">Završi kupovinu</button>
+    </div>
+</div>
+</body>
+</html>

@@ -44,7 +44,6 @@ public class HomeController {
             var cart = new Cart();
             cart.setTotal(0);
             session.setAttribute("cart", cart);
-            System.out.println("obican user");
         }
         return "webapp/shop/home";
     }

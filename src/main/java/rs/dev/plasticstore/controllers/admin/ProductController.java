@@ -13,6 +13,7 @@ import rs.dev.plasticstore.services.category.CategoryService;
 import rs.dev.plasticstore.services.category.SubcategoryService;
 import rs.dev.plasticstore.services.color.ColorService;
 import rs.dev.plasticstore.services.product.ProductService;
+import rs.dev.plasticstore.services.review.ReviewService;
 import rs.dev.plasticstore.services.wishlist.WishListService;
 
 import javax.servlet.http.HttpSession;
@@ -36,6 +37,9 @@ public class ProductController {
 
     @Autowired
     WishListService wishListService;
+
+    @Autowired
+    ReviewService reviewService;
 
     @ResponseBody
     @GetMapping(value = "/checkCode", produces = "application/json")
@@ -153,11 +157,11 @@ public class ProductController {
     @GetMapping(value = "/product_list_category/{id}")
     public String showProductListByCategory(@PathVariable String id, Model model, HttpSession session) {
         int page = 0;
-        int size = 16;
+        int size = 20;
         Page<Product> pageableProduct = productService.findProductsByCategoryId(Integer.parseInt(id), PageRequest.of(page, size, Sort.by("name").ascending()));
         var map = new HashMap<ProductColor, Integer>();
 
-        findMinMaxPrice(pageableProduct.getContent());
+        findMinMaxPriceAndRating(pageableProduct.getContent());
 
         for(Product product : pageableProduct.getContent()) {
             for(ProductColor productColor : product.getProductColors()) {
@@ -170,7 +174,7 @@ public class ProductController {
         model.addAttribute("products", pageableProduct.getContent());
         model.addAttribute("pagination", pageableProduct);
         model.addAttribute("colorMap", map);
-        System.out.println(session.getAttribute("cart"));
+        model.addAttribute("avgRating", Math.round(reviewService.findAverageRatingByProductId(Integer.parseInt(id)).orElse(0)));
         return "webapp/product/product_list";
     }
 
@@ -251,14 +255,14 @@ public class ProductController {
     @GetMapping(value = "/product_list_sub_category/{id}")
     public String showProductListBySubCategory(@PathVariable String id, Model model) {
         var subCategory = subcategoryService.findSubCategoryById(Integer.parseInt(id)).get();
-        Page<Product> pageableProduct = productService.findProductsBySubCategoryId(subCategory.getId(), PageRequest.of(0, 16));
+        Page<Product> pageableProduct = productService.findProductsBySubCategoryId(subCategory.getId(), PageRequest.of(0, 20));
         var map = new HashMap<ProductColor, Integer>();
         for(Product product : pageableProduct.getContent()) {
             for(ProductColor productColor : product.getProductColors()) {
                 map.merge(productColor, 1, Integer::sum);
             }
         }
-        findMinMaxPrice(pageableProduct.getContent());
+        findMinMaxPriceAndRating(pageableProduct.getContent());
         model.addAttribute("categories", categoryService.findAll());
         model.addAttribute("selected_category", subCategory.getCategory());
         model.addAttribute("selected_subcategory", subCategory);
@@ -275,7 +279,7 @@ public class ProductController {
         int minPrice = productService.findMinProductPrice();
         int maxPrice = productService.findMaxProductPrice();
         Page<Product> pageableProduct = productService.findProductsBySearch(search, minPrice, maxPrice, PageRequest.of(pageNumber, page_size, Sorting.returnSortedOrder(sort)));
-        findMinMaxPrice(pageableProduct.getContent());
+        findMinMaxPriceAndRating(pageableProduct.getContent());
         model.addAttribute("products", pageableProduct.getContent());
         model.addAttribute("pagination", pageableProduct);
         return "webapp/product/product_list_searched_fragment :: searched_products";
@@ -284,11 +288,11 @@ public class ProductController {
     @GetMapping(value = "/searchProductsByName")
     public String searchProductsByName(@RequestParam(value = "search", required = false) String name, Model model) {
         int page = 0;
-        int size = 16;
+        int size = 20;
         int minPrice = productService.findMinProductPrice();
         int maxPrice = productService.findMaxProductPrice();
         Page<Product> pageableProduct = productService.findProductsBySearch(name, minPrice, maxPrice, PageRequest.of(page, size, Sorting.returnSortedOrder("name-asc")));
-        findMinMaxPrice(pageableProduct.getContent());
+        findMinMaxPriceAndRating(pageableProduct.getContent());
         model.addAttribute("categories", categoryService.findAll());
         model.addAttribute("products", pageableProduct.getContent());
         model.addAttribute("pagination", pageableProduct);
@@ -314,7 +318,7 @@ public class ProductController {
         } else selected_colors = new ArrayList<>(Arrays.asList(colors.replace("empty", "").trim().split(" ")));
 
         Page<Product> pageableProduct = productService.findProductsByPrice(category_id, min, max, selected_colors, PageRequest.of(pageNumber, page_size, Sorting.returnSortedOrder(sort)));
-        findMinMaxPrice(pageableProduct.getContent());
+        findMinMaxPriceAndRating(pageableProduct.getContent());
         model.addAttribute("selected_category", categoryService.findCategoryById(Integer.parseInt(id)).get());
         model.addAttribute("products", pageableProduct.getContent());
         return "webapp/product/product_list_fragment :: product_list_fragment";
@@ -338,7 +342,7 @@ public class ProductController {
         } else selected_colors = new ArrayList<>(Arrays.asList(colors.replace("empty", "").trim().split(" ")));
 
         Page<Product> pageableProduct = productService.findProductsByPriceAndSubCategory(subcategory_id, min, max, selected_colors, PageRequest.of(pageNumber, page_size, Sorting.returnSortedOrder(sort)));
-        findMinMaxPrice(pageableProduct.getContent());
+        findMinMaxPriceAndRating(pageableProduct.getContent());
         model.addAttribute("selected_category", categoryService.findCategoryById(Integer.parseInt(id)).get());
         model.addAttribute("products", pageableProduct.getContent());
         return "webapp/product/product_list_fragment :: product_list_fragment";
@@ -346,14 +350,50 @@ public class ProductController {
 
     @GetMapping(value = "/single_product/{id}")
     public String showSingleProduct(@PathVariable String id, Model model) {
-        System.out.println("prikaz single product");
         var product = productService.findProductById(Integer.parseInt(id));
         var similar_products = productService.findSimilarProductsByProductId(product.getCategory().getId());
-        findMinMaxPrice(similar_products);
+        findMinMaxPriceAndRating(similar_products);
+
+        var reviews = reviewService.findReviewByProductId(Integer.parseInt(id));
+
+        int[] ratingArray = new int[5];
+        int rating1 = 0;
+        int rating2 = 0;
+        int rating3 = 0;
+        int rating4 = 0;
+        int rating5 = 0;
+        for(Review review : reviews) {
+            switch(review.getRating()) {
+                case 1:
+                    rating1++;
+                    break;
+                case 2:
+                    rating2++;
+                    break;
+                case 3:
+                    rating3++;
+                    break;
+                case 4:
+                    rating4++;
+                    break;
+                case 5:
+                    rating5++;
+                    break;
+            }
+        }
+        ratingArray[0] = rating1;
+        ratingArray[1] = rating2;
+        ratingArray[2] = rating3;
+        ratingArray[3] = rating4;
+        ratingArray[4] = rating5;
+
         model.addAttribute("categories", categoryService.findAll());
         model.addAttribute("single_product", product);
         model.addAttribute("selected_product", new Product());
         model.addAttribute("similar_products", similar_products);
+        model.addAttribute("reviews", reviews);
+        model.addAttribute("ratings", ratingArray);
+        model.addAttribute("avgRating", Math.round(reviewService.findAverageRatingByProductId(Integer.parseInt(id)).orElse(0)));
         return "webapp/product/single_product";
     }
 
@@ -382,7 +422,7 @@ public class ProductController {
         }
         products.add(product);
 
-        findMinMaxPrice(products);
+        findMinMaxPriceAndRating(products);
         session.setAttribute("wishlist_products", products);
         return product.getName();
     }
@@ -404,7 +444,7 @@ public class ProductController {
                 session.setAttribute("wishlist_products", products);
             }
         }
-        findMinMaxPrice(products);
+        findMinMaxPriceAndRating(products);
         model.addAttribute("categories", categoryService.findAll());
         model.addAttribute("products", products);
         return "webapp/product/wishlist";
@@ -432,7 +472,7 @@ public class ProductController {
     @GetMapping(value = "/products_by_sub_category/{id}")
     public String showProductsBySubCategory(@PathVariable String id, Model model) {
         var products = productService.findProductsBySubCategoryId(Integer.parseInt(id));
-        findMinMaxPrice(products);
+        findMinMaxPriceAndRating(products);
         model.addAttribute("slider_products", products);
         return "webapp/product/product_slider_fragment :: slider_fragment";
     }
@@ -461,7 +501,14 @@ public class ProductController {
         return productService.findMaxProductPriceBySubCategory(Integer.parseInt(id));
     }
 
-    private void findMinMaxPrice(List<Product> list) {
+    @PostMapping("/add_review")
+    public String addToCart(@RequestBody Review review, @AuthenticationPrincipal UserPrincipal principal) {
+        if(principal != null) review.setUserId(principal.getUserId());
+        reviewService.saveReview(review);
+        return "redirect:/product/single_product/" + review.getProductId();
+    }
+
+    private void findMinMaxPriceAndRating(List<Product> list) {
         list.forEach(product -> {
             product.getProductAttributes().forEach(productAttributes -> product.getPrices().add(productAttributes.getPrice()));
             product.getProductAttributes().forEach(productAttributes -> product.getDiscounted_prices().add(productAttributes.getDiscounted_price()));
@@ -469,10 +516,11 @@ public class ProductController {
             product.setMaxPrice(MinMax.findMax(product.getPrices()));
             product.setMinDiscountedPrice(MinMax.findMin(product.getDiscounted_prices()));
             product.setMaxDiscountedPrice(MinMax.findMax(product.getDiscounted_prices()));
+            product.setAverageRating(Math.round(reviewService.findAverageRatingByProductId(product.getId()).orElse(0)));
         });
     }
 
-    private void findMinMaxPrice(Set<Product> set) {
+    private void findMinMaxPriceAndRating(Set<Product> set) {
         set.forEach(product -> {
             product.getProductAttributes().forEach(productAttributes -> product.getPrices().add(productAttributes.getPrice()));
             product.getProductAttributes().forEach(productAttributes -> product.getDiscounted_prices().add(productAttributes.getDiscounted_price()));
@@ -480,6 +528,8 @@ public class ProductController {
             product.setMaxPrice(MinMax.findMax(product.getPrices()));
             product.setMinDiscountedPrice(MinMax.findMin(product.getDiscounted_prices()));
             product.setMaxDiscountedPrice(MinMax.findMax(product.getDiscounted_prices()));
+            product.setAverageRating(Math.round(reviewService.findAverageRatingByProductId(product.getId()).orElse(0)));
+
         });
     }
 }

@@ -49,8 +49,8 @@
                         <div role="tabpanel" th:aria-labelledby="'single-slide-tab-'+${iStat.count}" th:class="${iStat.count==1} ? 'tab-pane fade show active':'tab-pane fade'" th:each="image,iStat : ${single_product.images}" th:id="'single-slide-'+${iStat.count}">
                             <!--Single Product Image Start-->
                             <div class="single-product-img img-full">
-                                <img th:src="@{'/images/' + ${image.name}}" class="img-fluid" alt="">
-                                <a th:href="@{'/images/' + ${image.name}}" class="big-image-popup"><i class="fa fa-search-plus"></i></a>
+                                <img alt="" class="img-fluid" th:src="@{'/images/' + ${image.name}}">
+                                <a class="big-image-popup" th:href="@{'/images/' + ${image.name}}"><i class="fa fa-search-plus"></i></a>
                             </div>
                             <!--Single Product Image End-->
                         </div>
@@ -61,7 +61,7 @@
                     <div class="product-small-image-list fl-product-small-image-list fl3-product-small-image-list">
                         <div class="nav image-slider fl3-image-slider" role="tablist">
                             <div class="single-small-image img-full" th:each="image,iStat  : ${single_product.images}">
-                                <a data-toggle="tab" th:id="'single-slide-tab-'+${iStat.count}" th:href="@{'#single-slide-'+${iStat.count}}"><img th:src="@{'/images/' + ${image.name}}" class="img-fluid" alt=""></a>
+                                <a data-toggle="tab" th:href="@{'#single-slide-'+${iStat.count}}" th:id="'single-slide-tab-'+${iStat.count}"><img alt="" class="img-fluid" th:src="@{'/images/' + ${image.name}}"></a>
                             </div>
                         </div>
                     </div>
@@ -74,15 +74,18 @@
                 <div class="product-feature-details">
                     <h2 class="product-title mb-15" th:text="${single_product.getName()}"></h2>
 
-                    <div class="rating d-inline-block mb-15">
-                        <i class="fa fa-star active"></i>
-                        <i class="fa fa-star active"></i>
-                        <i class="fa fa-star active"></i>
-                        <i class="fa fa-star active"></i>
+                    <div class="rating d-inline-block mb-15" id="single-rating">
+                        <i class="fa fa-star"></i>
+                        <i class="fa fa-star"></i>
+                        <i class="fa fa-star"></i>
+                        <i class="fa fa-star"></i>
                         <i class="fa fa-star"></i>
                     </div>
 
-                    <p class="d-inline-block ml-10 review-link"><a href="#">(1 ocena)</a></p>
+                    <p class="d-inline-block ml-10 review-link" th:if="${reviews.size()>0}">
+                        <a th:if="${reviews.size()>1}" th:text="'('+${reviews.size()}+' Ocene)'"></a>
+                        <a th:if="${reviews.size()==1}" th:text="'('+${reviews.size()}+' Ocena)'"></a>
+                    </p>
 
                     <h2 class="product-price mb-0">
                         <span class="main-price" th:classappend="${single_product.isSale()} ? 'discounted'" th:text="${single_product.productAttributes.get(0).getPrice()}+' DIN'"></span>
@@ -99,7 +102,7 @@
 
                     <div class="size mb-20">
                         <span class="title"> Veličina:</span> <br>
-                        <select name="chooseSize" id="chooseSize" class="nice-select">
+                        <select class="nice-select" id="chooseSize" name="chooseSize">
                             <option th:each="attribute : ${single_product.productAttributes}" th:text="${attribute.size}" th:value="${attribute.price}+'-'+${attribute.getDiscounted_price()}"></option>
                         </select>
                     </div>
@@ -151,14 +154,14 @@
                 <div class="tab-slider-wrapper product-description-review-container">
                     <nav>
                         <div class="nav nav-tabs" id="nav-tab" role="tablist">
-                            <a class="nav-item nav-link active" id="description-tab" data-toggle="tab" href="#product-description" role="tab"
-                               aria-selected="true">Opis</a>
-                            <a class="nav-item nav-link" id="review-tab" data-toggle="tab" href="#review" role="tab"
-                               aria-selected="false">Pregled</a>
+                            <a aria-selected="true" class="nav-item nav-link active" data-toggle="tab" href="#product-description" id="description-tab"
+                               role="tab">Opis</a>
+                            <a aria-selected="false" class="nav-item nav-link" data-toggle="tab" href="#review" id="review-tab"
+                               role="tab">Pregled</a>
                         </div>
                     </nav>
                     <div class="tab-content" id="nav-tabContent">
-                        <div class="tab-pane fade show active" id="product-description" role="tabpanel" aria-labelledby="description-tab">
+                        <div aria-labelledby="description-tab" class="tab-pane fade show active" id="product-description" role="tabpanel">
                             <!--=======  product description  =======-->
 
                             <div class="product-description">
@@ -173,128 +176,127 @@
 
                             <!--=======  End of product description  =======-->
                         </div>
-                        <div class="tab-pane fade" id="review" role="tabpanel" aria-labelledby="review-tab">
+                        <div aria-labelledby="review-tab" class="tab-pane fade" id="review" role="tabpanel">
                             <!--=======  review content  =======-->
 
                             <div class="product-ratting-wrap">
-                                <div class="pro-avg-ratting">
-                                    <h4>4.5 <span>(Prosek)</span></h4>
-                                    <span>Bazirano na 9 komentara</span>
+                                <div th:if="${reviews.size()>0}">
+                                    <div class="pro-avg-ratting">
+                                        <h4 th:text="${avgRating}"><span>(Prosek)</span></h4>
+                                        <span th:text="'Bazirano na '+${reviews.size()}+ ' komentara'"></span>
+                                    </div>
+                                    <div class="ratting-list">
+                                        <div class="sin-list float-left">
+                                            <i class="fa fa-star"></i>
+                                            <i class="fa fa-star"></i>
+                                            <i class="fa fa-star"></i>
+                                            <i class="fa fa-star"></i>
+                                            <i class="fa fa-star"></i>
+                                            <span th:text="'('+${ratings[4]}+')'"></span>
+                                        </div>
+                                        <div class="sin-list float-left">
+                                            <i class="fa fa-star"></i>
+                                            <i class="fa fa-star"></i>
+                                            <i class="fa fa-star"></i>
+                                            <i class="fa fa-star"></i>
+                                            <i class="fa fa-star-o"></i>
+                                            <span th:text="'('+${ratings[3]}+')'"></span>
+                                        </div>
+                                        <div class="sin-list float-left">
+                                            <i class="fa fa-star"></i>
+                                            <i class="fa fa-star"></i>
+                                            <i class="fa fa-star"></i>
+                                            <i class="fa fa-star-o"></i>
+                                            <i class="fa fa-star-o"></i>
+                                            <span th:text="'('+${ratings[2]}+')'"></span>
+                                        </div>
+                                        <div class="sin-list float-left">
+                                            <i class="fa fa-star"></i>
+                                            <i class="fa fa-star"></i>
+                                            <i class="fa fa-star-o"></i>
+                                            <i class="fa fa-star-o"></i>
+                                            <i class="fa fa-star-o"></i>
+                                            <span th:text="'('+${ratings[1]}+')'"></span>
+                                        </div>
+                                        <div class="sin-list float-left">
+                                            <i class="fa fa-star"></i>
+                                            <i class="fa fa-star-o"></i>
+                                            <i class="fa fa-star-o"></i>
+                                            <i class="fa fa-star-o"></i>
+                                            <i class="fa fa-star-o"></i>
+                                            <span th:text="'('+${ratings[0]}+')'"></span>
+                                        </div>
+                                    </div>
+                                    <div class="rattings-wrapper">
+                                        <div class="sin-rattings" th:each="review:${reviews}">
+                                            <div class="ratting-author">
+                                                <h3 th:text="${review.getReviewer()}"></h3>
+                                                <div class="ratting-star" th:if="${review.getRating()==1}">
+                                                    <i class="fa fa-star"></i>
+                                                    <i class="fa fa-star-o"></i>
+                                                    <i class="fa fa-star-o"></i>
+                                                    <i class="fa fa-star-o"></i>
+                                                    <i class="fa fa-star-o"></i>
+                                                    <span th:text="${review.getRating()}">(5)</span>
+                                                </div>
+                                                <div class="ratting-star" th:if="${review.getRating()==2}">
+                                                    <i class="fa fa-star"></i>
+                                                    <i class="fa fa-star"></i>
+                                                    <i class="fa fa-star-o"></i>
+                                                    <i class="fa fa-star-o"></i>
+                                                    <i class="fa fa-star-o"></i>
+                                                    <span th:text="${review.getRating()}">(5)</span>
+                                                </div>
+                                                <div class="ratting-star" th:if="${review.getRating()==3}">
+                                                    <i class="fa fa-star"></i>
+                                                    <i class="fa fa-star"></i>
+                                                    <i class="fa fa-star"></i>
+                                                    <i class="fa fa-star-o"></i>
+                                                    <i class="fa fa-star-o"></i>
+                                                    <span th:text="${review.getRating()}">(5)</span>
+                                                </div>
+                                                <div class="ratting-star" th:if="${review.getRating()==4}">
+                                                    <i class="fa fa-star"></i>
+                                                    <i class="fa fa-star"></i>
+                                                    <i class="fa fa-star"></i>
+                                                    <i class="fa fa-star"></i>
+                                                    <i class="fa fa-star-o"></i>
+                                                    <span th:text="${review.getRating()}">(5)</span>
+                                                </div>
+                                                <div class="ratting-star" th:if="${review.getRating()==5}">
+                                                    <i class="fa fa-star"></i>
+                                                    <i class="fa fa-star"></i>
+                                                    <i class="fa fa-star"></i>
+                                                    <i class="fa fa-star"></i>
+                                                    <i class="fa fa-star"></i>
+                                                    <span th:text="${review.getRating()}">(5)</span>
+                                                </div>
+                                            </div>
+                                            <p th:text="${review.getComment()}"></p>
+                                        </div>
+                                    </div>
                                 </div>
-                                <div class="ratting-list">
-                                    <div class="sin-list float-left">
-                                        <i class="fa fa-star"></i>
-                                        <i class="fa fa-star"></i>
-                                        <i class="fa fa-star"></i>
-                                        <i class="fa fa-star"></i>
-                                        <i class="fa fa-star"></i>
-                                        <span>(5)</span>
-                                    </div>
-                                    <div class="sin-list float-left">
-                                        <i class="fa fa-star"></i>
-                                        <i class="fa fa-star"></i>
-                                        <i class="fa fa-star"></i>
-                                        <i class="fa fa-star"></i>
-                                        <i class="fa fa-star-o"></i>
-                                        <span>(3)</span>
-                                    </div>
-                                    <div class="sin-list float-left">
-                                        <i class="fa fa-star"></i>
-                                        <i class="fa fa-star"></i>
-                                        <i class="fa fa-star"></i>
-                                        <i class="fa fa-star-o"></i>
-                                        <i class="fa fa-star-o"></i>
-                                        <span>(1)</span>
-                                    </div>
-                                    <div class="sin-list float-left">
-                                        <i class="fa fa-star"></i>
-                                        <i class="fa fa-star"></i>
-                                        <i class="fa fa-star-o"></i>
-                                        <i class="fa fa-star-o"></i>
-                                        <i class="fa fa-star-o"></i>
-                                        <span>(0)</span>
-                                    </div>
-                                    <div class="sin-list float-left">
-                                        <i class="fa fa-star"></i>
-                                        <i class="fa fa-star-o"></i>
-                                        <i class="fa fa-star-o"></i>
-                                        <i class="fa fa-star-o"></i>
-                                        <i class="fa fa-star-o"></i>
-                                        <span>(0)</span>
-                                    </div>
-                                </div>
-                                <div class="rattings-wrapper">
+                                <div th:unless="${reviews.size()>0}">
 
-                                    <div class="sin-rattings">
-                                        <div class="ratting-author">
-                                            <h3>Cristopher Lee</h3>
-                                            <div class="ratting-star">
-                                                <i class="fa fa-star"></i>
-                                                <i class="fa fa-star"></i>
-                                                <i class="fa fa-star"></i>
-                                                <i class="fa fa-star"></i>
-                                                <i class="fa fa-star"></i>
-                                                <span>(5)</span>
-                                            </div>
-                                        </div>
-                                        <p>enim ipsam voluptatem quia voluptas sit
-                                            aspernatur aut odit aut fugit, sed quia res eos
-                                            qui ratione voluptatem sequi Neque porro
-                                            quisquam est, qui dolorem ipsum quia dolor sit
-                                            amet, consectetur, adipisci veli</p>
-                                    </div>
-
-                                    <div class="sin-rattings">
-                                        <div class="ratting-author">
-                                            <h3>Rashed Mahmud</h3>
-                                            <div class="ratting-star">
-                                                <i class="fa fa-star"></i>
-                                                <i class="fa fa-star"></i>
-                                                <i class="fa fa-star"></i>
-                                                <i class="fa fa-star"></i>
-                                                <i class="fa fa-star"></i>
-                                                <span>(5)</span>
-                                            </div>
-                                        </div>
-                                        <p>enim ipsam voluptatem quia voluptas sit
-                                            aspernatur aut odit aut fugit, sed quia res eos
-                                            qui ratione voluptatem sequi Neque porro
-                                            quisquam est, qui dolorem ipsum quia dolor sit
-                                            amet, consectetur, adipisci veli</p>
-                                    </div>
-
-                                    <div class="sin-rattings">
-                                        <div class="ratting-author">
-                                            <h3>Hasan Mubarak</h3>
-                                            <div class="ratting-star">
-                                                <i class="fa fa-star"></i>
-                                                <i class="fa fa-star"></i>
-                                                <i class="fa fa-star"></i>
-                                                <i class="fa fa-star"></i>
-                                                <i class="fa fa-star"></i>
-                                                <span>(5)</span>
-                                            </div>
-                                        </div>
-                                        <p>enim ipsam voluptatem quia voluptas sit
-                                            aspernatur aut odit aut fugit, sed quia res eos
-                                            qui ratione voluptatem sequi Neque porro
-                                            quisquam est, qui dolorem ipsum quia dolor sit
-                                            amet, consectetur, adipisci veli</p>
-                                    </div>
+                                    <p style="font-size: 20px; font-weight: bold; text-align: center; margin-bottom: 50px; margin-top: 30px;">Trenutno ne postoje ocene i komentari za izabrani
+                                        proizvod</p>
 
                                 </div>
                                 <div class="ratting-form-wrapper fix">
-                                    <h3>Dodaj svoj komentar</h3>
+                                    <h3>Oceni proizvod i dodaj svoj komentar</h3>
                                     <form action="#">
                                         <div class="ratting-form row">
                                             <div class="col-12 mb-15">
                                                 <h5>Ocena:</h5>
-                                                <div class="ratting-star fix">
-                                                    <i class="fa fa-star-o"></i>
-                                                    <i class="fa fa-star-o"></i>
-                                                    <i class="fa fa-star-o"></i>
-                                                    <i class="fa fa-star-o"></i>
-                                                    <i class="fa fa-star-o"></i>
+                                                <!-- Rating Stars Box -->
+                                                <div class='rating-stars'>
+                                                    <ul id='stars'>
+                                                        <li class='star' data-value='1' title='Poor'><i class='fa fa-star fa-fw'></i></li>
+                                                        <li class='star' data-value='2' title='Fair'><i class='fa fa-star fa-fw'></i></li>
+                                                        <li class='star' data-value='3' title='Good'><i class='fa fa-star fa-fw'></i></li>
+                                                        <li class='star' data-value='4' title='Excellent'><i class='fa fa-star fa-fw'></i></li>
+                                                        <li class='star' data-value='5' title='WOW!!!'><i class='fa fa-star fa-fw'></i></li>
+                                                    </ul>
                                                 </div>
                                             </div>
                                             <div class="col-md-6 col-12 mb-15">
@@ -306,12 +308,11 @@
                                                 <input id="email" placeholder="Mejl" type="text">
                                             </div>
                                             <div class="col-12 mb-15">
-                                                <label for="your-review">Tvoj komentar:</label>
-                                                <textarea name="review" id="your-review"
-                                                          placeholder="Napiši komentar"></textarea>
+                                                <label for="comment">Tvoj komentar:</label>
+                                                <textarea id="comment" name="review" placeholder="Napiši komentar"></textarea>
                                             </div>
                                             <div class="col-12">
-                                                <input value="Dodaj komentar" type="submit">
+                                                <input th:onclick="'javascript:addReview();'" type="submit" value="Dodaj komentar">
                                             </div>
                                         </div>
                                     </form>
@@ -409,9 +410,9 @@
 <!--SEARCH OVERLAY-->
 
 <div class="search-overlay" id="search-overlay">
-    <a href="#" class="search-overlay-close" id="search-overlay-close"><i class="fa fa-times"></i></a>
+    <a class="search-overlay-close" href="#" id="search-overlay-close"><i class="fa fa-times"></i></a>
     <div class="search-box">
-        <input type="search" placeholder="Search entire store here">
+        <input placeholder="Search entire store here" type="search">
         <button><i class="icon ion-md-search"></i></button>
     </div>
 </div>
@@ -419,12 +420,12 @@
 <!--END OF SEARCH OVERLAY-->
 
 <!--QUICK VIEW MODAL-->
-<div class="modal fade quick-view-modal-container" id="quick-view-modal-container" tabindex="-1" role="dialog" aria-hidden="true"></div>
+<div aria-hidden="true" class="modal fade quick-view-modal-container" id="quick-view-modal-container" role="dialog" tabindex="-1"></div>
 
 <!--END OF QUICK VIEW MODAL-->
 
 <!-- SCROLL TO TOP  -->
-<a href="#" class="scroll-top"></a>
+<a class="scroll-top" href="#"></a>
 <!-- END OF SCROLL TO TOP -->
 
 <div th:insert="webapp/containers/scriptsContainer :: scriptsContainer"></div>
@@ -436,8 +437,8 @@
             addProductSlider();
         });
         /*<![CDATA[*/
-        var savings = /*[[${(single_product.productAttributes.get(0).getPrice()-single_product.productAttributes.get(0).getDiscounted_price())*100/single_product.productAttributes.get(0).getPrice()}
-]]*/ 'SearchParam';
+        var savings = /*[[${(single_product.productAttributes.get(0).getPrice()-single_product.productAttributes.get(0).getDiscounted_price())*100/single_product.productAttributes.get(0).getPrice()}]]*/ 'SearchParam';
+        var avgRating = /*[[${avgRating}]]*/ '0';
         /*]]>*/
         $('.discount-percentage').text('Ušteda ' + Math.round(parseInt(savings)) + ' %');
 
@@ -461,7 +462,44 @@
             $(this).addClass('active');
         });
 
+        $('#single-rating').children('i').each(function (index, e) {
+            if (avgRating == 0)
+                return false;
+            $(this).addClass('active');
+            if (index + 1 == avgRating)
+                return false;
+        });
 
+        //prikaz i akcija na zvezdice
+        $('#stars li').on('mouseover', function () {
+            var onStar = parseInt($(this).data('value'), 10);
+
+            $(this).parent().children('li.star').each(function (e) {
+                if (e < onStar) {
+                    $(this).addClass('hover');
+                } else {
+                    $(this).removeClass('hover');
+                }
+            });
+
+        }).on('mouseout', function () {
+            $(this).parent().children('li.star').each(function (e) {
+                $(this).removeClass('hover');
+            });
+        });
+
+        $('#stars li').on('click', function () {
+            var onStar = parseInt($(this).data('value'), 10); // The star currently selected
+            var stars = $(this).parent().children('li.star');
+
+            for (i = 0; i < stars.length; i++) {
+                $(stars[i]).removeClass('selected');
+            }
+
+            for (i = 0; i < onStar; i++) {
+                $(stars[i]).addClass('selected');
+            }
+        });
     });
 
     function openWishListDialog(productID) {
@@ -479,6 +517,7 @@
                             label: "Nastavi sa kupovinom",
                             className: 'btn-success',
                             callback: function () {
+                                refreshMinicart();
                             }
                         },
                         ok: {
@@ -496,6 +535,35 @@
 
     function showWishListProducts() {
         window.location = '/product/show_wishlist';
+    }
+
+    function addReview() {
+        /*<![CDATA[*/
+        var product_id = /*[[${single_product.id}]]*/ 'SearchParam';
+        /*]]>*/
+
+        var reviewer = $('#name').val();
+        var email = $('#email').val();
+        var comment = $('#comment').val();
+        var rating = $('#stars li.selected').length;
+
+        var review = {
+            "productId": product_id,
+            "reviewer": reviewer,
+            "comment": comment,
+            "rating": rating,
+            "email": email
+        };
+
+        $.ajax({
+            type: "POST",
+            contentType: 'application/json; charset=utf-8',
+            dataType: 'json',
+            url: "/product/add_review",
+            data: JSON.stringify(review),
+            success: function (result) {
+            }
+        });
     }
 
     function addToCart() {

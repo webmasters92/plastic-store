@@ -69,26 +69,21 @@
 
                     <!--=======  End of logo  =======-->
                 </div>
-                <div class="col-12 col-lg-8 col-md-12 col-sm-12 order-3 order-lg-2"></div>
-                <div class=" col-6 col-lg-2 col-md-6 col-sm-6 order-2 order-lg-3">
+                <div class="col-12 col-lg-7 col-md-12 col-sm-12 order-3 order-lg-2"></div>
+                <div class=" col-6 col-lg-3 col-md-6 col-sm-6 order-2 order-lg-3">
                     <!--=======  cart icon  =======-->
-
                     <div class="minicart-section">
                         <a href="#" id="cart-icon">
                             <span class="image"><i class="icon ion-md-cart"></i></span>
-                            <h5 th:text="${session.cart.getTotal()}+' RSD'">215.00 RSD <i class="fa fa-angle-down"></i></h5>
-                            <p th:text="${session.cart.getCartItems().size()}+' artikla'"></p>
+                            <h5 th:text="${session.cart!=null}?${session.cart.getTotal()}+' RSD':'0 RSD'">215.00 RSD <i class="fa fa-angle-down"></i></h5>
+                            <p th:text="${session.cart!=null}?${session.cart.getCartItems().size()}+' artikla':'0 artikla'"></p>
                         </a>
 
                         <!-- cart floating box -->
                         <div class="cart-floating-box hidden" id="cart-floating-box">
-                            <div class="cart-items">
+                            <div class="cart-items" th:if="${session.cart!=null}">
                                 <div class="cart-float-single-item d-flex" th:each=" item:${session.cart.getCartItems()}">
-<span class="remove-item" id="remove-item"><a
-        onclick=deleteFromMiniCart(this.getAttribute('data-size'),this.getAttribute('data-price'),this.getAttribute('data-color'));
-        th:data-color="${item.getColor()}"
-        th:data-price="${item.getPrice()}"
-        th:data-size="${item.getSize()}"><i class="icon ion-md-close"></i></a></span>
+                                    <span class="remove-item" id="remove-item"><a onclick=deleteFromMiniCart(this.getAttribute('data-size'),this.getAttribute('data-price'),this.getAttribute('data-color')); th:data-color="${item.getColor()}" th:data-price="${item.getPrice()}" th:data-size="${item.getSize()}"><i class="icon ion-md-close"></i></a></span>
                                     <div class="cart-float-single-item-image">
                                         <a th:href="@{/product/single_product/__${item.product.id}__}"><img alt="" class="img-fluid" th:src="@{'/images/' + ${item.product.images.get(0).name}}"></a>
                                     </div>
@@ -101,7 +96,10 @@
                             </div>
                             <div class="cart-calculation">
                                 <div class="calculation-details">
-                                    <p class="total">Ukupno <span th:text="${session.cart.getTotal()+ ' RSD'}"></span></p>
+                                    <p class="total">Ukupno
+                                        <span th:if="${session.cart!=null}" th:text="${session.cart.getTotal()+ ' RSD'}"></span>
+                                        <span th:text=" '0 RSD'" th:unless="${session.cart!=null}"></span>
+                                    </p>
                                 </div>
                                 <div class="floating-cart-btn text-center">
                                     <a class="fl-btn pull-left" th:href="@{/cart/show_cart}">Korpa</a>
@@ -110,6 +108,14 @@
                             </div>
                         </div>
                         <!-- end of cart floating box -->
+                    </div>
+                    <div class="wishlist-section">
+                        <a id="wishlist-icon" th:href="@{/product/show_wishlist}">
+                            <span class="image"><i class="icon ion-md-heart"></i></span>
+                            <h5><i class="fa fa-angle-down"></i></h5>
+                            <p th:if="${session.wishlist_products!=null}" th:text="${session.wishlist_products.size()}"></p>
+                            <p th:unless="${session.wishlist_products!=null}">0</p>
+                        </a>
                     </div>
                     <!--=======  End of cart icon  =======-->
                 </div>

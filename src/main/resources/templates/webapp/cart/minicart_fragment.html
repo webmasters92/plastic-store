@@ -19,15 +19,15 @@
 
                 <!--=======  End of logo  =======-->
             </div>
-            <div class="col-12 col-lg-8 col-md-12 col-sm-12 order-3 order-lg-2"></div>
-            <div class=" col-6 col-lg-2 col-md-6 col-sm-6 order-2 order-lg-3">
+            <div class="col-12 col-lg-7 col-md-12 col-sm-12 order-3 order-lg-2"></div>
+            <div class=" col-6 col-lg-3 col-md-6 col-sm-6 order-2 order-lg-3">
                 <!--=======  cart icon  =======-->
 
                 <div class="minicart-section">
                     <a href="#" id="cart-icon">
                         <span class="image"><i class="icon ion-md-cart"></i></span>
-                        <h5 th:text="${session.cart.getTotal()}+' RSD'">215.00 RSD <i class="fa fa-angle-down"></i></h5>
-                        <p th:text="${session.cart.getCartItems().size()}+' artikla'">3 artikla</p>
+                        <h5 th:text="${session.cart.getTotal()}+' RSD'"><i class="fa fa-angle-down"></i></h5>
+                        <p th:text="${session.cart.getCartItems().size()}+' artikla'"></p>
                     </a>
 
                     <!-- cart floating box -->
@@ -61,6 +61,14 @@
                         </div>
                     </div>
                     <!-- end of cart floating box -->
+                </div>
+                <div class="wishlist-section">
+                    <a id="wishlist-icon" th:href="@{/product/show_wishlist}">
+                        <span class="image"><i class="icon ion-md-heart"></i></span>
+                        <h5><i class="fa fa-angle-down"></i></h5>
+                        <p th:if="${session.wishlist_products!=null}" th:text="${session.wishlist_products.size()}"></p>
+                        <p th:unless="${session.wishlist_products!=null}">0</p>
+                    </a>
                 </div>
                 <!--=======  End of cart icon  =======-->
             </div>

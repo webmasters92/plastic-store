@@ -24,7 +24,7 @@
     </div>
 </div>
 
-<div class="page-section mb-50">
+<div class="page-section mb-50" th:if="${session.wishlist_products.size()>0}">
     <div class="container">
         <div class="row">
             <div class="col-12">
@@ -60,6 +60,15 @@
                     </div>
                     <!--=======  End of wishlist table  =======-->
                 </form>
+            </div>
+        </div>
+    </div>
+</div>
+<div class="page-section mb-50" th:unless="${session.wishlist_products.size()>0}">
+    <div class="container">
+        <div class="row">
+            <div class="col-12">
+                <p style="text-align: center; line-height: 100px; font-weight: bold; font-size: 20px">Vaša lista želja je trenutno prazna</p>
             </div>
         </div>
     </div>

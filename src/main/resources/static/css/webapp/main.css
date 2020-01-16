@@ -775,6 +775,37 @@ a.scroll-top:hover {
     background-color: #9acf6a;
 }
 
+/* Rating Star Widgets Style */
+.rating-stars ul {
+    list-style-type: none;
+    padding: 0;
+
+    -moz-user-select: none;
+    -webkit-user-select: none;
+}
+
+.rating-stars ul > li.star {
+    display: inline-block;
+
+}
+
+/* Idle State of the stars */
+.rating-stars ul > li.star > i.fa {
+    font-size: 18px; /* Change the size of the stars */
+    color: #ccc; /* Color on idle state */
+}
+
+/* Hover state of the stars */
+.rating-stars ul > li.star.hover > i.fa {
+    color: #FFCC36;
+}
+
+/* Selected state of the stars */
+.rating-stars ul > li.star.selected > i.fa {
+    color: #FF912C;
+}
+
+
 /*=====  End of 02. Modal  ======*/
 /*=============================================
 =           03.  Header            =
@@ -1336,6 +1367,49 @@ a.scroll-top:hover {
 }
 
 .minicart-section span.image i {
+    font-size: 21px;
+    line-height: 50px;
+    color: #2c2c2c;
+}
+
+.wishlist-section > a {
+    display: block;
+    position: relative;
+    padding-left: 55px;
+    padding-top: 5px;
+    float: right;
+}
+
+.wishlist-section > a h5 {
+    font-size: 14px;
+    line-height: 25px;
+    font-weight: 500;
+    color: white;
+    font-style: normal;
+    margin-bottom: 0;
+}
+
+.wishlist-section > a p {
+    font-size: 13px;
+    line-height: 16px;
+    font-weight: 500;
+    color: #981426;
+    font-style: normal;
+}
+
+.wishlist-section span.image {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 50px;
+    height: 50px;
+    border: 2px solid #ebebeb;
+    text-align: center;
+    border-radius: 50%;
+    margin-right: 5px;
+}
+
+.wishlist-section span.image i {
     font-size: 21px;
     line-height: 50px;
     color: #2c2c2c;
@@ -7030,8 +7104,8 @@ a#more-btn {
 /*-- Ratting Form --*/
 .ratting-form h5 {
     float: left;
-    font-size: 14px;
-    line-height: 18px;
+    font-size: 18px;
+    line-height: 22px;
     margin-right: 10px;
 }
 
@@ -8370,7 +8444,7 @@ h3.comment-counter {
 
 .cart-summary .cart-summary-button button {
     margin-top: 10px;
-    width: 140px;
+    width: 200px;
     border-radius: 0;
     height: 36px;
     border: 1px solid #999999;

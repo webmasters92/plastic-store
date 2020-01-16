@@ -142,11 +142,11 @@
                                     <div class="content">
                                         <h2 class="product-title"><a th:text="${popular_product.getName()}" th:href="@{/product/single_product/__${popular_product.id}__}"></a></h2>
                                         <div class="rating">
-                                            <i class="fa fa-star active"></i>
-                                            <i class="fa fa-star active"></i>
-                                            <i class="fa fa-star active"></i>
-                                            <i class="fa fa-star"></i>
-                                            <i class="fa fa-star"></i>
+                                            <i class="fa fa-star" th:classappend="${popular_product.getAverageRating()>=1}?'active'"></i>
+                                            <i class="fa fa-star" th:classappend="${popular_product.getAverageRating()>=2}?'active'"></i>
+                                            <i class="fa fa-star" th:classappend="${popular_product.getAverageRating()>=3}?'active'"></i>
+                                            <i class="fa fa-star" th:classappend="${popular_product.getAverageRating()>=4}?'active'"></i>
+                                            <i class="fa fa-star" th:classappend="${popular_product.getAverageRating()>=5}?'active'"></i>
                                         </div>
                                         <p class="product-price">
                                             <span class="main-price discounted" th:if="${popular_product.isSale()&&popular_product.productAttributes.size()>1}" th:text="${popular_product.getMinPrice()}+' - '+${popular_product.getMaxPrice()}+ ' RSD'"></span>
@@ -191,11 +191,11 @@
                                     <div class="content">
                                         <h2 class="product-title"><a th:text="${new_product.getName()}" th:href="@{/product/single_product/__${new_product.id}__}"></a></h2>
                                         <div class="rating">
-                                            <i class="fa fa-star active"></i>
-                                            <i class="fa fa-star active"></i>
-                                            <i class="fa fa-star active"></i>
-                                            <i class="fa fa-star"></i>
-                                            <i class="fa fa-star"></i>
+                                            <i class="fa fa-star" th:classappend="${new_product.getAverageRating()>=1}?'active'"></i>
+                                            <i class="fa fa-star" th:classappend="${new_product.getAverageRating()>=2}?'active'"></i>
+                                            <i class="fa fa-star" th:classappend="${new_product.getAverageRating()>=3}?'active'"></i>
+                                            <i class="fa fa-star" th:classappend="${new_product.getAverageRating()>=4}?'active'"></i>
+                                            <i class="fa fa-star" th:classappend="${new_product.getAverageRating()>=5}?'active'"></i>
                                         </div>
                                         <p class="product-price">
                                             <span class="main-price discounted" th:if="${new_product.isSale()&&new_product.productAttributes.size()>1}" th:text="${new_product.getMinPrice()}+' - '+${new_product.getMaxPrice()}+ ' RSD'"></span>
@@ -241,11 +241,11 @@
                                     <div class="content">
                                         <h2 class="product-title"><a th:text="${sale_product.getName()}" th:href="@{/product/single_product/__${sale_product.id}__}"></a></h2>
                                         <div class="rating">
-                                            <i class="fa fa-star active"></i>
-                                            <i class="fa fa-star active"></i>
-                                            <i class="fa fa-star active"></i>
-                                            <i class="fa fa-star"></i>
-                                            <i class="fa fa-star"></i>
+                                            <i class="fa fa-star" th:classappend="${sale_product.getAverageRating()>=1}?'active'"></i>
+                                            <i class="fa fa-star" th:classappend="${sale_product.getAverageRating()>=2}?'active'"></i>
+                                            <i class="fa fa-star" th:classappend="${sale_product.getAverageRating()>=3}?'active'"></i>
+                                            <i class="fa fa-star" th:classappend="${sale_product.getAverageRating()>=4}?'active'"></i>
+                                            <i class="fa fa-star" th:classappend="${sale_product.getAverageRating()>=5}?'active'"></i>
                                         </div>
                                         <p class="product-price">
                                             <span class="main-price discounted" th:if="${sale_product.isSale()&&sale_product.productAttributes.size()>1}" th:text="${sale_product.getMinPrice()}+' - '+${sale_product.getMaxPrice()}+ ' RSD'"></span>
@@ -538,6 +538,7 @@
                             label: "Nastavi sa kupovinom",
                             className: 'btn-success',
                             callback: function () {
+                                refreshMinicart();
                             }
                         },
                         ok: {
@@ -548,6 +549,26 @@
                             }
                         }
                     }
+                });
+            }
+        });
+    }
+
+    function refreshMinicart() {
+        $.ajax({
+            url: '/cart/refresh_minicart',
+            type: 'get',
+            success: function (response) {
+                $(".navigation-menu-top").replaceWith(response);
+                $("#cart-icon").on("click", function (event) {
+                    event.stopPropagation();
+                    $("#cart-floating-box").slideToggle();
+                    $("#accountList").slideUp("slow");
+                    $("#languageList").slideUp("slow");
+                });
+
+                $("body:not(#cart-icon)").on("click", function () {
+                    $("#cart-floating-box").slideUp("slow");
                 });
             }
         });

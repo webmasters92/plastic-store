@@ -82,6 +82,9 @@ public class Product implements Serializable {
     private List<MultipartFile> imgData = new ArrayList<>();
 
     @Transient
+    private int averageRating;
+
+    @Transient
     private int minPrice;
 
     @Transient
@@ -112,6 +115,14 @@ public class Product implements Serializable {
     @Transient
     public void setMinPrice(int minPrice) {
         this.minPrice = minPrice;
+    }
+
+    public int getAverageRating() {
+        return averageRating;
+    }
+
+    public void setAverageRating(int averageRating) {
+        this.averageRating = averageRating;
     }
 
     public LocalDateTime getDate_created() {
