@@ -1,5 +1,7 @@
 package rs.dev.plasticstore.model;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 import javax.persistence.*;
 import java.io.Serializable;
 
@@ -14,22 +16,28 @@ public class OrderItem implements Serializable {
     @GeneratedValue(strategy = GenerationType.AUTO)
     private int id;
 
-    @Column(name = "quantity")
     private int quantity;
 
-    @Column(name = "price")
     private double price;
 
-    @Column(name = "amount")
-    private double amount;
+    private String size;
+
+    private String color;
+
+    private int totalPrice;
 
     @ManyToOne
-    @JoinColumn(name = "orderId")
+    @JoinColumn(name = "order_id")
     private Order order;
 
     @OneToOne
-    @JoinColumn(name = "productId")
+    @JoinColumn(name = "product_id")
     private Product product;
+
+    @OneToOne
+    @JsonIgnore
+    @JoinColumn(name = "product_color")
+    private Colors product_color;
 
     public int getId() {
 
@@ -61,16 +69,6 @@ public class OrderItem implements Serializable {
         this.price = price;
     }
 
-    public double getAmount() {
-
-        return amount;
-    }
-
-    public void setAmount(double amount) {
-
-        this.amount = amount;
-    }
-
     public Order getOrder() {
 
         return order;
@@ -89,5 +87,37 @@ public class OrderItem implements Serializable {
     public void setProduct(Product product) {
 
         this.product = product;
+    }
+
+    public String getSize() {
+        return size;
+    }
+
+    public void setSize(String size) {
+        this.size = size;
+    }
+
+    public String getColor() {
+        return color;
+    }
+
+    public void setColor(String color) {
+        this.color = color;
+    }
+
+    public int getTotalPrice() {
+        return totalPrice;
+    }
+
+    public void setTotalPrice(int totalPrice) {
+        this.totalPrice = totalPrice;
+    }
+
+    public Colors getProduct_color() {
+        return product_color;
+    }
+
+    public void setProduct_color(Colors product_color) {
+        this.product_color = product_color;
     }
 }

@@ -22,14 +22,20 @@ public class CartItem implements Serializable {
     @ManyToOne
     @JoinColumn(name = "product_id")
     private Product product;
-    private String size;
-    private String color;
+
     @OneToOne
-    @JoinColumn(name = "color_id")
     @JsonIgnore
+    @JoinColumn(name = "color_id")
     private Colors product_color;
+
+    private String size;
+
+    private String color;
+
     private int price;
+
     private int quantity;
+
     @Transient
     private int product_id;
 
@@ -61,6 +67,14 @@ public class CartItem implements Serializable {
 
     public Product getProduct() {
         return product;
+    }
+
+    public int getId() {
+        return id;
+    }
+
+    public void setId(int id) {
+        this.id = id;
     }
 
     public void setProduct(Product product) {

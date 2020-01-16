@@ -13,7 +13,7 @@
         <h2>Ukupan iznos za uplatu <span th:text="${session.cart.getTotal()}+' RSD'"></span></h2>
     </div>
     <div class="cart-summary-button">
-        <button class="checkout-btn">Završi kupovinu</button>
+        <button class="checkout-btn" th:href="@{/checkout/show_checkout}">Završi kupovinu</button>
     </div>
 </div>
 </body>
