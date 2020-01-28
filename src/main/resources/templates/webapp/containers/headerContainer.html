@@ -26,17 +26,22 @@
                     <div class="header-top-dropdown d-flex justify-content-center justify-content-lg-end">
 
                         <!--=======  single dropdown  =======-->
-                        <a sec:authorize="!isAuthenticated()" th:href="@{/login}">Prjavi se </a>
+                        <a sec:authorize="!isAuthenticated()" th:href="@{/customer/login}">Prjavi se </a>
                         <span sec:authorize="!isAuthenticated()"> / </span>
-                        <a sec:authorize="!isAuthenticated()" th:href="@{/register}"> Registruj se</a>
+                        <a sec:authorize="!isAuthenticated()" th:href="@{/customer/register}"> Registruj se</a>
                         <div class="single-dropdown">
                             <a href="#" id="changeAccount" sec:authorize="isAuthenticated()"><span id="accountMenuName" th:text="${#authentication.getPrincipal().getUsername()}"></span><span><i class="fa fa-angle-down"></i></span></a>
                             <div class="language-currency-list hidden" id="accountList">
                                 <ul>
                                     <li sec:authorize="isAuthenticated()"><a th:href="@{/cart/show_cart}">Korpa</a></li>
-                                    <li sec:authorize="isAuthenticated()"><a href="#">Moj nalog</a></li>
-                                    <li sec:authorize="hasRole('ADMIN')"><a th:href="@{/administration/product_list}">Administracija</a></li>
-                                    <li sec:authorize="isAuthenticated()"><a th:href="@{/logout}">Odjavi se </a></li>
+                                    <li sec:authorize="isAuthenticated()"><a th:href="@{/product/show_wishlist}">Lista
+                                        želja</a></li>
+                                    <li sec:authorize="isAuthenticated()"><a th:href="@{/customer/my_account}">Moj
+                                        nalog</a></li>
+                                    <li sec:authorize="hasRole('ADMIN')"><a th:href="@{/administration/product_list}">Administracija</a>
+                                    </li>
+                                    <li sec:authorize="isAuthenticated()"><a th:href="@{/customer/logout}">Odjavi
+                                        se </a></li>
                                 </ul>
                             </div>
                         </div>

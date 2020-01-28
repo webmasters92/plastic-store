@@ -31,154 +31,105 @@
             <div class="col-12">
 
                 <!-- Checkout Form s-->
-                <form action="#" class="checkout-form">
+                <form class="checkout-form" method="post" th:action="@{/checkout/place_order}" th:object="${order}">
                     <div class="row row-40">
 
                         <div class="col-lg-7 mb-20">
 
                             <!-- Billing Address -->
                             <div class="mb-40" id="billing-form">
-                                <h4 class="checkout-title">Billing Address</h4>
+                                <h4 class="checkout-title">ISPORUKA</h4>
 
                                 <div class="row">
 
                                     <div class="col-md-6 col-12 mb-20">
-                                        <label>First Name*</label>
-                                        <input placeholder="First Name" type="text">
+                                        <label>Ime*</label>
+                                        <input placeholder="Ime" th:field="*{customer.firstName}"
+                                               th:if="${order.getCustomer()!=null}"
+                                               type="text">
+                                        <input placeholder="Ime" th:field="*{guest.firstName}"
+                                               th:if="${order.getCustomer()==null}"
+                                               type="text">
                                     </div>
 
                                     <div class="col-md-6 col-12 mb-20">
-                                        <label>Last Name*</label>
-                                        <input placeholder="Last Name" type="text">
+                                        <label>Prezime*</label>
+                                        <input placeholder="Prezime" th:field="*{customer.lastName}"
+                                               th:if="${order.getCustomer()!=null}"
+                                               type="text">
+                                        <input placeholder="Prezime" th:field="*{guest.lastName}"
+                                               th:if="${order.getCustomer()==null}"
+                                               type="text">
                                     </div>
 
                                     <div class="col-md-6 col-12 mb-20">
-                                        <label>Email Address*</label>
-                                        <input placeholder="Email Address" type="email">
+                                        <label>Email*</label>
+                                        <input placeholder="Email" th:field="*{customer.email}"
+                                               th:if="${order.getCustomer()!=null}"
+                                               type="email">
+                                        <input placeholder="Email" th:field="*{guest.email}"
+                                               th:if="${order.getCustomer()==null}"
+                                               type="text">
                                     </div>
 
                                     <div class="col-md-6 col-12 mb-20">
-                                        <label>Phone no*</label>
-                                        <input placeholder="Phone number" type="text">
+                                        <label>Telefon*</label>
+                                        <input placeholder="Broj telefona" th:field="*{customer.phoneNumber}"
+                                               th:if="${order.getCustomer()!=null}"
+                                               type="text">
+                                        <input placeholder="Broj telefona" th:field="*{guest.phoneNumber}"
+                                               th:if="${order.getCustomer()==null}"
+                                               type="text">
                                     </div>
 
                                     <div class="col-12 mb-20">
-                                        <label>Company Name</label>
-                                        <input placeholder="Company Name" type="text">
-                                    </div>
-
-                                    <div class="col-12 mb-20">
-                                        <label>Address*</label>
-                                        <input placeholder="Address line 1" type="text">
-                                        <input placeholder="Address line 2" type="text">
+                                        <label>Adresa*</label>
+                                        <input placeholder="Adresa" th:field="*{customer.address}"
+                                               th:if="${order.getCustomer()!=null}"
+                                               type="text">
+                                        <input placeholder="Adresa" th:field="*{guest.address}"
+                                               th:if="${order.getCustomer()==null}"
+                                               type="text">
                                     </div>
 
                                     <div class="col-md-6 col-12 mb-20">
-                                        <label>Country*</label>
-                                        <select class="nice-select">
-                                            <option>Bangladesh</option>
-                                            <option>China</option>
-                                            <option>country</option>
-                                            <option>India</option>
-                                            <option>Japan</option>
+                                        <label>Država*</label>
+                                        <select class="nice-select" th:field="*{customer.country}"
+                                                th:if="${order.getCustomer()!=null}">
+                                            <option value="Srbija">Srbija</option>
+                                        </select>
+                                        <select class="nice-select" th:field="*{guest.country}"
+                                                th:if="${order.getCustomer()==null}">
+                                            <option value="Srbija">Srbija</option>
                                         </select>
                                     </div>
 
                                     <div class="col-md-6 col-12 mb-20">
-                                        <label>Town/City*</label>
-                                        <input placeholder="Town/City" type="text">
+                                        <label>Grad*</label>
+                                        <input placeholder="Grad" th:field="*{customer.city}"
+                                               th:if="${order.getCustomer()!=null}"
+                                               type="text">
+                                        <input placeholder="Grad" th:field="*{guest.city}"
+                                               th:if="${order.getCustomer()==null}"
+                                               type="text">
                                     </div>
 
                                     <div class="col-md-6 col-12 mb-20">
-                                        <label>State*</label>
-                                        <input placeholder="State" type="text">
-                                    </div>
-
-                                    <div class="col-md-6 col-12 mb-20">
-                                        <label>Zip Code*</label>
-                                        <input placeholder="Zip Code" type="text">
+                                        <label>Poštanski broj*</label>
+                                        <input placeholder="Poštanski broj" th:field="*{customer.zipCode}"
+                                               th:if="${order.getCustomer()!=null}" type="text">
+                                        <input placeholder="Poštanski broj" th:field="*{guest.zipCode}"
+                                               th:if="${order.getCustomer()==null}" type="text">
                                     </div>
 
                                     <div class="col-12 mb-20">
                                         <div class="check-box">
                                             <input id="create_account" type="checkbox">
-                                            <label for="create_account">Create an Acount?</label>
-                                        </div>
-                                        <div class="check-box">
-                                            <input data-shipping id="shiping_address" type="checkbox">
-                                            <label for="shiping_address">Ship to Different Address</label>
+                                            <label for="create_account"><a th:href="@{/customer/register}">Kreiraj
+                                                nalog?</a></label>
                                         </div>
                                     </div>
-
                                 </div>
-
-                            </div>
-
-                            <!-- Shipping Address -->
-                            <div class="mb-40" id="shipping-form">
-                                <h4 class="checkout-title">Shipping Address</h4>
-
-                                <div class="row">
-
-                                    <div class="col-md-6 col-12 mb-20">
-                                        <label>First Name*</label>
-                                        <input placeholder="First Name" type="text">
-                                    </div>
-
-                                    <div class="col-md-6 col-12 mb-20">
-                                        <label>Last Name*</label>
-                                        <input placeholder="Last Name" type="text">
-                                    </div>
-
-                                    <div class="col-md-6 col-12 mb-20">
-                                        <label>Email Address*</label>
-                                        <input placeholder="Email Address" type="email">
-                                    </div>
-
-                                    <div class="col-md-6 col-12 mb-20">
-                                        <label>Phone no*</label>
-                                        <input placeholder="Phone number" type="text">
-                                    </div>
-
-                                    <div class="col-12 mb-20">
-                                        <label>Company Name</label>
-                                        <input placeholder="Company Name" type="text">
-                                    </div>
-
-                                    <div class="col-12 mb-20">
-                                        <label>Address*</label>
-                                        <input placeholder="Address line 1" type="text">
-                                        <input placeholder="Address line 2" type="text">
-                                    </div>
-
-                                    <div class="col-md-6 col-12 mb-20">
-                                        <label>Country*</label>
-                                        <select class="nice-select">
-                                            <option>Bangladesh</option>
-                                            <option>China</option>
-                                            <option>country</option>
-                                            <option>India</option>
-                                            <option>Japan</option>
-                                        </select>
-                                    </div>
-
-                                    <div class="col-md-6 col-12 mb-20">
-                                        <label>Town/City*</label>
-                                        <input placeholder="Town/City" type="text">
-                                    </div>
-
-                                    <div class="col-md-6 col-12 mb-20">
-                                        <label>State*</label>
-                                        <input placeholder="State" type="text">
-                                    </div>
-
-                                    <div class="col-md-6 col-12 mb-20">
-                                        <label>Zip Code*</label>
-                                        <input placeholder="Zip Code" type="text">
-                                    </div>
-
-                                </div>
-
                             </div>
 
                         </div>
@@ -189,73 +140,62 @@
                                 <!-- Cart Total -->
                                 <div class="col-12 mb-60">
 
-                                    <h4 class="checkout-title">Cart Total</h4>
+                                    <h4 class="checkout-title">Kupovina</h4>
 
                                     <div class="checkout-cart-total">
 
-                                        <h4>Product <span>Total</span></h4>
+                                        <h4>Artikli <span>Ukupno</span></h4>
 
-                                        <ul>
-                                            <li>Cillum dolore tortor nisl X 01 <span>$25.00</span></li>
-                                            <li>Auctor gravida pellentesque X 02 <span>$50.00</span></li>
-                                            <li>Condimentum posuere consectetur X 01 <span>$29.00</span></li>
-                                            <li>Habitasse dictumst elementum X 01 <span>$10.00</span></li>
+                                        <ul th:field="*{orderItems}">
+                                            <li th:each="item : ${order.getOrderItems()}"
+                                                th:text="${item.getProduct().getName()}+'  x'+${item.getQuantity()}+' '+${item.getTotalPrice()}">
+                                            </li>
                                         </ul>
 
-                                        <p>Sub Total <span>$104.00</span></p>
-                                        <p>Shipping Fee <span>$00.00</span></p>
-
-                                        <h4>Grand Total <span>$104.00</span></h4>
-
+                                        <p>Ukupno <span th:text="${order.getOrderTotal()}+ ' RSD'"></span></p>
+                                        <p>Poštarina <span
+                                                th:text="${order.getOrderTotal()>3000}?'00.00 RSD': '350 RSD'"></span>
+                                        </p>
+                                        <h4>Ukupan iznos za uplatu<span th:field="*{orderTotal}"
+                                                                        th:text="${order.getOrderTotal()}+' RSD'"></span>
+                                        </h4>
                                     </div>
-
                                 </div>
 
                                 <!-- Payment Method -->
                                 <div class="col-12">
-
-                                    <h4 class="checkout-title">Payment Method</h4>
-
+                                    <h4 class="checkout-title">Izaberite način plaćanja</h4>
                                     <div class="checkout-payment-method">
 
                                         <div class="single-method">
-                                            <input id="payment_check" name="payment-method" type="radio" value="check">
-                                            <label for="payment_check">Check Payment</label>
-                                            <p data-method="check">Please send a Check to Store name with Store Street, Store Town, Store State, Store Postcode, Store Country.</p>
+                                            <input id="payment_cash" name="payment-method" type="radio" value="cash">
+                                            <label for="payment_cash">Plaćanje gotovinski prilikom preuzimanja</label>
+                                            <p data-method="cash">Please send a Check to Store name with Store Street,
+                                                Store Town, Store State, Store Postcode, Store Country.</p>
                                         </div>
 
                                         <div class="single-method">
                                             <input id="payment_bank" name="payment-method" type="radio" value="bank">
                                             <label for="payment_bank">Direct Bank Transfer</label>
-                                            <p data-method="bank">Please send a Check to Store name with Store Street, Store Town, Store State, Store Postcode, Store Country.</p>
+                                            <p data-method="bank">Usled obavljanja radova na unapređenju sistema, usluga
+                                                onlajn plaćanja računa neće biti dostupna do daljnjeg.</p>
                                         </div>
 
                                         <div class="single-method">
-                                            <input id="payment_cash" name="payment-method" type="radio" value="cash">
-                                            <label for="payment_cash">Cash on Delivery</label>
-                                            <p data-method="cash">Please send a Check to Store name with Store Street, Store Town, Store State, Store Postcode, Store Country.</p>
-                                        </div>
-
-                                        <div class="single-method">
-                                            <input id="payment_paypal" name="payment-method" type="radio" value="paypal">
-                                            <label for="payment_paypal">Paypal</label>
-                                            <p data-method="paypal">Please send a Check to Store name with Store Street, Store Town, Store State, Store Postcode, Store Country.</p>
-                                        </div>
-
-                                        <div class="single-method">
-                                            <input id="payment_payoneer" name="payment-method" type="radio" value="payoneer">
-                                            <label for="payment_payoneer">Payoneer</label>
-                                            <p data-method="payoneer">Please send a Check to Store name with Store Street, Store Town, Store State, Store Postcode, Store Country.</p>
+                                            <input id="payment_paypal" name="payment-method" type="radio"
+                                                   value="paypal">
+                                            <label for="payment_paypal">Online plaćanje platnom karticom</label>
+                                            <p data-method="paypal">Usled obavljanja radova na unapređenju sistema,
+                                                usluga onlajn plaćanja računa neće biti dostupna do daljnjeg.</p>
                                         </div>
 
                                         <div class="single-method">
                                             <input id="accept_terms" type="checkbox">
-                                            <label for="accept_terms">I’ve read and accept the terms & conditions</label>
+                                            <label for="accept_terms">Prihvatam uslove kupovine</label>
                                         </div>
 
                                     </div>
-
-                                    <button class="place-order">Place order</button>
+                                    <button class="place-order" type="submit">Potvrdi kupovinu</button>
 
                                 </div>
 

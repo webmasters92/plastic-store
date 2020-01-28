@@ -1,6 +1,17 @@
 package rs.dev.plasticstore.model;
 
-import javax.persistence.*;
+import javax.persistence.CascadeType;
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.FetchType;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.JoinTable;
+import javax.persistence.OneToMany;
+import javax.persistence.Table;
+import javax.persistence.Transient;
 import java.util.HashSet;
 import java.util.Set;
 
@@ -13,6 +24,10 @@ public class Customer {
     private int id;
     private String username;
     private String password;
+
+    public String getNew_password() {
+        return new_password;
+    }
 
     @Column(name = "first_name")
     private String firstName;
@@ -45,6 +60,13 @@ public class Customer {
     public Set<Role> getRoles() {
         return roles;
     }
+
+    public void setNew_password(String new_password) {
+        this.new_password = new_password;
+    }
+
+    @Transient
+    private String new_password;
 
     public void setRoles(Set<Role> roles) {
         this.roles = roles;
@@ -91,47 +113,38 @@ public class Customer {
     }
 
     public int getId() {
-
         return id;
     }
 
     public void setId(int id) {
-
         this.id = id;
     }
 
     public String getFirstName() {
-
         return firstName;
     }
 
     public void setFirstName(String firstName) {
-
         this.firstName = firstName;
     }
 
     public String getLastName() {
-
         return lastName;
     }
 
     public void setLastName(String lastName) {
-
         this.lastName = lastName;
     }
 
     public int getZipCode() {
-
         return zipCode;
     }
 
     public void setZipCode(int zipCode) {
-
         this.zipCode = zipCode;
     }
 
     public String getEmail() {
-
         return email;
     }
 
@@ -139,18 +152,11 @@ public class Customer {
         this.email = email;
     }
 
-    public void setEmailAddress(String email) {
-
-        this.email = email;
-    }
-
     public String getPhoneNumber() {
-
         return phoneNumber;
     }
 
     public void setPhoneNumber(String phoneNumber) {
-
         this.phoneNumber = phoneNumber;
     }
 }

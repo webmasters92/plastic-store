@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head th:replace="webapp/containers/headContainer :: headContainer"></head>
+<body>
+<div th:replace="webapp/containers/headerContainer :: headerContainer" th:with="${categories}"></div>
+<div class="breadcrumb-area pt-15 pb-15">
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-12">
+                <!--=======  breadcrumb container  =======-->
+
+                <div class="breadcrumb-container">
+                    <nav>
+                        <ul>
+                            <li class="parent-page"><a th:href="@{/}">Početna</a></li>
+                            <li>Sadržaj Vaše porudžbine</li>
+                        </ul>
+                    </nav>
+                </div>
+                <!--=======  End of breadcrumb container  =======-->
+            </div>
+        </div>
+    </div>
+</div>
+<div class="page-section mb-50" th:if="${order.getOrderItems().size()>0}">
+    <div class="container">
+        <div class="row">
+            <div class="col-12">
+                <form action="#">
+                    <!--=======  cart table  =======-->
+                    <div class="cart-table table-responsive mb-40">
+                        <table class="table">
+                            <thead>
+                            <tr>
+                                <th class="pro-thumbnail">Slika</th>
+                                <th class="pro-title">Artikal</th>
+                                <th class="pro-color">Boja</th>
+                                <th class="pro-size">Veličina</th>
+                                <th class="pro-price">Cena</th>
+                                <th class="pro-quantity">Količina</th>
+                                <th class="pro-subtotal">Ukupno</th>
+                            </tr>
+                            </thead>
+                            <tbody>
+                            <tr th:each="item : ${order.getOrderItems()}">
+                                <td class="pro-thumbnail">
+                                    <a th:href="@{/product/single_product/__${item.product.id}__}"><img alt="Product"
+                                                                                                        class="img-fluid"
+                                                                                                        th:src="@{'/images/' + ${item.product.images.get(0).name}}"></a>
+                                </td>
+                                <td class="pro-title"><a th:href="@{/product/single_product/__${item.product.id}__}"
+                                                         th:text="${item.product.getName()}"></a></td>
+                                <td class="pro-color"><span class="color-block"
+                                                            th:style="'background-color:'+${item.product_color.code}+';'"
+                                                            th:title="${item.product_color.name}"></span></td>
+                                <td class="pro-size"><span th:text="${item.size}"></span></td>
+                                <td class="pro-price"><span th:text="${item.price}+ ' RSD'"></span></td>
+                                <td class="pro-quantity"><span th:text="${item.quantity}"></span></td>
+                                <td class="pro-subtotal"><span th:text="${item.price*item.quantity}"></span></td>
+                            </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div th:replace="webapp/containers/footerContainer :: footerContainer"></div>
+
+<div class="search-overlay" id="search-overlay">
+    <a class="search-overlay-close" href="#" id="search-overlay-close"><i class="fa fa-times"></i></a>
+    <div class="search-box">
+        <input placeholder="Search entire store here" type="search">
+        <button><i class="icon ion-md-search"></i></button>
+    </div>
+</div>
+
+<a class="scroll-top" href="#"></a>
+
+<div th:insert="webapp/containers/scriptsContainer :: scriptsContainer"></div>
+
+</body>
+</html>

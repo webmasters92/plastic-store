@@ -21,7 +21,9 @@
                     <nav>
                         <ul>
                             <li class="parent-page"><a th:href="@{/}">Početna</a></li>
-                            <li class="parent-page"><a th:href="@{/product/product_list_category/__${single_product.category.id}__}" th:text="${single_product.category.name}"></a></li>
+                            <li class="parent-page"><a
+                                    th:href="@{/product/product_list_category/__${single_product.category.id}__}"
+                                    th:text="${single_product.category.name}"></a></li>
                             <li th:text="${single_product.getName()}"></li>
                         </ul>
                     </nav>
@@ -45,12 +47,16 @@
                 <!-- single product tabstyle one image gallery -->
                 <div class="product-image-slider fl-product-image-slider fl3-product-image-slider">
                     <!--product large image start -->
-                    <div class="tab-content product-large-image-list fl-product-large-image-list fl3-product-large-image-list" id="myTabContent">
-                        <div role="tabpanel" th:aria-labelledby="'single-slide-tab-'+${iStat.count}" th:class="${iStat.count==1} ? 'tab-pane fade show active':'tab-pane fade'" th:each="image,iStat : ${single_product.images}" th:id="'single-slide-'+${iStat.count}">
+                    <div class="tab-content product-large-image-list fl-product-large-image-list fl3-product-large-image-list"
+                         id="myTabContent">
+                        <div role="tabpanel" th:aria-labelledby="'single-slide-tab-'+${iStat.count}"
+                             th:class="${iStat.count==1} ? 'tab-pane fade show active':'tab-pane fade'"
+                             th:each="image,iStat : ${single_product.images}" th:id="'single-slide-'+${iStat.count}">
                             <!--Single Product Image Start-->
                             <div class="single-product-img img-full">
                                 <img alt="" class="img-fluid" th:src="@{'/images/' + ${image.name}}">
-                                <a class="big-image-popup" th:href="@{'/images/' + ${image.name}}"><i class="fa fa-search-plus"></i></a>
+                                <a class="big-image-popup" th:href="@{'/images/' + ${image.name}}"><i
+                                        class="fa fa-search-plus"></i></a>
                             </div>
                             <!--Single Product Image End-->
                         </div>
@@ -61,7 +67,9 @@
                     <div class="product-small-image-list fl-product-small-image-list fl3-product-small-image-list">
                         <div class="nav image-slider fl3-image-slider" role="tablist">
                             <div class="single-small-image img-full" th:each="image,iStat  : ${single_product.images}">
-                                <a data-toggle="tab" th:href="@{'#single-slide-'+${iStat.count}}" th:id="'single-slide-tab-'+${iStat.count}"><img alt="" class="img-fluid" th:src="@{'/images/' + ${image.name}}"></a>
+                                <a data-toggle="tab" th:href="@{'#single-slide-'+${iStat.count}}"
+                                   th:id="'single-slide-tab-'+${iStat.count}"><img alt="" class="img-fluid"
+                                                                                   th:src="@{'/images/' + ${image.name}}"></a>
                             </div>
                         </div>
                     </div>
@@ -82,15 +90,22 @@
                         <i class="fa fa-star"></i>
                     </div>
 
+                    <h3 class="product-available mb-15" th:if="${single_product.isAvailable()}">( NA STANJU )</h3>
+                    <h3 class="product-not-available mb-15" th:unless="${single_product.isAvailable()}">( NIJE NA STANJU
+                        )</h3>
+
                     <p class="d-inline-block ml-10 review-link" th:if="${reviews.size()>0}">
                         <a th:if="${reviews.size()>1}" th:text="'('+${reviews.size()}+' Ocene)'"></a>
                         <a th:if="${reviews.size()==1}" th:text="'('+${reviews.size()}+' Ocena)'"></a>
                     </p>
 
                     <h2 class="product-price mb-0">
-                        <span class="main-price" th:classappend="${single_product.isSale()} ? 'discounted'" th:text="${single_product.productAttributes.get(0).getPrice()}+' DIN'"></span>
-                        <span class="discounted-price" th:if="${single_product.isSale()}" th:text="${single_product.productAttributes.get(0).getDiscounted_price()}+' DIN'"></span>
-                        <span class="discount-percentage" th:if="${single_product.isSale()}" th:text="'Ušteda '+${(single_product.productAttributes.get(0).getPrice()-single_product.productAttributes.get(0).getDiscounted_price())*100/single_product.productAttributes.get(0).getPrice()}+'%'">Save 8%</span>
+                        <span class="main-price" th:classappend="${single_product.isSale()} ? 'discounted'"
+                              th:text="${single_product.productAttributes.get(0).getPrice()}+' DIN'"></span>
+                        <span class="discounted-price" th:if="${single_product.isSale()}"
+                              th:text="${single_product.productAttributes.get(0).getDiscounted_price()}+' DIN'"></span>
+                        <span class="discount-percentage" th:if="${single_product.isSale()}"
+                              th:text="'Ušteda '+${(single_product.productAttributes.get(0).getPrice()-single_product.productAttributes.get(0).getDiscounted_price())*100/single_product.productAttributes.get(0).getPrice()}+'%'">Save 8%</span>
                     </h2>
                     <br>
                     <div class="manufacturer mb-0">
@@ -103,14 +118,18 @@
                     <div class="size mb-20">
                         <span class="title"> Veličina:</span> <br>
                         <select class="nice-select" id="chooseSize" name="chooseSize">
-                            <option th:each="attribute : ${single_product.productAttributes}" th:text="${attribute.size}" th:value="${attribute.price}+'-'+${attribute.getDiscounted_price()}"></option>
+                            <option th:each="attribute : ${single_product.productAttributes}"
+                                    th:text="${attribute.size}"
+                                    th:value="${attribute.price}+'-'+${attribute.getDiscounted_price()}"></option>
                         </select>
                     </div>
 
                     <div class="color mb-20">
                         <span class="title"> Boja:</span> <br>
                         <a th:each="color,iter:${single_product.getProductColors()}" th:value="${color.name}">
-                            <span class="color-block" th:classappend="${iter.first}?'active'" th:style="'background-color:'+${color.code}+';'"></span>
+                            <span class="color-block" th:classappend="${iter.first}?'active'"
+                                  th:style="'background-color:'+${color.code}+';'"
+                                  th:title="${color.name}"></span>
                         </a>
                     </div>
 
@@ -120,18 +139,25 @@
                             <input id="quantity" type="text" value="1">
                         </div>
                         <div class="add-to-cart-btn ml-10 d-inline-block">
-                            <a class="fl-btn" href="#" th:onclick="'javascript:addToCart();'"><i class="fa fa-shopping-cart"></i> Dodaj u korpu</a>
+                            <a class="fl-btn" href="#" th:if="${single_product.isAvailable()}"
+                               th:onclick="'javascript:addToCart();'"><i class="fa fa-shopping-cart"></i> Dodaj u korpu</a>
+                            <a class="fl-btn" href="#" onclick="return false;" th:if="${!single_product.isAvailable()}"><i
+                                    class="fa fa-shopping-cart"></i> Dodaj u korpu</a>
                         </div>
                     </div>
 
                     <p class="wishlist-link mb-20 pb-15">
-                        <a th:href="@{/product/show_wishlist}"> <i class="icon ion-md-heart-empty"></i> Pretraži listu želja</a>
+                        <a th:href="@{/product/show_wishlist}"> <i class="icon ion-md-heart-empty"></i> Pretraži listu
+                            želja</a>
                     </p>
 
                     <div class="category-list-container mb-20">
                         <span>Kategorije: </span>
                         <ul>
-                            <li th:each="sub_category:${single_product.category.subcategories}"><a th:href="@{/product/product_list_sub_category/__${sub_category.id}__}" th:text="${sub_category.getName()}"></a>,</li>
+                            <li th:each="sub_category:${single_product.category.subcategories}"><a
+                                    th:href="@{/product/product_list_sub_category/__${sub_category.id}__}"
+                                    th:text="${sub_category.getName()}"></a>,
+                            </li>
                         </ul>
                     </div>
                 </div>
@@ -154,23 +180,31 @@
                 <div class="tab-slider-wrapper product-description-review-container">
                     <nav>
                         <div class="nav nav-tabs" id="nav-tab" role="tablist">
-                            <a aria-selected="true" class="nav-item nav-link active" data-toggle="tab" href="#product-description" id="description-tab"
+                            <a aria-selected="true" class="nav-item nav-link active" data-toggle="tab"
+                               href="#product-description" id="description-tab"
                                role="tab">Opis</a>
-                            <a aria-selected="false" class="nav-item nav-link" data-toggle="tab" href="#review" id="review-tab"
+                            <a aria-selected="false" class="nav-item nav-link" data-toggle="tab" href="#review"
+                               id="review-tab"
                                role="tab">Pregled</a>
                         </div>
                     </nav>
                     <div class="tab-content" id="nav-tabContent">
-                        <div aria-labelledby="description-tab" class="tab-pane fade show active" id="product-description" role="tabpanel">
+                        <div aria-labelledby="description-tab" class="tab-pane fade show active"
+                             id="product-description" role="tabpanel">
                             <!--=======  product description  =======-->
 
                             <div class="product-description">
-                                <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nam fringilla augue nec est tristique auctor. Donec non est at libero vulputate rutrum. Morbi ornare lectus
-                                    quis justo gravida semper. Nulla tellus mi, vulputate adipiscing cursus eu, suscipit id nulla.</p>
+                                <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nam fringilla augue nec est
+                                    tristique auctor. Donec non est at libero vulputate rutrum. Morbi ornare lectus
+                                    quis justo gravida semper. Nulla tellus mi, vulputate adipiscing cursus eu, suscipit
+                                    id nulla.</p>
 
-                                <p>Pellentesque aliquet, sem eget laoreet ultrices, ipsum metus feugiat sem, quis fermentum turpis eros eget velit. Donec ac tempus ante. Fusce ultricies massa massa.
-                                    Fusce aliquam, purus eget sagittis vulputate, sapien libero hendrerit est, sed commodo augue nisi non neque. Lorem ipsum dolor sit amet, consectetur adipiscing
-                                    elit. Sed tempor, lorem et placerat vestibulum, metus nisi posuere nisl, in accumsan elit odio quis mi. Cras neque metus, consequat et blandit et, luctus a nunc.
+                                <p>Pellentesque aliquet, sem eget laoreet ultrices, ipsum metus feugiat sem, quis
+                                    fermentum turpis eros eget velit. Donec ac tempus ante. Fusce ultricies massa massa.
+                                    Fusce aliquam, purus eget sagittis vulputate, sapien libero hendrerit est, sed
+                                    commodo augue nisi non neque. Lorem ipsum dolor sit amet, consectetur adipiscing
+                                    elit. Sed tempor, lorem et placerat vestibulum, metus nisi posuere nisl, in accumsan
+                                    elit odio quis mi. Cras neque metus, consequat et blandit et, luctus a nunc.
                                     Etiam gravida vehicula tellus, in imperdiet ligula euismod eget.</p>
                             </div>
 
@@ -278,7 +312,8 @@
                                 </div>
                                 <div th:unless="${reviews.size()>0}">
 
-                                    <p style="font-size: 20px; font-weight: bold; text-align: center; margin-bottom: 50px; margin-top: 30px;">Trenutno ne postoje ocene i komentari za izabrani
+                                    <p style="font-size: 20px; font-weight: bold; text-align: center; margin-bottom: 50px; margin-top: 30px;">
+                                        Trenutno ne postoje ocene i komentari za izabrani
                                         proizvod</p>
 
                                 </div>
@@ -291,11 +326,16 @@
                                                 <!-- Rating Stars Box -->
                                                 <div class='rating-stars'>
                                                     <ul id='stars'>
-                                                        <li class='star' data-value='1' title='Poor'><i class='fa fa-star fa-fw'></i></li>
-                                                        <li class='star' data-value='2' title='Fair'><i class='fa fa-star fa-fw'></i></li>
-                                                        <li class='star' data-value='3' title='Good'><i class='fa fa-star fa-fw'></i></li>
-                                                        <li class='star' data-value='4' title='Excellent'><i class='fa fa-star fa-fw'></i></li>
-                                                        <li class='star' data-value='5' title='WOW!!!'><i class='fa fa-star fa-fw'></i></li>
+                                                        <li class='star' data-value='1' title='Poor'><i
+                                                                class='fa fa-star fa-fw'></i></li>
+                                                        <li class='star' data-value='2' title='Fair'><i
+                                                                class='fa fa-star fa-fw'></i></li>
+                                                        <li class='star' data-value='3' title='Good'><i
+                                                                class='fa fa-star fa-fw'></i></li>
+                                                        <li class='star' data-value='4' title='Excellent'><i
+                                                                class='fa fa-star fa-fw'></i></li>
+                                                        <li class='star' data-value='5' title='WOW!!!'><i
+                                                                class='fa fa-star fa-fw'></i></li>
                                                     </ul>
                                                 </div>
                                             </div>
@@ -309,10 +349,12 @@
                                             </div>
                                             <div class="col-12 mb-15">
                                                 <label for="comment">Tvoj komentar:</label>
-                                                <textarea id="comment" name="review" placeholder="Napiši komentar"></textarea>
+                                                <textarea id="comment" name="review"
+                                                          placeholder="Napiši komentar"></textarea>
                                             </div>
                                             <div class="col-12">
-                                                <input th:onclick="'javascript:addReview();'" type="submit" value="Dodaj komentar">
+                                                <input th:onclick="'javascript:addReview();'" type="submit"
+                                                       value="Dodaj komentar">
                                             </div>
                                         </div>
                                     </form>
@@ -359,12 +401,15 @@
                     <div class="fl-product" th:each="similar_product :${similar_products}">
                         <div class="image" th:classappend="${similar_product.isSale()}?'sale-product'">
                             <a th:href="@{/product/single_product/__${similar_product.id}__}">
-                                <img alt="" class="img-fluid" th:src="@{'/images/' + ${similar_product.images.get(0).name}}">
-                                <img alt="" class="img-fluid" th:src="@{'/images/' + ${similar_product.images.get(0).name}}">
+                                <img alt="" class="img-fluid"
+                                     th:src="@{'/images/' + ${similar_product.images.get(0).name}}">
+                                <img alt="" class="img-fluid"
+                                     th:src="@{'/images/' + ${similar_product.images.get(0).name}}">
                             </a>
                         </div>
                         <div class="content">
-                            <h2 class="product-title"><a th:href="@{/product/single_product/__${similar_product.id}__}" th:text="${similar_product.name}"></a></h2>
+                            <h2 class="product-title"><a th:href="@{/product/single_product/__${similar_product.id}__}"
+                                                         th:text="${similar_product.name}"></a></h2>
                             <div class="rating">
                                 <i class="fa fa-star active"></i>
                                 <i class="fa fa-star active"></i>
@@ -373,20 +418,38 @@
                                 <i class="fa fa-star"></i>
                             </div>
                             <p class="product-price">
-                                <span class="main-price discounted" th:if="${similar_product.isSale()&&similar_product.productAttributes.size()>1}" th:text="${similar_product.getMinPrice()}+' - '+${similar_product.getMaxPrice()}+ ' RSD'"></span>
-                                <span class="main-price discounted" th:if="${similar_product.isSale()&&similar_product.productAttributes.size()==1}" th:text="${similar_product.getMinPrice()}+ ' RSD'"></span>
+                                <span class="main-price discounted"
+                                      th:if="${similar_product.isSale()&&similar_product.productAttributes.size()>1}"
+                                      th:text="${similar_product.getMinPrice()}+' - '+${similar_product.getMaxPrice()}+ ' RSD'"></span>
+                                <span class="main-price discounted"
+                                      th:if="${similar_product.isSale()&&similar_product.productAttributes.size()==1}"
+                                      th:text="${similar_product.getMinPrice()}+ ' RSD'"></span>
                                 <br th:if="${similar_product.isSale()&&similar_product.productAttributes.size()>1}">
-                                <span class="discounted-price" th:if="${similar_product.isSale()&&similar_product.productAttributes.size()>1}" th:text="${similar_product.getMinDiscountedPrice()}+' - '+${similar_product.getMaxDiscountedPrice()}+ ' RSD'"></span>
-                                <span class="discounted-price" th:if="${similar_product.isSale()&&similar_product.productAttributes.size()==1}" th:text="${similar_product.getMinDiscountedPrice()}+ ' RSD'"></span>
-                                <span class="discounted-price" th:if="${!similar_product.isSale()&&similar_product.productAttributes.size()>1}" th:text="${similar_product.getMinPrice()}+' - '+${similar_product.getMaxPrice()}+ ' RSD'"></span>
-                                <span class="discounted-price" th:if="${!similar_product.isSale()&&similar_product.productAttributes.size()==1}" th:text="${similar_product.getMinPrice()}+ ' RSD'"></span>
+                                <span class="discounted-price"
+                                      th:if="${similar_product.isSale()&&similar_product.productAttributes.size()>1}"
+                                      th:text="${similar_product.getMinDiscountedPrice()}+' - '+${similar_product.getMaxDiscountedPrice()}+ ' RSD'"></span>
+                                <span class="discounted-price"
+                                      th:if="${similar_product.isSale()&&similar_product.productAttributes.size()==1}"
+                                      th:text="${similar_product.getMinDiscountedPrice()}+ ' RSD'"></span>
+                                <span class="discounted-price"
+                                      th:if="${!similar_product.isSale()&&similar_product.productAttributes.size()>1}"
+                                      th:text="${similar_product.getMinPrice()}+' - '+${similar_product.getMaxPrice()}+ ' RSD'"></span>
+                                <span class="discounted-price"
+                                      th:if="${!similar_product.isSale()&&similar_product.productAttributes.size()==1}"
+                                      th:text="${similar_product.getMinPrice()}+ ' RSD'"></span>
                             </p>
 
                             <div class="hover-icons">
                                 <ul>
-                                    <li><a data-tooltip="Dodaj u korpu" th:href="@{/product/single_product/__${similar_product.id}__}"><i class="icon ion-md-cart"></i></a></li>
-                                    <li><a data-tooltip="Dodaj u listu želja" href="#" th:onclick="|openWishListDialog(${similar_product.id})|"> <i class="icon ion-md-heart-empty"></i></a></li>
-                                    <li><a data-tooltip="Detaljnije" href="#" th:onclick="'javascript:openProductModal(\'' + ${similar_product.id} + '\');'"><i class="icon ion-md-open"></i></a></li>
+                                    <li><a data-tooltip="Dodaj u korpu"
+                                           th:href="@{/product/single_product/__${similar_product.id}__}"><i
+                                            class="icon ion-md-cart"></i></a></li>
+                                    <li><a data-tooltip="Dodaj u listu želja" href="#"
+                                           th:onclick="|openWishListDialog(${similar_product.id})|"> <i
+                                            class="icon ion-md-heart-empty"></i></a></li>
+                                    <li><a data-tooltip="Detaljnije" href="#"
+                                           th:onclick="'javascript:openProductModal(\'' + ${similar_product.id} + '\');'"><i
+                                            class="icon ion-md-open"></i></a></li>
                                 </ul>
                             </div>
                         </div>
@@ -420,7 +483,8 @@
 <!--END OF SEARCH OVERLAY-->
 
 <!--QUICK VIEW MODAL-->
-<div aria-hidden="true" class="modal fade quick-view-modal-container" id="quick-view-modal-container" role="dialog" tabindex="-1"></div>
+<div aria-hidden="true" class="modal fade quick-view-modal-container" id="quick-view-modal-container" role="dialog"
+     tabindex="-1"></div>
 
 <!--END OF QUICK VIEW MODAL-->
 

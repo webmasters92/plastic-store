@@ -1,8 +1,23 @@
 package rs.dev.plasticstore.model;
 
-import javax.persistence.*;
+import javax.persistence.CascadeType;
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.EnumType;
+import javax.persistence.Enumerated;
+import javax.persistence.FetchType;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.OneToMany;
+import javax.persistence.OneToOne;
+import javax.persistence.Table;
+import javax.persistence.Transient;
 import java.io.Serializable;
-import java.util.*;
+import java.util.Date;
+import java.util.HashSet;
+import java.util.Set;
 
 @Entity
 @Table(name = "orders")
@@ -14,29 +29,51 @@ public class Order implements Serializable {
     @Column(name = "id")
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int id;
-
     @Column(name = "date_created")
     private Date dateCreated;
-
     @Column(name = "order_status")
     @Enumerated(EnumType.STRING)
     private OrderStatus orderStatus;
+
+    public int getCustomer_id() {
+        return customer_id;
+    }
+
     @Column(name = "order_total")
     private double orderTotal;
     @Column(name = "shipping")
     private double shipping;
-    @OneToOne
-    @JoinColumn(name = "customer_id")
-    private Customer customer;
+
+    public OrderPayment getOrder_payment() {
+        return order_payment;
+    }
+
     @OneToOne
     @JoinColumn(name = "guest_id")
     private Guest guest;
-    @OneToMany(mappedBy = "order", cascade = CascadeType.ALL, fetch = FetchType.EAGER)
-    private Set<OrderItem> orderItems = new HashSet<>();
+
+    public void setCustomer_id(int customer_id) {
+        this.customer_id = customer_id;
+    }
+
+    public void setOrder_payment(OrderPayment order_payment) {
+        this.order_payment = order_payment;
+    }
+
+    @Column(name = "order_payment")
+    @Enumerated(EnumType.STRING)
+    private OrderPayment order_payment;
+    @JoinColumn(name = "customer_id")
+    private int customer_id;
 
     public Date getDateCreated() {
         return dateCreated;
     }
+
+    @OneToMany(mappedBy = "order", cascade = CascadeType.ALL, orphanRemoval = true, fetch = FetchType.EAGER)
+    private Set<OrderItem> orderItems = new HashSet<>();
+    @Transient
+    Customer customer;
 
     public void setDateCreated(Date dateCreated) {
         this.dateCreated = dateCreated;
@@ -57,7 +94,6 @@ public class Order implements Serializable {
     public void setGuest(Guest guest) {
         this.guest = guest;
     }
-
 
     public double getOrderTotal() {
         return orderTotal;

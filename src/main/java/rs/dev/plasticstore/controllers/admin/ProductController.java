@@ -1,14 +1,27 @@
 package rs.dev.plasticstore.controllers.admin;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.domain.*;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Sort;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.*;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseBody;
 import rs.dev.plasticstore.Utils.MinMax;
 import rs.dev.plasticstore.Utils.Sorting;
-import rs.dev.plasticstore.model.*;
+import rs.dev.plasticstore.model.Colors;
+import rs.dev.plasticstore.model.Product;
+import rs.dev.plasticstore.model.ProductColor;
+import rs.dev.plasticstore.model.Review;
+import rs.dev.plasticstore.model.UserPrincipal;
+import rs.dev.plasticstore.model.Wishlist;
 import rs.dev.plasticstore.services.category.CategoryService;
 import rs.dev.plasticstore.services.category.SubcategoryService;
 import rs.dev.plasticstore.services.color.ColorService;
@@ -17,7 +30,12 @@ import rs.dev.plasticstore.services.review.ReviewService;
 import rs.dev.plasticstore.services.wishlist.WishListService;
 
 import javax.servlet.http.HttpSession;
-import java.util.*;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.HashMap;
+import java.util.HashSet;
+import java.util.List;
+import java.util.Set;
 
 @Controller
 @RequestMapping("/product")
@@ -466,6 +484,7 @@ public class ProductController {
     @GetMapping(value = "/product_modal/{id}")
     public String showSingleProductModal(@PathVariable String id, Model model) {
         model.addAttribute("product", productService.findProductById(Integer.parseInt(id)));
+        model.addAttribute("avgRating", Math.round(reviewService.findAverageRatingByProductId(Integer.parseInt(id)).orElse(0)));
         return "webapp/product/single_product_modal :: modal_fragment";
     }
 

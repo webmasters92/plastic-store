@@ -22,7 +22,7 @@
         </div>
     </div>
 </div>
-<div class="page-section mb-50" th:if="${session.cart.getCartItems().size()>0}">
+<div class="page-section mb-50" th:if="${session.cart!=null && session.cart.getCartItems().size()>0}">
     <div class="container">
         <div class="row">
             <div class="col-12">
@@ -48,7 +48,9 @@
                                     <a th:href="@{/product/single_product/__${item.product.id}__}"><img alt="Product" class="img-fluid" th:src="@{'/images/' + ${item.product.images.get(0).name}}"></a>
                                 </td>
                                 <td class="pro-title"><a th:href="@{/product/single_product/__${item.product.id}__}" th:text="${item.product.getName()}"></a></td>
-                                <td class="pro-color"><span class="color-block" th:style="'background-color:'+${item.product_color.code}+';'"></span></td>
+                                <td class="pro-color"><span class="color-block"
+                                                            th:style="'background-color:'+${item.product_color.code}+';'"
+                                                            th:title="${item.product_color.name}"></span></td>
                                 <td class="pro-size"><span th:text="${item.size}"></span></td>
                                 <td class="pro-price" th:id="${item.product.id}+'-'+${item.getSize()}+'-'+${item.getPrice()}+'-'+${item.getColor()}"><span th:text="${item.price}+ ' RSD'"></span></td>
                                 <td class="pro-quantity">
@@ -98,11 +100,12 @@
         </div>
     </div>
 </div>
-<div class="page-section mb-50" th:unless="${session.cart.getCartItems().size()>0}">
+<div class="page-section mb-50" th:unless="${session.cart!=null && session.cart.getCartItems().size()>0}">
     <div class="container">
         <div class="row">
             <div class="col-12">
-                <p style="text-align: center; line-height: 100px; font-weight: bold; font-size: 20px">Vaša korpa je trenutno prazna</p>
+                <p style="text-align: center; line-height: 100px; font-weight: bold; font-size: 20px">Vaša korpa je
+                    trenutno prazna</p>
             </div>
         </div>
     </div>

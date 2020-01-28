@@ -14,8 +14,13 @@
                     <!-- single product tabstyle one image gallery -->
                     <div class="product-image-slider fl-product-image-slider fl3-product-image-slider quickview-product-image-slider">
                         <!--product large image start -->
-                        <div class="tab-content product-large-image-list fl-product-large-image-list fl3-product-large-image-list quickview-product-large-image-list" id="myTabContent2">
-                            <div th:each="image,iStat : ${product.images}" th:class="${iStat.count==1} ? 'tab-pane fade show active':'tab-pane fade'" th:id="'single-slide-'+${iStat.count}+'-q'" role="tabpanel" th:aria-labelledby="'single-slide-tab-'+${iStat.count}+'-q'">
+                        <div class="tab-content product-large-image-list fl-product-large-image-list fl3-product-large-image-list quickview-product-large-image-list"
+                             id="myTabContent2">
+                            <div role="tabpanel"
+                                 th:aria-labelledby="'single-slide-tab-'+${iStat.count}+'-q'"
+                                 th:class="${iStat.count==1} ? 'tab-pane fade show active':'tab-pane fade'"
+                                 th:each="image,iStat : ${product.images}"
+                                 th:id="'single-slide-'+${iStat.count}+'-q'">
                                 <!--Single Product Image Start-->
                                 <div class="single-product-img img-full">
                                     <img th:src="@{'/images/' + ${image.name}}" class="img-fluid" alt="">
@@ -29,7 +34,8 @@
                         <div class="product-small-image-list fl-product-small-image-list fl3-product-small-image-list quickview-product-small-image-list">
                             <div class="nav small-image-slider fl3-small-image-slider" role="tablist">
                                 <div th:each="image,iStat  : ${product.images}" class="single-small-image img-full">
-                                    <a data-toggle="tab" th:id="'single-slide-tab-'+${iStat.count}+'-q'" th:href="@{'#single-slide-'+${iStat.count}+'-q'}">
+                                    <a data-toggle="tab" th:href="@{'#single-slide-'+${iStat.count}+'-q'}"
+                                       th:id="'single-slide-tab-'+${iStat.count}+'-q'">
                                         <img th:src="@{'/images/' + ${image.name}}" class="img-fluid" alt="">
                                     </a>
                                 </div>
@@ -41,32 +47,55 @@
                 </div>
                 <div class="col-lg-7 col-md-6 col-xs-12">
                     <!-- product quick view description -->
-                    <div class="product-feature-details">
-                        <h2 th:text="${product.name}" class="product-title mb-15"></h2>
+                    <div class="product_modal_rating">
+                        <div class="product-feature-details">
+                            <h2 class="product-title mb-15" th:text="${product.name}"></h2>
 
-                        <h2 class="product-price mb-15">
-                            <span class="main-price-modal" th:classappend="${product.isSale()} ? 'discounted'" th:text="${product.productAttributes.get(0).getPrice()}+' DIN'"></span>
-                            <span class="discounted-price-modal" th:if="${product.isSale()}" th:text="${product.productAttributes.get(0).getDiscounted_price()}+' DIN'"></span>
-                            <span class="discount-percentage" th:if="${product.isSale()}" th:text="'Ušteda '+${(product.productAttributes.get(0).getPrice()-product.productAttributes.get(0).getDiscounted_price())*100/product.productAttributes.get(0).getPrice()}+'%'">Save 8%</span>
-                        </h2>
+                            <div class="rating d-inline-block mb-15" id="single-rating">
+                                <i class="fa fa-star"></i>
+                                <i class="fa fa-star"></i>
+                                <i class="fa fa-star"></i>
+                                <i class="fa fa-star"></i>
+                                <i class="fa fa-star"></i>
+                            </div>
 
-                        <div class="manufacturer mb-0">
-                            <span class="title">Proizvođač:  </span>
-                            <p class="product-manufacturer mb-20" th:text="' '+${product.manufacturer}"></p>
-                        </div>
+                            <h3 class="product-available mb-15" th:if="${product.isAvailable()}">( NA STANJU )</h3>
+                            <h3 class="product-not-available mb-15" th:unless="${product.isAvailable()}">( NIJE NA
+                                STANJU
+                                )</h3>
 
-                        <p class="product-description mb-15" th:text="${product.description}"></p>
+                            <h2 class="product-price mb-15">
+                            <span class="main-price-modal" th:classappend="${product.isSale()} ? 'discounted'"
+                                  th:text="${product.productAttributes.get(0).getPrice()}+' DIN'"></span>
+                                <span class="discounted-price-modal" th:if="${product.isSale()}"
+                                      th:text="${product.productAttributes.get(0).getDiscounted_price()}+' DIN'"></span>
+                                <span class="discount-percentage" th:if="${product.isSale()}"
+                                      th:text="'Ušteda '+${(product.productAttributes.get(0).getPrice()-product.productAttributes.get(0).getDiscounted_price())*100/product.productAttributes.get(0).getPrice()}+'%'">Save 8%</span>
+                            </h2>
 
-                        <div class="size mb-15">
-                            <span class="title"> Veličina:</span> <br>
-                            <select class="nice-select-modal" id="chooseSize" name="chooseSize">
-                                <option th:each="attribute : ${product.productAttributes}" th:text="${attribute.size}" th:value="${attribute.price}+'-'+${attribute.getDiscounted_price()}"></option>
-                            </select>
-                        </div>
+                            <div class="manufacturer mb-0">
+                                <span class="title">Proizvođač:</span>
+                                <p class="product-manufacturer mb-20" th:text="' '+${product.manufacturer}"></p>
+                            </div>
 
-                        <div class="color mb-15">
-                            <span class="title"> Boja:</span> <br>
-                            <a th:each="color,iter:${product.getProductColors()}"><span class="color-block" th:classappend="${iter.first}?'active'" th:style="'background-color:'+${color.code}+';'"></span></a>
+                            <p class="product-description mb-15" th:text="${product.description}"></p>
+
+                            <div class="size mb-15">
+                                <span class="title"> Veličina:</span> <br>
+                                <select class="nice-select-modal" id="chooseSize" name="chooseSize">
+                                    <option th:each="attribute : ${product.productAttributes}"
+                                            th:text="${attribute.size}"
+                                            th:value="${attribute.price}+'-'+${attribute.getDiscounted_price()}"></option>
+                                </select>
+                            </div>
+
+                            <div class="color mb-15">
+                                <span class="title"> Boja:</span> <br>
+                                <a th:each="color,iter:${product.getProductColors()}"><span class="color-block"
+                                                                                            th:classappend="${iter.first}?'active'"
+                                                                                            th:style="'background-color:'+${color.code}+';'"
+                                                                                            th:title="${color.name}"></span></a>
+                            </div>
                         </div>
                     </div>
                     <!-- end of product quick view description -->
@@ -78,10 +107,10 @@
                 /*<![CDATA[*/
                 var savings = /*[[${(product.productAttributes.get(0).getPrice()-product.productAttributes.get(0).getDiscounted_price())*100/product.productAttributes.get(0).getPrice()}
 ]]*/ 'SearchParam';
+                var avgRating = /*[[${avgRating}]]*/ '0';
                 /*]]>*/
                 $('.discount-percentage').text('Ušteda ' + Math.round(parseInt(savings)) + ' %');
                 $('.nice-select-modal').niceSelect();
-
                 $('#chooseSize').on('change', function () {
                     console.log('modal radi');
                     var value = this.value.split("-");
@@ -96,6 +125,12 @@
                     } else {
                         $('.main-price-modal').text(price + ' DIN');
                     }
+                });
+
+                $('#single-rating').children('i').each(function (index, e) {
+                    if (avgRating == 0) return false;
+                    $(this).addClass('active');
+                    if (index + 1 == avgRating) return false;
                 });
 
                 $('.color span.color-block').on('click', function (e) {

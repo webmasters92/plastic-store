@@ -4,8 +4,15 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.*;
-import rs.dev.plasticstore.model.*;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.ResponseBody;
+import rs.dev.plasticstore.model.Cart;
+import rs.dev.plasticstore.model.CartItem;
+import rs.dev.plasticstore.model.UserPrincipal;
 import rs.dev.plasticstore.services.cart.CartService;
 import rs.dev.plasticstore.services.category.CategoryService;
 import rs.dev.plasticstore.services.color.ColorService;
@@ -35,9 +42,8 @@ public class CartController {
         var product = productService.findProductById(cartItem.getProduct_id());
         var product_color = colorService.findColorsByName(cartItem.getColor());
         var cart = (Cart) session.getAttribute("cart");
-        if(cart == null) {
-            cart = new Cart();
-        }
+        if(cart == null) cart = new Cart();
+
         cartItem.setCart(cart);
         cartItem.setProduct(product);
         cartItem.setProduct_color(product_color);
@@ -57,7 +63,7 @@ public class CartController {
         if(principal != null) {
             var cartDb = cartService.findCartByCustomerId(principal.getUserId());
             if(cartDb != null) {
-                if(!cartDb.getCartItems().contains(cartItem)) cartDb.getCartItems().add(cartItem);
+                cartDb.getCartItems().add(cartItem);
                 cartDb.setCustomerId(principal.getUserId());
                 cartDb.setTotal(cartDb.getCartItems().stream().map(CartItem::getTotalPrice).reduce(0, Integer::sum));
                 session.setAttribute("cart", cartDb);

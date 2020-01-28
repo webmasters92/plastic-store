@@ -4,14 +4,29 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.*;
-import rs.dev.plasticstore.model.*;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.ModelAttribute;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestMapping;
+import rs.dev.plasticstore.model.Cart;
+import rs.dev.plasticstore.model.Customer;
+import rs.dev.plasticstore.model.Guest;
+import rs.dev.plasticstore.model.Order;
+import rs.dev.plasticstore.model.OrderItem;
+import rs.dev.plasticstore.model.OrderPayment;
+import rs.dev.plasticstore.model.OrderStatus;
+import rs.dev.plasticstore.model.UserPrincipal;
 import rs.dev.plasticstore.services.cart.CartService;
 import rs.dev.plasticstore.services.category.CategoryService;
+import rs.dev.plasticstore.services.checkout.CheckoutService;
 import rs.dev.plasticstore.services.color.ColorService;
+import rs.dev.plasticstore.services.guest.GuestService;
 import rs.dev.plasticstore.services.product.ProductService;
+import rs.dev.plasticstore.services.user.CustomerService;
 
 import javax.servlet.http.HttpSession;
+import java.util.Date;
 
 @Controller
 @RequestMapping("/checkout")
@@ -29,121 +44,79 @@ public class CheckoutController {
     @Autowired
     CategoryService categoryService;
 
-    @PostMapping("/add_to_cart")
-    @ResponseBody
-    public int addToCart(@RequestBody CartItem cartItem, HttpSession session, @AuthenticationPrincipal UserPrincipal principal) {
-        var product = productService.findProductById(cartItem.getProduct_id());
-        var product_color = colorService.findColorsByName(cartItem.getColor());
-        var cart = (Cart) session.getAttribute("cart");
-        if(cart == null) {
-            cart = new Cart();
-        }
-        cartItem.setCart(cart);
-        cartItem.setProduct(product);
-        cartItem.setProduct_color(product_color);
-        cartItem.setTotalPrice(cartItem.getQuantity() * cartItem.getPrice());
-
-        cart.setCustomerId(0);
-        cart.getCartItems().add(cartItem);
-        cart.getCartItems().forEach(cartItem1 -> {
-            if(cartItem1.equals(cartItem)) {
-                cartItem1.setQuantity(cartItem.getQuantity());
-                cartItem1.setTotalPrice(cartItem.getQuantity() * cartItem.getPrice());
-            }
-        });
-        cart.setTotal(cart.getCartItems().stream().map(CartItem::getTotalPrice).reduce(0, Integer::sum));
-
-        session.setAttribute("cart", cart);
+    @PostMapping(value = "/place_order")
+    public String placeOrder(@ModelAttribute Order order, @AuthenticationPrincipal UserPrincipal principal, HttpSession session) {
         if(principal != null) {
-            var cartDb = cartService.findCartByCustomerId(principal.getUserId());
-            if(cartDb != null) {
-                if(!cartDb.getCartItems().contains(cartItem)) cartDb.getCartItems().add(cartItem);
-                cartDb.setCustomerId(principal.getUserId());
-                cartDb.setTotal(cartDb.getCartItems().stream().map(CartItem::getTotalPrice).reduce(0, Integer::sum));
-                session.setAttribute("cart", cartDb);
-                cartService.saveCart(cartDb);
-            } else {
-                cart.setCustomerId(principal.getUserId());
-                cartService.saveCart(cart);
-            }
-        }
-        return product.getId();
-    }
+            order.setCustomer_id(principal.getUserId());
+        } else guestService.save(order.getGuest());
 
-    @GetMapping(value = "/show_checkout")
-    public String showCheckout(Model model, @ModelAttribute Order order, @AuthenticationPrincipal UserPrincipal principal, HttpSession session) {
+        var cart = (Cart) session.getAttribute("cart");
+        cart.getCartItems().forEach(cartItem -> {
+            var orderItem = new OrderItem();
+            orderItem.setColor(cartItem.getColor());
+            orderItem.setPrice(cartItem.getPrice());
+            orderItem.setProduct(cartItem.getProduct());
+            orderItem.setProduct_color(cartItem.getProduct_color());
+            orderItem.setQuantity(cartItem.getQuantity());
+            orderItem.setSize(cartItem.getSize());
+            orderItem.setTotalPrice(cartItem.getTotalPrice());
+            orderItem.setOrder(order);
+            order.getOrderItems().add(orderItem);
+        });
 
-        model.addAttribute("categories", categoryService.findAll());
-        model.addAttribute("order", new Order());
+        order.setOrderTotal(cart.getTotal());
+        order.setDateCreated(new Date());
+        order.setOrderStatus(OrderStatus.ORDERED);
+        order.setOrder_payment(OrderPayment.CASH_ON_DELIVERY);
 
+        checkoutService.saveOrder(order);
         return "webapp/checkout/checkout";
     }
 
-    @GetMapping(value = "/delete_cart_item/{size}/{price}/{color}")
-    public String deleteFromCart(@PathVariable String size, @PathVariable String price, @PathVariable String color, @AuthenticationPrincipal UserPrincipal principal, HttpSession session) {
+    @GetMapping(value = "/show_checkout")
+    public String showCheckout(Model model, @AuthenticationPrincipal UserPrincipal principal, HttpSession session) {
+        var order = new Order();
         if(principal != null) {
-            var cartDB = cartService.findCartByCustomerId(principal.getUserId());
-            cartDB.getCartItems().removeIf(cartItem -> cartItem.getSize().equals(size) && cartItem.getPrice() == Integer.parseInt(price) && cartItem.getColor().equals(color));
-            cartDB.setTotal(cartDB.getCartItems().stream().map(CartItem::getTotalPrice).reduce(0, Integer::sum));
-            cartService.saveCart(cartDB);
-            session.setAttribute("cart", cartDB);
-        } else {
-            var cart = (Cart) session.getAttribute("cart");
-            cart.getCartItems().removeIf(cartItem -> cartItem.getSize().equals(size) && cartItem.getPrice() == Integer.parseInt(price) && cartItem.getColor().equals(color));
-            cart.setTotal(cart.getCartItems().stream().map(CartItem::getTotalPrice).reduce(0, Integer::sum));
-            session.setAttribute("cart", cart);
-        }
-        return "redirect:/cart/show_cart";
-    }
+            Customer customer = customerService.findCustomerByUsername(principal.getUsername());
+            customer.setCountry("Srbija");
+            order.setCustomer(customer);
+            order.setCustomer_id(customer.getId());
+        } else order.setGuest(new Guest());
 
-    @GetMapping(value = "/delete_minicart_item/{size}/{price}/{color}")
-    public String deleteFromMiniCart(@PathVariable String size, @PathVariable String price, @PathVariable String color, @AuthenticationPrincipal UserPrincipal principal, HttpSession session) {
-        if(principal != null) {
-            var cartDB = cartService.findCartByCustomerId(principal.getUserId());
-            cartDB.getCartItems().removeIf(cartItem -> cartItem.getSize().equals(size) && cartItem.getPrice() == Integer.parseInt(price) && cartItem.getColor().equals(color));
-            cartDB.setTotal(cartDB.getCartItems().stream().map(CartItem::getTotalPrice).reduce(0, Integer::sum));
-            cartService.saveCart(cartDB);
-            session.setAttribute("cart", cartDB);
-        } else {
-            var cart = (Cart) session.getAttribute("cart");
-            cart.getCartItems().removeIf(cartItem -> cartItem.getSize().equals(size) && cartItem.getPrice() == Integer.parseInt(price) && cartItem.getColor().equals(color));
-            cart.setTotal(cart.getCartItems().stream().map(CartItem::getTotalPrice).reduce(0, Integer::sum));
-            session.setAttribute("cart", cart);
-        }
-        return "webapp/cart/minicart_fragment :: minicart";
-    }
-
-    @GetMapping(value = "/refresh_minicart")
-    public String refreshMinicartFragment() {
-        return "webapp/cart/minicart_fragment :: minicart";
-    }
-
-    @GetMapping(value = "/update_cart_summary")
-    public String updateCartSummary() {
-        return "webapp/cart/cart_summary :: summary";
-    }
-
-
-    @GetMapping(value = "/update_minicart/{id}/{value}/{quantity}")
-    public String refreshMinicartFragment(@PathVariable String id, @PathVariable String value, @PathVariable String quantity, HttpSession session) {
-        var item_id = Integer.parseInt(id.split("-")[0]);
-        var item_price = Integer.parseInt(id.split("-")[2]);
-        var item_size = id.split("-")[1];
-        var item_color = id.split("-")[3];
-        int item_total = Integer.parseInt(value);
-        int item_quantity = Integer.parseInt(quantity);
         var cart = (Cart) session.getAttribute("cart");
-        if(cart != null) {
-            cart.getCartItems().forEach(cartItem -> {
-                if(cartItem.getProduct_id() == item_id && cartItem.getPrice() == item_price && cartItem.getSize().equals(item_size) && cartItem.getColor().equals(item_color)) {
-                    cartItem.setQuantity(item_quantity);
-                    cartItem.setTotalPrice(item_total);
-                }
-            });
-            cart.setTotal(cart.getCartItems().stream().map(CartItem::getTotalPrice).reduce(0, Integer::sum));
-            session.setAttribute("cart", cart);
-        }
-        return "webapp/cart/minicart_fragment :: minicart";
+        cart.getCartItems().forEach(cartItem -> {
+            var orderItem = new OrderItem();
+            orderItem.setId(cartItem.getId());
+            orderItem.setColor(cartItem.getColor());
+            orderItem.setPrice(cartItem.getPrice());
+            orderItem.setProduct(cartItem.getProduct());
+            orderItem.setProduct_color(cartItem.getProduct_color());
+            orderItem.setQuantity(cartItem.getQuantity());
+            orderItem.setSize(cartItem.getSize());
+            orderItem.setTotalPrice(cartItem.getTotalPrice());
+            orderItem.setOrder(order);
+            order.getOrderItems().add(orderItem);
+        });
+
+        order.setOrderTotal(cart.getTotal());
+        model.addAttribute("categories", categoryService.findAll());
+        model.addAttribute("order", order);
+        return "webapp/checkout/checkout";
     }
 
+    @GetMapping(value = "/order_details/{id}")
+    public String showCheckout(@PathVariable String id, Model model) {
+        var order = checkoutService.findOrderById(Integer.parseInt(id));
+
+        model.addAttribute("categories", categoryService.findAll());
+        model.addAttribute("order", order);
+        return "webapp/checkout/order_details";
+    }
+
+    @Autowired
+    CustomerService customerService;
+    @Autowired
+    CheckoutService checkoutService;
+    @Autowired
+    GuestService guestService;
 }

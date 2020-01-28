@@ -1,0 +1,203 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head th:replace="webapp/containers/headContainer :: headContainer"></head>
+
+<body>
+
+<div th:replace="webapp/containers/headerContainer :: headerContainer" th:with="${categories}"></div>
+
+<div class="breadcrumb-area pt-15 pb-15">
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-12">
+                <!--=======  breadcrumb container  =======-->
+
+                <div class="breadcrumb-container">
+                    <nav>
+                        <ul>
+                            <li class="parent-page"><a th:href="@{/}">Početna</a></li>
+                            <li>Moj nalog</li>
+                        </ul>
+                    </nav>
+                </div>
+                <!--=======  End of breadcrumb container  =======-->
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="page-section mb-50">
+    <div class="container">
+        <div class="row">
+            <div class="col-12">
+                <div class="row">
+                    <!-- My Account Tab Menu Start -->
+                    <div class="col-lg-3 col-12">
+                        <div class="myaccount-tab-menu nav" role="tablist">
+                            <a class="active" data-toggle="tab" href="#dashboad"><i class="fa fa-dashboard"></i>Kontrolna
+                                tabla</a>
+
+                            <a data-toggle="tab" href="#orders"><i class="fa fa-cart-arrow-down"></i> Porudžbine</a>
+
+                            <a data-toggle="tab" href="#account-info"><i class="fa fa-user"></i> Podaci o nalogu</a>
+
+                            <a th:href="@{/customer/logout}"><i class="fa fa-sign-out"></i> Odjava</a>
+                        </div>
+                    </div>
+                    <!-- My Account Tab Menu End -->
+
+                    <!-- My Account Tab Content Start -->
+                    <div class="col-lg-9 col-12">
+                        <div class="tab-content" id="myaccountContent">
+                            <!-- Single Tab Content Start -->
+                            <div class="tab-pane fade show active" id="dashboad" role="tabpanel">
+                                <div class="myaccount-content">
+                                    <h3>Kontrolna tabla</h3>
+
+                                    <div class="welcome mb-20">
+                                        <p th:text="'Zdravo '+${#authentication.getPrincipal().getUsername()}">
+                                        </p>
+                                    </div>
+
+                                    <p class="mb-0">Sa ove kontrolne table možeš lako proveriti svoje porudžbine kao i
+                                        manipulisati svojim podacima o nalogu.</p>
+                                </div>
+                            </div>
+                            <!-- Single Tab Content End -->
+
+                            <!-- Single Tab Content Start -->
+                            <div class="tab-pane fade" id="orders" role="tabpanel">
+                                <div class="myaccount-content">
+                                    <h3>Porudžbine</h3>
+
+                                    <div class="myaccount-table table-responsive text-center">
+                                        <table class="table table-bordered">
+                                            <thead class="thead-light">
+                                            <tr>
+                                                <th>ID</th>
+                                                <th>Datum kreiranja</th>
+                                                <th>Status</th>
+                                                <th>Ukupno</th>
+                                                <th>Pregled</th>
+                                            </tr>
+                                            </thead>
+                                            <tbody>
+                                            <tr th:each="order,iter: ${orders}">
+                                                <td th:text="${iter.count}"></td>
+                                                <td th:text="${#dates.format(order.getDateCreated(), 'dd-MMM-yyyy')}"></td>
+                                                <td th:text="${order.getOrderStatus()}"></td>
+                                                <td th:text="${order.getOrderTotal()}+' RSD'"></td>
+                                                <td><a class="btn"
+                                                       th:href="@{/checkout/order_details/__${order.getId()}__}">Detalji</a>
+                                                </td>
+                                            </tr>
+                                            </tbody>
+                                        </table>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <!-- Single Tab Content Start -->
+                            <div class="tab-pane fade" id="account-info" role="tabpanel" th:object="${customer}">
+                                <div class="myaccount-content">
+                                    <h3>Podaci o nalogu</h3>
+
+                                    <div class="account-details-form">
+                                        <form method="post" th:action="@{/customer/edit_customer}">
+                                            <div class="row">
+                                                <div class="col-lg-6 col-12 mb-30">
+                                                    <label>Ime*</label>
+                                                    <input id="first-name" placeholder="Ime" th:field="*{firstName}"
+                                                           type="text">
+                                                </div>
+
+                                                <div class="col-lg-6 col-12 mb-30">
+                                                    <label>Prezime*</label>
+                                                    <input id="last-name" placeholder="Prezime" th:field="*{lastName}"
+                                                           type="text">
+                                                </div>
+
+                                                <div class="col-lg-6 col-12 mb-30">
+                                                    <label>Broj telefona</label>
+                                                    <input id="phone-number" th:field="*{phoneNumber}" type="text">
+                                                </div>
+
+                                                <div class="col-lg-6 col-12 mb-30">
+                                                    <label>Adresa</label>
+                                                    <input id="address" th:field="*{address}" type="text">
+                                                </div>
+
+                                                <div class="col-lg-6 col-12 mb-30">
+                                                    <label>Grad</label>
+                                                    <input id="city" th:field="*{city}" type="text">
+                                                </div>
+
+                                                <div class="col-lg-6 col-12 mb-30">
+                                                    <label>Poštanski broj</label>
+                                                    <input id="zip-code" th:field="*{zipCode}" type="text">
+                                                </div>
+
+                                                <div class="col-12 mb-30">
+                                                    <label>Email*</label>
+                                                    <input id="email" placeholder="Email" th:field="*{email}"
+                                                           type="email">
+                                                </div>
+
+                                                <div class="col-12 mb-30">
+                                                    <label>Korisničko ime*</label>
+                                                    <input id="display-name" placeholder="Korisničko ime" readonly
+                                                           th:field="*{username}" type="text">
+                                                </div>
+
+                                                <div class="col-12 mb-30"><h4>Promena šifre</h4></div>
+
+                                                <div class="col-12 mb-30">
+                                                    <label>Trenutna šifra*</label>
+                                                    <input id="current-pwd" readonly th:field="*{password}"
+                                                           type="password">
+                                                </div>
+
+                                                <div class="col-lg-6 col-12 mb-30">
+                                                    <input id="new-pwd" placeholder="Nova šifra"
+                                                           th:field="*{new_password}" type="password">
+                                                </div>
+
+                                                <div class="col-lg-6 col-12 mb-30">
+                                                    <input id="confirm-pwd" placeholder="Potvrdi šifru" type="password">
+                                                </div>
+
+                                                <div class="col-12">
+                                                    <button class="save-change-btn" type="submit">Sačuvaj promene
+                                                    </button>
+                                                </div>
+                                            </div>
+                                        </form>
+                                    </div>
+                                </div>
+                            </div>
+                            <!-- Single Tab Content End -->
+                        </div>
+                    </div>
+                    <!-- My Account Tab Content End -->
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div th:replace="webapp/containers/footerContainer :: footerContainer"></div>
+
+<div class="search-overlay" id="search-overlay">
+    <a class="search-overlay-close" href="#" id="search-overlay-close"><i class="fa fa-times"></i></a>
+    <div class="search-box">
+        <input placeholder="Search entire store here" type="search">
+        <button><i class="icon ion-md-search"></i></button>
+    </div>
+</div>
+
+<a class="scroll-top" href="#"></a>
+
+<div th:insert="webapp/containers/scriptsContainer :: scriptsContainer"></div>
+
+</body>
+</html>

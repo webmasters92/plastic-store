@@ -1,7 +1,7 @@
 $("#fileUpload").on('change', function (event) {
     //Get count of selected files
     var countFiles = $(this)[0].files.length;
-    if (countFiles <= 4) {
+    if (countFiles <= 10) {
         var imgPath = $(this)[0].value;
         var extn = imgPath.substring(imgPath.lastIndexOf('.') + 1).toLowerCase();
         var image_holder = $("#image-holder");
@@ -29,7 +29,7 @@ $("#fileUpload").on('change', function (event) {
             location.reload();
         }
     } else {
-        alert("Maksimalan broj slika koje mozete uneti je 4");
+        alert("Maksimalan broj slika koje mozete uneti je 10");
         return false;
     }
 });
