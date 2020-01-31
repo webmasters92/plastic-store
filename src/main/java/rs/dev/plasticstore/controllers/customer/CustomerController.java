@@ -10,24 +10,22 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import rs.dev.plasticstore.model.Customer;
+import rs.dev.plasticstore.model.Product;
 import rs.dev.plasticstore.model.Role;
 import rs.dev.plasticstore.model.UserPrincipal;
+import rs.dev.plasticstore.model.Wishlist;
 import rs.dev.plasticstore.services.category.CategoryService;
 import rs.dev.plasticstore.services.checkout.CheckoutService;
+import rs.dev.plasticstore.services.product.ProductService;
 import rs.dev.plasticstore.services.user.CustomerService;
+import rs.dev.plasticstore.services.wishlist.WishListService;
+
+import java.util.ArrayList;
+import java.util.HashSet;
 
 @Controller
 @RequestMapping("/customer")
 public class CustomerController {
-
-    @Autowired
-    CategoryService categoryService;
-
-    @Autowired
-    CustomerService customerService;
-
-    @Autowired
-    PasswordEncoder bCryptPasswordEncoder;
 
     @PostMapping
     @RequestMapping("/edit_customer")
@@ -71,9 +69,17 @@ public class CustomerController {
     @GetMapping
     @RequestMapping("/my_account")
     public String showMyAccount(Model model, @AuthenticationPrincipal UserPrincipal principal) {
+        var wishlist_db = new ArrayList<Wishlist>();
+        var products = new HashSet<Product>();
+        wishlist_db.addAll(wishListService.findWishListByUserId(principal.getUserId()));
+        for(Wishlist wishlist : wishlist_db) {
+            products.add(productService.findProductById(wishlist.getProductId()));
+        }
+
         model.addAttribute("categories", categoryService.findAll());
         model.addAttribute("customer", customerService.findCustomerById(principal.getUserId()));
         model.addAttribute("orders", checkoutService.findAllOrdersByCustomerId(principal.getUserId()));
+        model.addAttribute("products", products);
         return "webapp/customer/my_account";
     }
 
@@ -85,6 +91,16 @@ public class CustomerController {
         return "webapp/customer/register";
     }
 
+    @Autowired
+    CategoryService categoryService;
+    @Autowired
+    CustomerService customerService;
+    @Autowired
+    WishListService wishListService;
+    @Autowired
+    ProductService productService;
+    @Autowired
+    PasswordEncoder bCryptPasswordEncoder;
     @Autowired
     CheckoutService checkoutService;
 }

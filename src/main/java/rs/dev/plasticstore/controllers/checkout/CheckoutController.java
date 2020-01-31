@@ -45,7 +45,7 @@ public class CheckoutController {
     CategoryService categoryService;
 
     @PostMapping(value = "/place_order")
-    public String placeOrder(@ModelAttribute Order order, @AuthenticationPrincipal UserPrincipal principal, HttpSession session) {
+    public String placeOrder(@ModelAttribute Order order, @AuthenticationPrincipal UserPrincipal principal, HttpSession session, Model model) {
         if(principal != null) {
             order.setCustomer_id(principal.getUserId());
         } else guestService.save(order.getGuest());
@@ -70,7 +70,9 @@ public class CheckoutController {
         order.setOrder_payment(OrderPayment.CASH_ON_DELIVERY);
 
         checkoutService.saveOrder(order);
-        return "webapp/checkout/checkout";
+        model.addAttribute("order", order);
+        model.addAttribute("categories", categoryService.findAll());
+        return "webapp/checkout/order_confirmed";
     }
 
     @GetMapping(value = "/show_checkout")

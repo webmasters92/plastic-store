@@ -24,18 +24,6 @@ import javax.servlet.http.HttpSession;
 @RequestMapping("/cart")
 public class CartController {
 
-    @Autowired
-    ProductService productService;
-
-    @Autowired
-    ColorService colorService;
-
-    @Autowired
-    CartService cartService;
-
-    @Autowired
-    CategoryService categoryService;
-
     @PostMapping("/add_to_cart")
     @ResponseBody
     public int addToCart(@RequestBody CartItem cartItem, HttpSession session, @AuthenticationPrincipal UserPrincipal principal) {
@@ -46,6 +34,7 @@ public class CartController {
 
         cartItem.setCart(cart);
         cartItem.setProduct(product);
+        cartItem.setProduct_id(product.getId());
         cartItem.setProduct_color(product_color);
         cartItem.setTotalPrice(cartItem.getQuantity() * cartItem.getPrice());
 
@@ -74,24 +63,6 @@ public class CartController {
             }
         }
         return product.getId();
-    }
-
-    @GetMapping(value = "/show_cart")
-    public String showCart(Model model, @AuthenticationPrincipal UserPrincipal principal, HttpSession session) {
-        var cart = new Cart();
-        if(principal != null) {
-            cart = cartService.findCartByCustomerId(principal.getUserId());
-            session.setAttribute("cart", cart);
-        } else {
-            cart = (Cart) session.getAttribute("cart");
-            if(cart == null) {
-                cart = new Cart();
-                session.setAttribute("cart", cart);
-            }
-        }
-        model.addAttribute("categories", categoryService.findAll());
-        model.addAttribute("cart", cart);
-        return "webapp/cart/cart";
     }
 
     @GetMapping(value = "/delete_cart_item/{size}/{price}/{color}")
@@ -133,12 +104,6 @@ public class CartController {
         return "webapp/cart/minicart_fragment :: minicart";
     }
 
-    @GetMapping(value = "/update_cart_summary")
-    public String updateCartSummary() {
-        return "webapp/cart/cart_summary :: summary";
-    }
-
-
     @GetMapping(value = "/update_minicart/{id}/{value}/{quantity}")
     public String refreshMinicartFragment(@PathVariable String id, @PathVariable String value, @PathVariable String quantity, HttpSession session) {
         var item_id = Integer.parseInt(id.split("-")[0]);
@@ -150,15 +115,55 @@ public class CartController {
         var cart = (Cart) session.getAttribute("cart");
         if(cart != null) {
             cart.getCartItems().forEach(cartItem -> {
-                if(cartItem.getProduct_id() == item_id && cartItem.getPrice() == item_price && cartItem.getSize().equals(item_size) && cartItem.getColor().equals(item_color)) {
+                if(cartItem.getProduct().getId() == item_id && cartItem.getPrice() == item_price && cartItem.getSize().equals(item_size) && cartItem.getColor().equals(item_color)) {
                     cartItem.setQuantity(item_quantity);
                     cartItem.setTotalPrice(item_total);
                 }
             });
             cart.setTotal(cart.getCartItems().stream().map(CartItem::getTotalPrice).reduce(0, Integer::sum));
+
             session.setAttribute("cart", cart);
         }
         return "webapp/cart/minicart_fragment :: minicart";
     }
+
+    @GetMapping(value = "/show_cart")
+    public String showCart(Model model, @AuthenticationPrincipal UserPrincipal principal, HttpSession session) {
+        Cart cart;
+        if(principal != null) {
+            if(session.getAttribute("cart") != null) {
+                System.out.println("sesija puna");
+                cart = (Cart) session.getAttribute("cart");
+            } else {
+                cart = cartService.findCartByCustomerId(principal.getUserId());
+                System.out.println("sesija prazna cupamo iz baze " + cart.getCartItems().size());
+            }
+            session.setAttribute("cart", cart);
+        } else {
+            cart = (Cart) session.getAttribute("cart");
+            if(cart == null) {
+                cart = new Cart();
+                session.setAttribute("cart", cart);
+            }
+        }
+        model.addAttribute("categories", categoryService.findAll());
+        model.addAttribute("cart", cart);
+        return "webapp/cart/cart";
+    }
+
+    @GetMapping(value = "/update_cart_summary")
+    public String updateCartSummary() {
+
+        return "webapp/cart/cart_summary :: summary";
+    }
+
+    @Autowired
+    ProductService productService;
+    @Autowired
+    ColorService colorService;
+    @Autowired
+    CartService cartService;
+    @Autowired
+    CategoryService categoryService;
 
 }

@@ -34,12 +34,14 @@
                     <!-- My Account Tab Menu Start -->
                     <div class="col-lg-3 col-12">
                         <div class="myaccount-tab-menu nav" role="tablist">
-                            <a class="active" data-toggle="tab" href="#dashboad"><i class="fa fa-dashboard"></i>Kontrolna
-                                tabla</a>
+                            <a class="active" data-toggle="tab" href="#dashboad"><i class="fa fa-dashboard"></i>Korisnički
+                                panel</a>
 
-                            <a data-toggle="tab" href="#orders"><i class="fa fa-cart-arrow-down"></i> Porudžbine</a>
+                            <a data-toggle="tab" href="#orders"><i class="fa fa-cart-arrow-down"></i>Moje Porudžbine</a>
 
-                            <a data-toggle="tab" href="#account-info"><i class="fa fa-user"></i> Podaci o nalogu</a>
+                            <a data-toggle="tab" href="#wishlist"><i class="fa fa-cart-arrow-down"></i>Moje Želje</a>
+
+                            <a data-toggle="tab" href="#account-info"><i class="fa fa-user"></i> Korisnički podaci</a>
 
                             <a th:href="@{/customer/logout}"><i class="fa fa-sign-out"></i> Odjava</a>
                         </div>
@@ -66,6 +68,50 @@
                             <!-- Single Tab Content End -->
 
                             <!-- Single Tab Content Start -->
+                            <div class="tab-pane fade" id="wishlist" role="tabpanel">
+                                <div class="myaccount-content">
+                                    <h3>Lista želja</h3>
+
+                                    <div class="myaccount-table table-responsive text-center">
+                                        <table class="table table-bordered">
+                                            <thead class="thead-light">
+                                            <tr>
+                                                <th>ID</th>
+                                                <th>SLika</th>
+                                                <th>Naziv</th>
+                                                <th>Dimenzije</th>
+                                                <th>Cena</th>
+                                            </tr>
+                                            </thead>
+                                            <tbody>
+                                            <tr th:each="product,iter: ${products}">
+                                                <td th:text="${iter.count}"></td>
+                                                <td class="pro-thumbnail">
+                                                    <a th:href="@{/product/single_product/__${product.id}__}"><img
+                                                            alt="Product" class="img-fluid"
+                                                            style="width: 60px; height: 60px;"
+                                                            th:src="@{'/images/' + ${product.images.get(0).name}}"></a>
+                                                </td>
+                                                <td class="pro-title"><a
+                                                        th:href="@{/product/single_product/__${product.id}__}"
+                                                        th:text="${product.getName()}"></a></td>
+                                                <td class="pro-quantity" th:classappend="${product.id}">
+                                                    <select>
+                                                        <option th:each="attr : ${product.productAttributes}"
+                                                                th:text="${attr.getSize()}"
+                                                                th:value="${attr.getPrice()}"></option>
+                                                    </select>
+                                                </td>
+                                                <td class="pro-price"><span th:id="${product.id}"
+                                                                            th:text="${product.getMinPrice()}+' - '+${product.getMaxPrice()}+ ' RSD'"></span>
+                                                </td>
+                                            </tr>
+                                            </tbody>
+                                        </table>
+                                    </div>
+                                </div>
+                            </div>
+
                             <div class="tab-pane fade" id="orders" role="tabpanel">
                                 <div class="myaccount-content">
                                     <h3>Porudžbine</h3>
@@ -151,7 +197,7 @@
 
                                                 <div class="col-12 mb-30"><h4>Promena šifre</h4></div>
 
-                                                <div class="col-12 mb-30">
+                                                <div class="col-12 mb-30" hidden="hidden">
                                                     <label>Trenutna šifra*</label>
                                                     <input id="current-pwd" readonly th:field="*{password}"
                                                            type="password">
@@ -198,6 +244,16 @@
 <a class="scroll-top" href="#"></a>
 
 <div th:insert="webapp/containers/scriptsContainer :: scriptsContainer"></div>
+<script th:inline="javascript" type="text/javascript">
+    $(document).ready(function () {
+        $('.pro-quantity select').on('change', function () {
+            var price = this.value;
+            var id = $(this).parent().attr('class').split(' ')[1];
+            $('span#' + id + '').text(price + ' RSD');
+        });
 
+        $('.pro-quantity select').trigger("change");
+    });
+</script>
 </body>
 </html>

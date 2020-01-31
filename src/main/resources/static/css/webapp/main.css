@@ -8488,6 +8488,19 @@ h3.comment-counter {
     float: right;
 }
 
+.order-summary-button button {
+    margin-top: 10px;
+    width: 200px;
+    border-radius: 0;
+    height: 36px;
+    border: 1px solid #999999;
+    line-height: 24px;
+    padding: 5px 20px;
+    color: #7a7a7a;
+    background-color: transparent;
+    float: left;
+}
+
 .cart-summary .cart-summary-button button:last-child {
     margin-left: 0;
 }
@@ -8505,6 +8518,25 @@ h3.comment-counter {
     background-color: #363f4d;
     border-color: #363f4d;
     border-radius: 3px;
+}
+
+.order-summary-button button.checkout-btn {
+    font-weight: 400;
+    text-transform: uppercase;
+    color: #ffffff;
+    background-color: #363f4d;
+    border-color: #363f4d;
+    border-radius: 3px;
+}
+
+.order-summary-button button:hover {
+    background-color: #9acf6a;
+    border-color: #9acf6a;
+    color: #ffffff;
+}
+
+.cart-summary .cart-summary-button a {
+    float: right;
 }
 
 .cart-summary .cart-summary-button button.checkout-btn:hover {
