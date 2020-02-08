@@ -319,7 +319,7 @@
                                 </div>
                                 <div class="ratting-form-wrapper fix">
                                     <h3>Oceni proizvod i dodaj svoj komentar</h3>
-                                    <form action="#">
+                                    <form action="#" id="comment_form">
                                         <div class="ratting-form row">
                                             <div class="col-12 mb-15">
                                                 <h5>Ocena:</h5>
@@ -341,15 +341,15 @@
                                             </div>
                                             <div class="col-md-6 col-12 mb-15">
                                                 <label for="name">Ime:</label>
-                                                <input id="name" placeholder="Ime" type="text">
+                                                <input id="name" name="name" placeholder="Ime" type="text">
                                             </div>
                                             <div class="col-md-6 col-12 mb-15">
                                                 <label for="email">Mejl:</label>
-                                                <input id="email" placeholder="Mejl" type="text">
+                                                <input id="email" name="email" placeholder="Mejl" type="text">
                                             </div>
                                             <div class="col-12 mb-15">
                                                 <label for="comment">Tvoj komentar:</label>
-                                                <textarea id="comment" name="review"
+                                                <textarea id="comment" name="comment"
                                                           placeholder="Napiši komentar"></textarea>
                                             </div>
                                             <div class="col-12">
@@ -524,6 +524,11 @@
         $('.color span.color-block').on('click', function (e) {
             $('.color span.color-block').removeClass('active');
             $(this).addClass('active');
+        });
+
+        $('#comment_form').on('submit', function (e) {
+            var rating = $('#stars li.selected').length;
+            if (rating < 1) e.preventDefault();
         });
 
         $('#single-rating').children('i').each(function (index, e) {

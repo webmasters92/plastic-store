@@ -91,6 +91,14 @@ h1, h2, h3, h4, h5, h6 {
     margin-top: 0;
 }
 
+.my-error-class {
+    color: #FF0000; /* red */
+}
+
+.my-valid-class {
+    color: #00CC00; /* green */
+}
+
 h1 {
     font-size: 36px;
     line-height: 42px;
@@ -8588,7 +8596,7 @@ h3.comment-counter {
 
 /*-- Checkout Form --*/
 .checkout-form label {
-    display: block;
+    display: inline;
     font-size: 14px;
     margin-bottom: 12px;
     font-weight: 500;
@@ -8871,10 +8879,10 @@ h3.comment-counter {
     height: 16px;
     display: block;
     border: 2px solid #999999;
-    content: "";
-    -webkit-transition: all 0.3s ease 0s;
-    -o-transition: all 0.3s ease 0s;
-    transition: all 0.3s ease 0s;
+    /*content: "";*/
+    /*-webkit-transition: all 0.3s ease 0s;*/
+    /*-o-transition: all 0.3s ease 0s;*/
+    /*transition: all 0.3s ease 0s;*/
 }
 
 .single-method input[type="checkbox"] + label::after {
@@ -8882,15 +8890,15 @@ h3.comment-counter {
     left: 4px;
     top: 4px;
     display: block;
-    content: "";
+    /*content: "";*/
     opacity: 0;
     background-color: #363f4d;
     width: 8px;
     text-align: center;
     height: 8px;
-    -webkit-transition: all 0.3s ease 0s;
-    -o-transition: all 0.3s ease 0s;
-    transition: all 0.3s ease 0s;
+    /*-webkit-transition: all 0.3s ease 0s;*/
+    /*-o-transition: all 0.3s ease 0s;*/
+    /*transition: all 0.3s ease 0s;*/
 }
 
 .single-method input[type="checkbox"]:checked + label::before {

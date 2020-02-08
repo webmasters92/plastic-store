@@ -4,16 +4,20 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.ModelAttribute;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
-import rs.dev.plasticstore.Utils.MinMax;
 import rs.dev.plasticstore.model.Cart;
+import rs.dev.plasticstore.model.Message;
 import rs.dev.plasticstore.model.Product;
 import rs.dev.plasticstore.model.UserPrincipal;
 import rs.dev.plasticstore.model.Wishlist;
 import rs.dev.plasticstore.services.cart.CartService;
 import rs.dev.plasticstore.services.category.CategoryService;
+import rs.dev.plasticstore.services.message.MessageService;
 import rs.dev.plasticstore.services.product.ProductService;
 import rs.dev.plasticstore.services.wishlist.WishListService;
+import rs.dev.plasticstore.utils.MinMax;
 
 import javax.servlet.http.HttpSession;
 import java.util.ArrayList;
@@ -21,6 +25,12 @@ import java.util.HashSet;
 
 @Controller
 public class HomeController {
+
+    @PostMapping("/send_message")
+    public String sendMessage(@ModelAttribute Message message) {
+        messageService.saveMessage(message);
+        return "redirect:/";
+    }
 
     private ArrayList<Product> setMinMaxPriceToProducts(ArrayList<Product> products) {
         products.forEach(product -> {
@@ -68,6 +78,16 @@ public class HomeController {
         }
         return "webapp/shop/home";
     }
+
+    @RequestMapping("/contact")
+    public String showContactPage(Model model) {
+        model.addAttribute("categories", categoryService.findAll());
+        model.addAttribute("message", new Message());
+        return "webapp/shop/contact";
+    }
+
+    @Autowired
+    MessageService messageService;
 
     @Autowired
     CategoryService categoryService;

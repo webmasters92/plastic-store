@@ -1,4 +1,4 @@
-package rs.dev.plasticstore.Utils;
+package rs.dev.plasticstore.utils;
 
 import org.springframework.data.domain.Sort;
 

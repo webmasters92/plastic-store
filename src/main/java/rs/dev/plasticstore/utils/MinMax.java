@@ -1,6 +1,8 @@
-package rs.dev.plasticstore.Utils;
+package rs.dev.plasticstore.utils;
 
-import java.util.*;
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.List;
 
 public class MinMax {
 

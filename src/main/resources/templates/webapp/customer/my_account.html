@@ -34,7 +34,7 @@
                     <!-- My Account Tab Menu Start -->
                     <div class="col-lg-3 col-12">
                         <div class="myaccount-tab-menu nav" role="tablist">
-                            <a class="active" data-toggle="tab" href="#dashboad"><i class="fa fa-dashboard"></i>Korisnički
+                            <a class="active" data-toggle="tab" href="#dashboard"><i class="fa fa-dashboard"></i>Korisnički
                                 panel</a>
 
                             <a data-toggle="tab" href="#orders"><i class="fa fa-cart-arrow-down"></i>Moje Porudžbine</a>
@@ -52,7 +52,7 @@
                     <div class="col-lg-9 col-12">
                         <div class="tab-content" id="myaccountContent">
                             <!-- Single Tab Content Start -->
-                            <div class="tab-pane fade show active" id="dashboad" role="tabpanel">
+                            <div class="tab-pane fade show active" id="dashboard" role="tabpanel">
                                 <div class="myaccount-content">
                                     <h3>Kontrolna tabla</h3>
 
@@ -149,48 +149,51 @@
                                     <h3>Podaci o nalogu</h3>
 
                                     <div class="account-details-form">
-                                        <form method="post" th:action="@{/customer/edit_customer}">
+                                        <form id="account_form" method="post" th:action="@{/customer/edit_customer}">
                                             <div class="row">
                                                 <div class="col-lg-6 col-12 mb-30">
-                                                    <label>Ime*</label>
-                                                    <input id="first-name" placeholder="Ime" th:field="*{firstName}"
+                                                    <label for="first-name">Ime*</label>
+                                                    <input id="first-name" name="first" required
+                                                           th:field="*{firstName}" type="text">
+                                                </div>
+
+                                                <div class="col-lg-6 col-12 mb-30">
+                                                    <label for="last-name">Prezime*</label>
+                                                    <input id="last-name" name="last" required
+                                                           th:field="*{lastName}" type="text">
+                                                </div>
+
+                                                <div class="col-lg-6 col-12 mb-30">
+                                                    <label for="phone-number">Broj telefona</label>
+                                                    <input id="phone-number" maxlength="15" name="phone"
+                                                           required th:field="*{phoneNumber}" type="number">
+                                                </div>
+
+                                                <div class="col-lg-6 col-12 mb-30">
+                                                    <label for="address">Adresa</label>
+                                                    <input id="address" name="address" th:field="*{address}"
                                                            type="text">
                                                 </div>
 
                                                 <div class="col-lg-6 col-12 mb-30">
-                                                    <label>Prezime*</label>
-                                                    <input id="last-name" placeholder="Prezime" th:field="*{lastName}"
-                                                           type="text">
+                                                    <label for="city">Grad</label>
+                                                    <input id="city" name="city" th:field="*{city}" type="text">
                                                 </div>
 
                                                 <div class="col-lg-6 col-12 mb-30">
-                                                    <label>Broj telefona</label>
-                                                    <input id="phone-number" th:field="*{phoneNumber}" type="text">
-                                                </div>
-
-                                                <div class="col-lg-6 col-12 mb-30">
-                                                    <label>Adresa</label>
-                                                    <input id="address" th:field="*{address}" type="text">
-                                                </div>
-
-                                                <div class="col-lg-6 col-12 mb-30">
-                                                    <label>Grad</label>
-                                                    <input id="city" th:field="*{city}" type="text">
-                                                </div>
-
-                                                <div class="col-lg-6 col-12 mb-30">
-                                                    <label>Poštanski broj</label>
-                                                    <input id="zip-code" th:field="*{zipCode}" type="text">
+                                                    <label for="zip-code">Poštanski broj</label>
+                                                    <input id="zip-code" maxlength="5" name="zip_code"
+                                                           required th:field="*{zipCode}" type="number">
                                                 </div>
 
                                                 <div class="col-12 mb-30">
-                                                    <label>Email*</label>
-                                                    <input id="email" placeholder="Email" th:field="*{email}"
+                                                    <label for="email">Email*</label>
+                                                    <input id="email" name="email" th:field="*{email}"
                                                            type="email">
                                                 </div>
 
                                                 <div class="col-12 mb-30">
-                                                    <label>Korisničko ime*</label>
+                                                    <label for="display-name">Korisničko ime*</label>
                                                     <input id="display-name" placeholder="Korisničko ime" readonly
                                                            th:field="*{username}" type="text">
                                                 </div>
@@ -198,18 +201,21 @@
                                                 <div class="col-12 mb-30"><h4>Promena šifre</h4></div>
 
                                                 <div class="col-12 mb-30" hidden="hidden">
-                                                    <label>Trenutna šifra*</label>
+                                                    <label for="current-pwd">Trenutna šifra*</label>
                                                     <input id="current-pwd" readonly th:field="*{password}"
                                                            type="password">
                                                 </div>
 
                                                 <div class="col-lg-6 col-12 mb-30">
-                                                    <input id="new-pwd" placeholder="Nova šifra"
+                                                    <input data-rule-new_pwd="true" id="new-pwd" name="new_pwd"
+                                                           placeholder="Nova šifra"
                                                            th:field="*{new_password}" type="password">
                                                 </div>
 
                                                 <div class="col-lg-6 col-12 mb-30">
-                                                    <input id="confirm-pwd" placeholder="Potvrdi šifru" type="password">
+                                                    <input data-rule-confirm_pwd="true" data-rule-equalTo="#new-pwd"
+                                                           id="confirm-pwd" name="confirm_pwd"
+                                                           placeholder="Potvrdi šifru" type="password">
                                                 </div>
 
                                                 <div class="col-12">

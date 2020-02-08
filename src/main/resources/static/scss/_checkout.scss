@@ -266,28 +266,28 @@
             color: $body-text-color;
             margin: 0;
             &::before {
-                position: absolute;
-                left: 0;
-                top: 0;
-                width: 16px;
-                height: 16px;
-                display: block;
-                border: 2px solid #999999;
-                content: "";
-                transition: all 0.3s ease 0s;
+              position: absolute;
+              left: 0;
+              top: 0;
+              width: 16px;
+              height: 16px;
+              display: block;
+              border: 2px solid #999999;
+              //content: "";
+              //transition: all 0.3s ease 0s;
             }
             &::after {
                 position: absolute;
                 left: 4px;
                 top: 4px;
                 display: block;
-                content: "";
+              //content: "";
                 opacity: 0;
                 background-color: $heading-text-color;
                 width: 8px;
                 text-align: center;
                 height: 8px;
-                transition: all 0.3s ease 0s;
+              //transition: all 0.3s ease 0s;
             }
         }
 

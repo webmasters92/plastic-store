@@ -86,21 +86,23 @@ public class CheckoutController {
         } else order.setGuest(new Guest());
 
         var cart = (Cart) session.getAttribute("cart");
-        cart.getCartItems().forEach(cartItem -> {
-            var orderItem = new OrderItem();
-            orderItem.setId(cartItem.getId());
-            orderItem.setColor(cartItem.getColor());
-            orderItem.setPrice(cartItem.getPrice());
-            orderItem.setProduct(cartItem.getProduct());
-            orderItem.setProduct_color(cartItem.getProduct_color());
-            orderItem.setQuantity(cartItem.getQuantity());
-            orderItem.setSize(cartItem.getSize());
-            orderItem.setTotalPrice(cartItem.getTotalPrice());
-            orderItem.setOrder(order);
-            order.getOrderItems().add(orderItem);
-        });
+        if(cart != null) {
+            cart.getCartItems().forEach(cartItem -> {
+                var orderItem = new OrderItem();
+                orderItem.setId(cartItem.getId());
+                orderItem.setColor(cartItem.getColor());
+                orderItem.setPrice(cartItem.getPrice());
+                orderItem.setProduct(cartItem.getProduct());
+                orderItem.setProduct_color(cartItem.getProduct_color());
+                orderItem.setQuantity(cartItem.getQuantity());
+                orderItem.setSize(cartItem.getSize());
+                orderItem.setTotalPrice(cartItem.getTotalPrice());
+                orderItem.setOrder(order);
+                order.getOrderItems().add(orderItem);
+            });
 
-        order.setOrderTotal(cart.getTotal());
+            order.setOrderTotal(cart.getTotal());
+        }
         model.addAttribute("categories", categoryService.findAll());
         model.addAttribute("order", order);
         return "webapp/checkout/checkout";

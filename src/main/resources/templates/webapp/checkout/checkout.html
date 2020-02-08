@@ -31,7 +31,8 @@
             <div class="col-12">
 
                 <!-- Checkout Form s-->
-                <form class="checkout-form" method="post" th:action="@{/checkout/place_order}" th:object="${order}">
+                <form class="checkout-form" id="checkout-form-validation" method="post"
+                      th:action="@{/checkout/place_order}" th:object="${order}">
                     <div class="row row-40">
 
                         <div class="col-lg-7 mb-20">
@@ -43,52 +44,72 @@
                                 <div class="row">
 
                                     <div class="col-md-6 col-12 mb-20">
-                                        <label>Ime*</label>
-                                        <input placeholder="Ime" th:field="*{customer.firstName}"
-                                               th:if="${order.getCustomer()!=null}"
+                                        <label for="customer_first_name"
+                                               th:if="${order.getCustomer()!=null}">Ime*</label>
+                                        <input id="customer_first_name" name="customer_first_name"
+                                               required
+                                               th:field="*{customer.firstName}" th:if="${order.getCustomer()!=null}"
                                                type="text">
-                                        <input placeholder="Ime" th:field="*{guest.firstName}"
-                                               th:if="${order.getCustomer()==null}"
-                                               type="text">
-                                    </div>
-
-                                    <div class="col-md-6 col-12 mb-20">
-                                        <label>Prezime*</label>
-                                        <input placeholder="Prezime" th:field="*{customer.lastName}"
-                                               th:if="${order.getCustomer()!=null}"
-                                               type="text">
-                                        <input placeholder="Prezime" th:field="*{guest.lastName}"
-                                               th:if="${order.getCustomer()==null}"
+                                        <label for="guest_first_name" th:if="${order.getCustomer()==null}">Ime*</label>
+                                        <input id="guest_first_name" name="guest_first_name"
+                                               required
+                                               th:field="*{guest.firstName}" th:if="${order.getCustomer()==null}"
                                                type="text">
                                     </div>
 
                                     <div class="col-md-6 col-12 mb-20">
-                                        <label>Email*</label>
-                                        <input placeholder="Email" th:field="*{customer.email}"
-                                               th:if="${order.getCustomer()!=null}"
+                                        <label for="customer_last_name"
+                                               th:if="${order.getCustomer()!=null}">Prezime*</label>
+                                        <input id="customer_last_name" name="customer_last_name"
+                                               required
+                                               th:field="*{customer.lastName}" th:if="${order.getCustomer()!=null}"
+                                               type="text">
+                                        <label for="guest_last_name"
+                                               th:if="${order.getCustomer()==null}">Prezime*</label>
+                                        <input id="guest_last_name" name="guest_last_name"
+                                               required
+                                               th:field="*{guest.lastName}" th:if="${order.getCustomer()==null}"
+                                               type="text">
+                                    </div>
+
+                                    <div class="col-md-6 col-12 mb-20">
+                                        <label for="customer_email" th:if="${order.getCustomer()!=null}">Email*</label>
+                                        <input id="customer_email" name="customer_email"
+                                               required
+                                               th:field="*{customer.email}" th:if="${order.getCustomer()!=null}"
                                                type="email">
-                                        <input placeholder="Email" th:field="*{guest.email}"
-                                               th:if="${order.getCustomer()==null}"
-                                               type="text">
+                                        <label for="guest_email" th:if="${order.getCustomer()==null}">Email*</label>
+                                        <input id="guest_email" name="guest_email"
+                                               required
+                                               th:field="*{guest.email}" th:if="${order.getCustomer()==null}"
+                                               type="email">
                                     </div>
 
                                     <div class="col-md-6 col-12 mb-20">
-                                        <label>Telefon*</label>
-                                        <input placeholder="Broj telefona" th:field="*{customer.phoneNumber}"
+                                        <label for="customer_phone_number"
+                                               th:if="${order.getCustomer()!=null}">Telefon*</label>
+                                        <input id="customer_phone_number" maxlength="15" name="customer_phone_number"
+                                               required
                                                th:if="${order.getCustomer()!=null}"
-                                               type="text">
-                                        <input placeholder="Broj telefona" th:field="*{guest.phoneNumber}"
+                                               th:field="*{customer.phoneNumber}" type="number">
+                                        <label for="guest_phone_number"
+                                               th:if="${order.getCustomer()==null}">Telefon*</label>
+                                        <input id="guest_phone_number" maxlength="15" name="guest_phone_number" required
                                                th:if="${order.getCustomer()==null}"
-                                               type="text">
+                                               th:field="*{guest.phoneNumber}" type="number">
                                     </div>
 
                                     <div class="col-12 mb-20">
-                                        <label>Adresa*</label>
-                                        <input placeholder="Adresa" th:field="*{customer.address}"
-                                               th:if="${order.getCustomer()!=null}"
+                                        <label for="customer_address"
+                                               th:if="${order.getCustomer()!=null}">Adresa*</label>
+                                        <input id="customer_address" name="customer_address"
+                                               required
+                                               th:field="*{customer.address}" th:if="${order.getCustomer()!=null}"
                                                type="text">
-                                        <input placeholder="Adresa" th:field="*{guest.address}"
-                                               th:if="${order.getCustomer()==null}"
+                                        <label for="guest_address" th:if="${order.getCustomer()==null}">Adresa*</label>
+                                        <input id="guest_address" name="guest_address"
+                                               required
+                                               th:field="*{guest.address}" th:if="${order.getCustomer()==null}"
                                                type="text">
                                     </div>
 
@@ -105,21 +126,31 @@
                                     </div>
 
                                     <div class="col-md-6 col-12 mb-20">
-                                        <label>Grad*</label>
-                                        <input placeholder="Grad" th:field="*{customer.city}"
-                                               th:if="${order.getCustomer()!=null}"
+                                        <label for="customer_city" th:if="${order.getCustomer()!=null}">Grad*</label>
+                                        <input id="customer_city" name="customer_city"
+                                               required
+                                               th:field="*{customer.city}" th:if="${order.getCustomer()!=null}"
                                                type="text">
-                                        <input placeholder="Grad" th:field="*{guest.city}"
-                                               th:if="${order.getCustomer()==null}"
+                                        <label for="guest_city" th:if="${order.getCustomer()==null}">Grad*</label>
+                                        <input id="guest_city" name="guest_city"
+                                               required
+                                               th:field="*{guest.city}" th:if="${order.getCustomer()==null}"
                                                type="text">
                                     </div>
 
                                     <div class="col-md-6 col-12 mb-20">
-                                        <label>Poštanski broj*</label>
-                                        <input placeholder="Poštanski broj" th:field="*{customer.zipCode}"
-                                               th:if="${order.getCustomer()!=null}" type="text">
-                                        <input placeholder="Poštanski broj" th:field="*{guest.zipCode}"
-                                               th:if="${order.getCustomer()==null}" type="text">
+                                        <label for="customer_zip_code" th:if="${order.getCustomer()!=null}">Poštanski
+                                            broj*</label>
+                                        <input id="customer_zip_code" maxlength="5"
+                                               name="customer_zip_code" required
+                                               th:field="*{customer.zipCode}" th:if="${order.getCustomer()!=null}"
+                                               type="number">
+                                        <label for="guest_zip_code" th:if="${order.getCustomer()==null}">Poštanski
+                                            broj*</label>
+                                        <input id="guest_zip_code" maxlength="5"
+                                               name="guest_zip_code" required
+                                               th:field="*{guest.zipCode}" th:if="${order.getCustomer()==null}"
+                                               type="number">
                                     </div>
 
                                     <div class="col-12 mb-20">
@@ -131,7 +162,6 @@
                                     </div>
                                 </div>
                             </div>
-
                         </div>
 
                         <div class="col-lg-5">
@@ -166,45 +196,26 @@
                                 <div class="col-12">
                                     <h4 class="checkout-title">Izaberite način plaćanja</h4>
                                     <div class="checkout-payment-method">
-
-                                        <div class="single-method">
-                                            <input id="payment_cash" name="payment-method" type="radio" value="cash">
-                                            <label for="payment_cash">Plaćanje gotovinski prilikom preuzimanja</label>
-                                            <p data-method="cash">Plaćanje se vrši kada roba stigne na vašu adresu.</p>
+                                        <div class="singled-method">
+                                            <input id="payment_cash" name="payment_cash" required type="checkbox"
+                                                   value="cash">
+                                            <label class="payment_method_label" for="payment_cash">Plaćanje gotovinski
+                                                prilikom preuzimanja</label>
                                         </div>
 
-                                        <!--                                        <div class="single-method">-->
-                                        <!--                                            <input id="payment_bank" name="payment-method" type="radio" value="bank">-->
-                                        <!--                                            <label for="payment_bank">Direct Bank Transfer</label>-->
-                                        <!--                                            <p data-method="bank">Usled obavljanja radova na unapređenju sistema, usluga-->
-                                        <!--                                                onlajn plaćanja računa neće biti dostupna do daljnjeg.</p>-->
-                                        <!--                                        </div>-->
-
-                                        <!--                                        <div class="single-method">-->
-                                        <!--                                            <input id="payment_paypal" name="payment-method" type="radio"-->
-                                        <!--                                                   value="paypal">-->
-                                        <!--                                            <label for="payment_paypal">Online plaćanje platnom karticom</label>-->
-                                        <!--                                            <p data-method="paypal">Usled obavljanja radova na unapređenju sistema,-->
-                                        <!--                                                usluga onlajn plaćanja računa neće biti dostupna do daljnjeg.</p>-->
-                                        <!--                                        </div>-->
-
-                                        <div class="single-method">
-                                            <input id="accept_terms" type="checkbox">
-                                            <label for="accept_terms">Prihvatam uslove kupovine</label>
+                                        <div class="singsle-method">
+                                            <input class="accept_terms" id="accept_terms" name="terms_box" required
+                                                   type="checkbox">
+                                            <label class="terms_label" for="accept_terms">Prihvatam uslove
+                                                kupovine</label>
                                         </div>
-
                                     </div>
-
                                     <button class="place-order" type="submit">Potvrdi kupovinu</button>
-
                                 </div>
-
                             </div>
                         </div>
-
                     </div>
                 </form>
-
             </div>
         </div>
     </div>
@@ -223,6 +234,7 @@
 <a class="scroll-top" href="#"></a>
 
 <div th:insert="webapp/containers/scriptsContainer :: scriptsContainer"></div>
+
 
 </body>
 </html>

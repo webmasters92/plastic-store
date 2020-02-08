@@ -14,8 +14,6 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
-import rs.dev.plasticstore.Utils.MinMax;
-import rs.dev.plasticstore.Utils.Sorting;
 import rs.dev.plasticstore.model.Colors;
 import rs.dev.plasticstore.model.Product;
 import rs.dev.plasticstore.model.ProductColor;
@@ -28,6 +26,8 @@ import rs.dev.plasticstore.services.color.ColorService;
 import rs.dev.plasticstore.services.product.ProductService;
 import rs.dev.plasticstore.services.review.ReviewService;
 import rs.dev.plasticstore.services.wishlist.WishListService;
+import rs.dev.plasticstore.utils.MinMax;
+import rs.dev.plasticstore.utils.Sorting;
 
 import javax.servlet.http.HttpSession;
 import java.util.ArrayList;
