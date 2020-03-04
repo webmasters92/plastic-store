@@ -79,8 +79,9 @@
                     <!--=======  cart icon  =======-->
                     <div class="minicart-section">
                         <a href="#" id="cart-icon">
-                            <span class="image"><i class="icon ion-md-cart"></i></span>
-                            <h5 th:text="${session.cart!=null}?${session.cart.getTotal()}+' RSD':'0 RSD'">215.00 RSD <i class="fa fa-angle-down"></i></h5>
+                            <span class="image"><i class="icon ion-md-cart" id="cart-image"></i></span>
+                            <h5 th:text="${session.cart!=null}?${session.cart.getTotal()}+' RSD':'0 RSD'"><i
+                                    class="fa fa-angle-down"></i></h5>
                             <p th:text="${session.cart!=null}?${session.cart.getCartItems().size()}+' artikla':'0 artikla'"></p>
                         </a>
 

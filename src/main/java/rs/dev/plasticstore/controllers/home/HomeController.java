@@ -86,6 +86,24 @@ public class HomeController {
         return "webapp/shop/contact";
     }
 
+    @RequestMapping("/about")
+    public String showAboutUsPage(Model model) {
+        model.addAttribute("categories", categoryService.findAll());
+        return "webapp/shop/about";
+    }
+
+    @RequestMapping("/selling_terms")
+    public String showSellingTerms(Model model) {
+        model.addAttribute("categories", categoryService.findAll());
+        return "webapp/shop/selling_terms";
+    }
+
+    @RequestMapping("/shipping_info")
+    public String showShippingInfo(Model model) {
+        model.addAttribute("categories", categoryService.findAll());
+        return "webapp/shop/shipping_information";
+    }
+
     @Autowired
     MessageService messageService;
 

@@ -1034,6 +1034,4 @@
         infinite: true,
         slidesToShow: 1
     });
-
-
 })(jQuery);

@@ -57,12 +57,13 @@
                                     <h3>Kontrolna tabla</h3>
 
                                     <div class="welcome mb-20">
-                                        <p th:text="'Zdravo '+${#authentication.getPrincipal().getUsername()}">
-                                        </p>
+                                        <p style="font-weight: bold"
+                                           th:text="'Zdravo '+${#authentication.getPrincipal().getUsername()}"></p>
                                     </div>
 
-                                    <p class="mb-0">Sa ove kontrolne table možeš lako proveriti svoje porudžbine kao i
-                                        manipulisati svojim podacima o nalogu.</p>
+                                    <p class="mb-0">Sa ove kontrolne table možeš lako proveriti svoje porudžbine, listu
+                                        želja kao i
+                                        manipulisati svojim korisničkim podacima.</p>
                                 </div>
                             </div>
                             <!-- Single Tab Content End -->
@@ -77,7 +78,7 @@
                                             <thead class="thead-light">
                                             <tr>
                                                 <th>ID</th>
-                                                <th>SLika</th>
+                                                <th>Slika</th>
                                                 <th>Naziv</th>
                                                 <th>Dimenzije</th>
                                                 <th>Cena</th>

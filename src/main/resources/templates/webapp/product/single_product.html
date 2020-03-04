@@ -54,7 +54,7 @@
                              th:each="image,iStat : ${single_product.images}" th:id="'single-slide-'+${iStat.count}">
                             <!--Single Product Image Start-->
                             <div class="single-product-img img-full">
-                                <img alt="" class="img-fluid" th:src="@{'/images/' + ${image.name}}">
+                                <img alt="" class="img-fluid" id="imgtodrag" th:src="@{'/images/' + ${image.name}}">
                                 <a class="big-image-popup" th:href="@{'/images/' + ${image.name}}"><i
                                         class="fa fa-search-plus"></i></a>
                             </div>
@@ -194,18 +194,7 @@
                             <!--=======  product description  =======-->
 
                             <div class="product-description">
-                                <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nam fringilla augue nec est
-                                    tristique auctor. Donec non est at libero vulputate rutrum. Morbi ornare lectus
-                                    quis justo gravida semper. Nulla tellus mi, vulputate adipiscing cursus eu, suscipit
-                                    id nulla.</p>
-
-                                <p>Pellentesque aliquet, sem eget laoreet ultrices, ipsum metus feugiat sem, quis
-                                    fermentum turpis eros eget velit. Donec ac tempus ante. Fusce ultricies massa massa.
-                                    Fusce aliquam, purus eget sagittis vulputate, sapien libero hendrerit est, sed
-                                    commodo augue nisi non neque. Lorem ipsum dolor sit amet, consectetur adipiscing
-                                    elit. Sed tempor, lorem et placerat vestibulum, metus nisi posuere nisl, in accumsan
-                                    elit odio quis mi. Cras neque metus, consequat et blandit et, luctus a nunc.
-                                    Etiam gravida vehicula tellus, in imperdiet ligula euismod eget.</p>
+                                <p th:text="${single_product.getDescription()}+'.'"></p>
                             </div>
 
                             <!--=======  End of product description  =======-->
@@ -500,10 +489,53 @@
             $('.small-image-slider').resize();
             addProductSlider();
         });
+
         /*<![CDATA[*/
         var savings = /*[[${(single_product.productAttributes.get(0).getPrice()-single_product.productAttributes.get(0).getDiscounted_price())*100/single_product.productAttributes.get(0).getPrice()}]]*/ 'SearchParam';
         var avgRating = /*[[${avgRating}]]*/ '0';
+        var available =  /*[[${single_product.isAvailable()}]]*/ '0';
         /*]]>*/
+        $('.fl-btn').on('click', function () {
+            if (available) {
+                var cart = $('.minicart-section').children(":first").children(":first");
+                var imgtodrag = $('.single-product-img').children(":first");
+                if (imgtodrag) {
+                    var imgclone = imgtodrag.clone()
+                        .offset({
+                            top: imgtodrag.offset().top,
+                            left: imgtodrag.offset().left
+                        })
+                        .css({
+                            'opacity': '0.5',
+                            'position': 'absolute',
+                            'height': '150px',
+                            'width': '150px',
+                            'z-index': '100'
+                        })
+                        .appendTo($('body'))
+                        .animate({
+                            'top': cart.offset().top + 10,
+                            'left': cart.offset().left + 10,
+                            'width': 75,
+                            'height': 75
+                        }, 1000, 'easeInOutExpo');
+
+                    setTimeout(function () {
+                        cart.effect("bounce", {
+                            times: 2
+                        }, 200);
+                    }, 1500);
+
+                    imgclone.animate({
+                        'width': 0,
+                        'height': 0
+                    }, function () {
+                        $(this).detach()
+                    });
+                }
+            }
+        });
+
         $('.discount-percentage').text('Ušteda ' + Math.round(parseInt(savings)) + ' %');
 
         $('#chooseSize').on('change', function () {
