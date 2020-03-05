@@ -12,6 +12,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import rs.dev.plasticstore.model.Cart;
 import rs.dev.plasticstore.model.Customer;
 import rs.dev.plasticstore.model.Guest;
+import rs.dev.plasticstore.model.Mail;
 import rs.dev.plasticstore.model.Order;
 import rs.dev.plasticstore.model.OrderItem;
 import rs.dev.plasticstore.model.OrderPayment;
@@ -22,27 +23,18 @@ import rs.dev.plasticstore.services.category.CategoryService;
 import rs.dev.plasticstore.services.checkout.CheckoutService;
 import rs.dev.plasticstore.services.color.ColorService;
 import rs.dev.plasticstore.services.guest.GuestService;
+import rs.dev.plasticstore.services.mail.EmailService;
 import rs.dev.plasticstore.services.product.ProductService;
 import rs.dev.plasticstore.services.user.CustomerService;
 
+import javax.mail.MessagingException;
 import javax.servlet.http.HttpSession;
+import java.io.IOException;
 import java.util.Date;
 
 @Controller
 @RequestMapping("/checkout")
 public class CheckoutController {
-
-    @Autowired
-    ProductService productService;
-
-    @Autowired
-    ColorService colorService;
-
-    @Autowired
-    CartService cartService;
-
-    @Autowired
-    CategoryService categoryService;
 
     @PostMapping(value = "/place_order")
     public String placeOrder(@ModelAttribute Order order, @AuthenticationPrincipal UserPrincipal principal, HttpSession session, Model model) {
@@ -72,6 +64,21 @@ public class CheckoutController {
         checkoutService.saveOrder(order);
         model.addAttribute("order", order);
         model.addAttribute("categories", categoryService.findAll());
+
+        Mail mail = new Mail();
+        mail.setFrom("milosic5@gmail.com");
+        mail.setTo("firstblodiccc@gmail.com");
+        mail.setSubject("Sending Email with Thymeleaf HTML Template Example");
+        mail.setOrder(order);
+
+        try {
+            emailService.sendSimpleMessage(mail);
+        } catch(MessagingException e) {
+            e.printStackTrace();
+        } catch(IOException e) {
+            e.printStackTrace();
+        }
+
         return "webapp/checkout/order_confirmed";
     }
 
@@ -117,6 +124,16 @@ public class CheckoutController {
         return "webapp/checkout/order_details";
     }
 
+    @Autowired
+    ProductService productService;
+    @Autowired
+    ColorService colorService;
+    @Autowired
+    CartService cartService;
+    @Autowired
+    CategoryService categoryService;
+    @Autowired
+    EmailService emailService;
     @Autowired
     CustomerService customerService;
     @Autowired
