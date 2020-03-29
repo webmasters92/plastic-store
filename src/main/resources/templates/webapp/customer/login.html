@@ -37,14 +37,12 @@
             <div class="col-sm-12 col-md-12 col-xs-12 col-lg-6 mb-30">
                 <!-- Login Form s-->
                 <form method="post" th:action="@{/login_customer}">
-
                     <div class="login-form">
                         <h4 class="login-title">Prijava</h4>
-
                         <div class="row">
-                            <div class="error" th:if="${param.error}"
+                            <div class="error col-md-12 col-12" th:if="${param.error}"
                                  th:with="errorMsg=${session['SPRING_SECURITY_LAST_EXCEPTION'].message}">
-                                Reason: <span th:text="${errorMsg}">Wrong input!</span>
+                                <span style="color:red;" th:text="${errorMsg}">Podaci za prijavu nisu validni, pokušajte ponovo</span>
                             </div>
                             <div class="col-md-12 col-12 mb-20">
                                 <label>Korisničko ime</label>
@@ -61,15 +59,13 @@
                                 </div>
                             </div>
                             <div class="col-md-4 mt-10 mb-20 text-left text-md-right">
-                                <a href="#"> Zaboravljena šifra</a>
+                                <a th:href="@{/customer/forgot}"> Zaboravljena šifra?</a>
                             </div>
-
                             <div class="col-md-12">
                                 <button type="submit" class="register-button mt-0">Uloguj se</button>
                             </div>
                         </div>
                     </div>
-
                 </form>
             </div>
         </div>

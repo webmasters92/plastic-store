@@ -131,13 +131,8 @@ public class CartController {
     public String showCart(Model model, @AuthenticationPrincipal UserPrincipal principal, HttpSession session) {
         Cart cart;
         if(principal != null) {
-            if(session.getAttribute("cart") != null) {
-                System.out.println("sesija puna");
-                cart = (Cart) session.getAttribute("cart");
-            } else {
-                cart = cartService.findCartByCustomerId(principal.getUserId());
-                System.out.println("sesija prazna cupamo iz baze " + cart.getCartItems().size());
-            }
+            if(session.getAttribute("cart") != null) cart = (Cart) session.getAttribute("cart");
+            else cart = cartService.findCartByCustomerId(principal.getUserId());
             session.setAttribute("cart", cart);
         } else {
             cart = (Cart) session.getAttribute("cart");
@@ -153,7 +148,6 @@ public class CartController {
 
     @GetMapping(value = "/update_cart_summary")
     public String updateCartSummary() {
-
         return "webapp/cart/cart_summary :: summary";
     }
 

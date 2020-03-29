@@ -14,6 +14,10 @@ public class Mail {
         return order;
     }
 
+    public String getHome_link() {
+        return home_link;
+    }
+
     public String getSubject() {
         return subject;
     }
@@ -34,6 +38,10 @@ public class Mail {
         this.order = order;
     }
 
+    public String getReset_link() {
+        return reset_link;
+    }
+
     public void setSubject(String subject) {
         this.subject = subject;
     }
@@ -42,9 +50,19 @@ public class Mail {
         this.to = to;
     }
 
+    public void setHome_link(String home_link) {
+        this.home_link = home_link;
+    }
+
+    public void setReset_link(String reset_link) {
+        this.reset_link = reset_link;
+    }
+
     private String from;
     private String to;
     private String subject;
+    private String reset_link;
+    private String home_link;
     private Order order;
     private Customer customer;
 }

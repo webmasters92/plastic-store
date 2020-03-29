@@ -28,8 +28,8 @@ import rs.dev.plasticstore.services.product.ProductService;
 import rs.dev.plasticstore.services.user.CustomerService;
 
 import javax.mail.MessagingException;
+import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
-import java.io.IOException;
 import java.util.Date;
 
 @Controller
@@ -37,7 +37,7 @@ import java.util.Date;
 public class CheckoutController {
 
     @PostMapping(value = "/place_order")
-    public String placeOrder(@ModelAttribute Order order, @AuthenticationPrincipal UserPrincipal principal, HttpSession session, Model model) {
+    public String placeOrder(@ModelAttribute Order order, @AuthenticationPrincipal UserPrincipal principal, HttpSession session, Model model, HttpServletRequest request) {
         if(principal != null) {
             order.setCustomer_id(principal.getUserId());
         } else guestService.save(order.getGuest());
@@ -65,17 +65,18 @@ public class CheckoutController {
         model.addAttribute("order", order);
         model.addAttribute("categories", categoryService.findAll());
 
+        String appUrl = request.getScheme() + "://" + request.getServerName() + ":" + request.getServerPort();
+
         Mail mail = new Mail();
-        mail.setFrom("milosic5@gmail.com");
-        mail.setTo("firstblodiccc@gmail.com");
-        mail.setSubject("Sending Email with Thymeleaf HTML Template Example");
+        mail.setFrom("plastika.draskovic@gmail.com");
+        mail.setTo("milosic5@gmail.com");
+        mail.setSubject("Obaveštenje o prijemu porudžbine broj " + order.getId());
+        mail.setHome_link(appUrl);
         mail.setOrder(order);
 
         try {
-            emailService.sendSimpleMessage(mail);
+            emailService.sendOrderEmail(mail);
         } catch(MessagingException e) {
-            e.printStackTrace();
-        } catch(IOException e) {
             e.printStackTrace();
         }
 

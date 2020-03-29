@@ -580,12 +580,10 @@
 
     function searchProducts() {
         var name = $('input[type="search"]').val();
-        console.log(name);
         $.ajax({
             url: '/product/searchProductsByName/' + name,
             type: 'get',
             success: function (response) {
-                console.log(response);
             }
         });
     }

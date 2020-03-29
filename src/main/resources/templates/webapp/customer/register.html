@@ -55,11 +55,14 @@
                             <div class="col-md-12 mb-20">
                                 <label for="email">Mejl adresa*</label>
                                 <input class="mb-0" id="email" name="email" th:field="*{email}" type="email">
+                                <span style="color: red" th:if="${email_error!=null}" th:text="${email_error}"></span>
                             </div>
                             <div class="col-md-12 mb-20">
                                 <label for="username">Korisničko ime*</label>
                                 <input class="mb-0" id="username" minlength="8" name="username" th:field="*{username}"
                                        type="text">
+                                <span style="color: red" th:if="${username_error!=null}"
+                                      th:text="${username_error}"></span>
                             </div>
                             <div class="col-md-6 mb-20">
                                 <label for="password">Šifra</label>

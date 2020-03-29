@@ -1,6 +1,6 @@
 <!DOCTYPE html>
 <html lang="en" xmlns:th="http://www.thymeleaf.org">
-<head )th:replace="webapp/containers/headContainer :: headContainer(title='Plastika Drašković - '+${selected_subcategory!=null?selected_subcategory.getName():selected_category.getName()})"></head>
+<head th:replace="webapp/containers/headContainer :: headContainer(title='Plastika Drašković - '+${selected_subcategory!=null?selected_subcategory.getName():selected_category.getName()})"></head>
 
 <body>
 
@@ -19,8 +19,14 @@
                     <nav>
                         <ul>
                             <li class="parent-page"><a th:href="@{/}">Početna</a></li>
-                            <li id="breadcrumb_category" th:class="${selected_subcategory!=null}?'parent-page'" th:value="${selected_category.id}"><a th:href="@{/product/product_list_category/__${selected_category.id}__}" th:text="${selected_category.name}"></a></li>
-                            <li id="breadcrumb_subcategory" th:if="${selected_subcategory!=null}" th:value="${selected_subcategory.id}"><a th:href="@{/product/product_list_sub_category/__${selected_subcategory.id}__}" th:text="${selected_subcategory.name}"></a></li>
+                            <li id="breadcrumb_category" th:class="${selected_subcategory!=null}?'parent-page'"
+                                th:value="${selected_category.id}"><a
+                                    th:href="@{/product/product_list_category/__${selected_category.id}__}"
+                                    th:text="${selected_category.name}"></a></li>
+                            <li id="breadcrumb_subcategory" th:if="${selected_subcategory!=null}"
+                                th:value="${selected_subcategory.id}"><a
+                                    th:href="@{/product/product_list_sub_category/__${selected_subcategory.id}__}"
+                                    th:text="${selected_subcategory.name}"></a></li>
                         </ul>
                     </nav>
                 </div>
@@ -50,7 +56,8 @@
 
                         <div class="category">
                             <ul>
-                                <li th:each="category : ${categories}"><a th:text="${category.name}" th:value="${category.id}"></a></li>
+                                <li th:each="category : ${categories}"><a th:text="${category.name}"
+                                                                          th:value="${category.id}"></a></li>
                             </ul>
                         </div>
                     </div>
@@ -63,7 +70,8 @@
                         <h3 class="sidebar-title filter-price-title">FILTER PO CENI</h3>
                         <div class="sidebar-price">
                             <div id="price-range"></div>
-                            <input class="price-amount" data-max="0" data-min="0" id="price-amount" readonly type="text">
+                            <input class="price-amount" data-max="0" data-min="0" id="price-amount" readonly
+                                   type="text">
                         </div>
                     </div>
 
@@ -75,7 +83,8 @@
                         <h3 class="sidebar-title color-title">BOJE</h3>
                         <div class="color-category">
                             <ul id="selected_colors">
-                                <li th:each="entry:${colorMap}"><a th:text="${entry.key.getName()}"></a> <span class="counter" th:text="'('+${entry.value}+')'"></span></li>
+                                <li th:each="entry:${colorMap}"><a th:text="${entry.key.getName()}"></a> <span
+                                        class="counter" th:text="'('+${entry.value}+')'"></span></li>
                             </ul>
                         </div>
                     </div>
@@ -90,21 +99,37 @@
                         <!--=======  tag container  =======-->
 
                         <ul class="tag-container">
-                            <li><a th:href="@{/product/product_list_sub_category/__${categories.get(0).getSubcategories().get(1).getId()}__}" th:text="${categories.get(0).getSubcategories().get(1).getName()}"></a>
+                            <li>
+                                <a th:href="@{/product/product_list_sub_category/__${categories.get(0).getSubcategories().get(1).getId()}__}"
+                                   th:text="${categories.get(0).getSubcategories().get(1).getName()}"></a>
                             </li>
-                            <li><a th:href="@{/product/product_list_sub_category/__${categories.get(1).getSubcategories().get(1).getId()}__}" th:text="${categories.get(1).getSubcategories().get(1).getName()}"></a>
+                            <li>
+                                <a th:href="@{/product/product_list_sub_category/__${categories.get(1).getSubcategories().get(1).getId()}__}"
+                                   th:text="${categories.get(1).getSubcategories().get(1).getName()}"></a>
                             </li>
-                            <li><a th:href="@{/product/product_list_sub_category/__${categories.get(2).getSubcategories().get(3).getId()}__}" th:text="${categories.get(2).getSubcategories().get(3).getName()}"></a>
+                            <li>
+                                <a th:href="@{/product/product_list_sub_category/__${categories.get(2).getSubcategories().get(3).getId()}__}"
+                                   th:text="${categories.get(2).getSubcategories().get(3).getName()}"></a>
                             </li>
-                            <li><a th:href="@{/product/product_list_sub_category/__${categories.get(3).getSubcategories().get(1).getId()}__}" th:text="${categories.get(3).getSubcategories().get(1).getName()}"></a>
+                            <li>
+                                <a th:href="@{/product/product_list_sub_category/__${categories.get(3).getSubcategories().get(1).getId()}__}"
+                                   th:text="${categories.get(3).getSubcategories().get(1).getName()}"></a>
                             </li>
-                            <li><a th:href="@{/product/product_list_sub_category/__${categories.get(4).getSubcategories().get(8).getId()}__}" th:text="${categories.get(4).getSubcategories().get(8).getName()}"></a>
+                            <li>
+                                <a th:href="@{/product/product_list_sub_category/__${categories.get(4).getSubcategories().get(8).getId()}__}"
+                                   th:text="${categories.get(4).getSubcategories().get(8).getName()}"></a>
                             </li>
-                            <li><a th:href="@{/product/product_list_sub_category/__${categories.get(5).getSubcategories().get(5).getId()}__}" th:text="${categories.get(5).getSubcategories().get(5).getName()}"></a>
+                            <li>
+                                <a th:href="@{/product/product_list_sub_category/__${categories.get(5).getSubcategories().get(5).getId()}__}"
+                                   th:text="${categories.get(5).getSubcategories().get(5).getName()}"></a>
                             </li>
-                            <li><a th:href="@{/product/product_list_sub_category/__${categories.get(6).getSubcategories().get(3).getId()}__}" th:text="${categories.get(6).getSubcategories().get(3).getName()}"></a>
+                            <li>
+                                <a th:href="@{/product/product_list_sub_category/__${categories.get(6).getSubcategories().get(3).getId()}__}"
+                                   th:text="${categories.get(6).getSubcategories().get(3).getName()}"></a>
                             </li>
-                            <li><a th:href="@{/product/product_list_sub_category/__${categories.get(6).getSubcategories().get(6).getId()}__}" th:text="${categories.get(6).getSubcategories().get(6).getName()}"></a>
+                            <li>
+                                <a th:href="@{/product/product_list_sub_category/__${categories.get(6).getSubcategories().get(6).getId()}__}"
+                                   th:text="${categories.get(6).getSubcategories().get(6).getName()}"></a>
                             </li>
                         </ul>
 
@@ -159,7 +184,8 @@
 
                             <!--=======  End of Sort by dropdown  =======-->
 
-                            <p class="result-show-message" th:text="'Prikazano 1-12 od '+${pagination.getTotalElements()}"></p>
+                            <p class="result-show-message"
+                               th:text="'Prikazano 1-12 od '+${pagination.getTotalElements()}"></p>
                         </div>
                     </div>
                 </div>
@@ -174,34 +200,60 @@
                         <div class="fl-product shop-grid-view-product">
                             <div class="image" th:classappend="${product.isSale()}?'sale-product'">
                                 <a th:href="@{/product/single_product/__${product.id}__}">
-                                    <img alt="" class="img-fluid" th:src="@{'/images/' + ${product.images.get(0).name}}">
-                                    <img alt="" class="img-fluid" th:src="@{'/images/' + ${product.images.get(0).name}}">
+                                    <img alt="" class="img-fluid"
+                                         th:src="@{'/images/' + ${product.images.get(0).name}}">
+                                    <img alt="" class="img-fluid"
+                                         th:src="@{'/images/' + ${product.images.get(0).name}}">
                                 </a>
                             </div>
                             <div class="content">
-                                <h2 class="product-title"><a th:href="@{/product/single_product/__${product.id}__}" th:text="${product.getName()}">Officiis debitis</a></h2>
+                                <h2 class="product-title"><a th:href="@{/product/single_product/__${product.id}__}"
+                                                             th:text="${product.getName()}">Officiis debitis</a></h2>
                                 <div class="rating" id="grid-rating">
-                                    <i class="fa fa-star" th:classappend="${product.getAverageRating()>=1}?'active'"></i>
-                                    <i class="fa fa-star" th:classappend="${product.getAverageRating()>=2}?'active'"></i>
-                                    <i class="fa fa-star" th:classappend="${product.getAverageRating()>=3}?'active'"></i>
-                                    <i class="fa fa-star" th:classappend="${product.getAverageRating()>=4}?'active'"></i>
-                                    <i class="fa fa-star" th:classappend="${product.getAverageRating()>=5}?'active'"></i>
+                                    <i class="fa fa-star"
+                                       th:classappend="${product.getAverageRating()>=1}?'active'"></i>
+                                    <i class="fa fa-star"
+                                       th:classappend="${product.getAverageRating()>=2}?'active'"></i>
+                                    <i class="fa fa-star"
+                                       th:classappend="${product.getAverageRating()>=3}?'active'"></i>
+                                    <i class="fa fa-star"
+                                       th:classappend="${product.getAverageRating()>=4}?'active'"></i>
+                                    <i class="fa fa-star"
+                                       th:classappend="${product.getAverageRating()>=5}?'active'"></i>
                                 </div>
                                 <p class="product-price">
-                                    <span class="main-price discounted" th:if="${product.isSale()&&product.productAttributes.size()>1}" th:text="${product.getMinPrice()}+' - '+${product.getMaxPrice()}+ ' RSD'"></span>
-                                    <span class="main-price discounted" th:if="${product.isSale()&&product.productAttributes.size()==1}" th:text="${product.getMinPrice()}+ ' RSD'"></span>
+                                    <span class="main-price discounted"
+                                          th:if="${product.isSale()&&product.productAttributes.size()>1}"
+                                          th:text="${product.getMinPrice()}+' - '+${product.getMaxPrice()}+ ' RSD'"></span>
+                                    <span class="main-price discounted"
+                                          th:if="${product.isSale()&&product.productAttributes.size()==1}"
+                                          th:text="${product.getMinPrice()}+ ' RSD'"></span>
                                     <br th:if="${product.isSale()&&product.productAttributes.size()>1}">
-                                    <span class="discounted-price" th:if="${product.isSale()&&product.productAttributes.size()>1}" th:text="${product.getMinDiscountedPrice()}+' - '+${product.getMaxDiscountedPrice()}+ ' RSD'"></span>
-                                    <span class="discounted-price" th:if="${product.isSale()&&product.productAttributes.size()==1}" th:text="${product.getMinDiscountedPrice()}+ ' RSD'"></span>
-                                    <span class="discounted-price" th:if="${!product.isSale()&&product.productAttributes.size()>1}" th:text="${product.getMinPrice()}+' - '+${product.getMaxPrice()}+ ' RSD'"></span>
-                                    <span class="discounted-price" th:if="${!product.isSale()&&product.productAttributes.size()==1}" th:text="${product.getMinPrice()}+ ' RSD'"></span>
+                                    <span class="discounted-price"
+                                          th:if="${product.isSale()&&product.productAttributes.size()>1}"
+                                          th:text="${product.getMinDiscountedPrice()}+' - '+${product.getMaxDiscountedPrice()}+ ' RSD'"></span>
+                                    <span class="discounted-price"
+                                          th:if="${product.isSale()&&product.productAttributes.size()==1}"
+                                          th:text="${product.getMinDiscountedPrice()}+ ' RSD'"></span>
+                                    <span class="discounted-price"
+                                          th:if="${!product.isSale()&&product.productAttributes.size()>1}"
+                                          th:text="${product.getMinPrice()}+' - '+${product.getMaxPrice()}+ ' RSD'"></span>
+                                    <span class="discounted-price"
+                                          th:if="${!product.isSale()&&product.productAttributes.size()==1}"
+                                          th:text="${product.getMinPrice()}+ ' RSD'"></span>
                                 </p>
 
                                 <div class="hover-icons">
                                     <ul>
-                                        <li><a data-tooltip="Dodaj u korpu" th:href="@{/product/single_product/__${product.id}__}"><i class="icon ion-md-cart"></i></a></li>
-                                        <li><a data-tooltip="Dodaj u listu želja" href="#" th:onclick="|openWishListDialog(${product.id})|"> <i class="icon ion-md-heart-empty"></i></a></li>
-                                        <li><a data-tooltip="Detaljnije" href="#" th:onclick="'javascript:openProductModal(\'' + ${product.id} + '\');'"><i class="icon ion-md-open"></i></a></li>
+                                        <li><a data-tooltip="Dodaj u korpu"
+                                               th:href="@{/product/single_product/__${product.id}__}"><i
+                                                class="icon ion-md-cart"></i></a></li>
+                                        <li><a data-tooltip="Dodaj u listu želja" href="#"
+                                               th:onclick="|openWishListDialog(${product.id})|"> <i
+                                                class="icon ion-md-heart-empty"></i></a></li>
+                                        <li><a data-tooltip="Detaljnije" href="#"
+                                               th:onclick="'javascript:openProductModal(\'' + ${product.id} + '\');'"><i
+                                                class="icon ion-md-open"></i></a></li>
                                     </ul>
                                 </div>
                             </div>
@@ -214,36 +266,62 @@
                         <div class="fl-product shop-list-view-product">
                             <div class="image" th:classappend="${product.isSale()}?'sale-product'">
                                 <a th:href="@{/product/single_product/__${product.id}__}">
-                                    <img alt="" class="img-fluid" th:src="@{'/images/' + ${product.images.get(0).name}}">
-                                    <img alt="" class="img-fluid" th:src="@{'/images/' + ${product.images.get(0).name}}">
+                                    <img alt="" class="img-fluid"
+                                         th:src="@{'/images/' + ${product.images.get(0).name}}">
+                                    <img alt="" class="img-fluid"
+                                         th:src="@{'/images/' + ${product.images.get(0).name}}">
                                 </a>
                             </div>
                             <div class="content">
-                                <h2 class="product-title"><a th:href="@{/product/single_product/__${product.id}__}" th:text="${product.name}">Officiis debitis</a></h2>
+                                <h2 class="product-title"><a th:href="@{/product/single_product/__${product.id}__}"
+                                                             th:text="${product.name}">Officiis debitis</a></h2>
                                 <div class="rating">
-                                    <i class="fa fa-star" th:classappend="${product.getAverageRating()>=1}?'active'"></i>
-                                    <i class="fa fa-star" th:classappend="${product.getAverageRating()>=2}?'active'"></i>
-                                    <i class="fa fa-star" th:classappend="${product.getAverageRating()>=3}?'active'"></i>
-                                    <i class="fa fa-star" th:classappend="${product.getAverageRating()>=4}?'active'"></i>
-                                    <i class="fa fa-star" th:classappend="${product.getAverageRating()>=5}?'active'"></i>
+                                    <i class="fa fa-star"
+                                       th:classappend="${product.getAverageRating()>=1}?'active'"></i>
+                                    <i class="fa fa-star"
+                                       th:classappend="${product.getAverageRating()>=2}?'active'"></i>
+                                    <i class="fa fa-star"
+                                       th:classappend="${product.getAverageRating()>=3}?'active'"></i>
+                                    <i class="fa fa-star"
+                                       th:classappend="${product.getAverageRating()>=4}?'active'"></i>
+                                    <i class="fa fa-star"
+                                       th:classappend="${product.getAverageRating()>=5}?'active'"></i>
                                 </div>
                                 <p class="product-price">
-                                    <span class="main-price discounted" th:if="${product.isSale()&&product.productAttributes.size()>1}" th:text="${product.getMinPrice()}+' - '+${product.getMaxPrice()}+ ' RSD'"></span>
-                                    <span class="main-price discounted" th:if="${product.isSale()&&product.productAttributes.size()==1}" th:text="${product.getMinPrice()}+ ' RSD'"></span>
+                                    <span class="main-price discounted"
+                                          th:if="${product.isSale()&&product.productAttributes.size()>1}"
+                                          th:text="${product.getMinPrice()}+' - '+${product.getMaxPrice()}+ ' RSD'"></span>
+                                    <span class="main-price discounted"
+                                          th:if="${product.isSale()&&product.productAttributes.size()==1}"
+                                          th:text="${product.getMinPrice()}+ ' RSD'"></span>
                                     <br th:if="${product.isSale()&&product.productAttributes.size()>1}">
-                                    <span class="discounted-price" th:if="${product.isSale()&&product.productAttributes.size()>1}" th:text="${product.getMinDiscountedPrice()}+' - '+${product.getMaxDiscountedPrice()}+ ' RSD'"></span>
-                                    <span class="discounted-price" th:if="${product.isSale()&&product.productAttributes.size()==1}" th:text="${product.getMinDiscountedPrice()}+ ' RSD'"></span>
-                                    <span class="discounted-price" th:if="${!product.isSale()&&product.productAttributes.size()>1}" th:text="${product.getMinPrice()}+' - '+${product.getMaxPrice()}+ ' RSD'"></span>
-                                    <span class="discounted-price" th:if="${!product.isSale()&&product.productAttributes.size()==1}" th:text="${product.getMinPrice()}+ ' RSD'"></span>
+                                    <span class="discounted-price"
+                                          th:if="${product.isSale()&&product.productAttributes.size()>1}"
+                                          th:text="${product.getMinDiscountedPrice()}+' - '+${product.getMaxDiscountedPrice()}+ ' RSD'"></span>
+                                    <span class="discounted-price"
+                                          th:if="${product.isSale()&&product.productAttributes.size()==1}"
+                                          th:text="${product.getMinDiscountedPrice()}+ ' RSD'"></span>
+                                    <span class="discounted-price"
+                                          th:if="${!product.isSale()&&product.productAttributes.size()>1}"
+                                          th:text="${product.getMinPrice()}+' - '+${product.getMaxPrice()}+ ' RSD'"></span>
+                                    <span class="discounted-price"
+                                          th:if="${!product.isSale()&&product.productAttributes.size()==1}"
+                                          th:text="${product.getMinPrice()}+ ' RSD'"></span>
                                 </p>
 
                                 <p class="product-description" th:text="${product.description}"></p>
 
                                 <div class="hover-icons">
                                     <ul>
-                                        <li><a data-tooltip="Dodaj u korpu" th:href="@{/product/single_product/__${product.id}__}">Dodaj u korpu</a></li>
-                                        <li><a data-tooltip="Dodaj u listu želja" href="#" th:onclick="|openWishListDialog(${product.id})|"> <i class="icon ion-md-heart-empty"></i></a></li>
-                                        <li><a data-tooltip="Detaljnije" href="#" th:onclick="'javascript:openProductModal(\'' + ${product.id} + '\');'"><i class="icon ion-md-open"></i></a></li>
+                                        <li><a data-tooltip="Dodaj u korpu"
+                                               th:href="@{/product/single_product/__${product.id}__}">Dodaj u korpu</a>
+                                        </li>
+                                        <li><a data-tooltip="Dodaj u listu želja" href="#"
+                                               th:onclick="|openWishListDialog(${product.id})|"> <i
+                                                class="icon ion-md-heart-empty"></i></a></li>
+                                        <li><a data-tooltip="Detaljnije" href="#"
+                                               th:onclick="'javascript:openProductModal(\'' + ${product.id} + '\');'"><i
+                                                class="icon ion-md-open"></i></a></li>
                                     </ul>
                                 </div>
                             </div>
@@ -259,9 +337,16 @@
 
                 <div class="pagination-area mb-md-50 mb-sm-50" th:if="${pagination.getTotalPages() > 0}">
                     <ul>
-                        <li th:classappend="${pagination.getNumber() eq 0} ? 'disabled'"><a th:onclick="'javascript:loadPage(\''+ ${pagination.getNumber()-1} +'\');'"><i class="fa fa-angle-double-left"></i></a></li>
-                        <li th:each="pageNumber : ${#numbers.sequence(0, pagination.getTotalPages() - 1)}"><a th:classappend="${pageNumber eq pagination.getNumber()} ? 'active'" th:onclick="'javascript:loadPage(\''+ ${pageNumber} +'\');'" th:text="${pageNumber}+1"></a></li>
-                        <li th:classappend="${pagination.getNumber()+1 eq pagination.getTotalPages()} ? 'disabled'"><a th:onclick="'javascript:loadPage(\''+ ${pagination.getNumber()+1} +'\');'"><i class="fa fa-angle-double-right"></i></a></li>
+                        <li th:classappend="${pagination.getNumber() eq 0} ? 'disabled'"><a
+                                th:onclick="'javascript:loadPage(\''+ ${pagination.getNumber()-1} +'\');'"><i
+                                class="fa fa-angle-double-left"></i></a></li>
+                        <li th:each="pageNumber : ${#numbers.sequence(0, pagination.getTotalPages() - 1)}"><a
+                                th:classappend="${pageNumber eq pagination.getNumber()} ? 'active'"
+                                th:onclick="'javascript:loadPage(\''+ ${pageNumber} +'\');'"
+                                th:text="${pageNumber}+1"></a></li>
+                        <li th:classappend="${pagination.getNumber()+1 eq pagination.getTotalPages()} ? 'disabled'"><a
+                                th:onclick="'javascript:loadPage(\''+ ${pagination.getNumber()+1} +'\');'"><i
+                                class="fa fa-angle-double-right"></i></a></li>
                     </ul>
                 </div>
 
@@ -274,7 +359,8 @@
 <a class="scroll-top" href="#"></a>
 
 <!--QUICK VIEW MODAL-->
-<div aria-hidden="true" class="modal fade quick-view-modal-container" id="quick-view-modal-container" role="dialog" tabindex="-1"></div>
+<div aria-hidden="true" class="modal fade quick-view-modal-container" id="quick-view-modal-container" role="dialog"
+     tabindex="-1"></div>
 <!--=====  End of shop page content  ======-->
 
 <!--FOOTER-->
@@ -294,8 +380,7 @@
         var subcategoryId = $("#breadcrumb_subcategory").attr('value');
         setSliderMinMaxPriceByCategory(categoryId);
         if (subcategoryId !== undefined)
-            console.log(subcategoryId);
-        setSliderMinMaxPriceBySubCategory(subcategoryId);
+            setSliderMinMaxPriceBySubCategory(subcategoryId);
 
         $('.modal').on('shown.bs.modal', function (e) {
             $('.small-image-slider').resize();
@@ -322,6 +407,7 @@
             $('.color-category > ul > li > a').each(function () {
                 $(this).parent().removeClass();
             });
+            $("#breadcrumb_subcategory").attr("value", null);
             refreshBreadCrumb($(this).text(), '');
             showProductList($(this).attr("value"), 0, $('#show-by').val(), minPrice, maxPrice, "name-asc", 'empty');
         });
@@ -337,7 +423,6 @@
                     selected_colors += ' ' + $(this).text();
                 }
             });
-
             if (subcategoryId !== undefined)
                 showProductListBySubCategory(subcategoryId, 0, $('#show-by').val(), min, max, this.value, selected_colors);
             else

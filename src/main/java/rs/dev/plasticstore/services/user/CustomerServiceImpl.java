@@ -14,21 +14,23 @@ import java.util.Optional;
 @Service
 public class CustomerServiceImpl implements CustomerService {
 
-    @Autowired
-    CustomerRepository customerRepository;
-
     @Override
     @Transactional
-    public Customer findCustomerById(int id) {
-        Customer customer = customerRepository.findCustomerById(id);
+    public Customer findCustomerByEmail(String email) {
+        var customer = customerRepository.findByEmail(email);
         return customer;
     }
 
     @Override
     @Transactional
-    public Customer findCustomerByUsername(String username) {
-        Customer customer = customerRepository.findCustomerByUsername(username);
+    public Customer findCustomerById(int id) {
+        var customer = customerRepository.findCustomerById(id);
         return customer;
+    }
+
+    @Override
+    public Optional findCustomerByResetToken(String resetToken) {
+        return customerRepository.findByResetToken(resetToken);
     }
 
     @Override
@@ -41,7 +43,20 @@ public class CustomerServiceImpl implements CustomerService {
 
     @Override
     @Transactional
+    public Customer findCustomerByUsername(String username) {
+        Optional customerDb = customerRepository.findByUsername(username);
+        Customer customer;
+        if(customerDb.isPresent()) customer = (Customer) customerDb.get();
+        else customer = null;
+        return customer;
+    }
+
+    @Override
+    @Transactional
     public void save(Customer customer) {
         customerRepository.save(customer);
     }
+
+    @Autowired
+    CustomerRepository customerRepository;
 }

@@ -7,10 +7,8 @@ $(document).ready(function () {
             success: function (response) {
                 if ($(response).find('.has-error').length) {
                     $("#products_fragment").replaceWith(response);
-                    console.log("greska prilikom ucitavanja");
                 } else {
                     $("#products_fragment").replaceWith(response);
-                    console.log($("#category_fragment").attr('id'));
                 }
             }
         });

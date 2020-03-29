@@ -112,7 +112,6 @@
                 $('.discount-percentage').text('Ušteda ' + Math.round(parseInt(savings)) + ' %');
                 $('.nice-select-modal').niceSelect();
                 $('#chooseSize').on('change', function () {
-                    console.log('modal radi');
                     var value = this.value.split("-");
                     var price = value[0];
                     var discounted_price = value[1];

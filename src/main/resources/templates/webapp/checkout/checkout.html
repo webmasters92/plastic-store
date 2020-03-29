@@ -178,8 +178,13 @@
 
                                         <ul th:field="*{orderItems}">
                                             <li th:each="item : ${order.getOrderItems()}"
-                                                th:text="${item.getProduct().getName()}+'  x'+${item.getQuantity()}+' '+${item.getTotalPrice()}">
+                                                th:text="${item.getProduct().getName()}+'  x'+${item.getQuantity()}">
                                             </li>
+                                        </ul>
+
+                                        <ul id="second_ul" th:field="*{orderItems}">
+                                            <span th:each="item : ${order.getOrderItems()}"
+                                                  th:text="${item.getTotalPrice()}+' RSD'"></span>
                                         </ul>
 
                                         <p>Ukupno <span th:text="${order.getOrderTotal()}+ ' RSD'"></span></p>
@@ -199,7 +204,7 @@
                                         <div class="singled-method">
                                             <input id="payment_cash" name="payment_cash" required type="checkbox"
                                                    value="cash">
-                                            <label class="payment_method_label" for="payment_cash">Plaćanje gotovinski
+                                            <label class="payment_method_label" for="payment_cash">Plaćanje
                                                 prilikom preuzimanja</label>
                                         </div>
 
