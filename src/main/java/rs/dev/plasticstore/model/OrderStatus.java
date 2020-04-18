@@ -1,5 +1,5 @@
 package rs.dev.plasticstore.model;
 
 public enum OrderStatus {
-    CANCELED, ORDERED, PREPARED, ONWAY, COMPLETED
+    OTKAZANA, PORUČENA, U_PRIPREMI, U_TRANZITU, DOSTAVLJENA
 }

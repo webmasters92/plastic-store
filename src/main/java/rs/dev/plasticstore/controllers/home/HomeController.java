@@ -7,6 +7,7 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 import rs.dev.plasticstore.model.Cart;
 import rs.dev.plasticstore.model.Message;
 import rs.dev.plasticstore.model.Product;
@@ -26,10 +27,10 @@ import java.util.HashSet;
 @Controller
 public class HomeController {
 
-    @PostMapping("/send_message")
-    public String sendMessage(@ModelAttribute Message message) {
+    @PostMapping("/send_message") public String sendMessage(@ModelAttribute Message message, RedirectAttributes redirectAttributes) {
         messageService.saveMessage(message);
-        return "redirect:/";
+        redirectAttributes.addFlashAttribute("success_message", "Hvala na Vašem pitanju. Potrudićemo se da odgovorimo u najkraćem roku!");
+        return "redirect:/contact";
     }
 
     private ArrayList<Product> setMinMaxPriceToProducts(ArrayList<Product> products) {

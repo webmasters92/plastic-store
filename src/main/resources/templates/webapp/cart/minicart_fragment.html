@@ -56,7 +56,7 @@
                             </div>
                             <div class="floating-cart-btn text-center">
                                 <a class="fl-btn pull-left" th:href="@{/cart/show_cart}">Korpa</a>
-                                <a class="fl-btn pull-right" th:href="@{/checkout/show_checkout}">Završi kupovinu</a>
+                                <a class="fl-btn pull-right" th:href="@{/checkout/show_checkout}" th:if="${session.cart.getCartItems().size()>0}">Završi kupovinu</a>
                             </div>
                         </div>
                     </div>

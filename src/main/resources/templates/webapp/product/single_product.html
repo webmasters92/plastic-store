@@ -194,7 +194,8 @@
                             <!--=======  product description  =======-->
 
                             <div class="product-description">
-                                <p th:text="${single_product.getDescription()}+'.'"></p>
+                                <p th:if="${single_product.getDescription().isEmpty()}">Trenutno ne postoji opis za izabrani proizvod</p>
+                                <p th:text="${single_product.getDescription()}+'.'" th:unless="${single_product.getDescription().isEmpty()}"></p>
                             </div>
 
                             <!--=======  End of product description  =======-->
@@ -643,6 +644,10 @@
         var product_id = /*[[${single_product.id}]]*/ 'SearchParam';
         /*]]>*/
 
+        /*<![CDATA[*/
+        var product_name = /*[[${single_product.name}]]*/ 'SearchParam1';
+        /*]]>*/
+
         var reviewer = $('#name').val();
         var email = $('#email').val();
         var comment = $('#comment').val();
@@ -663,6 +668,21 @@
             url: "/product/add_review",
             data: JSON.stringify(review),
             success: function (result) {
+                console.log("Uspesnost");
+                bootbox.dialog({
+                    title: 'Ocena artikla',
+                    message: 'Uspešno ste ocenili artikal ' + product_name,
+                    size: 'medium',
+                    onEscape: false,
+                    buttons: {
+                        ok: {
+                            label: "OK",
+                            className: 'btn-success',
+                            callback: function () {
+                            }
+                        }
+                    }
+                });
             }
         });
     }

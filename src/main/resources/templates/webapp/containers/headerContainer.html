@@ -17,7 +17,7 @@
             <div class="row">
                 <div class="col-12 col-lg-6">
                     <div class="header-top-text text-center text-lg-left mb-0 mb-md-15 mb-sm-15">
-                        <p><i class="icon ion-md-alarm"></i> Besplatna dostava za porudžbine preko 2000 din. - <span class="support-no">Podrška: (064) 462-22-352</span></p>
+                        <p><i class="icon ion-md-alarm"></i> Besplatna dostava za porudžbine preko 2000 din. - <span class="support-no">Podrška: 062 464 406</span></p>
                     </div>
                 </div>
                 <div class="col-12 col-lg-6">
@@ -66,7 +66,7 @@
                 <div class="col-6 col-lg-2 col-md-6 col-sm-6 order-1 order-lg-1">
                     <!--=======  logo  =======-->
 
-                    <div class="logo">
+                    <div class="logo" style="width: 250px;">
                         <a th:href="@{/}">
                             <img alt="" class="img-fluid" th:src="@{'/img/logo.png'}">
                         </a>
@@ -109,12 +109,13 @@
                                 </div>
                                 <div class="floating-cart-btn text-center">
                                     <a class="fl-btn pull-left" th:href="@{/cart/show_cart}">Korpa</a>
-                                    <a class="fl-btn pull-right" th:href="@{/checkout/show_checkout}">Završi kupovinu</a>
+                                    <a class="fl-btn pull-right" th:href="@{/checkout/show_checkout}" th:if="${session.cart!=null && session.cart.getCartItems().size()>0}">Završi kupovinu</a>
                                 </div>
                             </div>
                         </div>
                         <!-- end of cart floating box -->
                     </div>
+
                     <div class="wishlist-section">
                         <a id="wishlist-icon" th:href="@{/product/show_wishlist}">
                             <span class="image"><i class="icon ion-md-heart"></i></span>
@@ -141,7 +142,7 @@
 
                 <!--=======  sticky logo  =======-->
 
-                <div class="sticky-logo">
+                <div class="sticky-logo" style="width: 250px;">
                     <a th:href="@{/}">
                         <img alt="" class="img-fluid" th:src="@{'/img/logo.png'}">
                     </a>

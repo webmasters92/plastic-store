@@ -14,17 +14,17 @@
                 <div class="col-lg-4 col-md-6">
                     <!--=======  address block  =======-->
 
-                    <div class="address-block">
+                    <div class="address-block" style="padding-top: 20px;">
                         <div class="image">
                             <a th:href="@{/}">
-                                <img alt="" class="img-fluid" th:src="@{'/img/logo.png'}">
+                                <img alt="" class="img-fluid" style="width: 250px;" th:src="@{'/img/logo.png'}">
                             </a>
                         </div>
 
                         <div class="address-text">
                             <ul>
-                                <li>Adresa: 123 Main Street, Anytown, CA 12345 - USA.</li>
-                                <li>Telefon: (012) 800 456 789</li>
+                                <li>Adresa: Vojvode Stepe 148, 36000 Kraljevo.</li>
+                                <li>Telefon: 062 464 406</li>
                                 <li>Email: plastika.draskovic@gmail.com</li>
                             </ul>
                         </div>
@@ -65,27 +65,14 @@
                     <!--=======  widget block  =======-->
 
                     <div class="widget-block">
-                        <h4 class="footer-widget-title mt-sm-20 mb-sm-10">PRIJAVITE SE NA NAŠ NEWSLETTER</h4>
-                        <p>Prijavom na naš newsletter dobijate najnovije informacije o novim proizvodima kao i
-                            proizvodima na akciji.</p>
-
-                        <!--=======  newsletter form  =======-->
+                        <h4 class="footer-widget-title mt-sm-20 mb-sm-10">KONTAKTIRAJTE NAS </h4>
+                        <p>Kontaktirajte nas kako biste imali najnovije informacije o proizvodima ili predloge kako bismo usavršili naš sajt.</p>
 
                         <div class="newsletter-form mb-20">
                             <form id="mc-form" class="mc-form">
-                                <input placeholder="Unesite vaš email" required type="email">
-                                <button type="submit" value="submit">Prijavite se</button>
+                                <button type="submit" value="submit"><a th:href="@{/contact}">Kontakt</a></button>
                             </form>
                         </div>
-
-                        <!-- mailchimp-alerts Start -->
-                        <div class="mailchimp-alerts">
-                            <div class="mailchimp-submitting"></div><!-- mailchimp-submitting end -->
-                            <div class="mailchimp-success"></div><!-- mailchimp-success end -->
-                            <div class="mailchimp-error"></div><!-- mailchimp-error end -->
-                        </div><!-- mailchimp-alerts end -->
-
-                        <!--=======  End of newsletter formq  =======-->
                     </div>
 
                     <!--=======  End of widget block  =======-->

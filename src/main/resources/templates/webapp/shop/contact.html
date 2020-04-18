@@ -34,13 +34,12 @@
 
                 <div class="contact-page-side-content">
                     <h3 class="contact-page-title">Kontaktiraj nas</h3>
-                    <p class="contact-page-message mb-30">Možete nas kontaktirati u svako doba putem email-a ili
-                        telefonom kako biste dobili više informacija o našim proizvodima.</p>
+                    <p class="contact-page-message mb-30">Možete nas kontaktirati u svako doba putem email-a ili telefonom kako biste dobili više informacija o našim proizvodima.</p>
                     <!--=======  single contact block  =======-->
 
                     <div class="single-contact-block">
                         <h4><i class="fa fa-fax"></i> Adresa</h4>
-                        <p>123 Main Street, Anytown, CA 12345 – USA</p>
+                        <p>Vojvode Stepe 148, 36000, Kraljevo</p>
                     </div>
 
                     <!--=======  End of single contact block  =======-->
@@ -49,7 +48,7 @@
 
                     <div class="single-contact-block">
                         <h4><i class="fa fa-phone"></i> Telefon</h4>
-                        <p>Mob.: (08) 123 456 789</p>
+                        <p>Mob. - 062 464 406</p>
                     </div>
 
                     <!--=======  End of single contact block  =======-->
@@ -69,8 +68,10 @@
             </div>
             <div class="col-lg-6 col-md-12 order-2 order-lg-1">
                 <!--=======  contact form content  =======-->
-
-                <div class="contact-form-content">
+                <div class="contact-form-content" th:if="${success_message}">
+                    <p style="text-align: center; font-size: 25px;font-weight: bold;padding-top: 200px;" th:text="${success_message}"></p>
+                </div>
+                <div class="contact-form-content" th:unless="${success_message}">
                     <h3 class="contact-page-title">Pitajte nas</h3>
 
                     <div class="contact-form">
@@ -102,6 +103,7 @@
                     </div>
                     <p class="form-messege pt-10 pb-10 mt-10 mb-10"></p>
                 </div>
+
 
                 <!--=======  End of contact form content =======-->
             </div>

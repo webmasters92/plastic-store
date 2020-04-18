@@ -58,7 +58,7 @@ public class CheckoutController {
 
         order.setOrderTotal(cart.getTotal());
         order.setDateCreated(new Date());
-        order.setOrderStatus(OrderStatus.ORDERED);
+        order.setOrderStatus(OrderStatus.PORUČENA);
         order.setOrder_payment(OrderPayment.CASH_ON_DELIVERY);
 
         checkoutService.saveOrder(order);
