@@ -82,7 +82,7 @@
                             <div class="cart-summary-wrap">
                                 <h4>Kupovina</h4>
                                 <p>Ukupno <span th:text="${session.cart.getTotal()}+ ' RSD'"></span></p>
-                                <p>Poštarina <span>-</span></p>
+                                <p>Poštarina <span th:text="${session.cart.getTotal()>=3000}?'Besplatna isporuka':'/'"></span></p>
                                 <h2>Ukupan iznos za uplatu <span th:text="${session.cart.getTotal()}+' RSD'"></span></h2>
                             </div>
                             <div class="cart-summary-button">
@@ -190,12 +190,14 @@
 
     function onEnter(input_value, event) {
         if (event.which == 13) {
-            updateSubTotalOnEnter($(input_value));
-            var id = $(input_value).parent().attr('class').split(' ')[1];
-            var value = $(input_value).parent().parent().next().children(":first").text().split(' RSD')[0];
-            var quantity = $(input_value).parent().children(":first").val();
-            updateMiniCart($(input_value).parent().children(":first"), id, value, quantity);
-            return false;
+            if ($(input_value).parent().children(":first").val() > 0) {
+                updateSubTotalOnEnter($(input_value));
+                var id = $(input_value).parent().attr('class').split(' ')[1];
+                var value = $(input_value).parent().parent().next().children(":first").text().split(' RSD')[0];
+                var quantity = $(input_value).parent().children(":first").val();
+                updateMiniCart($(input_value).parent().children(":first"), id, value, quantity);
+                return false;
+            }
         }
     }
 

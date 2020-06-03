@@ -10,6 +10,7 @@ import org.springframework.web.bind.MissingServletRequestParameterException;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -17,6 +18,7 @@ import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 import rs.dev.plasticstore.model.Customer;
 import rs.dev.plasticstore.model.Mail;
+import rs.dev.plasticstore.model.OrderStatus;
 import rs.dev.plasticstore.model.Product;
 import rs.dev.plasticstore.model.Role;
 import rs.dev.plasticstore.model.UserPrincipal;
@@ -25,7 +27,7 @@ import rs.dev.plasticstore.services.category.CategoryService;
 import rs.dev.plasticstore.services.checkout.CheckoutService;
 import rs.dev.plasticstore.services.mail.EmailService;
 import rs.dev.plasticstore.services.product.ProductService;
-import rs.dev.plasticstore.services.user.CustomerService;
+import rs.dev.plasticstore.services.customer.CustomerService;
 import rs.dev.plasticstore.services.wishlist.WishListService;
 
 import javax.mail.MessagingException;
@@ -213,6 +215,16 @@ public class CustomerController {
     public String showLoginPage(Model model) {
         model.addAttribute("categories", categoryService.findAll());
         return "webapp/customer/login";
+    }
+
+    @GetMapping(value = "/order_cancel/{id}") public String cancelOrder(@PathVariable String id, Model model,RedirectAttributes redir) {
+        var order = checkoutService.findOrderById(Integer.parseInt(id));
+        order.setOrderStatus(OrderStatus.CANCELED);
+        checkoutService.saveOrder(order);
+        model.addAttribute("categories", categoryService.findAll());
+        model.addAttribute("order", order);
+        redir.addFlashAttribute("active_tab","orders_panel");
+        return "redirect:/customer/my_account";
     }
 
     @GetMapping

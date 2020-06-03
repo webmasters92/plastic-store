@@ -8,7 +8,7 @@
 }
 
 #i10l {
-    max-width: 560px;
+    max-width: 650px;
     padding-top: 0px;
     padding-right: 50px;
     padding-bottom: 0px;
@@ -70,6 +70,10 @@
     font-size: 15px;
     float: none;
     position: static;
+}
+
+#btn-return{
+    float: left;
 }
 
 .col-sm-9 {

@@ -34,10 +34,9 @@
                     <!-- My Account Tab Menu Start -->
                     <div class="col-lg-3 col-12">
                         <div class="myaccount-tab-menu nav" role="tablist">
-                            <a class="active" data-toggle="tab" href="#dashboard"><i class="fa fa-dashboard"></i>Korisnički
-                                panel</a>
+                            <a data-toggle="tab" href="#dashboard" id="dashboard_link" th:classappend="${active_tab=='user_panel'}?'active show'"><i class="fa fa-dashboard"></i>Korisnički panel</a>
 
-                            <a data-toggle="tab" href="#orders"><i class="fa fa-cart-arrow-down"></i>Moje Porudžbine</a>
+                            <a data-toggle="tab" href="#orders" id="orders_link" th:classappend="${active_tab=='orders_panel'}?'active show'"><i class="fa fa-cart-arrow-down"></i>Moje Porudžbine</a>
 
                             <a data-toggle="tab" href="#wishlist"><i class="fa fa-cart-arrow-down"></i>Moje Želje</a>
 
@@ -127,15 +126,17 @@
                                                 <th>Status</th>
                                                 <th>Ukupno</th>
                                                 <th>Pregled</th>
+                                                <th>Opcije</th>
                                             </tr>
                                             </thead>
                                             <tbody>
                                             <tr th:each="order,iter: ${orders}">
                                                 <td th:text="${iter.count}"></td>
                                                 <td th:text="${#dates.format(order.getDateCreated(), 'dd-MMM-yyyy')}"></td>
-                                                <td th:text="${order.getOrderStatus()}"></td>
+                                                <td th:text="${order.getOrderStatus().getDisplayValue()}"></td>
                                                 <td th:text="${order.getOrderTotal()}+' RSD'"></td>
                                                 <td><a class="btn" th:href="@{/checkout/order_details/__${order.getId()}__}">Detalji</a></td>
+                                                <td><a class="btn btn-danger btn-sm" th:onclick="|showWarningDialog(${order.id})|" th:if="${order.getOrderStatus().name()=='ORDERED'}"><i class="fa fa-times"></i></a></td>
                                             </tr>
                                             </tbody>
                                         </table>
@@ -256,14 +257,49 @@
 <div th:insert="webapp/containers/scriptsContainer :: scriptsContainer"></div>
 <script th:inline="javascript" type="text/javascript">
     $(document).ready(function () {
+
+        /*<![CDATA[*/
+        var active_tab = /*[[${active_tab}]]*/ 'SearchParam';
+        /*]]>*/
+
         $('.pro-quantity select').on('change', function () {
             var price = this.value;
             var id = $(this).parent().attr('class').split(' ')[1];
             $('span#' + id + '').text(price + ' RSD');
         });
+        $('#dashboard_link').click();
+        if (active_tab === 'orders_panel') {
+            $('#orders_link').click();
+        }
+        console.log(active_tab);
 
         $('.pro-quantity select').trigger("change");
     });
+
+    function showWarningDialog(orderID) {
+        bootbox.dialog({
+            title: 'Upozorenje!',
+            message: 'Da li želite da otkažete porudžbinu?',
+            size: 'medium',
+            onEscape: false,
+            buttons: {
+                ok: {
+                    label: "Potvrdi",
+                    className: 'btn-success',
+                    callback: function () {
+                        window.location='/customer/order_cancel/' + orderID;
+                    }
+                },
+                cancel: {
+                    label: "Odustani",
+                    className: 'btn-danger',
+                    callback: function () {
+                    }
+                }
+            }
+        });
+
+    }
 </script>
 </body>
 </html>

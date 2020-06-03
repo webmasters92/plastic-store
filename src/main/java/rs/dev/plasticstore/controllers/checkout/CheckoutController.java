@@ -9,6 +9,7 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.ResponseBody;
 import rs.dev.plasticstore.model.Cart;
 import rs.dev.plasticstore.model.Customer;
 import rs.dev.plasticstore.model.Guest;
@@ -22,22 +23,21 @@ import rs.dev.plasticstore.services.cart.CartService;
 import rs.dev.plasticstore.services.category.CategoryService;
 import rs.dev.plasticstore.services.checkout.CheckoutService;
 import rs.dev.plasticstore.services.color.ColorService;
+import rs.dev.plasticstore.services.customer.CustomerService;
 import rs.dev.plasticstore.services.guest.GuestService;
 import rs.dev.plasticstore.services.mail.EmailService;
 import rs.dev.plasticstore.services.product.ProductService;
-import rs.dev.plasticstore.services.user.CustomerService;
 
 import javax.mail.MessagingException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 import java.util.Date;
 
-@Controller
-@RequestMapping("/checkout")
-public class CheckoutController {
+@Controller @RequestMapping("/checkout") public class CheckoutController {
 
     @PostMapping(value = "/place_order")
-    public String placeOrder(@ModelAttribute Order order, @AuthenticationPrincipal UserPrincipal principal, HttpSession session, Model model, HttpServletRequest request) {
+    @ResponseBody
+    public String placeOrder(@ModelAttribute Order order, @AuthenticationPrincipal UserPrincipal principal, HttpSession session, HttpServletRequest request) {
         if(principal != null) {
             order.setCustomer_id(principal.getUserId());
         } else guestService.save(order.getGuest());
@@ -58,12 +58,10 @@ public class CheckoutController {
 
         order.setOrderTotal(cart.getTotal());
         order.setDateCreated(new Date());
-        order.setOrderStatus(OrderStatus.PORUČENA);
+        order.setOrderStatus(OrderStatus.ORDERED);
         order.setOrder_payment(OrderPayment.CASH_ON_DELIVERY);
 
         checkoutService.saveOrder(order);
-        model.addAttribute("order", order);
-        model.addAttribute("categories", categoryService.findAll());
 
         String appUrl = request.getScheme() + "://" + request.getServerName() + ":" + request.getServerPort();
 
@@ -80,11 +78,26 @@ public class CheckoutController {
             e.printStackTrace();
         }
 
+        return String.valueOf(order.getId());
+    }
+
+    @GetMapping(value = "/order_details/{id}") public String showCheckout(@PathVariable String id, Model model) {
+        var order = checkoutService.findOrderById(Integer.parseInt(id));
+
+        model.addAttribute("categories", categoryService.findAll());
+        model.addAttribute("order", order);
+        return "webapp/checkout/order_details";
+    }
+
+    @GetMapping(value = "/order_confirm/{id}") public String showOrderConfirmed(@PathVariable String id, Model model) {
+        var order = checkoutService.findOrderById(Integer.parseInt(id));
+        System.out.println(order);
+        model.addAttribute("categories", categoryService.findAll());
+        model.addAttribute("order", order);
         return "webapp/checkout/order_confirmed";
     }
 
-    @GetMapping(value = "/show_checkout")
-    public String showCheckout(Model model, @AuthenticationPrincipal UserPrincipal principal, HttpSession session) {
+    @GetMapping(value = "/show_checkout") public String showCheckout(Model model, @AuthenticationPrincipal UserPrincipal principal, HttpSession session) {
         var order = new Order();
         if(principal != null) {
             Customer customer = customerService.findCustomerByUsername(principal.getUsername());
@@ -115,16 +128,6 @@ public class CheckoutController {
         model.addAttribute("order", order);
         return "webapp/checkout/checkout";
     }
-
-    @GetMapping(value = "/order_details/{id}")
-    public String showCheckout(@PathVariable String id, Model model) {
-        var order = checkoutService.findOrderById(Integer.parseInt(id));
-
-        model.addAttribute("categories", categoryService.findAll());
-        model.addAttribute("order", order);
-        return "webapp/checkout/order_details";
-    }
-
     @Autowired
     ProductService productService;
     @Autowired

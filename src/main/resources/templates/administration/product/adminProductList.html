@@ -4,7 +4,25 @@
 </head>
 <body>
 
-<nav th:replace="administration/admin/adminLayoutMenu :: adminLayoutMenu"></nav>
+<nav class="navbar navbar-light navbar-expand-md navigation-clean-search" th:fragment="adminLayoutMenu">
+    <div class="container"><a class="navbar-brand" href="#">Plastika Drašković</a>
+        <button class="navbar-toggler" data-target="#navcol-1" data-toggle="collapse">
+            <span class="sr-only"></span>
+            <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse" id="navcol-1">
+            <ul class="nav navbar-nav">
+                <li class="nav-item active" role="presentation"><a class="nav-link" th:href="@{/administration/product_list}">Proizvodi</a></li>
+                <li class="nav-item" role="presentation"><a class="nav-link" th:href="@{/administration/order_list}">Porudžbine</a></li>
+                <li class="nav-item" role="presentation"><a class="nav-link" th:href="@{/administration/customer_list}">Korisnici</a></li>
+            </ul>
+            <form class="form-inline mr-auto" target="_self">
+                <div class="form-group"></div>
+            </form>
+            <a class="btn btn-light action-button" th:href="@{/}" role="button">E-prodavnica</a>
+        </div>
+    </div>
+</nav>
 
 <div class="container">
     <h4 data-type="header" id="header">PRIKAZ PROIZVODA </h4>
@@ -25,7 +43,7 @@
             </div>
         </div>
         <div class="col-md-12 col-lg-8 col-xl-9 offset-md-0" id="rightColumn">
-            <table class="table table-striped table-bordered table-hover" id="example" style="width:100%">
+            <table class="table table-striped table-bordered table-hover" id="products_table" style="width:100%">
                 <thead>
                 <tr>
                     <th>Šifra</th>
@@ -41,8 +59,8 @@
                 </thead>
                 <tbody>
                 <tr th:each="product:${products}">
-                    <td th:text="${product.code}">Tiger Nixon</td>
-                    <td th:text="${product.name}">Tiger Nixon</td>
+                    <td th:text="${product.code}"></td>
+                    <td th:text="${product.name}"></td>
                     <td>
                         <select id="sizes" style="width: 70px">
                             <option th:each="productAttribute :  ${product.productAttributes}" th:text="${productAttribute.size}" th:value="${productAttribute.size}">

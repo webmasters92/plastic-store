@@ -8,13 +8,13 @@
 <nav class="navbar navbar-light navbar-expand-md navigation-clean-search" th:fragment="adminLayoutMenu">
     <div class="container"><a class="navbar-brand" href="#">Plastika Drašković</a>
         <button class="navbar-toggler" data-target="#navcol-1" data-toggle="collapse">
-            <span class="sr-only">Toggle navigation</span>
+            <span class="sr-only"></span>
             <span class="navbar-toggler-icon"></span>
         </button>
         <div class="collapse navbar-collapse" id="navcol-1">
             <ul class="nav navbar-nav">
-                <li class="nav-item active" role="presentation"><a class="nav-link" th:href="@{/administration/product_list}">Proizvodi</a></li>
-                <li class="nav-item" role="presentation"><a class="nav-link" href="#">Porudžbine</a></li>
+                <li class="nav-item" role="presentation"><a class="nav-link" th:href="@{/administration/product_list}">Proizvodi</a></li>
+                <li class="nav-item" role="presentation"><a class="nav-link" th:href="@{/administration/order_list}">Porudžbine</a></li>
                 <li class="nav-item" role="presentation"><a class="nav-link" href="#">Korisnici</a></li>
             </ul>
             <form class="form-inline mr-auto" target="_self">

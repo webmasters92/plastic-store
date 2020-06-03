@@ -13,4 +13,9 @@ public interface CheckoutRepository extends JpaRepository<Order, Integer> {
     @Query(value = "select * from orders o where customer_id=?1", nativeQuery = true)
     List<Order> findOrdersByCustomer_id(int id);
 
+    @Query(value = "select * from orders o where guest_id=?1", nativeQuery = true)
+    List<Order> findOrdersByGuest_id(int id);
+
+    @Override void deleteById(Integer integer);
+
 }

@@ -1,4 +1,4 @@
-package rs.dev.plasticstore.services.user;
+package rs.dev.plasticstore.services.customer;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -7,8 +7,9 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import rs.dev.plasticstore.model.Customer;
 import rs.dev.plasticstore.model.UserPrincipal;
-import rs.dev.plasticstore.repository.user.CustomerRepository;
+import rs.dev.plasticstore.repository.customer.CustomerRepository;
 
+import java.util.ArrayList;
 import java.util.Optional;
 
 @Service
@@ -33,6 +34,10 @@ public class CustomerServiceImpl implements CustomerService {
         return customerRepository.findByResetToken(resetToken);
     }
 
+    @Override public void deleteCustomerById(int id) {
+        customerRepository.deleteById(id);
+    }
+
     @Override
     @Transactional
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
@@ -49,6 +54,10 @@ public class CustomerServiceImpl implements CustomerService {
         if(customerDb.isPresent()) customer = (Customer) customerDb.get();
         else customer = null;
         return customer;
+    }
+
+    @Override public ArrayList<Customer> findAll() {
+        return customerRepository.findAll();
     }
 
     @Override

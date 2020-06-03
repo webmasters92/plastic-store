@@ -140,6 +140,14 @@ public class Customer {
         this.zipCode = zipCode;
     }
 
+    public int getOrders_num() {
+        return orders_num;
+    }
+
+    public void setOrders_num(int orders_num) {
+        this.orders_num = orders_num;
+    }
+
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int id;
@@ -170,4 +178,6 @@ public class Customer {
     private Set<Role> roles = new HashSet<>();
     @Transient
     private String new_password;
+    @Transient
+    private int orders_num;
 }

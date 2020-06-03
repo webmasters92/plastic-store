@@ -90,13 +90,13 @@
                                                th:if="${order.getCustomer()!=null}">Telefon*</label>
                                         <input id="customer_phone_number" maxlength="15" name="customer_phone_number"
                                                required
-                                               th:if="${order.getCustomer()!=null}"
-                                               th:field="*{customer.phoneNumber}" type="number">
+                                               th:field="*{customer.phoneNumber}"
+                                               th:if="${order.getCustomer()!=null}" type="number">
                                         <label for="guest_phone_number"
                                                th:if="${order.getCustomer()==null}">Telefon*</label>
                                         <input id="guest_phone_number" maxlength="15" name="guest_phone_number" required
-                                               th:if="${order.getCustomer()==null}"
-                                               th:field="*{guest.phoneNumber}" type="number">
+                                               th:field="*{guest.phoneNumber}"
+                                               th:if="${order.getCustomer()==null}" type="number">
                                     </div>
 
                                     <div class="col-12 mb-20">
@@ -189,7 +189,7 @@
 
                                         <p>Ukupno <span th:text="${order.getOrderTotal()}+ ' RSD'"></span></p>
                                         <p>Poštarina <span
-                                                th:text="${order.getOrderTotal()>3000}?'00.00 RSD': '350 RSD'"></span>
+                                                th:text="${order.getOrderTotal()>3000}?'Besplatna isporuka': '/'"></span>
                                         </p>
                                         <h4>Ukupan iznos za uplatu<span th:field="*{orderTotal}"
                                                                         th:text="${order.getOrderTotal()}+' RSD'"></span>
@@ -211,8 +211,7 @@
                                         <div class="singsle-method">
                                             <input class="accept_terms" id="accept_terms" name="terms_box" required
                                                    type="checkbox">
-                                            <label class="terms_label" for="accept_terms">Prihvatam uslove
-                                                kupovine</label>
+                                            <label class="terms_label" for="accept_terms"><a th:href="@{/selling_terms}">Prihvatam uslove kupovine</a></label>
                                         </div>
                                     </div>
                                     <button class="place-order" type="submit">Potvrdi kupovinu</button>
@@ -235,11 +234,36 @@
         <button><i class="icon ion-md-search"></i></button>
     </div>
 </div>
-
+<div class="loader">Loading...</div>
 <a class="scroll-top" href="#"></a>
 
 <div th:insert="webapp/containers/scriptsContainer :: scriptsContainer"></div>
 
+<script th:inline="javascript" type="text/javascript">
+    $(document).ready(function () {
 
+        $("#checkout-form-validation").submit(function (e) {
+            $('.loader').show();
+            e.preventDefault();
+
+            var form = $(this);
+            var url = form.attr('action');
+            if (!form.valid()) return false;
+            $.ajax({
+                type: "POST",
+                url: url,
+                data: form.serialize(), // serializes the form's elements.
+                beforeSend: function (xhr) {
+
+                },
+                success: function (order_id) {
+                    $('.loader').hide();
+                    window.location = '/checkout/order_confirm/' + order_id;
+                }
+            });
+        });
+    });
+</script>
 </body>
+
 </html>

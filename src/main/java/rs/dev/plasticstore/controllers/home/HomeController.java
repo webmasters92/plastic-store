@@ -24,8 +24,7 @@ import javax.servlet.http.HttpSession;
 import java.util.ArrayList;
 import java.util.HashSet;
 
-@Controller
-public class HomeController {
+@Controller public class HomeController {
 
     @PostMapping("/send_message") public String sendMessage(@ModelAttribute Message message, RedirectAttributes redirectAttributes) {
         messageService.saveMessage(message);
@@ -45,8 +44,18 @@ public class HomeController {
         return products;
     }
 
-    @RequestMapping("/")
-    public String showHomePage(Model model, HttpSession session, @AuthenticationPrincipal UserPrincipal principal) {
+    @RequestMapping("/about") public String showAboutUsPage(Model model) {
+        model.addAttribute("categories", categoryService.findAll());
+        return "webapp/shop/about";
+    }
+
+    @RequestMapping("/contact") public String showContactPage(Model model) {
+        model.addAttribute("categories", categoryService.findAll());
+        model.addAttribute("message", new Message());
+        return "webapp/shop/contact";
+    }
+
+    @RequestMapping("/") public String showHomePage(Model model, HttpSession session, @AuthenticationPrincipal UserPrincipal principal) {
         model.addAttribute("categories", categoryService.findAll());
         model.addAttribute("popular_products", setMinMaxPriceToProducts((ArrayList<Product>) productService.findPopularProducts()));
         model.addAttribute("new_products", setMinMaxPriceToProducts((ArrayList<Product>) productService.findNewProducts()));
@@ -54,7 +63,7 @@ public class HomeController {
 
         if(principal != null) {
             var cartDB = (Cart) session.getAttribute("cart");
-            if(cartDB.getCartItems().size() > 0) {
+            if(cartDB != null && cartDB.getCartItems().size() > 0) {
                 cartDB = (Cart) session.getAttribute("cart");
             } else cartDB = cartService.findCartByCustomerId(principal.getUserId());
 
@@ -80,27 +89,12 @@ public class HomeController {
         return "webapp/shop/home";
     }
 
-    @RequestMapping("/contact")
-    public String showContactPage(Model model) {
-        model.addAttribute("categories", categoryService.findAll());
-        model.addAttribute("message", new Message());
-        return "webapp/shop/contact";
-    }
-
-    @RequestMapping("/about")
-    public String showAboutUsPage(Model model) {
-        model.addAttribute("categories", categoryService.findAll());
-        return "webapp/shop/about";
-    }
-
-    @RequestMapping("/selling_terms")
-    public String showSellingTerms(Model model) {
+    @RequestMapping("/selling_terms") public String showSellingTerms(Model model) {
         model.addAttribute("categories", categoryService.findAll());
         return "webapp/shop/selling_terms";
     }
 
-    @RequestMapping("/shipping_info")
-    public String showShippingInfo(Model model) {
+    @RequestMapping("/shipping_info") public String showShippingInfo(Model model) {
         model.addAttribute("categories", categoryService.findAll());
         return "webapp/shop/shipping_information";
     }

@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html lang="en" xmlns:th="http://www.thymeleaf.org">
 
-<head th:replace="webapp/containers/headContainer :: headContainer(title='Plastika Drašković - '+${selected_product.getName()})"></head>
+<head th:replace="webapp/containers/headContainer :: headContainer(title='Plastika Drašković - '+${single_product.getName()})"></head>
 
 <body>
 
@@ -90,23 +90,29 @@
                         <i class="fa fa-star"></i>
                     </div>
 
-                    <h3 class="product-available mb-15" th:if="${single_product.isAvailable()}">( NA STANJU )</h3>
-                    <h3 class="product-not-available mb-15" th:unless="${single_product.isAvailable()}">( NIJE NA STANJU
-                        )</h3>
-
                     <p class="d-inline-block ml-10 review-link" th:if="${reviews.size()>0}">
                         <a th:if="${reviews.size()>1}" th:text="'('+${reviews.size()}+' Ocene)'"></a>
                         <a th:if="${reviews.size()==1}" th:text="'('+${reviews.size()}+' Ocena)'"></a>
                     </p>
 
-                    <h2 class="product-price mb-0">
+                    <div class="availability mb-0">
+                        <span class="title">Dostupnost:  </span>
+                        <h3 class="product-available mb-15" th:if="${single_product.isAvailable()}">( NA STANJU )</h3>
+                        <h3 class="product-not-available mb-15" th:unless="${single_product.isAvailable()}">( NIJE NA STANJU )</h3>
+                    </div>
+
+                    <div class="price mb-0">
+                        <span class="title">Cena:  </span>
+                        <h2 class="product-price mb-0">
                         <span class="main-price" th:classappend="${single_product.isSale()} ? 'discounted'"
                               th:text="${single_product.productAttributes.get(0).getPrice()}+' DIN'"></span>
-                        <span class="discounted-price" th:if="${single_product.isSale()}"
-                              th:text="${single_product.productAttributes.get(0).getDiscounted_price()}+' DIN'"></span>
-                        <span class="discount-percentage" th:if="${single_product.isSale()}"
-                              th:text="'Ušteda '+${(single_product.productAttributes.get(0).getPrice()-single_product.productAttributes.get(0).getDiscounted_price())*100/single_product.productAttributes.get(0).getPrice()}+'%'">Save 8%</span>
-                    </h2>
+                            <span class="discounted-price" th:if="${single_product.isSale()}"
+                                  th:text="${single_product.productAttributes.get(0).getDiscounted_price()}+' DIN'"></span>
+                            <span class="discount-percentage" th:if="${single_product.isSale()}"
+                                  th:text="'Ušteda '+${(single_product.productAttributes.get(0).getPrice()-single_product.productAttributes.get(0).getDiscounted_price())*100/single_product.productAttributes.get(0).getPrice()}+'%'">Save 8%</span>
+                        </h2>
+                    </div>
+
                     <br>
                     <div class="manufacturer mb-0">
                         <span class="title">Proizvođač:  </span>
@@ -141,8 +147,7 @@
                         <div class="add-to-cart-btn ml-10 d-inline-block">
                             <a class="fl-btn" href="#" th:if="${single_product.isAvailable()}"
                                th:onclick="'javascript:addToCart();'"><i class="fa fa-shopping-cart"></i> Dodaj u korpu</a>
-                            <a class="fl-btn" href="#" onclick="return false;" th:if="${!single_product.isAvailable()}"><i
-                                    class="fa fa-shopping-cart"></i> Dodaj u korpu</a>
+                            <a class="fl-btn" href="#" th:if="${!single_product.isAvailable()}" th:onclick="'javascript:shakeProduct();'"><i class="fa fa-shopping-cart"></i> Dodaj u korpu</a>
                         </div>
                     </div>
 
@@ -667,6 +672,9 @@
             dataType: 'json',
             url: "/product/add_review",
             data: JSON.stringify(review),
+            beforeSend: function(xhr){
+                $('.select_element_you_want_to_load_into').html('Loading...');
+            },
             success: function (result) {
                 console.log("Uspesnost");
                 bootbox.dialog({
@@ -716,6 +724,11 @@
                 refreshMinicart();
             }
         });
+    }
+
+    function shakeProduct() {
+        $('.availability').effect("bounce", {times: 3}, "slow");
+        return false;
     }
 
     function refreshMinicart() {

@@ -24,6 +24,13 @@ public class CheckoutServiceImpl implements CheckoutService {
     }
 
     @Override
+    @Transactional
+    public List<Order> findAllOrdersByGuestId(int id) {
+        return checkoutRepository.findOrdersByGuest_id(id);
+    }
+
+    @Override
+    @Transactional
     public Order findOrderById(int id) {
         return checkoutRepository.findOrderById(id);
     }
@@ -32,6 +39,12 @@ public class CheckoutServiceImpl implements CheckoutService {
     @Transactional
     public void saveOrder(Order order) {
         checkoutRepository.save(order);
+    }
+
+    @Override
+    @Transactional
+    public void deleteOrder(int id) {
+        checkoutRepository.deleteById(id);
     }
 
     @Autowired

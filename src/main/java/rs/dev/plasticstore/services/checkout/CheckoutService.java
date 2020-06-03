@@ -10,8 +10,12 @@ public interface CheckoutService {
 
     List<Order> findAllOrdersByCustomerId(int id);
 
+    List<Order> findAllOrdersByGuestId(int id);
+
     Order findOrderById(int id);
 
     void saveOrder(Order cart);
+
+    void deleteOrder(int id);
 
 }
