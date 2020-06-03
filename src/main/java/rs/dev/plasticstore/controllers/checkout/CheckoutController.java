@@ -61,7 +61,7 @@ import java.util.Date;
         order.setOrderStatus(OrderStatus.ORDERED);
         order.setOrder_payment(OrderPayment.CASH_ON_DELIVERY);
 
-        checkoutService.saveOrder(order);
+      //  checkoutService.saveOrder(order);
 
         String appUrl = request.getScheme() + "://" + request.getServerName() + ":" + request.getServerPort();
 

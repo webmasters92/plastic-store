@@ -177,14 +177,11 @@
                                         <h4>Artikli <span>Ukupno</span></h4>
 
                                         <ul th:field="*{orderItems}">
-                                            <li th:each="item : ${order.getOrderItems()}"
-                                                th:text="${item.getProduct().getName()}+'  x'+${item.getQuantity()}">
+                                            <li class="d-flex justify-content-between"
+                                                th:each="item : ${order.getOrderItems()}">
+                                                <div th:text="${item.getProduct().getName()}+'  x'+${item.getQuantity()}"></div>
+                                                <div th:text="${item.getTotalPrice()}+' RSD'"></div>
                                             </li>
-                                        </ul>
-
-                                        <ul id="second_ul" th:field="*{orderItems}">
-                                            <span th:each="item : ${order.getOrderItems()}"
-                                                  th:text="${item.getTotalPrice()}+' RSD'"></span>
                                         </ul>
 
                                         <p>Ukupno <span th:text="${order.getOrderTotal()}+ ' RSD'"></span></p>
@@ -211,7 +208,8 @@
                                         <div class="singsle-method">
                                             <input class="accept_terms" id="accept_terms" name="terms_box" required
                                                    type="checkbox">
-                                            <label class="terms_label" for="accept_terms"><a th:href="@{/selling_terms}">Prihvatam uslove kupovine</a></label>
+                                            <label class="terms_label" for="accept_terms"><a
+                                                    th:href="@{/selling_terms}">Prihvatam uslove kupovine</a></label>
                                         </div>
                                     </div>
                                     <button class="place-order" type="submit">Potvrdi kupovinu</button>
@@ -234,7 +232,6 @@
         <button><i class="icon ion-md-search"></i></button>
     </div>
 </div>
-<div class="loader">Loading...</div>
 <a class="scroll-top" href="#"></a>
 
 <div th:insert="webapp/containers/scriptsContainer :: scriptsContainer"></div>
@@ -254,16 +251,18 @@
                 url: url,
                 data: form.serialize(), // serializes the form's elements.
                 beforeSend: function (xhr) {
-
+                    $('.loading').removeClass('d-none');
                 },
                 success: function (order_id) {
-                    $('.loader').hide();
+                    $('.loading').addClass('d-none');
                     window.location = '/checkout/order_confirm/' + order_id;
                 }
             });
         });
     });
 </script>
+<div class="loading d-none position-fixed w-100 h-100">Loading...</div>
+
 </body>
 
 </html>

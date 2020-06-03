@@ -10018,6 +10018,12 @@ span.required {
 
 /*=====  End of 21. Footer  ======*/
 
+.loading{
+    top:0;
+    left:0;
+    background: rgba(0,0,0,0.5) url('https://flevix.com/wp-content/uploads/2019/07/Spin-Preloader.gif') no-repeat center center;
+}
+
 .loader {
     margin: 100px auto;
     font-size: 25px;
