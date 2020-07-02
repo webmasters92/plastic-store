@@ -61,7 +61,9 @@
                                 <td class="pro-subtotal">
                                     <span th:id="${item.product.id}+'-'+${item.getSize()}+'-'+${item.getPrice()}+'-'+${item.getColor()}" th:text="${item.price*item.quantity}+' RSD'"></span>
                                 </td>
-                                <td class="pro-remove"><a th:href="@{/cart/delete_cart_item/__${item.getSize()}__/__${item.getPrice()}__/__${item.getColor()}__}"><i class="fa fa-trash-o"></i></a></td>
+                                <td class="pro-remove"><a
+                                        th:href="@{/cart/delete_cart_item/__${item.getSize()}__/__${item.getPrice()}__/__${item.getColor()}__/__${item.getProduct().getCode()}__}"><i
+                                        class="fa fa-trash-o"></i></a></td>
                             </tr>
                             </tbody>
                         </table>

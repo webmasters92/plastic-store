@@ -88,13 +88,24 @@
                         <!-- cart floating box -->
                         <div class="cart-floating-box hidden" id="cart-floating-box">
                             <div class="cart-items" th:if="${session.cart!=null}">
-                                <div class="cart-float-single-item d-flex" th:each=" item:${session.cart.getCartItems()}">
-                                    <span class="remove-item" id="remove-item"><a onclick=deleteFromMiniCart(this.getAttribute('data-size'),this.getAttribute('data-price'),this.getAttribute('data-color')); th:data-color="${item.getColor()}" th:data-price="${item.getPrice()}" th:data-size="${item.getSize()}"><i class="icon ion-md-close"></i></a></span>
+                                <div class="cart-float-single-item d-flex"
+                                     th:each=" item:${session.cart.getCartItems()}">
+                                    <span class="remove-item" id="remove-item"><a
+                                            onclick=deleteFromMiniCart(this.getAttribute('data-size'),this.getAttribute('data-price'),this.getAttribute('data-color'),this.getAttribute('data-code'));
+                                            th:data-code="${item.getProduct().getCode()}"
+                                            th:data-color="${item.getColor()}"
+                                            th:data-price="${item.getPrice()}"
+                                            th:data-size="${item.getSize()}">
+                                        <i class="icon ion-md-close"></i></a></span>
                                     <div class="cart-float-single-item-image">
-                                        <a th:href="@{/product/single_product/__${item.product.id}__}"><img alt="" class="img-fluid" th:src="@{'/images/' + ${item.product.images.get(0).name}}"></a>
+                                        <a th:href="@{/product/single_product/__${item.product.id}__}"><img alt=""
+                                                                                                            class="img-fluid"
+                                                                                                            th:src="@{'/images/' + ${item.product.images.get(0).name}}"></a>
                                     </div>
                                     <div class="cart-float-single-item-desc">
-                                        <p class="product-title"><a th:href="@{/product/single_product/__${item.product.id}__}" th:text="${item.product.getName()}"></a></p>
+                                        <p class="product-title"><a
+                                                th:href="@{/product/single_product/__${item.product.id}__}"
+                                                th:text="${item.product.getName()}"></a></p>
                                         <p class="quantity" th:text="'Količina:' +${item.getQuantity()}"></p>
                                         <p class="price" th:text="${item.getTotalPrice()}+' RSD'"></p>
                                     </div>

@@ -24,7 +24,7 @@ public class SpringSecurityConfig extends WebSecurityConfigurerAdapter {
 
     @Override
     protected void configure(HttpSecurity http) throws Exception {
-        http.authorizeRequests().antMatchers("/administration/**").hasRole("ADMIN").antMatchers("/customer/my_account").authenticated().antMatchers("/").permitAll().and().csrf().disable().formLogin().loginProcessingUrl("/login_customer").loginPage("/customer/login").permitAll().defaultSuccessUrl("/").failureUrl("/customer/login?error=true").and().logout().invalidateHttpSession(true).clearAuthentication(true).logoutRequestMatcher(new AntPathRequestMatcher("/customer/logout")).logoutSuccessUrl("/").permitAll();
+        http.authorizeRequests().antMatchers("/administration/**").hasRole("ADMIN").antMatchers("/customer/my_account").authenticated().antMatchers("/").permitAll().and().csrf().disable().formLogin().loginProcessingUrl("/login_customer").loginPage("/customer/login").permitAll().defaultSuccessUrl("/").failureUrl("/customer/login?error=true").and().logout().invalidateHttpSession(true).clearAuthentication(true).logoutRequestMatcher(new AntPathRequestMatcher("/customer/logout")).logoutSuccessUrl("/").permitAll().and().sessionManagement().sessionFixation().newSession();
     }
 
     @Bean

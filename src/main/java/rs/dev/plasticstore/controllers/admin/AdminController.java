@@ -40,9 +40,12 @@ import java.nio.file.Paths;
 import java.util.ArrayList;
 import java.util.concurrent.atomic.AtomicBoolean;
 
-@Controller @RequestMapping("/administration") public class AdminController {
+@Controller
+@RequestMapping("/administration")
+public class AdminController {
 
-    @PostMapping("/save_product") public String addProduct(@ModelAttribute Product product, BindingResult result, RedirectAttributes redirectAttributes) {
+    @PostMapping("/save_product")
+    public String addProduct(@ModelAttribute Product product, BindingResult result, RedirectAttributes redirectAttributes) {
 
         redirectAttributes.addAttribute("message", "Proizvod nije uspešno sačuvan");
         redirectAttributes.addFlashAttribute("alertClass", "alert-danger");
@@ -99,7 +102,8 @@ import java.util.concurrent.atomic.AtomicBoolean;
         return "redirect:/administration/new_product";
     }
 
-    @GetMapping("/confirm_order/{id}") public String confirmOrder(@PathVariable String id, HttpServletRequest request, @AuthenticationPrincipal UserPrincipal principal) {
+    @GetMapping("/confirm_order/{id}")
+    public String confirmOrder(@PathVariable String id, HttpServletRequest request, @AuthenticationPrincipal UserPrincipal principal) {
         var order = checkoutService.findOrderById(Integer.parseInt(id));
         order.setOrderStatus(OrderStatus.SENT);
         checkoutService.saveOrder(order);
@@ -124,26 +128,30 @@ import java.util.concurrent.atomic.AtomicBoolean;
         return "redirect:/administration/order_list";
     }
 
-    @GetMapping("/delete_customer/{id}") public String deleteCustomer(@PathVariable String id) {
+    @GetMapping("/delete_customer/{id}")
+    public String deleteCustomer(@PathVariable String id) {
         var orders = checkoutService.findAllOrdersByCustomerId(Integer.parseInt(id));
         orders.forEach(order -> checkoutService.deleteOrder(order.getId()));
         customerService.deleteCustomerById(Integer.parseInt(id));
         return "redirect:/administration/customer_list";
     }
 
-    @GetMapping("/delete_guest/{id}") public String deleteGuest(@PathVariable String id) {
+    @GetMapping("/delete_guest/{id}")
+    public String deleteGuest(@PathVariable String id) {
         var orders = checkoutService.findAllOrdersByGuestId(Integer.parseInt(id));
         orders.forEach(order -> checkoutService.deleteOrder(order.getId()));
         guestService.deleteGuestById(Integer.parseInt(id));
         return "redirect:/administration/guest_list";
     }
 
-    @GetMapping("/delete_order/{id}") public String deleteOrder(@PathVariable String id) {
+    @GetMapping("/delete_order/{id}")
+    public String deleteOrder(@PathVariable String id) {
         checkoutService.deleteOrder(Integer.parseInt(id));
         return "redirect:/administration/order_list";
     }
 
-    @GetMapping("/delete_product/{id}") public String deleteProduct(@PathVariable String id) {
+    @GetMapping("/delete_product/{id}")
+    public String deleteProduct(@PathVariable String id) {
         var product = productService.findProductById(Integer.parseInt(id));
         product.getImages().forEach(image -> {
             File imageFile = new File(rootDir + "/images", image.getName());
@@ -153,7 +161,8 @@ import java.util.concurrent.atomic.AtomicBoolean;
         return "redirect:/administration/product_list";
     }
 
-    @GetMapping("/edit_product/{id}") public String editProduct(@PathVariable String id, Model model) {
+    @GetMapping("/edit_product/{id}")
+    public String editProduct(@PathVariable String id, Model model) {
         model.addAttribute("categories", categoryService.findAll());
         model.addAttribute("allColors", colorService.findAll());
         var product = productService.findProductById(Integer.parseInt(id));
@@ -173,7 +182,8 @@ import java.util.concurrent.atomic.AtomicBoolean;
         return "administration/product/adminProductNew";
     }
 
-    @GetMapping("/new_product") public String getNewProduct(@RequestParam(value = "message", required = false) String message, Model model) {
+    @GetMapping("/new_product")
+    public String getNewProduct(@RequestParam(value = "message", required = false) String message, Model model) {
         model.addAttribute("categories", categoryService.findAll());
         model.addAttribute("allColors", colorService.findAll());
         model.addAttribute("product", new Product());
@@ -181,38 +191,46 @@ import java.util.concurrent.atomic.AtomicBoolean;
         return "administration/product/adminProductNew";
     }
 
-    @GetMapping(value = "/sub_categories") @ResponseBody public ArrayList<Subcategory> getSubCategories(@RequestParam String category) {
+    @GetMapping(value = "/sub_categories")
+    @ResponseBody
+    public ArrayList<Subcategory> getSubCategories(@RequestParam String category) {
         return (ArrayList<Subcategory>) subcategoryService.findSubcategoriesByCategoryId(Integer.parseInt(category));
     }
 
-    @GetMapping("/customer_details/{id}") public String showCustomerDetails(@PathVariable String id, Model model) {
+    @GetMapping("/customer_details/{id}")
+    public String showCustomerDetails(@PathVariable String id, Model model) {
         model.addAttribute("customer", customerService.findCustomerById(Integer.parseInt(id)));
         return "administration/customer/customer_details";
     }
 
-    @GetMapping("/customer_list") public String showCustomerList(Model model) {
+    @GetMapping("/customer_list")
+    public String showCustomerList(Model model) {
         var customers = customerService.findAll();
         customers.forEach(customer -> customer.setOrders_num(checkoutService.findAllOrdersByCustomerId(customer.getId()).size()));
         model.addAttribute("customers", customers);
         return "administration/customer/customer_list";
     }
 
-    @GetMapping("/guest_details/{id}") public String showGuestDetails(@PathVariable String id, Model model) {
+    @GetMapping("/guest_details/{id}")
+    public String showGuestDetails(@PathVariable String id, Model model) {
         model.addAttribute("guest", guestService.findGuestById(Integer.parseInt(id)));
         return "administration/customer/guest_details";
     }
 
-    @GetMapping("/guest_list") public String showGuestList(Model model) {
+    @GetMapping("/guest_list")
+    public String showGuestList(Model model) {
         model.addAttribute("guests", guestService.findAll());
         return "administration/customer/guest_list";
     }
 
-    @GetMapping("/order_details/{id}") public String showOrderDetails(@PathVariable String id, Model model) {
+    @GetMapping("/order_details/{id}")
+    public String showOrderDetails(@PathVariable String id, Model model) {
         model.addAttribute("order", checkoutService.findOrderById(Integer.parseInt(id)));
         return "administration/order/order_details";
     }
 
-    @GetMapping("/order_list") public String showOrderList(Model model) {
+    @GetMapping("/order_list")
+    public String showOrderList(Model model) {
         var ordersDB = checkoutService.findAll();
         ordersDB.forEach(order -> {
             if(order.getCustomer_id() != 0) order.setCustomer(customerService.findCustomerById(order.getCustomer_id()));
@@ -221,7 +239,8 @@ import java.util.concurrent.atomic.AtomicBoolean;
         return "administration/order/order_list";
     }
 
-    @GetMapping("/product_list") public String showProductList(Model model) {
+    @GetMapping("/product_list")
+    public String showProductList(Model model) {
         model.addAttribute("categories", categoryService.findAll());
         model.addAttribute("products", productService.findAll());
         return "administration/product/adminProductList";

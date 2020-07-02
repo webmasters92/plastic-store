@@ -2,7 +2,14 @@ package rs.dev.plasticstore.model;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
-import javax.persistence.*;
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
+import javax.persistence.OneToOne;
+import javax.persistence.Transient;
 import java.io.Serializable;
 import java.util.Objects;
 
@@ -139,7 +146,7 @@ public class CartItem implements Serializable {
         if(this == o) return true;
         if(!(o instanceof CartItem)) return false;
         CartItem cartItem = (CartItem) o;
-        return getPrice() == cartItem.getPrice() && getSize().equals(cartItem.getSize()) && getColor().equals(cartItem.getColor());
+        return getProduct().getCode() == cartItem.getProduct().getCode() && getPrice() == cartItem.getPrice() && getSize().equals(cartItem.getSize()) && getColor().equals(cartItem.getColor());
     }
 
     @Override

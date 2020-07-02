@@ -103,6 +103,10 @@ public class Order implements Serializable {
         this.shipping = shipping;
     }
 
+    @Override
+    public String toString() {
+        return "Order{" + "id=" + id + ", dateCreated=" + dateCreated + ", orderStatus=" + orderStatus + ", orderTotal=" + orderTotal + ", shipping=" + shipping + ", guest=" + guest + ", order_payment=" + order_payment + ", customer_id=" + customer_id + ", orderItems=" + orderItems + ", customer=" + customer + '}';
+    }
 
     private static final long serialVersionUID = 2681531852204068105L;
     @Id

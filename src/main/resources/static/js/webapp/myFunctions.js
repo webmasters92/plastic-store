@@ -1,6 +1,6 @@
-function deleteFromMiniCart(size, price, color) {
+function deleteFromMiniCart(size, price, color, code) {
     $.ajax({
-        url: '/cart/delete_minicart_item/' + size + '/' + price + '/' + color,
+        url: '/cart/delete_minicart_item/' + size + '/' + price + '/' + color + '/' + code,
         type: 'get',
         success: function (response) {
             $(".navigation-menu-top").replaceWith(response);

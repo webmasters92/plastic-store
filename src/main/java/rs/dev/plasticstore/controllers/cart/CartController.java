@@ -65,37 +65,26 @@ public class CartController {
         return product.getId();
     }
 
-    @GetMapping(value = "/delete_cart_item/{size}/{price}/{color}")
-    public String deleteFromCart(@PathVariable String size, @PathVariable String price, @PathVariable String color, @AuthenticationPrincipal UserPrincipal principal, HttpSession session) {
-        if(principal != null) {
-            var cartDB = cartService.findCartByCustomerId(principal.getUserId());
-            cartDB.getCartItems().removeIf(cartItem -> cartItem.getSize().equals(size) && cartItem.getPrice() == Integer.parseInt(price) && cartItem.getColor().equals(color));
-            cartDB.setTotal(cartDB.getCartItems().stream().map(CartItem::getTotalPrice).reduce(0, Integer::sum));
-            cartService.saveCart(cartDB);
-            session.setAttribute("cart", cartDB);
-        } else {
-            var cart = (Cart) session.getAttribute("cart");
-            cart.getCartItems().removeIf(cartItem -> cartItem.getSize().equals(size) && cartItem.getPrice() == Integer.parseInt(price) && cartItem.getColor().equals(color));
-            cart.setTotal(cart.getCartItems().stream().map(CartItem::getTotalPrice).reduce(0, Integer::sum));
-            session.setAttribute("cart", cart);
-        }
+    @GetMapping(value = "/delete_cart_item/{size}/{price}/{color}/{product_code}")
+    public String deleteFromCart(@PathVariable String product_code, @PathVariable String size, @PathVariable String price, @PathVariable String color, @AuthenticationPrincipal UserPrincipal principal, HttpSession session) {
+        var cart = (Cart) session.getAttribute("cart");
+        if(principal != null) cartService.saveCart(cart);
+        cart.getCartItems().removeIf(cartItem -> cartItem.getSize().equals(size) && cartItem.getPrice() == Integer.parseInt(price) && cartItem.getColor().equals(color) && cartItem.getProduct().getCode() == Integer.parseInt(product_code));
+        cart.setTotal(cart.getCartItems().stream().map(CartItem::getTotalPrice).reduce(0, Integer::sum));
+        session.setAttribute("cart", cart);
+
         return "redirect:/cart/show_cart";
     }
 
-    @GetMapping(value = "/delete_minicart_item/{size}/{price}/{color}")
-    public String deleteFromMiniCart(@PathVariable String size, @PathVariable String price, @PathVariable String color, @AuthenticationPrincipal UserPrincipal principal, HttpSession session) {
-        if(principal != null) {
-            var cartDB = cartService.findCartByCustomerId(principal.getUserId());
-            cartDB.getCartItems().removeIf(cartItem -> cartItem.getSize().equals(size) && cartItem.getPrice() == Integer.parseInt(price) && cartItem.getColor().equals(color));
-            cartDB.setTotal(cartDB.getCartItems().stream().map(CartItem::getTotalPrice).reduce(0, Integer::sum));
-            cartService.saveCart(cartDB);
-            session.setAttribute("cart", cartDB);
-        } else {
-            var cart = (Cart) session.getAttribute("cart");
-            cart.getCartItems().removeIf(cartItem -> cartItem.getSize().equals(size) && cartItem.getPrice() == Integer.parseInt(price) && cartItem.getColor().equals(color));
-            cart.setTotal(cart.getCartItems().stream().map(CartItem::getTotalPrice).reduce(0, Integer::sum));
-            session.setAttribute("cart", cart);
-        }
+    @GetMapping(value = "/delete_minicart_item/{size}/{price}/{color}/{product_code}")
+    public String deleteFromMiniCart(@PathVariable String product_code, @PathVariable String size, @PathVariable String price, @PathVariable String color, @AuthenticationPrincipal UserPrincipal principal, HttpSession session) {
+        var cart = (Cart) session.getAttribute("cart");
+        cart.getCartItems().removeIf(cartItem -> cartItem.getSize().equals(size) && cartItem.getPrice() == Integer.parseInt(price) && cartItem.getColor().equals(color) && cartItem.getProduct().getCode() == Integer.parseInt(product_code));
+        cart.setTotal(cart.getCartItems().stream().map(CartItem::getTotalPrice).reduce(0, Integer::sum));
+
+        if(principal != null) cartService.saveCart(cart);
+        session.setAttribute("cart", cart);
+
         return "webapp/cart/minicart_fragment :: minicart";
     }
 

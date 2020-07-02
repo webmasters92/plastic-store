@@ -11,7 +11,7 @@
             <div class="col-6 col-lg-2 col-md-6 col-sm-6 order-1 order-lg-1">
                 <!--=======  logo  =======-->
 
-                <div class="logo">
+                <div class="logo" style="width: 250px;">
                     <a th:href="@{/}">
                         <img alt="" class="img-fluid" th:src="@{'/img/logo.png'}">
                     </a>
@@ -35,9 +35,10 @@
                         <div class="cart-items">
                             <div class="cart-float-single-item d-flex" th:each=" item:${session.cart.getCartItems()}">
                                 <span class="remove-item" id="remove-item"><a
-                                        onclick=deleteFromMiniCart(this.getAttribute('data-size'),this.getAttribute('data-price'),this.getAttribute('data-color'));
+                                        onclick=deleteFromMiniCart(this.getAttribute('data-size'),this.getAttribute('data-price'),this.getAttribute('data-color'),this.getAttribute('data-code'));
                                         th:data-color="${item.getColor()}"
                                         th:data-price="${item.getPrice()}"
+                                        th:data-code="${item.getProduct().getCode()}"
                                         th:data-size="${item.getSize()}">
                                     <i class="icon ion-md-close"></i></a></span>
                                 <div class="cart-float-single-item-image">

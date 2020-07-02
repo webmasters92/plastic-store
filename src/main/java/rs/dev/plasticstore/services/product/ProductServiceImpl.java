@@ -10,7 +10,9 @@ import rs.dev.plasticstore.repository.product.ProductRepository;
 
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
-import java.util.*;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Optional;
 
 @Service
 public class ProductServiceImpl implements ProductService {
@@ -108,6 +110,7 @@ public class ProductServiceImpl implements ProductService {
     @Override
     @Transactional
     public int findMinProductPrice() {
+        System.out.println(productRepository.findMinProductPrice());
         return productRepository.findMinProductPrice();
     }
 

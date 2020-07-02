@@ -33,14 +33,18 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 import java.util.Date;
 
-@Controller @RequestMapping("/checkout") public class CheckoutController {
+@Controller
+@RequestMapping("/checkout")
+public class CheckoutController {
 
     @PostMapping(value = "/place_order")
     @ResponseBody
     public String placeOrder(@ModelAttribute Order order, @AuthenticationPrincipal UserPrincipal principal, HttpSession session, HttpServletRequest request) {
         if(principal != null) {
             order.setCustomer_id(principal.getUserId());
-        } else guestService.save(order.getGuest());
+        } else {
+            guestService.save(order.getGuest());
+        }
 
         var cart = (Cart) session.getAttribute("cart");
         cart.getCartItems().forEach(cartItem -> {
@@ -60,8 +64,8 @@ import java.util.Date;
         order.setDateCreated(new Date());
         order.setOrderStatus(OrderStatus.ORDERED);
         order.setOrder_payment(OrderPayment.CASH_ON_DELIVERY);
-
-      //  checkoutService.saveOrder(order);
+        System.out.println(order.toString());
+        checkoutService.saveOrder(order);
 
         String appUrl = request.getScheme() + "://" + request.getServerName() + ":" + request.getServerPort();
 
@@ -77,11 +81,13 @@ import java.util.Date;
         } catch(MessagingException e) {
             e.printStackTrace();
         }
-
+        session.setAttribute("cart", null);
+        if(principal != null) cartService.deleteCart(principal.getUserId());
         return String.valueOf(order.getId());
     }
 
-    @GetMapping(value = "/order_details/{id}") public String showCheckout(@PathVariable String id, Model model) {
+    @GetMapping(value = "/order_details/{id}")
+    public String showCheckout(@PathVariable String id, Model model) {
         var order = checkoutService.findOrderById(Integer.parseInt(id));
 
         model.addAttribute("categories", categoryService.findAll());
@@ -89,15 +95,8 @@ import java.util.Date;
         return "webapp/checkout/order_details";
     }
 
-    @GetMapping(value = "/order_confirm/{id}") public String showOrderConfirmed(@PathVariable String id, Model model) {
-        var order = checkoutService.findOrderById(Integer.parseInt(id));
-        System.out.println(order);
-        model.addAttribute("categories", categoryService.findAll());
-        model.addAttribute("order", order);
-        return "webapp/checkout/order_confirmed";
-    }
-
-    @GetMapping(value = "/show_checkout") public String showCheckout(Model model, @AuthenticationPrincipal UserPrincipal principal, HttpSession session) {
+    @GetMapping(value = "/show_checkout")
+    public String showCheckout(Model model, @AuthenticationPrincipal UserPrincipal principal, HttpSession session) {
         var order = new Order();
         if(principal != null) {
             Customer customer = customerService.findCustomerByUsername(principal.getUsername());
@@ -128,6 +127,16 @@ import java.util.Date;
         model.addAttribute("order", order);
         return "webapp/checkout/checkout";
     }
+
+    @GetMapping(value = "/order_confirm/{id}")
+    public String showOrderConfirmed(@PathVariable String id, Model model) {
+        var order = checkoutService.findOrderById(Integer.parseInt(id));
+        System.out.println(order);
+        model.addAttribute("categories", categoryService.findAll());
+        model.addAttribute("order", order);
+        return "webapp/checkout/order_confirmed";
+    }
+
     @Autowired
     ProductService productService;
     @Autowired
