@@ -21,6 +21,7 @@ import rs.dev.plasticstore.model.ProductAttributes;
 import rs.dev.plasticstore.model.ProductColor;
 import rs.dev.plasticstore.model.Subcategory;
 import rs.dev.plasticstore.model.UserPrincipal;
+import rs.dev.plasticstore.services.cart.CartService;
 import rs.dev.plasticstore.services.category.CategoryService;
 import rs.dev.plasticstore.services.category.SubcategoryService;
 import rs.dev.plasticstore.services.checkout.CheckoutService;
@@ -30,8 +31,8 @@ import rs.dev.plasticstore.services.guest.GuestService;
 import rs.dev.plasticstore.services.image.ImageService;
 import rs.dev.plasticstore.services.mail.EmailService;
 import rs.dev.plasticstore.services.product.ProductService;
+import rs.dev.plasticstore.services.wishlist.WishListService;
 
-import javax.mail.MessagingException;
 import javax.servlet.http.HttpServletRequest;
 import java.io.File;
 import java.io.IOException;
@@ -108,8 +109,8 @@ public class AdminController {
         order.setOrderStatus(OrderStatus.SENT);
         checkoutService.saveOrder(order);
         var email = "";
-        if(principal != null) email = customerService.findCustomerById(order.getCustomer_id()).getEmail();
-        else email = guestService.findGuestById(order.getGuest().getId()).getEmail();
+        if(order.getCustomer_id() == 0) email = guestService.findGuestById(order.getGuest().getId()).getEmail();
+        else email = customerService.findCustomerById(order.getCustomer_id()).getEmail();
 
         String appUrl = request.getScheme() + "://" + request.getServerName() + ":" + request.getServerPort();
 
@@ -121,7 +122,7 @@ public class AdminController {
         mail.setOrder(order);
         try {
             emailService.sendOrderConfirmationEmail(mail);
-        } catch(MessagingException e) {
+        } catch(Exception e) {
             e.printStackTrace();
         }
 
@@ -131,6 +132,8 @@ public class AdminController {
     @GetMapping("/delete_customer/{id}")
     public String deleteCustomer(@PathVariable String id) {
         var orders = checkoutService.findAllOrdersByCustomerId(Integer.parseInt(id));
+        wishListService.deleteWishListByCustomerId(Integer.parseInt(id));
+        cartService.deleteCartByCustomerId(Integer.parseInt(id));
         orders.forEach(order -> checkoutService.deleteOrder(order.getId()));
         customerService.deleteCustomerById(Integer.parseInt(id));
         return "redirect:/administration/customer_list";
@@ -265,4 +268,8 @@ public class AdminController {
     CustomerService customerService;
     @Autowired
     GuestService guestService;
+    @Autowired
+    CartService cartService;
+    @Autowired
+    WishListService wishListService;
 }

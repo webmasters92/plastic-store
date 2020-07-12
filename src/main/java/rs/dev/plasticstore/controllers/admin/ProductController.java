@@ -270,24 +270,17 @@ public class ProductController {
         return "webapp/product/product_colors_fragment :: product_colors";
     }
 
-    @GetMapping(value = "/product_list_sub_category/{id}")
-    public String showProductListBySubCategory(@PathVariable String id, Model model) {
-        var subCategory = subcategoryService.findSubCategoryById(Integer.parseInt(id)).get();
-        Page<Product> pageableProduct = productService.findProductsBySubCategoryId(subCategory.getId(), PageRequest.of(0, 20));
-        var map = new HashMap<ProductColor, Integer>();
-        for(Product product : pageableProduct.getContent()) {
-            for(ProductColor productColor : product.getProductColors()) {
-                map.merge(productColor, 1, Integer::sum);
-            }
+    @GetMapping(value = "/delete_wishlist/{id}")
+    public String deleteWishListProduct(@PathVariable String id, @AuthenticationPrincipal UserPrincipal principal, HttpSession session) {
+        var products = new HashSet<Product>();
+        if(principal != null) {
+            wishListService.deleteWishListByCustomerId(principal.getUserId(), Integer.parseInt(id));
+        } else {
+            products = (HashSet<Product>) session.getAttribute("wishlist_products");
+            products.removeIf(product -> product.getId() == Integer.parseInt(id));
+            session.setAttribute("wishlist_products", products);
         }
-        findMinMaxPriceAndRating(pageableProduct.getContent());
-        model.addAttribute("categories", categoryService.findAll());
-        model.addAttribute("selected_category", subCategory.getCategory());
-        model.addAttribute("selected_subcategory", subCategory);
-        model.addAttribute("products", pageableProduct.getContent());
-        model.addAttribute("pagination", pageableProduct);
-        model.addAttribute("colorMap", map);
-        return "webapp/product/product_list";
+        return "redirect:/product/show_wishlist";
     }
 
     @GetMapping(value = "/product_list_searched_fragment/{search}/{page}/{size}/{sort}")
@@ -468,17 +461,24 @@ public class ProductController {
         return "webapp/product/wishlist";
     }
 
-    @GetMapping(value = "/delete_wishlist/{id}")
-    public String deleteWishListProduct(@PathVariable String id, @AuthenticationPrincipal UserPrincipal principal, HttpSession session) {
-        var products = new HashSet<Product>();
-        if(principal != null) {
-            wishListService.deleteWishList(principal.getUserId(), Integer.parseInt(id));
-        } else {
-            products = (HashSet<Product>) session.getAttribute("wishlist_products");
-            products.removeIf(product -> product.getId() == Integer.parseInt(id));
-            session.setAttribute("wishlist_products", products);
+    @GetMapping(value = "/product_list_sub_category/{id}")
+    public String showProductListBySubCategory(@PathVariable String id, Model model) {
+        var subCategory = subcategoryService.findSubCategoryById(Integer.parseInt(id)).get();
+        Page<Product> pageableProduct = productService.findProductsBySubCategoryId(subCategory.getId(), PageRequest.of(0, 20));
+        var map = new HashMap<ProductColor, Integer>();
+        for(Product product : pageableProduct.getContent()) {
+            for(ProductColor productColor : product.getProductColors()) {
+                map.merge(productColor, 1, (a, b) -> Integer.sum(a, b));
+            }
         }
-        return "redirect:/product/show_wishlist";
+        findMinMaxPriceAndRating(pageableProduct.getContent());
+        model.addAttribute("categories", categoryService.findAll());
+        model.addAttribute("selected_category", subCategory.getCategory());
+        model.addAttribute("selected_subcategory", subCategory);
+        model.addAttribute("products", pageableProduct.getContent());
+        model.addAttribute("pagination", pageableProduct);
+        model.addAttribute("colorMap", map);
+        return "webapp/product/product_list";
     }
 
     @GetMapping(value = "/product_modal/{id}")

@@ -46,12 +46,16 @@
                     <td style="text-align: center" th:if="${order.customer!=null}"><a style="color: black" th:href="@{/administration/customer_details/__${order.customer.id}__}" th:text="${order.customer.username}"></a></td>
                     <td style="text-align: center" th:if="${order.guest!=null}"><a style="color: black" th:href="@{/administration/guest_details/__${order.guest.id}__}" th:text="Gost"></a></td>
                     <td style="text-align: center" th:text="${order.orderTotal} +' RSD'"></td>
-                    <td style="text-align: center" th:text="${order.orderStatus}"></td>
+                    <td style="text-align: center" th:text="${order.getOrderStatus().getDisplayValue()}"></td>
                     <td style="text-align: center" th:text="${#dates.format(order.dateCreated, 'dd-MM-yyyy HH:mm')}"></td>
                     <td style="text-align: center">
-                        <a class="btn btn-info btn-sm" th:href="@{/administration/order_details/__${order.id}__}"><i class="fa fa-bars"></i></a>
-                        <a class="btn btn-success btn-sm" th:href="@{/administration/confirm_order/__${order.id}__}"><i class="fa fa-check"></i></a>
-                        <a class="btn btn-danger btn-sm" th:href="@{/administration/delete_order/__${order.id}__}"><i class="fa fa-times"></i></a>
+                        <a class="btn btn-info btn-sm" th:href="@{/administration/order_details/__${order.id}__}"><i
+                                class="fa fa-bars"></i></a>
+                        <a class="btn btn-success btn-sm" href="#"
+                           th:if="${order.getOrderStatus().getDisplayValue()=='PORUČENA'}"
+                           th:onclick="|showConfirmDialog(${order.id})|"><i class="fa fa-check"></i></a>
+                        <a class="btn btn-danger btn-sm" href="#" th:onclick="|showWarningDialog(${order.id})|"><i
+                                class="fa fa-times"></i></a>
                     </td>
                 </tr>
             </table>
@@ -74,12 +78,88 @@
 </div>
 <div th:replace="administration/admin/adminLayoutFooter :: adminLayoutFooter"></div>
 
-<script crossorigin="anonymous" integrity="sha256-CSXorXvZcTkaix6Yvo6HppcZGetbYMGWSFlBw8HfCJo=" src="https://code.jquery.com/jquery-3.4.1.min.js"></script>
+<script crossorigin="anonymous" integrity="sha256-CSXorXvZcTkaix6Yvo6HppcZGetbYMGWSFlBw8HfCJo="
+        src="https://code.jquery.com/jquery-3.4.1.min.js"></script>
+<script crossorigin="anonymous" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl"
+        src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js"></script>
 <script src="https://cdn.datatables.net/1.10.19/js/jquery.dataTables.min.js" type="text/javascript"></script>
 <script src="https://cdn.datatables.net/1.10.19/js/dataTables.bootstrap4.min.js" type="text/javascript"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.10/js/select2.min.js"></script>
 <script src="/js/administration/table.js" type="text/javascript"></script>
 <script src="/js/administration/administration.js" type="text/javascript"></script>
+<script src="/js/webapp/bootbox.js" type="text/javascript"></script>
 
+<script th:inline="javascript" type="text/javascript">
+    $(document).ready(function () {
+        $('.loader-wrap').addClass('d-none');
+    });
+
+    function showWarningDialog(orderID) {
+        bootbox.dialog({
+            title: 'Upozorenje!',
+            message: 'Da li želite da obrišete porudžbinu?',
+            size: 'medium',
+            onEscape: false,
+            buttons: {
+                ok: {
+                    label: "Potvrdi",
+                    className: 'btn-success',
+                    callback: function () {
+                        window.location = '/administration/delete_order/' + orderID;
+                    }
+                },
+                cancel: {
+                    label: "Odustani",
+                    className: 'btn-danger',
+                    callback: function () {
+                    }
+                }
+            }
+        });
+    }
+
+    function showConfirmDialog(orderID) {
+        bootbox.dialog({
+            title: 'Obaveštenje!',
+            message: 'Da li želite da potvrdite porudžbinu?',
+            size: 'medium',
+            onEscape: false,
+            buttons: {
+                ok: {
+                    label: "Potvrdi",
+                    className: 'btn-success',
+                    callback: function () {
+                        $('.loader').attr('data-after', 'Potvrda porudžbine u toku, molimo sačekajte...');
+                        $('.loader-wrap').show();
+                        $('.loader-wrap').removeClass('d-none');
+                        window.location = '/administration/confirm_order/' + orderID;
+                    }
+                },
+                cancel: {
+                    label: "Odustani",
+                    className: 'btn-danger',
+                    callback: function () {
+                    }
+                }
+            }
+        });
+    }
+</script>
+<div class="loader-wrap d-none">
+    <div class="loader">
+        <div class="holder">
+            <span class="loader-item"></span>
+            <span class="loader-item"></span>
+            <span class="loader-item"></span>
+            <span class="loader-item"></span>
+            <span class="loader-item"></span>
+            <span class="loader-item"></span>
+            <span class="loader-item"></span>
+            <span class="loader-item"></span>
+            <span class="loader-item"></span>
+            <span class="loader-item"></span>
+        </div>
+    </div>
+</div>
 </body>
 </html>

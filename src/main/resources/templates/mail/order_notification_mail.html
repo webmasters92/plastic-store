@@ -102,7 +102,7 @@
 
                             <div style="width:250px;margin-bottom:15px;float:left">
                                 <h4 style="font-size:12px;margin:0;background-color:#9acf6a;padding:5px 8px;border:1px solid #ccc;border-bottom:none;border-right:1px solid transparent;text-align:center">
-                                    Podaci o kupcu</h4>
+                                    Podaci o isporuci</h4>
                                 <p style="box-sizing:border-box;margin:0;height:24px;line-height:24px;border-right:1px solid #ccc;border-bottom:1px solid #ccc;border-top:1px solid #ccc;padding-left:8px"
                                    th:text="${order.customer!=null}?${order.customer.getFirstName()}+' '+${order.customer.getLastName()}:${order.guest.getFirstName()}+' '+${order.guest.getLastName()}"></p>
                                 <p style="box-sizing:border-box;margin:0;height:24px;line-height:24px;border-right:1px solid #ccc;border-bottom:1px solid #ccc;padding-left:8px"
@@ -136,6 +136,10 @@
                                         Naziv
                                     </th>
                                     <th align="center"
+                                        style="padding:5px;font-size:12px;font-weight:bold;border-right:solid 1px #ccc;width:280px;box-sizing:border-box">
+                                        Veličina
+                                    </th>
+                                    <th align="center"
                                         style="padding:5px;font-size:12px;font-weight:bold;border-right:solid 1px #ccc;width:30px;box-sizing:border-box">
                                         Kom.
                                     </th>
@@ -147,12 +151,17 @@
                                 <tr th:each="orderItem: ${order.getOrderItems()}">
                                     <td align="center"
                                         style="padding:5px;width:120px;box-sizing:border-box;border-right:1px solid #ccc;border-bottom:1px solid #ccc"
-                                        th:text="${orderItem.getId()}"
+                                        th:text="${orderItem.product.getCode()}"
                                         valign="top">
                                     </td>
                                     <td align="center"
                                         style="padding:5px;width:280px;box-sizing:border-box;border-right:1px solid #ccc;border-bottom:1px solid #ccc"
                                         th:text="${orderItem.product.getName()}"
+                                        valign="top">
+                                    </td>
+                                    <td align="center"
+                                        style="padding:5px;width:30px;box-sizing:border-box;border-right:1px solid #ccc;border-bottom:1px solid #ccc"
+                                        th:text="${orderItem.getSize()}"
                                         valign="top">
                                     </td>
                                     <td align="center"
@@ -175,6 +184,9 @@
                                         style="padding:5px;width:280px;box-sizing:border-box;border-right:1px solid #ccc;border-bottom:1px solid #ccc"
                                         valign="top"></td>
                                     <td align="center"
+                                        style="padding:5px;width:280px;box-sizing:border-box;border-right:1px solid #ccc;border-bottom:1px solid #ccc"
+                                        valign="top"></td>
+                                    <td align="center"
                                         style="padding:5px;width:30px;box-sizing:border-box;border-right:1px solid #ccc;border-bottom:1px solid #ccc"
                                         valign="top"></td>
                                     <td align="center"
@@ -182,20 +194,19 @@
                                         valign="top"></td>
                                 </tr>
                                 <tr>
-                                    <td colspan="3"
+                                    <td colspan="4"
                                         style="padding:5px;border-right:1px solid #ccc;border-top:0;text-align:right">
                                         Dostava:
                                     </td>
-                                    <td align="center" colspan="1" style="padding:5px;border-top:0">Besplatna
-                                        isporuka.
-                                    </td>
+                                    <td align="center" colspan="1" style="padding:5px;border-top:0"
+                                        th:text="${order.getOrderTotal()>3000}?'Besplatna isporuka': '/'"></td>
                                 </tr>
                                 <tr>
-                                    <td colspan="3"
+                                    <td colspan="4"
                                         style="padding:5px;border-right:1px solid #ccc;text-align:right;border-top:1px solid #ccc">
                                         <strong>Ukupna vrednost porudžbenice:</strong></td>
-                                    <td align="center" colspan="1" style="padding:5px;border-top:1px solid #ccc">
-                                        <strong th:text="${order.getOrderTotal()}+' RSD'"></strong></td>
+                                    <td align="center" colspan="1" style="padding:5px;border-top:1px solid #ccc"><strong
+                                            th:text="${order.getOrderTotal()}+' RSD'"></strong></td>
                                 </tr>
                                 </tbody>
                             </table>
@@ -222,13 +233,13 @@
                                 </tr>
                                 <tr>
                                     <td style="font-weight:bold;padding:5px;border:1px solid #ccc">Adresa:</td>
-                                    <td style="width:185px;padding:5px;border:1px solid #ccc">Južni Bulevar 10</td>
+                                    <td style="width:185px;padding:5px;border:1px solid #ccc">Vojvode Stepe 148</td>
                                     <td style="font-weight:bold;padding:5px;border:1px solid #ccc">Mesto:</td>
                                     <td style="padding:5px;border:1px solid #ccc">36000, Kraljevo</td>
                                 </tr>
                                 <tr>
                                     <td style="font-weight:bold;padding:5px;border:1px solid #ccc">Telefon:</td>
-                                    <td style="width:185px;padding:5px;border:1px solid #ccc">(011) 3-713-713</td>
+                                    <td style="width:185px;padding:5px;border:1px solid #ccc">062 464 406</td>
                                     <td style="font-weight:bold;padding:5px;border:1px solid #ccc">Email:</td>
                                     <td style="padding:5px;border:1px solid #ccc"><a
                                             href="mailto:plastika.draskovic@gmail.com" target="_blank">prodaja@<span
@@ -237,18 +248,17 @@
                                 <tr>
                                     <td style="font-weight:bold;padding:5px;border:1px solid #ccc">Web adresa:</td>
                                     <td style="width:185px;padding:5px;border:1px solid #ccc"><a
-                                            data-saferedirecturl="https://www.google.com/url?q=http://www.tehnomanija.rs/&amp;source=gmail&amp;ust=1583665959834000&amp;usg=AFQjCNEecRjPqGbZRGMW0mR6LmVTnoVdxw"
-                                            href="http://www.tehnomanija.rs/"
-                                            target="_blank">www.<span
-                                            class="il">tehnomanija</span>.rs</a></td>
+                                            target="_blank"
+                                            th:href="@{${plastic_store_link}}">www.<span
+                                            class="il">plastikadraskovic</span>.rs</a></td>
                                     <td style="font-weight:bold;padding:5px;border:1px solid #ccc">PIB:</td>
-                                    <td style="padding:5px;border:1px solid #ccc">100416234</td>
+                                    <td style="padding:5px;border:1px solid #ccc">109390298</td>
                                 </tr>
                                 <tr>
                                     <td style="font-weight:bold;padding:5px;border:1px solid #ccc">Broj računa:</td>
-                                    <td style="width:185px;padding:5px;border:1px solid #ccc">265-1100310004575-98</td>
+                                    <td style="width:185px;padding:5px;border:1px solid #ccc">205-229647-41</td>
                                     <td style="font-weight:bold;padding:5px;border:1px solid #ccc">Matični broj:</td>
-                                    <td style="padding:5px;border:1px solid #ccc">17233041</td>
+                                    <td style="padding:5px;border:1px solid #ccc">64139096</td>
                                 </tr>
                                 </tbody>
                             </table>

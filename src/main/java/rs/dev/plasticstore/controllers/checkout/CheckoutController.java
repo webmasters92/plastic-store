@@ -64,7 +64,6 @@ public class CheckoutController {
         order.setDateCreated(new Date());
         order.setOrderStatus(OrderStatus.ORDERED);
         order.setOrder_payment(OrderPayment.CASH_ON_DELIVERY);
-        System.out.println(order.toString());
         checkoutService.saveOrder(order);
 
         String appUrl = request.getScheme() + "://" + request.getServerName() + ":" + request.getServerPort();
@@ -82,7 +81,7 @@ public class CheckoutController {
             e.printStackTrace();
         }
         session.setAttribute("cart", null);
-        if(principal != null) cartService.deleteCart(principal.getUserId());
+        if(principal != null) cartService.deleteCartByCustomerId(principal.getUserId());
         return String.valueOf(order.getId());
     }
 

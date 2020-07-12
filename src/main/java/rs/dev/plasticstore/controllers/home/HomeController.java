@@ -4,6 +4,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -29,37 +30,8 @@ import javax.servlet.http.HttpSession;
 import java.util.ArrayList;
 import java.util.HashSet;
 
-@Controller public class HomeController {
-
-    @PostMapping("/send_message") public String sendMessage(@ModelAttribute Message message, RedirectAttributes redirectAttributes) {
-        messageService.saveMessage(message);
-        redirectAttributes.addFlashAttribute("success_message", "Hvala na Vašem pitanju. Potrudićemo se da odgovorimo u najkraćem roku!");
-        return "redirect:/contact";
-    }
-
-    private ArrayList<Product> setMinMaxPriceToProducts(ArrayList<Product> products) {
-        products.forEach(product -> {
-            product.getProductAttributes().forEach(productAttributes -> product.getPrices().add(productAttributes.getPrice()));
-            product.getProductAttributes().forEach(productAttributes -> product.getDiscounted_prices().add(productAttributes.getDiscounted_price()));
-            product.setMinPrice(MinMax.findMin(product.getPrices()));
-            product.setMaxPrice(MinMax.findMax(product.getPrices()));
-            product.setMinDiscountedPrice(MinMax.findMin(product.getDiscounted_prices()));
-            product.setMaxDiscountedPrice(MinMax.findMax(product.getDiscounted_prices()));
-        });
-        return products;
-    }
-
-    @RequestMapping("/about") public String showAboutUsPage(Model model) {
-        model.addAttribute("categories", categoryService.findAll());
-        return "webapp/shop/about";
-    }
-
-    @RequestMapping("/contact")
-    public String showContactPage(Model model) {
-        model.addAttribute("categories", categoryService.findAll());
-        model.addAttribute("message", new Message());
-        return "webapp/shop/contact";
-    }
+@Controller
+public class HomeController {
 
     public void addProducts() {
         var categories = categoryService.findAll();
@@ -177,7 +149,7 @@ import java.util.HashSet;
                     product.setSubcategory(subcategoryService.findSubCategoryById(49).get());
                 } else if(i > 950 && i < 970) {
                     product.setSubcategory(subcategoryService.findSubCategoryById(50).get());
-                } else if(i > 970 && i <= 1000) {
+                } else if(i > 970) {
                     product.setSubcategory(subcategoryService.findSubCategoryById(51).get());
                 }
             }
@@ -256,6 +228,44 @@ import java.util.HashSet;
             product.setName("Proizvod " + i);
             productService.saveProduct(product);
         }
+    }
+
+    private ArrayList<Product> setMinMaxPriceToProducts(ArrayList<Product> products) {
+        products.forEach(product -> {
+            product.getProductAttributes().forEach(productAttributes -> product.getPrices().add(productAttributes.getPrice()));
+            product.getProductAttributes().forEach(productAttributes -> product.getDiscounted_prices().add(productAttributes.getDiscounted_price()));
+            product.setMinPrice(MinMax.findMin(product.getPrices()));
+            product.setMaxPrice(MinMax.findMax(product.getPrices()));
+            product.setMinDiscountedPrice(MinMax.findMin(product.getDiscounted_prices()));
+            product.setMaxDiscountedPrice(MinMax.findMax(product.getDiscounted_prices()));
+        });
+        return products;
+    }
+
+    @PostMapping("/send_message")
+    public String sendMessage(@ModelAttribute Message message, RedirectAttributes redirectAttributes) {
+        messageService.saveMessage(message);
+        redirectAttributes.addFlashAttribute("success_message", "Hvala na Vašem pitanju. Potrudićemo se da odgovorimo u najkraćem roku!");
+        return "redirect:/contact";
+    }
+
+    @RequestMapping("/about")
+    public String showAboutUsPage(Model model) {
+        model.addAttribute("categories", categoryService.findAll());
+        return "webapp/shop/about";
+    }
+
+    @RequestMapping("/contact")
+    public String showContactPage(Model model) {
+        model.addAttribute("categories", categoryService.findAll());
+        model.addAttribute("message", new Message());
+        return "webapp/shop/contact";
+    }
+
+    @GetMapping("/faqs")
+    public String showFAQSPage(Model model) {
+        model.addAttribute("categories", categoryService.findAll());
+        return "webapp/shop/faqs";
     }
 
     @RequestMapping("/selling_terms")

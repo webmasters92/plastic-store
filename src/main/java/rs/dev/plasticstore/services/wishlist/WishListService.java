@@ -8,7 +8,9 @@ public interface WishListService {
 
     void saveWishList(Wishlist wishlist);
 
-    void deleteWishList(int userId, int productId);
+    void deleteWishListByCustomerId(int userId, int productId);
+
+    void deleteWishListByCustomerId(int userId);
 
     List<Wishlist> findWishListByUserId(int id);
 

@@ -27,8 +27,14 @@ public class WishListServiceImpl implements WishListService {
 
     @Override
     @Transactional
-    public void deleteWishList(int userId, int productId) {
+    public void deleteWishListByCustomerId(int userId, int productId) {
         wishListRepository.deleteByUserIdAndProductId(userId, productId);
+    }
+
+    @Override
+    @Transactional
+    public void deleteWishListByCustomerId(int userId) {
+        wishListRepository.deleteByUserId(userId);
     }
 
     @Override

@@ -57,7 +57,8 @@
                     <td style="text-align: center" th:text="${customer.orders_num}"></td>
                     <td style="text-align: center">
                         <a class="btn btn-info btn-sm" th:href="@{/administration/customer_details/__${customer.id}__}"><i class="fa fa-bars"></i></a>
-                        <a class="btn btn-danger btn-sm" th:href="@{/administration/delete_customer/__${customer.id}__}"><i class="fa fa-times"></i></a>
+                        <a class="btn btn-danger btn-sm" href="#" th:onclick="|showWarningDialog(${customer.id})|"><i
+                                class="fa fa-times"></i></a>
                     </td>
                 </tr>
             </table>
@@ -80,12 +81,43 @@
 </div>
 <div th:replace="administration/admin/adminLayoutFooter :: adminLayoutFooter"></div>
 
-<script crossorigin="anonymous" integrity="sha256-CSXorXvZcTkaix6Yvo6HppcZGetbYMGWSFlBw8HfCJo=" src="https://code.jquery.com/jquery-3.4.1.min.js"></script>
+<script crossorigin="anonymous" integrity="sha256-CSXorXvZcTkaix6Yvo6HppcZGetbYMGWSFlBw8HfCJo="
+        src="https://code.jquery.com/jquery-3.4.1.min.js"></script>
+<script crossorigin="anonymous" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl"
+        src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js"></script>
 <script src="https://cdn.datatables.net/1.10.19/js/jquery.dataTables.min.js" type="text/javascript"></script>
 <script src="https://cdn.datatables.net/1.10.19/js/dataTables.bootstrap4.min.js" type="text/javascript"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.10/js/select2.min.js"></script>
 <script src="/js/administration/table.js" type="text/javascript"></script>
 <script src="/js/administration/administration.js" type="text/javascript"></script>
+<script src="/js/webapp/bootbox.js" type="text/javascript"></script>
 
+<script th:inline="javascript" type="text/javascript">
+
+    function showWarningDialog(customerID) {
+
+        bootbox.dialog({
+            title: 'Upozorenje!',
+            message: 'Da li želite da obrišete korisnika?',
+            size: 'medium',
+            onEscape: false,
+            buttons: {
+                ok: {
+                    label: "Potvrdi",
+                    className: 'btn-success',
+                    callback: function () {
+                        window.location = '/administration/delete_customer/' + customerID;
+                    }
+                },
+                cancel: {
+                    label: "Odustani",
+                    className: 'btn-danger',
+                    callback: function () {
+                    }
+                }
+            }
+        });
+    }
+</script>
 </body>
 </html>

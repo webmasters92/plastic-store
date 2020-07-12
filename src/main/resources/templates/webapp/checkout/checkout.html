@@ -238,9 +238,9 @@
 
 <script th:inline="javascript" type="text/javascript">
     $(document).ready(function () {
-
+        $('.loader').attr('data-after', 'Vaša porudžbina se obrađuje, molimo sačekajte...');
         $("#checkout-form-validation").submit(function (e) {
-            $('.loader').show();
+            $('.loader-wrap').show();
             e.preventDefault();
 
             var form = $(this);
@@ -249,20 +249,35 @@
             $.ajax({
                 type: "POST",
                 url: url,
-                data: form.serialize(), // serializes the form's elements.
+                data: form.serialize(),
                 beforeSend: function (xhr) {
-                    $('.loading').removeClass('d-none');
+                    $('.loader-wrap').removeClass('d-none');
                 },
                 success: function (order_id) {
-                    $('.loading').addClass('d-none');
+                    $('.loader-wrap').addClass('d-none');
                     window.location = '/checkout/order_confirm/' + order_id;
                 }
             });
         });
     });
 </script>
-<div class="loading d-none position-fixed w-100 h-100">Loading...</div>
 
+<div class="loader-wrap d-none">
+    <div class="loader">
+        <div class="holder">
+            <span class="loader-item"></span>
+            <span class="loader-item"></span>
+            <span class="loader-item"></span>
+            <span class="loader-item"></span>
+            <span class="loader-item"></span>
+            <span class="loader-item"></span>
+            <span class="loader-item"></span>
+            <span class="loader-item"></span>
+            <span class="loader-item"></span>
+            <span class="loader-item"></span>
+        </div>
+    </div>
+</div>
 </body>
 
 </html>

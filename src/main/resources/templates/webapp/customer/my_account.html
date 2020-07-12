@@ -136,7 +136,10 @@
                                                 <td th:text="${order.getOrderStatus().getDisplayValue()}"></td>
                                                 <td th:text="${order.getOrderTotal()}+' RSD'"></td>
                                                 <td><a class="btn" th:href="@{/checkout/order_details/__${order.getId()}__}">Detalji</a></td>
-                                                <td><a class="btn btn-danger btn-sm" th:onclick="|showWarningDialog(${order.id})|" th:if="${order.getOrderStatus().name()=='ORDERED'}"><i class="fa fa-times"></i></a></td>
+                                                <td><a class="btn btn-danger btn-sm" href="#"
+                                                       th:if="${order.getOrderStatus().name()=='ORDERED'}"
+                                                       th:onclick="|showWarningDialog(${order.id})|"><i
+                                                        class="fa fa-times"></i></a></td>
                                             </tr>
                                             </tbody>
                                         </table>
