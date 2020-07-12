@@ -1,5 +1,9 @@
 package rs.dev.plasticstore.model;
 
+import lombok.Getter;
+import lombok.Setter;
+import lombok.ToString;
+
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -19,94 +23,12 @@ import java.util.Date;
 import java.util.HashSet;
 import java.util.Set;
 
+@Getter
+@Setter
+@ToString
 @Entity
 @Table(name = "orders")
 public class Order implements Serializable {
-
-    public Customer getCustomer() {
-        return customer;
-    }
-
-    public int getCustomer_id() {
-        return customer_id;
-    }
-
-    public Date getDateCreated() {
-        return dateCreated;
-    }
-
-    public Guest getGuest() {
-        return guest;
-    }
-
-    public int getId() {
-        return id;
-    }
-
-    public Set<OrderItem> getOrderItems() {
-        return orderItems;
-    }
-
-    public OrderStatus getOrderStatus() {
-        return orderStatus;
-    }
-
-    public double getOrderTotal() {
-        return orderTotal;
-    }
-
-    public OrderPayment getOrder_payment() {
-        return order_payment;
-    }
-
-    public double getShipping() {
-        return shipping;
-    }
-
-    public void setCustomer(Customer customer) {
-        this.customer = customer;
-    }
-
-    public void setCustomer_id(int customer_id) {
-        this.customer_id = customer_id;
-    }
-
-    public void setDateCreated(Date dateCreated) {
-        this.dateCreated = dateCreated;
-    }
-
-    public void setGuest(Guest guest) {
-        this.guest = guest;
-    }
-
-    public void setId(int id) {
-        this.id = id;
-    }
-
-    public void setOrderItems(Set<OrderItem> orderItems) {
-        this.orderItems = orderItems;
-    }
-
-    public void setOrderStatus(OrderStatus orderStatus) {
-        this.orderStatus = orderStatus;
-    }
-
-    public void setOrderTotal(double orderTotal) {
-        this.orderTotal = orderTotal;
-    }
-
-    public void setOrder_payment(OrderPayment order_payment) {
-        this.order_payment = order_payment;
-    }
-
-    public void setShipping(double shipping) {
-        this.shipping = shipping;
-    }
-
-    @Override
-    public String toString() {
-        return "Order{" + "id=" + id + ", dateCreated=" + dateCreated + ", orderStatus=" + orderStatus + ", orderTotal=" + orderTotal + ", shipping=" + shipping + ", guest=" + guest + ", order_payment=" + order_payment + ", customer_id=" + customer_id + ", orderItems=" + orderItems + ", customer=" + customer + '}';
-    }
 
     private static final long serialVersionUID = 2681531852204068105L;
     @Id

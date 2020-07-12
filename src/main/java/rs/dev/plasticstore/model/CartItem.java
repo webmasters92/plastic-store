@@ -1,6 +1,9 @@
 package rs.dev.plasticstore.model;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import lombok.Getter;
+import lombok.Setter;
+import lombok.ToString;
 
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -13,6 +16,9 @@ import javax.persistence.Transient;
 import java.io.Serializable;
 import java.util.Objects;
 
+@Getter
+@Setter
+@ToString
 @Entity(name = "cart_items")
 public class CartItem implements Serializable {
 
@@ -35,106 +41,12 @@ public class CartItem implements Serializable {
     @JoinColumn(name = "color_id")
     private Colors product_color;
 
-    private String size;
+    private String size, color;
 
-    private String color;
-
-    private int price;
-
-    private int quantity;
+    private int price, quantity, totalPrice;
 
     @Transient
     private int product_id;
-
-    private int totalPrice;
-
-    public int getCartItemId() {
-        return id;
-    }
-
-    public void setCartItemId(int cartItemId) {
-        this.id = cartItemId;
-    }
-
-    public int getProduct_id() {
-        return product_id;
-    }
-
-    public void setProduct_id(int product_id) {
-        this.product_id = product_id;
-    }
-
-    public Cart getCart() {
-        return cart;
-    }
-
-    public void setCart(Cart cart) {
-        this.cart = cart;
-    }
-
-    public Product getProduct() {
-        return product;
-    }
-
-    public int getId() {
-        return id;
-    }
-
-    public void setId(int id) {
-        this.id = id;
-    }
-
-    public void setProduct(Product product) {
-        this.product = product;
-    }
-
-    public int getQuantity() {
-        return quantity;
-    }
-
-    public void setQuantity(int quantity) {
-        this.quantity = quantity;
-    }
-
-    public int getTotalPrice() {
-        return totalPrice;
-    }
-
-    public void setTotalPrice(int totalPrice) {
-        this.totalPrice = totalPrice;
-    }
-
-    public String getSize() {
-        return size;
-    }
-
-    public void setSize(String size) {
-        this.size = size;
-    }
-
-    public String getColor() {
-        return color;
-    }
-
-    public void setColor(String color) {
-        this.color = color;
-    }
-
-    public Colors getProduct_color() {
-        return product_color;
-    }
-
-    public void setProduct_color(Colors product_color) {
-        this.product_color = product_color;
-    }
-
-    public int getPrice() {
-        return price;
-    }
-
-    public void setPrice(int price) {
-        this.price = price;
-    }
 
     @Override
     public int hashCode() {
@@ -147,10 +59,5 @@ public class CartItem implements Serializable {
         if(!(o instanceof CartItem)) return false;
         CartItem cartItem = (CartItem) o;
         return getProduct().getCode() == cartItem.getProduct().getCode() && getPrice() == cartItem.getPrice() && getSize().equals(cartItem.getSize()) && getColor().equals(cartItem.getColor());
-    }
-
-    @Override
-    public String toString() {
-        return "CartItem{" + "id=" + id + ", cart=" + cart + ", product=" + product + ", size='" + size + '\'' + ", color='" + color + '\'' + ", product_color=" + product_color + ", price=" + price + ", quantity=" + quantity + ", totalPrice=" + totalPrice + '}';
     }
 }
