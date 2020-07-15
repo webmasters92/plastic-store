@@ -34,7 +34,8 @@
 
                 <div class="contact-page-side-content">
                     <h3 class="contact-page-title">Kontaktiraj nas</h3>
-                    <p class="contact-page-message mb-30">Možete nas kontaktirati u svako doba putem email-a ili telefonom kako biste dobili više informacija o našim proizvodima.</p>
+                    <p class="contact-page-message mb-30">Možete nas kontaktirati u svako doba putem email-a ili
+                        telefonom kako biste dobili više informacija o našim proizvodima.</p>
                     <!--=======  single contact block  =======-->
 
                     <div class="single-contact-block">
@@ -69,7 +70,8 @@
             <div class="col-lg-6 col-md-12 order-2 order-lg-1">
                 <!--=======  contact form content  =======-->
                 <div class="contact-form-content" th:if="${success_message}">
-                    <p style="text-align: center; font-size: 25px;font-weight: bold;padding-top: 200px;" th:text="${success_message}"></p>
+                    <p style="text-align: center; font-size: 25px;font-weight: bold;padding-top: 200px;"
+                       th:text="${success_message}"></p>
                 </div>
                 <div class="contact-form-content" th:unless="${success_message}">
                     <h3 class="contact-page-title">Pitajte nas</h3>
@@ -95,6 +97,7 @@
                                 <textarea id="contactMessage" name="contactMessage" required
                                           th:field="*{text}"></textarea>
                             </div>
+                            <input name="${_csrf.parameterName}" type="hidden" value="${_csrf.token}"/>
                             <div class="form-group mb-0">
                                 <button class="fl-btn" id="submit" name="submit" type="submit" value="submit">Pošalji
                                 </button>

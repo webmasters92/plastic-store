@@ -230,6 +230,13 @@ public class HomeController {
         }
     }
 
+    @PostMapping("/send_message")
+    public String sendMessage(@ModelAttribute Message message, RedirectAttributes redirectAttributes) {
+        messageService.saveMessage(message);
+        redirectAttributes.addFlashAttribute("success_message", "Hvala na Vašem pitanju. Potrudićemo se da odgovorimo u najkraćem roku!");
+        return "redirect:/contact";
+    }
+
     private ArrayList<Product> setMinMaxPriceToProducts(ArrayList<Product> products) {
         products.forEach(product -> {
             product.getProductAttributes().forEach(productAttributes -> product.getPrices().add(productAttributes.getPrice()));
@@ -240,13 +247,6 @@ public class HomeController {
             product.setMaxDiscountedPrice(MinMax.findMax(product.getDiscounted_prices()));
         });
         return products;
-    }
-
-    @PostMapping("/send_message")
-    public String sendMessage(@ModelAttribute Message message, RedirectAttributes redirectAttributes) {
-        messageService.saveMessage(message);
-        redirectAttributes.addFlashAttribute("success_message", "Hvala na Vašem pitanju. Potrudićemo se da odgovorimo u najkraćem roku!");
-        return "redirect:/contact";
     }
 
     @RequestMapping("/about")
@@ -266,18 +266,6 @@ public class HomeController {
     public String showFAQSPage(Model model) {
         model.addAttribute("categories", categoryService.findAll());
         return "webapp/shop/faqs";
-    }
-
-    @RequestMapping("/selling_terms")
-    public String showSellingTerms(Model model) {
-        model.addAttribute("categories", categoryService.findAll());
-        return "webapp/shop/selling_terms";
-    }
-
-    @RequestMapping("/shipping_info")
-    public String showShippingInfo(Model model) {
-        model.addAttribute("categories", categoryService.findAll());
-        return "webapp/shop/shipping_information";
     }
 
     @RequestMapping("/")
@@ -316,6 +304,18 @@ public class HomeController {
             session.setAttribute("cart", cart);
         }
         return "webapp/shop/home";
+    }
+
+    @RequestMapping("/selling_terms")
+    public String showSellingTerms(Model model) {
+        model.addAttribute("categories", categoryService.findAll());
+        return "webapp/shop/selling_terms";
+    }
+
+    @RequestMapping("/shipping_info")
+    public String showShippingInfo(Model model) {
+        model.addAttribute("categories", categoryService.findAll());
+        return "webapp/shop/shipping_information";
     }
 
     @Autowired

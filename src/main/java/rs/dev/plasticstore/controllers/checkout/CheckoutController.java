@@ -130,7 +130,6 @@ public class CheckoutController {
     @GetMapping(value = "/order_confirm/{id}")
     public String showOrderConfirmed(@PathVariable String id, Model model) {
         var order = checkoutService.findOrderById(Integer.parseInt(id));
-        System.out.println(order);
         model.addAttribute("categories", categoryService.findAll());
         model.addAttribute("order", order);
         return "webapp/checkout/order_confirmed";

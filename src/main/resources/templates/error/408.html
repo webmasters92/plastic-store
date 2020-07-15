@@ -1,0 +1,189 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <link href="https://static.codepen.io/assets/favicon/apple-touch-icon-5ae1a0698dcc2402e9712f7d01ed509a57814f994c660df9f7a952f3060705ee.png"
+          rel="apple-touch-icon"
+          type="image/png">
+    <meta content="CodePen" name="apple-mobile-web-app-title">
+    <link href="https://static.codepen.io/assets/favicon/favicon-aec34940fbc1a6e787974dcd360f2c6b63348d4b1f4e06c77743096d55480f33.ico"
+          rel="shortcut icon"
+          type="image/x-icon">
+    <link color="#111"
+          href="https://static.codepen.io/assets/favicon/logo-pin-8f3771b1072e3c38bd662872f6b673a722f4b3ca2421637d5596661b4e2132cc.svg"
+          rel="mask-icon"
+          type="">
+    <title>Request timeout</title>
+    <style>
+        html,
+        body {
+            width: 100%;
+            height: 100%;
+            padding: 0;
+            margin: 0;
+            background-color: #32333b;
+            font-family: sans-serif;
+        }
+
+        #error408 {
+            padding-top: calc(50vh - 25vmin);
+        }
+
+        #error408 h1 {
+            justify-content: center;
+            padding: 0;
+            margin: 0 auto;
+            font-family: sans-serif;
+            font-weight: normal;
+            font-size: 50vmin;
+            text-align: center;
+            color: rgba(255, 255, 255, 0.3);
+            animation: 60s infinite colorWheelTxt;
+        }
+
+        #error408 h1 svg {
+            height: 35vmin;
+            width: 35vmin;
+        }
+
+        #error408 h1 svg circle:first-of-type {
+            animation: 30s infinite colorWheel1;
+        }
+
+        #error408 h1 svg circle:last-of-type {
+            animation: 20s infinite colorWheel2;
+        }
+
+        #error408 .subtitle {
+            position: relative;
+            top: -8vmin;
+            text-align: center;
+            color: rgba(255, 255, 255, 0.4);
+            padding: 0;
+            margin: 0 auto;
+            font-size: 5vmin;
+        }
+
+        @keyframes colorWheelTxt {
+            from {
+                color: #4b4b4b;
+            }
+            10% {
+                color: turquoise;
+            }
+            20% {
+                color: springgreen;
+            }
+            30% {
+                color: gold;
+            }
+            40% {
+                color: coral;
+            }
+            50% {
+                color: firebrick;
+            }
+            60% {
+                color: deeppink;
+            }
+            70% {
+                color: purple;
+            }
+            80% {
+                color: indigo;
+            }
+            90% {
+                color: midnightblue;
+            }
+            to {
+                color: #4b4b4b;
+            }
+        }
+
+        @keyframes colorWheel1 {
+            from {
+                stroke: #4b4b4b;
+            }
+            15% {
+                stroke: turquoise;
+            }
+            30% {
+                stroke: springgreen;
+            }
+            45% {
+                stroke: gold;
+            }
+            75% {
+                stroke: coral;
+            }
+            90% {
+                stroke: firebrick;
+            }
+            to {
+                stroke: #4b4b4b;
+            }
+        }
+
+        @keyframes colorWheel2 {
+            from {
+                stroke: #4b4b4b;
+            }
+            15% {
+                stroke: firebrick;
+            }
+            30% {
+                stroke: deeppink;
+            }
+            45% {
+                stroke: purple;
+            }
+            75% {
+                stroke: indigo;
+            }
+            90% {
+                stroke: midnightblue;
+            }
+            to {
+                stroke: #4b4b4b;
+            }
+        }
+    </style>
+    <script>
+        window.console = window.console || function (t) {
+        };
+    </script>
+    <script>
+        if (document.location.search.match(/type=embed/gi)) {
+            window.parent.postMessage("resize", "*");
+        }
+    </script>
+</head>
+<body translate="no">
+<div id="error408">
+    <h1><span>4</span>
+        <svg preserveAspectRatio="xMidYMid" viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg">
+            <circle cx="50" cy="50" fill="none" r="40" stroke="#1B1B1B" stroke-dasharray="60 60" stroke-linecap="round"
+                    stroke-width="8">
+                <animateTransform attributeName="transform" begin="0s" calcMode="linear" dur="1.5s"
+                                  keyTimes="0;1" repeatCount="indefinite" type="rotate"
+                                  values="0 50 50;360 50 50"></animateTransform>
+            </circle>
+            <circle cx="50" cy="50" fill="none" r="30" stroke="#222222" stroke-dasharray="50 50" stroke-dashoffset="50"
+                    stroke-linecap="round" stroke-width="8">
+                <animateTransform attributeName="transform" begin="0s" calcMode="linear" dur="1.5s"
+                                  keyTimes="0;1" repeatCount="indefinite" type="rotate"
+                                  values="0 50 50;-360 50 50"></animateTransform>
+            </circle>
+        </svg>
+        <span>8</span>
+    </h1>
+    <p class="subtitle">Istekao zahtev ka serveru</p>
+</div>
+<script src="https://static.codepen.io/assets/common/stopExecutionOnTimeout-157cd5b220a5c80d4ff8e0e70ac069bffd87a61252088146915e8726e5d9f147.js"></script>
+<script id="rendered-js">
+    "use strict";
+    //# sourceURL=pen.js
+</script>
+
+</body>
+</html>

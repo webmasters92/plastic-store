@@ -91,6 +91,7 @@
                         <a class="btn btn-primary" id="btn-return" th:href="@{/administration/customer_list}">Nazad</a>
                     </div>
                 </div>
+                <input name="${_csrf.parameterName}" type="hidden" value="${_csrf.token}"/>
             </form>
         </div>
     </div>

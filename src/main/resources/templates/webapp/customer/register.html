@@ -74,6 +74,7 @@
                                 <input class="mb-0" data-rule-confirm_password="true" data-rule-equalTo="#password"
                                        id="confirm_password" name="confirm_password" type="password">
                             </div>
+                            <input name="${_csrf.parameterName}" type="hidden" value="${_csrf.token}"/>
                             <div class="col-12">
                                 <button class="register-button mt-0" type="submit">Registruj se</button>
                             </div>

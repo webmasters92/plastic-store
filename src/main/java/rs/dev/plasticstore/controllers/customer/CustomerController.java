@@ -25,9 +25,9 @@ import rs.dev.plasticstore.model.UserPrincipal;
 import rs.dev.plasticstore.model.Wishlist;
 import rs.dev.plasticstore.services.category.CategoryService;
 import rs.dev.plasticstore.services.checkout.CheckoutService;
+import rs.dev.plasticstore.services.customer.CustomerService;
 import rs.dev.plasticstore.services.mail.EmailService;
 import rs.dev.plasticstore.services.product.ProductService;
-import rs.dev.plasticstore.services.customer.CustomerService;
 import rs.dev.plasticstore.services.wishlist.WishListService;
 
 import javax.mail.MessagingException;
@@ -43,6 +43,17 @@ import java.util.UUID;
 @RequestMapping("/customer")
 public class CustomerController {
 
+    @GetMapping(value = "/order_cancel/{id}")
+    public String cancelOrder(@PathVariable String id, Model model, RedirectAttributes redir) {
+        var order = checkoutService.findOrderById(Integer.parseInt(id));
+        order.setOrderStatus(OrderStatus.CANCELED);
+        checkoutService.saveOrder(order);
+        model.addAttribute("categories", categoryService.findAll());
+        model.addAttribute("order", order);
+        redir.addFlashAttribute("active_tab", "orders_panel");
+        return "redirect:/customer/my_account";
+    }
+
     // Display forgotPassword page
     @GetMapping
     @RequestMapping(value = "/forgot")
@@ -57,7 +68,6 @@ public class CustomerController {
     @RequestMapping(value = "/reset")
     public ModelAndView displayResetPasswordPage(ModelAndView modelAndView, @RequestParam("token") String token) {
         Optional<Customer> customer = customerService.findCustomerByResetToken(token);
-
         if(customer.isPresent()) {
             modelAndView.addObject("customer", customer.get());
             modelAndView.addObject("token", token);
@@ -73,7 +83,7 @@ public class CustomerController {
         model.addAttribute("categories", categoryService.findAll());
         String encodedPassword = "";
         if(!customer.getNew_password().isEmpty()) encodedPassword = bCryptPasswordEncoder.encode(customer.getNew_password());
-        else encodedPassword = customer.getPassword();
+        else encodedPassword = bCryptPasswordEncoder.encode(customer.getPassword());
         Customer customer1 = customerService.findCustomerById(principal.getUserId());
         customer1.setFirstName(customer.getFirstName());
         customer1.setLastName(customer.getLastName());
@@ -217,16 +227,6 @@ public class CustomerController {
         return "webapp/customer/login";
     }
 
-    @GetMapping(value = "/order_cancel/{id}") public String cancelOrder(@PathVariable String id, Model model,RedirectAttributes redir) {
-        var order = checkoutService.findOrderById(Integer.parseInt(id));
-        order.setOrderStatus(OrderStatus.CANCELED);
-        checkoutService.saveOrder(order);
-        model.addAttribute("categories", categoryService.findAll());
-        model.addAttribute("order", order);
-        redir.addFlashAttribute("active_tab","orders_panel");
-        return "redirect:/customer/my_account";
-    }
-
     @GetMapping
     @RequestMapping("/my_account")
     public String showMyAccount(Model model, @AuthenticationPrincipal UserPrincipal principal) {
@@ -238,6 +238,7 @@ public class CustomerController {
         }
 
         model.addAttribute("categories", categoryService.findAll());
+        var customer = customerService.findCustomerById(principal.getUserId());
         model.addAttribute("customer", customerService.findCustomerById(principal.getUserId()));
         model.addAttribute("orders", checkoutService.findAllOrdersByCustomerId(principal.getUserId()));
         model.addAttribute("products", products);

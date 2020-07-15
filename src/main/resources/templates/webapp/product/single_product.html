@@ -98,7 +98,8 @@
                     <div class="availability mb-0">
                         <span class="title">Dostupnost:  </span>
                         <h3 class="product-available mb-15" th:if="${single_product.isAvailable()}">( NA STANJU )</h3>
-                        <h3 class="product-not-available mb-15" th:unless="${single_product.isAvailable()}">( NIJE NA STANJU )</h3>
+                        <h3 class="product-not-available mb-15" th:unless="${single_product.isAvailable()}">( NIJE NA
+                            STANJU )</h3>
                     </div>
 
                     <div class="price mb-0">
@@ -147,7 +148,9 @@
                         <div class="add-to-cart-btn ml-10 d-inline-block">
                             <a class="fl-btn" href="#" th:if="${single_product.isAvailable()}"
                                th:onclick="'javascript:addToCart();'"><i class="fa fa-shopping-cart"></i> Dodaj u korpu</a>
-                            <a class="fl-btn" href="#" th:if="${!single_product.isAvailable()}" th:onclick="'javascript:shakeProduct();'"><i class="fa fa-shopping-cart"></i> Dodaj u korpu</a>
+                            <a class="fl-btn" href="#" th:if="${!single_product.isAvailable()}"
+                               th:onclick="'javascript:shakeProduct();'"><i class="fa fa-shopping-cart"></i> Dodaj u
+                                korpu</a>
                         </div>
                     </div>
 
@@ -199,8 +202,10 @@
                             <!--=======  product description  =======-->
 
                             <div class="product-description">
-                                <p th:if="${single_product.getDescription().isEmpty()}">Trenutno ne postoji opis za izabrani proizvod</p>
-                                <p th:text="${single_product.getDescription()}+'.'" th:unless="${single_product.getDescription().isEmpty()}"></p>
+                                <p th:if="${single_product.getDescription().isEmpty()}">Trenutno ne postoji opis za
+                                    izabrani proizvod</p>
+                                <p th:text="${single_product.getDescription()}+'.'"
+                                   th:unless="${single_product.getDescription().isEmpty()}"></p>
                             </div>
 
                             <!--=======  End of product description  =======-->
@@ -352,6 +357,7 @@
                                                        value="Dodaj komentar">
                                             </div>
                                         </div>
+                                        <input name="${_csrf.parameterName}" type="hidden" value="${_csrf.token}"/>
                                     </form>
                                 </div>
                             </div>
@@ -490,7 +496,11 @@
 <div th:insert="webapp/containers/scriptsContainer :: scriptsContainer"></div>
 
 <script th:inline="javascript" type="text/javascript">
+    var token = $('#_csrf').attr('content');
+    var header = $('#_csrf_header').attr('content');
+
     $(document).ready(function () {
+
         $('.modal').on('shown.bs.modal', function (e) {
             $('.small-image-slider').resize();
             addProductSlider();
@@ -613,6 +623,9 @@
         $.ajax({
             url: '/product/add_product_to_wishlist/' + productID,
             type: 'get',
+            beforeSend: function (xhr) {
+                xhr.setRequestHeader(header, token);
+            },
             success: function (response) {
                 bootbox.dialog({
                     title: 'Lista želja',
@@ -672,7 +685,8 @@
             dataType: 'json',
             url: "/product/add_review",
             data: JSON.stringify(review),
-            beforeSend: function(xhr){
+            beforeSend: function (xhr) {
+                xhr.setRequestHeader(header, token);
                 $('.select_element_you_want_to_load_into').html('Loading...');
             },
             success: function (result) {
@@ -720,6 +734,9 @@
             dataType: 'json',
             url: "/cart/add_to_cart",
             data: JSON.stringify(cartItem),
+            beforeSend: function (xhr) {
+                xhr.setRequestHeader(header, token);
+            },
             success: function (result) {
                 refreshMinicart();
             }

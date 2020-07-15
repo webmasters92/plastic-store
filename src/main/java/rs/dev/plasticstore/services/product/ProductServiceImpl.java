@@ -110,7 +110,6 @@ public class ProductServiceImpl implements ProductService {
     @Override
     @Transactional
     public int findMinProductPrice() {
-        System.out.println(productRepository.findMinProductPrice());
         return productRepository.findMinProductPrice();
     }
 

@@ -61,11 +61,13 @@
                             <div class="col-md-4 mt-10 mb-20 text-left text-md-right">
                                 <a th:href="@{/customer/forgot}"> Zaboravljena šifra?</a>
                             </div>
+                            <input name="${_csrf.parameterName}" type="hidden" value="${_csrf.token}"/>
                             <div class="col-md-12">
                                 <button type="submit" class="register-button mt-0">Uloguj se</button>
                             </div>
                         </div>
                     </div>
+
                 </form>
             </div>
         </div>

@@ -212,6 +212,7 @@
                                                     th:href="@{/selling_terms}">Prihvatam uslove kupovine</a></label>
                                         </div>
                                     </div>
+                                    <input name="${_csrf.parameterName}" type="hidden" value="${_csrf.token}"/>
                                     <button class="place-order" type="submit">Potvrdi kupovinu</button>
                                 </div>
                             </div>
@@ -237,6 +238,9 @@
 <div th:insert="webapp/containers/scriptsContainer :: scriptsContainer"></div>
 
 <script th:inline="javascript" type="text/javascript">
+    var token = $('#_csrf').attr('content');
+    var header = $('#_csrf_header').attr('content');
+
     $(document).ready(function () {
         $('.loader').attr('data-after', 'Vaša porudžbina se obrađuje, molimo sačekajte...');
         $("#checkout-form-validation").submit(function (e) {
@@ -251,6 +255,7 @@
                 url: url,
                 data: form.serialize(),
                 beforeSend: function (xhr) {
+                    xhr.setRequestHeader(header, token);
                     $('.loader-wrap').removeClass('d-none');
                 },
                 success: function (order_id) {

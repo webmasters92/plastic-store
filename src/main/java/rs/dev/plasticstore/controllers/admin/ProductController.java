@@ -521,7 +521,7 @@ public class ProductController {
     }
 
     @PostMapping("/add_review")
-    public String addToCart(@RequestBody Review review, @AuthenticationPrincipal UserPrincipal principal) {
+    public String addReview(@RequestBody Review review, @AuthenticationPrincipal UserPrincipal principal) {
         if(principal != null) review.setUserId(principal.getUserId());
         reviewService.saveReview(review);
         return "redirect:/product/single_product/" + review.getProductId();

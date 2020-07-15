@@ -174,7 +174,7 @@
                                                 <div class="col-lg-6 col-12 mb-30">
                                                     <label for="phone-number">Broj telefona</label>
                                                     <input id="phone-number" maxlength="15" name="phone"
-                                                           required th:field="*{phoneNumber}" type="number">
+                                                           th:field="*{phoneNumber}" type="number">
                                                 </div>
 
                                                 <div class="col-lg-6 col-12 mb-30">
@@ -209,9 +209,7 @@
                                                 <div class="col-12 mb-30"><h4>Promena šifre</h4></div>
 
                                                 <div class="col-12 mb-30" hidden="hidden">
-                                                    <label for="current-pwd">Trenutna šifra*</label>
-                                                    <input id="current-pwd" readonly th:field="*{password}"
-                                                           type="password">
+                                                    <input id="current-pwd" th:field="*{password}" type="password">
                                                 </div>
 
                                                 <div class="col-lg-6 col-12 mb-30">
@@ -225,7 +223,6 @@
                                                            id="confirm-pwd" name="confirm_pwd"
                                                            placeholder="Potvrdi šifru" type="password">
                                                 </div>
-
                                                 <div class="col-12">
                                                     <button class="save-change-btn" type="submit">Sačuvaj promene
                                                     </button>
@@ -301,7 +298,6 @@
                 }
             }
         });
-
     }
 </script>
 </body>
