@@ -135,8 +135,12 @@
                                 <div th:each="popular_product:${popular_products}" class="fl-product">
                                     <div class="image" th:classappend="${popular_product.isSale()}?'sale-product'">
                                         <a th:href="@{/product/single_product/__${popular_product.id}__}">
-                                            <img th:src="@{'/images/' + ${popular_product.images.get(0).name}}" class="img-fluid" alt="">
-                                            <img th:src="@{'/images/' + ${popular_product.images.get(0).name}}" class="img-fluid" alt="">
+                                            <img alt="" class="img-fluid"
+                                                 th:onerror="'this.onerror==null; this.src=\'' + @{/img/not-found.png} + '\';'"
+                                                 th:src="@{'/images/' + ${popular_product.images.get(0).name}}">
+                                            <img alt="" class="img-fluid"
+                                                 th:onerror="'this.onerror==null; this.src=\'' + @{/img/not-found.png} + '\';'"
+                                                 th:src="@{'/images/' + ${popular_product.images.get(0).name}}">
                                         </a>
                                     </div>
                                     <div class="content">
@@ -184,8 +188,12 @@
                                 <div th:each="new_product:${new_products}" class="fl-product">
                                     <div class="image" th:classappend="${new_product.isSale()}?'sale-product'">
                                         <a th:href="@{/product/single_product/__${new_product.id}__}">
-                                            <img th:src="@{'/images/' + ${new_product.images.get(0).name}}" class="img-fluid" alt="">
-                                            <img th:src="@{'/images/' + ${new_product.images.get(0).name}}" class="img-fluid" alt="">
+                                            <img alt="" class="img-fluid"
+                                                 th:onerror="'this.onerror==null; this.src=\'' + @{/img/not-found.png} + '\';'"
+                                                 th:src="@{'/images/' + ${new_product.images.get(0).name}}">
+                                            <img alt="" class="img-fluid"
+                                                 th:onerror="'this.onerror==null; this.src=\'' + @{/img/not-found.png} + '\';'"
+                                                 th:src="@{'/images/' + ${new_product.images.get(0).name}}">
                                         </a>
                                     </div>
                                     <div class="content">
@@ -234,8 +242,12 @@
                                 <div th:each="sale_product:${sale_products}" class="fl-product">
                                     <div class="image" th:classappend="${sale_product.isSale()} ? 'sale-product'">
                                         <a th:href="@{/product/single_product/__${sale_product.id}__}">
-                                            <img th:src="@{'/images/' + ${sale_product.images.get(0).name}}" class="img-fluid" alt="">
-                                            <img th:src="@{'/images/' + ${sale_product.images.get(0).name}}" class="img-fluid" alt="">
+                                            <img alt="" class="img-fluid"
+                                                 th:onerror="'this.onerror==null; this.src=\'' + @{/img/not-found.png} + '\';'"
+                                                 th:src="@{'/images/' + ${sale_product.images.get(0).name}}">
+                                            <img alt="" class="img-fluid"
+                                                 th:onerror="'this.onerror==null; this.src=\'' + @{/img/not-found.png} + '\';'"
+                                                 th:src="@{'/images/' + ${sale_product.images.get(0).name}}">
                                         </a>
                                     </div>
                                     <div class="content">

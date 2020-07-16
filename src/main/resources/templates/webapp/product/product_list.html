@@ -201,8 +201,10 @@
                             <div class="image" th:classappend="${product.isSale()}?'sale-product'">
                                 <a th:href="@{/product/single_product/__${product.id}__}">
                                     <img alt="" class="img-fluid"
+                                         th:onerror="'this.onerror==null; this.src=\'' + @{/img/not-found.png} + '\';'"
                                          th:src="@{'/images/' + ${product.images.get(0).name}}">
                                     <img alt="" class="img-fluid"
+                                         th:onerror="'this.onerror==null; this.src=\'' + @{/img/not-found.png} + '\';'"
                                          th:src="@{'/images/' + ${product.images.get(0).name}}">
                                 </a>
                             </div>
@@ -267,8 +269,10 @@
                             <div class="image" th:classappend="${product.isSale()}?'sale-product'">
                                 <a th:href="@{/product/single_product/__${product.id}__}">
                                     <img alt="" class="img-fluid"
+                                         th:onerror="'this.onerror==null; this.src=\'' + @{/img/not-found.png} + '\';'"
                                          th:src="@{'/images/' + ${product.images.get(0).name}}">
                                     <img alt="" class="img-fluid"
+                                         th:onerror="'this.onerror==null; this.src=\'' + @{/img/not-found.png} + '\';'"
                                          th:src="@{'/images/' + ${product.images.get(0).name}}">
                                 </a>
                             </div>

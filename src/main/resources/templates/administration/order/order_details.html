@@ -43,7 +43,10 @@
                 <tbody>
                 <tr th:each="item : ${order.getOrderItems()}">
                     <td><a style="color: black" th:href="@{/administration/edit_product/__${item.product.id}__}" th:text="${item.product.getName()}"></a></td>
-                    <td style="text-align: center"><a th:href="@{/product/single_product/__${item.product.id}__}"><img alt="Product" border=3 height=40 th:src="@{'/images/' + ${item.product.images.get(0).name}}" width="40"></a></td>
+                    <td style="text-align: center"><a th:href="@{/product/single_product/__${item.product.id}__}"><img
+                            alt="Product" border=3 height=40
+                            th:onerror="'this.onerror==null; this.src=\'' + @{/img/not-found.png} + '\';'"
+                            th:src="@{'/images/' + ${item.product.images.get(0).name}}" width="40"></a></td>
                     <td style="text-align: center"><span th:style="'background-color:'+${item.product_color.code}+'; width: 30px; height: 30px; display: inline-block;'" th:title="${item.product_color.name}"></span></td>
                     <td style="text-align: center"><span th:text="${item.size}"></span></td>
                     <td style="text-align: center"><span th:text="${item.price}+ ' RSD'"></span></td>

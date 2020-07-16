@@ -15,8 +15,12 @@
         <div class="fl-product shop-grid-view-product">
             <div class="image" th:classappend="${product.isSale()}?'sale-product'">
                 <a th:href="@{/product/single_product/__${product.id}__}">
-                    <img th:src="@{'/images/' + ${product.images.get(0).name}}" class="img-fluid" alt="">
-                    <img th:src="@{'/images/' + ${product.images.get(0).name}}" class="img-fluid" alt="">
+                    <img alt="" class="img-fluid"
+                         th:onerror="'this.onerror==null; this.src=\'' + @{/img/not-found.png} + '\';'"
+                         th:src="@{'/images/' + ${product.images.get(0).name}}">
+                    <img alt="" class="img-fluid"
+                         th:onerror="'this.onerror==null; this.src=\'' + @{/img/not-found.png} + '\';'"
+                         th:src="@{'/images/' + ${product.images.get(0).name}}">
                 </a>
             </div>
             <div class="content">
@@ -57,8 +61,12 @@
         <div class="fl-product shop-list-view-product">
             <div class="image" th:classappend="${product.isSale()}?'sale-product'">
                 <a th:href="@{/product/single_product/__${product.id}__}">
-                    <img th:src="@{'/images/' + ${product.images.get(0).name}}" class="img-fluid" alt="">
-                    <img th:src="@{'/images/' + ${product.images.get(0).name}}" class="img-fluid" alt="">
+                    <img alt="" class="img-fluid"
+                         th:onerror="'this.onerror==null; this.src=\'' + @{/img/not-found.png} + '\';'"
+                         th:src="@{'/images/' + ${product.images.get(0).name}}">
+                    <img alt="" class="img-fluid"
+                         th:onerror="'this.onerror==null; this.src=\'' + @{/img/not-found.png} + '\';'"
+                         th:src="@{'/images/' + ${product.images.get(0).name}}">
                 </a>
             </div>
             <div class="content">

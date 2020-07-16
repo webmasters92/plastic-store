@@ -45,7 +45,11 @@
                             <tbody>
                             <tr th:each="product : ${products}">
                                 <td class="pro-thumbnail">
-                                    <a th:href="@{/product/single_product/__${product.id}__}"><img alt="Product" class="img-fluid" th:src="@{'/images/' + ${product.images.get(0).name}}"></a></td>
+                                    <a th:href="@{/product/single_product/__${product.id}__}"><img alt="Product"
+                                                                                                   class="img-fluid"
+                                                                                                   th:onerror="'this.onerror==null; this.src=\'' + @{/img/not-found.png} + '\';'"
+                                                                                                   th:src="@{'/images/' + ${product.images.get(0).name}}"></a>
+                                </td>
                                 <td class="pro-title"><a th:href="@{/product/single_product/__${product.id}__}" th:text="${product.getName()}"></a></td>
                                 <td class="pro-quantity" th:classappend="${product.id}">
                                     <select>

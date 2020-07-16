@@ -47,6 +47,7 @@
                                 <td class="pro-thumbnail">
                                     <a th:href="@{/product/single_product/__${item.product.id}__}"><img alt="Product"
                                                                                                         class="img-fluid"
+                                                                                                        th:onerror="'this.onerror==null; this.src=\'' + @{/img/not-found.png} + '\';'"
                                                                                                         th:src="@{'/images/' + ${item.product.images.get(0).name}}"></a>
                                 </td>
                                 <td class="pro-title"><a th:href="@{/product/single_product/__${item.product.id}__}"

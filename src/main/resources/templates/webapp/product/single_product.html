@@ -54,7 +54,9 @@
                              th:each="image,iStat : ${single_product.images}" th:id="'single-slide-'+${iStat.count}">
                             <!--Single Product Image Start-->
                             <div class="single-product-img img-full">
-                                <img alt="" class="img-fluid" id="imgtodrag" th:src="@{'/images/' + ${image.name}}">
+                                <img alt="" class="img-fluid" id="imgtodrag"
+                                     th:onerror="'this.onerror==null; this.src=\'' + @{/img/not-found.png} + '\';'"
+                                     th:src="@{'/images/' + ${image.name}}">
                                 <a class="big-image-popup" th:href="@{'/images/' + ${image.name}}"><i
                                         class="fa fa-search-plus"></i></a>
                             </div>
@@ -69,6 +71,7 @@
                             <div class="single-small-image img-full" th:each="image,iStat  : ${single_product.images}">
                                 <a data-toggle="tab" th:href="@{'#single-slide-'+${iStat.count}}"
                                    th:id="'single-slide-tab-'+${iStat.count}"><img alt="" class="img-fluid"
+                                                                                   th:onerror="'this.onerror==null; this.src=\'' + @{/img/not-found.png} + '\';'"
                                                                                    th:src="@{'/images/' + ${image.name}}"></a>
                             </div>
                         </div>
@@ -403,8 +406,10 @@
                         <div class="image" th:classappend="${similar_product.isSale()}?'sale-product'">
                             <a th:href="@{/product/single_product/__${similar_product.id}__}">
                                 <img alt="" class="img-fluid"
+                                     th:onerror="'this.onerror==null; this.src=\'' + @{/img/not-found.png} + '\';'"
                                      th:src="@{'/images/' + ${similar_product.images.get(0).name}}">
                                 <img alt="" class="img-fluid"
+                                     th:onerror="'this.onerror==null; this.src=\'' + @{/img/not-found.png} + '\';'"
                                      th:src="@{'/images/' + ${similar_product.images.get(0).name}}">
                             </a>
                         </div>
