@@ -1,4 +1,3 @@
-
 ALTER TABLE plastic_store_db.categories
     AUTO_INCREMENT = 1;
 

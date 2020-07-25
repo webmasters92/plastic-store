@@ -7,11 +7,10 @@ import java.util.Optional;
 
 public interface SubcategoryService {
 
-    List<Subcategory> findSubcategoriesByCategoryId(int id);
-
     List<Subcategory> findAll();
 
     Optional<Subcategory> findSubCategoryById(int id);
 
+    List<Subcategory> findSubcategoriesByCategoryId(int id);
 
 }

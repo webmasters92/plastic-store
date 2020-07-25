@@ -8,12 +8,12 @@ import java.util.Optional;
 
 public interface GuestRepository extends JpaRepository<Guest, Integer> {
 
-    Optional<Guest> findByUsername(String username);
+    ArrayList<Guest> findAll();
 
-    Guest findGuestByUsername(String username);
+    Optional<Guest> findByUsername(String username);
 
     Guest findGuestById(int id);
 
-    ArrayList<Guest> findAll();
+    Guest findGuestByUsername(String username);
 
 }

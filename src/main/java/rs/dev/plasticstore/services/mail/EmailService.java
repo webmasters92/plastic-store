@@ -20,14 +20,14 @@ import java.nio.charset.StandardCharsets;
 public class EmailService {
 
     @Async
-    public void sendOrderEmail(Mail mail) throws MessagingException {
+    public void sendOrderConfirmationEmail(Mail mail) throws MessagingException {
         MimeMessage message = emailSender.createMimeMessage();
         MimeMessageHelper helper = new MimeMessageHelper(message, MimeMessageHelper.MULTIPART_MODE_MIXED_RELATED, StandardCharsets.UTF_8.name());
 
         Context context = new Context();
         context.setVariable("order", mail.getOrder());
         context.setVariable("plastic_store_link", mail.getHome_link());
-        String html = templateEngine.process("mail/order_notification_mail", context);
+        String html = templateEngine.process("mail/order_confirmation_mail", context);
 
         helper.setTo(mail.getTo());
         helper.setText(html, true);
@@ -39,14 +39,14 @@ public class EmailService {
     }
 
     @Async
-    public void sendOrderConfirmationEmail(Mail mail) throws MessagingException {
+    public void sendOrderEmail(Mail mail) throws MessagingException {
         MimeMessage message = emailSender.createMimeMessage();
         MimeMessageHelper helper = new MimeMessageHelper(message, MimeMessageHelper.MULTIPART_MODE_MIXED_RELATED, StandardCharsets.UTF_8.name());
 
         Context context = new Context();
         context.setVariable("order", mail.getOrder());
         context.setVariable("plastic_store_link", mail.getHome_link());
-        String html = templateEngine.process("mail/order_confirmation_mail", context);
+        String html = templateEngine.process("mail/order_notification_mail", context);
 
         helper.setTo(mail.getTo());
         helper.setText(html, true);

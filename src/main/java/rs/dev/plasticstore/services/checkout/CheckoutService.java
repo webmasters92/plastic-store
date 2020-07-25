@@ -6,6 +6,8 @@ import java.util.List;
 
 public interface CheckoutService {
 
+    void deleteOrder(int id);
+
     List<Order> findAll();
 
     List<Order> findAllOrdersByCustomerId(int id);
@@ -15,7 +17,5 @@ public interface CheckoutService {
     Order findOrderById(int id);
 
     void saveOrder(Order cart);
-
-    void deleteOrder(int id);
 
 }

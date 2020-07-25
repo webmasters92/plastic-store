@@ -1,4 +1,3 @@
-
 /*=============================================
 =            Third party plugin list            =
 =============================================
@@ -17,7 +16,6 @@
 /*=====  End of Third party plugin list  ======*/
 
 
-
 /*=============================================
 =            01. Mean Menu            =
 =============================================*/
@@ -31,11 +29,34 @@
 !function ($) {
     "use strict";
     $.fn.meanmenu = function (e) {
-        var n = {meanMenuTarget: jQuery(this), meanMenuContainer: "body", meanMenuClose: "X", meanMenuCloseSize: "18px", meanMenuOpen: "<span /><span /><span />", meanRevealPosition: "right", meanRevealPositionDistance: "0", meanRevealColour: "", meanScreenWidth: "480", meanNavPush: "", meanShowChildren: !0, meanExpandableChildren: !0, meanExpand: "+", meanContract: "-", meanRemoveAttrs: !1, onePage: !1, meanDisplay: "block", removeElements: ""};
+        var n = {
+            meanMenuTarget: jQuery(this),
+            meanMenuContainer: "body",
+            meanMenuClose: "X",
+            meanMenuCloseSize: "18px",
+            meanMenuOpen: "<span /><span /><span />",
+            meanRevealPosition: "right",
+            meanRevealPositionDistance: "0",
+            meanRevealColour: "",
+            meanScreenWidth: "480",
+            meanNavPush: "",
+            meanShowChildren: !0,
+            meanExpandableChildren: !0,
+            meanExpand: "+",
+            meanContract: "-",
+            meanRemoveAttrs: !1,
+            onePage: !1,
+            meanDisplay: "block",
+            removeElements: ""
+        };
         e = $.extend(n, e);
         var a = window.innerWidth || document.documentElement.clientWidth;
         return this.each(function () {
-            var n = e.meanMenuTarget, t = e.meanMenuContainer, r = e.meanMenuClose, i = e.meanMenuCloseSize, s = e.meanMenuOpen, u = e.meanRevealPosition, m = e.meanRevealPositionDistance, l = e.meanRevealColour, o = e.meanScreenWidth, c = e.meanNavPush, v = ".meanmenu-reveal", h = e.meanShowChildren, d = e.meanExpandableChildren, y = e.meanExpand, j = e.meanContract, Q = e.meanRemoveAttrs, f = e.onePage, g = e.meanDisplay, p = e.removeElements, C = !1;
+            var n = e.meanMenuTarget, t = e.meanMenuContainer, r = e.meanMenuClose, i = e.meanMenuCloseSize,
+                s = e.meanMenuOpen, u = e.meanRevealPosition, m = e.meanRevealPositionDistance, l = e.meanRevealColour,
+                o = e.meanScreenWidth, c = e.meanNavPush, v = ".meanmenu-reveal", h = e.meanShowChildren,
+                d = e.meanExpandableChildren, y = e.meanExpand, j = e.meanContract, Q = e.meanRemoveAttrs,
+                f = e.onePage, g = e.meanDisplay, p = e.removeElements, C = !1;
             (navigator.userAgent.match(/iPhone/i) || navigator.userAgent.match(/iPod/i) || navigator.userAgent.match(/iPad/i) || navigator.userAgent.match(/Android/i) || navigator.userAgent.match(/Blackberry/i) || navigator.userAgent.match(/Windows Phone/i)) && (C = !0), (navigator.userAgent.match(/MSIE 8/i) || navigator.userAgent.match(/MSIE 7/i)) && jQuery("html").css("overflow-y", "scroll");
             var w = "", x = function () {
                 if ("center" === u) {
@@ -105,7 +126,12 @@
     }
 
     function i() {
-        var t = void 0, o = void 0, i = "", e = !1, n = document.createElement("fakeelement"), s = {WebkitTransition: "webkitTransitionEnd", MozTransition: "transitionend", OTransition: "oTransitionend", transition: "transitionend"};
+        var t = void 0, o = void 0, i = "", e = !1, n = document.createElement("fakeelement"), s = {
+            WebkitTransition: "webkitTransitionEnd",
+            MozTransition: "transitionend",
+            OTransition: "oTransitionend",
+            transition: "transitionend"
+        };
         for (t in s) if (void 0 !== n.style[t]) {
             o = s[t], e = !0;
             break
@@ -139,12 +165,37 @@
         return function (o, i, e) {
             return i && t(o.prototype, i), e && t(o, e), o
         }
-    }(), a = {distance: 200, speed: 1e3, easing: "linear", animation: "fade", animationSpeed: 500, mobile: {width: 768, distance: 100, speed: 1e3, easing: "easeInOutElastic", animation: "slide", animationSpeed: 200}, trigger: null, target: null, text: "Scroll To Top", skin: null, throttle: 250, namespace: "scrollToTop"}, l = function () {
+    }(), a = {
+        distance: 200,
+        speed: 1e3,
+        easing: "linear",
+        animation: "fade",
+        animationSpeed: 500,
+        mobile: {
+            width: 768,
+            distance: 100,
+            speed: 1e3,
+            easing: "easeInOutElastic",
+            animation: "slide",
+            animationSpeed: 200
+        },
+        trigger: null,
+        target: null,
+        text: "Scroll To Top",
+        skin: null,
+        throttle: 250,
+        namespace: "scrollToTop"
+    }, l = function () {
         function t() {
             var i = arguments.length > 0 && void 0 !== arguments[0] ? arguments[0] : {};
             o(this, t), this.$doc = (0, n.default)("body"), this.options = n.default.extend(!0, {}, a, i);
             var e = this.options.namespace;
-            null === this.options.skin && (this.options.skin = "default"), this.classes = {skin: e + "_" + this.options.skin, trigger: e, animating: e + "_animating", show: e + "_show"}, this.disabled = !1, this.useMobile = !1, this.isShow = !1, this._init()
+            null === this.options.skin && (this.options.skin = "default"), this.classes = {
+                skin: e + "_" + this.options.skin,
+                trigger: e,
+                animating: e + "_animating",
+                show: e + "_show"
+            }, this.disabled = !1, this.useMobile = !1, this.isShow = !1, this._init()
         }
 
         return s(t, [{
@@ -269,7 +320,14 @@ Author: Siddharth Doshi
 (function ($) {
     "use strict";
     $.ajaxChimp = {
-        responses: {"We have sent you a confirmation email": 0, "Please enter a value": 1, "An email address must contain a single @": 2, "The domain portion of the email address is invalid (the portion after the @: )": 3, "The username portion of the email address is invalid (the portion before the @: )": 4, "This email address looks fake or invalid. Please enter a real email address": 5}, translations: {en: null}, init: function (selector, options) {
+        responses: {
+            "We have sent you a confirmation email": 0,
+            "Please enter a value": 1,
+            "An email address must contain a single @": 2,
+            "The domain portion of the email address is invalid (the portion after the @: )": 3,
+            "The username portion of the email address is invalid (the portion before the @: )": 4,
+            "This email address looks fake or invalid. Please enter a real email address": 5
+        }, translations: {en: null}, init: function (selector, options) {
             $(selector).ajaxChimp(options)
         }
     };
@@ -347,7 +405,6 @@ Author: Siddharth Doshi
 
 
 /*=====  End of 03. Mailchimp  ======*/
-
 
 
 /*=============================================
@@ -612,7 +669,10 @@ Made by Hernán Sartorio
                 }
                 o.appendChild(d)
             }
-            l.$slider.empty().append(o), l.$slider.children().children().children().css({width: 100 / l.options.slidesPerRow + "%", display: "inline-block"})
+            l.$slider.empty().append(o), l.$slider.children().children().children().css({
+                width: 100 / l.options.slidesPerRow + "%",
+                display: "inline-block"
+            })
         }
     }, e.prototype.checkResponsive = function (e, t) {
         var o, s, n, r = this, l = !1, d = r.$slider.width(), a = window.innerWidth || i(window).width();
@@ -669,12 +729,21 @@ Made by Hernán Sartorio
         t[e.transitionType] = "", e.options.fade === !1 ? e.$slideTrack.css(t) : e.$slides.eq(i).css(t)
     }, e.prototype.fadeSlide = function (i, e) {
         var t = this;
-        t.cssTransitions === !1 ? (t.$slides.eq(i).css({zIndex: t.options.zIndex}), t.$slides.eq(i).animate({opacity: 1}, t.options.speed, t.options.easing, e)) : (t.applyTransition(i), t.$slides.eq(i).css({opacity: 1, zIndex: t.options.zIndex}), e && setTimeout(function () {
+        t.cssTransitions === !1 ? (t.$slides.eq(i).css({zIndex: t.options.zIndex}), t.$slides.eq(i).animate({opacity: 1}, t.options.speed, t.options.easing, e)) : (t.applyTransition(i), t.$slides.eq(i).css({
+            opacity: 1,
+            zIndex: t.options.zIndex
+        }), e && setTimeout(function () {
             t.disableTransition(i), e.call()
         }, t.options.speed))
     }, e.prototype.fadeSlideOut = function (i) {
         var e = this;
-        e.cssTransitions === !1 ? e.$slides.eq(i).animate({opacity: 0, zIndex: e.options.zIndex - 2}, e.options.speed, e.options.easing) : (e.applyTransition(i), e.$slides.eq(i).css({opacity: 0, zIndex: e.options.zIndex - 2}))
+        e.cssTransitions === !1 ? e.$slides.eq(i).animate({
+            opacity: 0,
+            zIndex: e.options.zIndex - 2
+        }, e.options.speed, e.options.easing) : (e.applyTransition(i), e.$slides.eq(i).css({
+            opacity: 0,
+            zIndex: e.options.zIndex - 2
+        }))
     }, e.prototype.filterSlides = e.prototype.slickFilter = function (i) {
         var e = this;
         null !== i && (e.$slidesCache = e.$slides, e.unload(), e.$slideTrack.children(this.options.slide).detach(), e.$slidesCache.filter(i).appendTo(e.$slideTrack), e.reinit())
@@ -721,10 +790,14 @@ Made by Hernán Sartorio
         var t = this;
         i(t.$slider).hasClass("slick-initialized") || (i(t.$slider).addClass("slick-initialized"), t.buildRows(), t.buildOut(), t.setProps(), t.startLoad(), t.loadSlider(), t.initializeEvents(), t.updateArrows(), t.updateDots(), t.checkResponsive(!0), t.focusHandler()), e && t.$slider.trigger("init", [t]), t.options.accessibility === !0 && t.initADA(), t.options.autoplay && (t.paused = !1, t.autoPlay())
     }, e.prototype.initADA = function () {
-        var e = this, t = Math.ceil(e.slideCount / e.options.slidesToShow), o = e.getNavigableIndexes().filter(function (i) {
-            return i >= 0 && i < e.slideCount
-        });
-        e.$slides.add(e.$slideTrack.find(".slick-cloned")).attr({"aria-hidden": "true", tabindex: "-1"}).find("a, input, button, select").attr({tabindex: "-1"}), null !== e.$dots && (e.$slides.not(e.$slideTrack.find(".slick-cloned")).each(function (t) {
+        var e = this, t = Math.ceil(e.slideCount / e.options.slidesToShow),
+            o = e.getNavigableIndexes().filter(function (i) {
+                return i >= 0 && i < e.slideCount
+            });
+        e.$slides.add(e.$slideTrack.find(".slick-cloned")).attr({
+            "aria-hidden": "true",
+            tabindex: "-1"
+        }).find("a, input, button, select").attr({tabindex: "-1"}), null !== e.$dots && (e.$slides.not(e.$slideTrack.find(".slick-cloned")).each(function (t) {
             var s = o.indexOf(t);
             if (i(this).attr({role: "tabpanel", id: "slick-slide" + e.instanceUid + t, tabindex: -1}), s !== -1) {
                 var n = "slick-slide-control" + e.instanceUid + s;
@@ -732,7 +805,14 @@ Made by Hernán Sartorio
             }
         }), e.$dots.attr("role", "tablist").find("li").each(function (s) {
             var n = o[s];
-            i(this).attr({role: "presentation"}), i(this).find("button").first().attr({role: "tab", id: "slick-slide-control" + e.instanceUid + s, "aria-controls": "slick-slide" + e.instanceUid + n, "aria-label": s + 1 + " of " + t, "aria-selected": null, tabindex: "-1"})
+            i(this).attr({role: "presentation"}), i(this).find("button").first().attr({
+                role: "tab",
+                id: "slick-slide-control" + e.instanceUid + s,
+                "aria-controls": "slick-slide" + e.instanceUid + n,
+                "aria-label": s + 1 + " of " + t,
+                "aria-selected": null,
+                tabindex: "-1"
+            })
         }).eq(e.currentSlide).find("button").attr({"aria-selected": "true", tabindex: "0"}).end());
         for (var s = e.currentSlide, n = s + e.options.slidesToShow; s < n; s++) e.options.focusOnChange ? e.$slides.eq(s).attr({tabindex: "0"}) : e.$slides.eq(s).removeAttr("tabindex");
         e.activateADA()
@@ -757,7 +837,8 @@ Made by Hernán Sartorio
     }, e.prototype.lazyLoad = function () {
         function e(e) {
             i("img[data-lazy]", e).each(function () {
-                var e = i(this), t = i(this).attr("data-lazy"), o = i(this).attr("data-srcset"), s = i(this).attr("data-sizes") || r.$slider.attr("data-sizes"), n = document.createElement("img");
+                var e = i(this), t = i(this).attr("data-lazy"), o = i(this).attr("data-srcset"),
+                    s = i(this).attr("data-sizes") || r.$slider.attr("data-sizes"), n = document.createElement("img");
                 n.onload = function () {
                     e.animate({opacity: 0}, 100, function () {
                         o && (e.attr("srcset", o), s && e.attr("sizes", s)), e.attr("src", t).animate({opacity: 1}, 200, function () {
@@ -811,7 +892,12 @@ Made by Hernán Sartorio
         }, r.src = o) : l.$slider.trigger("allImagesLoaded", [l])
     }, e.prototype.refresh = function (e) {
         var t, o, s = this;
-        o = s.slideCount - s.options.slidesToShow, !s.options.infinite && s.currentSlide > o && (s.currentSlide = o), s.slideCount <= s.options.slidesToShow && (s.currentSlide = 0), t = s.currentSlide, s.destroy(!0), i.extend(s, s.initials, {currentSlide: t}), s.init(), e || s.changeSlide({data: {message: "index", index: t}}, !1)
+        o = s.slideCount - s.options.slidesToShow, !s.options.infinite && s.currentSlide > o && (s.currentSlide = o), s.slideCount <= s.options.slidesToShow && (s.currentSlide = 0), t = s.currentSlide, s.destroy(!0), i.extend(s, s.initials, {currentSlide: t}), s.init(), e || s.changeSlide({
+            data: {
+                message: "index",
+                index: t
+            }
+        }, !1)
     }, e.prototype.registerBreakpoints = function () {
         var e, t, o, s = this, n = s.options.responsive || null;
         if ("array" === i.type(n) && n.length) {
@@ -846,7 +932,13 @@ Made by Hernán Sartorio
     }, e.prototype.setFade = function () {
         var e, t = this;
         t.$slides.each(function (o, s) {
-            e = t.slideWidth * o * -1, t.options.rtl === !0 ? i(s).css({position: "relative", right: e, top: 0, zIndex: t.options.zIndex - 2, opacity: 0}) : i(s).css({position: "relative", left: e, top: 0, zIndex: t.options.zIndex - 2, opacity: 0})
+            e = t.slideWidth * o * -1, t.options.rtl === !0 ? i(s).css({
+                position: "relative",
+                right: e,
+                top: 0,
+                zIndex: t.options.zIndex - 2,
+                opacity: 0
+            }) : i(s).css({position: "relative", left: e, top: 0, zIndex: t.options.zIndex - 2, opacity: 0})
         }), t.$slides.eq(t.currentSlide).css({zIndex: t.options.zIndex - 1, opacity: 1})
     }, e.prototype.setHeight = function () {
         var i = this;
@@ -890,7 +982,8 @@ Made by Hernán Sartorio
         var e = this;
         i || e.autoPlay(), e.interrupted = i
     }, e.prototype.selectHandler = function (e) {
-        var t = this, o = i(e.target).is(".slick-slide") ? i(e.target) : i(e.target).parents(".slick-slide"), s = parseInt(o.attr("data-slick-index"));
+        var t = this, o = i(e.target).is(".slick-slide") ? i(e.target) : i(e.target).parents(".slick-slide"),
+            s = parseInt(o.attr("data-slick-index"));
         return s || (s = 0), t.slideCount <= t.options.slidesToShow ? void t.slideHandler(s, !1, !0) : void t.slideHandler(s)
     }, e.prototype.slideHandler = function (i, e, t) {
         var o, s, n, r, l, d = null, a = this;
@@ -982,24 +1075,26 @@ Made by Hernán Sartorio
 !function (a) {
     "function" == typeof define && define.amd ? define(["jquery"], a) : a("object" == typeof exports ? require("jquery") : window.jQuery || window.Zepto)
 }(function (a) {
-    var b, c, d, e, f, g, h = "Close", i = "BeforeClose", j = "AfterClose", k = "BeforeAppend", l = "MarkupParse", m = "Open", n = "Change", o = "mfp", p = "." + o, q = "mfp-ready", r = "mfp-removing", s = "mfp-prevent-close", t = function () {
-    }, u = !!window.jQuery, v = a(window), w = function (a, c) {
-        b.ev.on(o + a + p, c)
-    }, x = function (b, c, d, e) {
-        var f = document.createElement("div");
-        return f.className = "mfp-" + b, d && (f.innerHTML = d), e ? c && c.appendChild(f) : (f = a(f), c && f.appendTo(c)), f
-    }, y = function (c, d) {
-        b.ev.triggerHandler(o + c, d), b.st.callbacks && (c = c.charAt(0).toLowerCase() + c.slice(1), b.st.callbacks[c] && b.st.callbacks[c].apply(b, a.isArray(d) ? d : [d]))
-    }, z = function (c) {
-        return c === g && b.currTemplate.closeBtn || (b.currTemplate.closeBtn = a(b.st.closeMarkup.replace("%title%", b.st.tClose)), g = c), b.currTemplate.closeBtn
-    }, A = function () {
-        a.magnificPopup.instance || (b = new t, b.init(), a.magnificPopup.instance = b)
-    }, B = function () {
-        var a = document.createElement("p").style, b = ["ms", "O", "Moz", "Webkit"];
-        if (void 0 !== a.transition) return !0;
-        for (; b.length;) if (b.pop() + "Transition" in a) return !0;
-        return !1
-    };
+    var b, c, d, e, f, g, h = "Close", i = "BeforeClose", j = "AfterClose", k = "BeforeAppend", l = "MarkupParse",
+        m = "Open", n = "Change", o = "mfp", p = "." + o, q = "mfp-ready", r = "mfp-removing", s = "mfp-prevent-close",
+        t = function () {
+        }, u = !!window.jQuery, v = a(window), w = function (a, c) {
+            b.ev.on(o + a + p, c)
+        }, x = function (b, c, d, e) {
+            var f = document.createElement("div");
+            return f.className = "mfp-" + b, d && (f.innerHTML = d), e ? c && c.appendChild(f) : (f = a(f), c && f.appendTo(c)), f
+        }, y = function (c, d) {
+            b.ev.triggerHandler(o + c, d), b.st.callbacks && (c = c.charAt(0).toLowerCase() + c.slice(1), b.st.callbacks[c] && b.st.callbacks[c].apply(b, a.isArray(d) ? d : [d]))
+        }, z = function (c) {
+            return c === g && b.currTemplate.closeBtn || (b.currTemplate.closeBtn = a(b.st.closeMarkup.replace("%title%", b.st.tClose)), g = c), b.currTemplate.closeBtn
+        }, A = function () {
+            a.magnificPopup.instance || (b = new t, b.init(), a.magnificPopup.instance = b)
+        }, B = function () {
+            var a = document.createElement("p").style, b = ["ms", "O", "Moz", "Webkit"];
+            if (void 0 !== a.transition) return !0;
+            for (; b.length;) if (b.pop() + "Transition" in a) return !0;
+            return !1
+        };
     t.prototype = {
         constructor: t, init: function () {
             var c = navigator.appVersion;
@@ -1027,7 +1122,17 @@ Made by Hernán Sartorio
             }
             y("BeforeOpen"), b.st.showCloseBtn && (b.st.closeBtnInside ? (w(l, function (a, b, c, d) {
                 c.close_replaceWith = z(d.type)
-            }), f += " mfp-close-btn-in") : b.wrap.append(z())), b.st.alignTop && (f += " mfp-align-top"), b.fixedContentPos ? b.wrap.css({overflow: b.st.overflowY, overflowX: "hidden", overflowY: b.st.overflowY}) : b.wrap.css({top: v.scrollTop(), position: "absolute"}), (b.st.fixedBgPos === !1 || "auto" === b.st.fixedBgPos && !b.fixedContentPos) && b.bgOverlay.css({height: d.height(), position: "absolute"}), b.st.enableEscapeKey && d.on("keyup" + p, function (a) {
+            }), f += " mfp-close-btn-in") : b.wrap.append(z())), b.st.alignTop && (f += " mfp-align-top"), b.fixedContentPos ? b.wrap.css({
+                overflow: b.st.overflowY,
+                overflowX: "hidden",
+                overflowY: b.st.overflowY
+            }) : b.wrap.css({
+                top: v.scrollTop(),
+                position: "absolute"
+            }), (b.st.fixedBgPos === !1 || "auto" === b.st.fixedBgPos && !b.fixedContentPos) && b.bgOverlay.css({
+                height: d.height(),
+                position: "absolute"
+            }), b.st.enableEscapeKey && d.on("keyup" + p, function (a) {
                 27 === a.keyCode && b.close()
             }), v.on("resize" + p, function () {
                 b.updateSize()
@@ -1147,13 +1252,42 @@ Made by Hernán Sartorio
             return b.scrollbarSize
         }
     }, a.magnificPopup = {
-        instance: null, proto: t.prototype, modules: [], open: function (b, c) {
+        instance: null,
+        proto: t.prototype,
+        modules: [],
+        open: function (b, c) {
             return A(), b = b ? a.extend(!0, {}, b) : {}, b.isObj = !0, b.index = c || 0, this.instance.open(b)
-        }, close: function () {
+        },
+        close: function () {
             return a.magnificPopup.instance && a.magnificPopup.instance.close()
-        }, registerModule: function (b, c) {
+        },
+        registerModule: function (b, c) {
             c.options && (a.magnificPopup.defaults[b] = c.options), a.extend(this.proto, c.proto), this.modules.push(b)
-        }, defaults: {disableOn: 0, key: null, midClick: !1, mainClass: "", preloader: !0, focus: "", closeOnContentClick: !1, closeOnBgClick: !0, closeBtnInside: !0, showCloseBtn: !0, enableEscapeKey: !0, modal: !1, alignTop: !1, removalDelay: 0, prependTo: null, fixedContentPos: "auto", fixedBgPos: "auto", overflowY: "auto", closeMarkup: '<button title="%title%" type="button" class="mfp-close">&#215;</button>', tClose: "Close (Esc)", tLoading: "Loading...", autoFocusLast: !0}
+        },
+        defaults: {
+            disableOn: 0,
+            key: null,
+            midClick: !1,
+            mainClass: "",
+            preloader: !0,
+            focus: "",
+            closeOnContentClick: !1,
+            closeOnBgClick: !0,
+            closeBtnInside: !0,
+            showCloseBtn: !0,
+            enableEscapeKey: !0,
+            modal: !1,
+            alignTop: !1,
+            removalDelay: 0,
+            prependTo: null,
+            fixedContentPos: "auto",
+            fixedBgPos: "auto",
+            overflowY: "auto",
+            closeMarkup: '<button title="%title%" type="button" class="mfp-close">&#215;</button>',
+            tClose: "Close (Esc)",
+            tLoading: "Loading...",
+            autoFocusLast: !0
+        }
     }, a.fn.magnificPopup = function (c) {
         A();
         var d = a(this);
@@ -1191,7 +1325,11 @@ Made by Hernán Sartorio
         J(), b.req && b.req.abort()
     };
     a.magnificPopup.registerModule(I, {
-        options: {settings: null, cursor: "mfp-ajax-cur", tError: '<a href="%url%">The content</a> could not be loaded.'}, proto: {
+        options: {
+            settings: null,
+            cursor: "mfp-ajax-cur",
+            tError: '<a href="%url%">The content</a> could not be loaded.'
+        }, proto: {
             initAjax: function () {
                 b.types.push(I), H = b.st.ajax.cursor, w(h + "." + I, K), w("BeforeChange." + I, K)
             }, getAjax: function (c) {
@@ -1220,7 +1358,13 @@ Made by Hernán Sartorio
         return ""
     };
     a.magnificPopup.registerModule("image", {
-        options: {markup: '<div class="mfp-figure"><div class="mfp-close"></div><figure><div class="mfp-img"></div><figcaption><div class="mfp-bottom-bar"><div class="mfp-title"></div><div class="mfp-counter"></div></div></figcaption></figure></div>', cursor: "mfp-zoom-out-cur", titleSrc: "title", verticalFit: !0, tError: '<a href="%url%">The image</a> could not be loaded.'}, proto: {
+        options: {
+            markup: '<div class="mfp-figure"><div class="mfp-close"></div><figure><div class="mfp-img"></div><figcaption><div class="mfp-bottom-bar"><div class="mfp-title"></div><div class="mfp-counter"></div></div></figcaption></figure></div>',
+            cursor: "mfp-zoom-out-cur",
+            titleSrc: "title",
+            verticalFit: !0,
+            tError: '<a href="%url%">The image</a> could not be loaded.'
+        }, proto: {
             initImage: function () {
                 var c = b.st.image, d = ".image";
                 b.types.push("image"), w(m + d, function () {
@@ -1253,7 +1397,10 @@ Made by Hernán Sartorio
                     var j = document.createElement("img");
                     j.className = "mfp-img", c.el && c.el.find("img").length && (j.alt = c.el.find("img").attr("alt")), c.img = a(j).on("load.mfploader", f).on("error.mfploader", g), j.src = c.src, i.is("img") && (c.img = c.img.clone()), j = c.img[0], j.naturalWidth > 0 ? c.hasSize = !0 : j.width || (c.hasSize = !1)
                 }
-                return b._parseMarkup(d, {title: M(c), img_replaceWith: c.img}, c), b.resizeImage(), c.hasSize ? (L && clearInterval(L), c.loadError ? (d.addClass("mfp-loading"), b.updateStatus("error", h.tError.replace("%url%", c.src))) : (d.removeClass("mfp-loading"), b.updateStatus("ready")), d) : (b.updateStatus("loading"), c.loading = !0, c.hasSize || (c.imgHidden = !0, d.addClass("mfp-loading"), b.findImageSize(c)), d)
+                return b._parseMarkup(d, {
+                    title: M(c),
+                    img_replaceWith: c.img
+                }, c), b.resizeImage(), c.hasSize ? (L && clearInterval(L), c.loadError ? (d.addClass("mfp-loading"), b.updateStatus("error", h.tError.replace("%url%", c.src))) : (d.removeClass("mfp-loading"), b.updateStatus("ready")), d) : (b.updateStatus("loading"), c.loading = !0, c.hasSize || (c.imgHidden = !0, d.addClass("mfp-loading"), b.findImageSize(c)), d)
             }
         }
     });
@@ -1270,7 +1417,14 @@ Made by Hernán Sartorio
                 var a, c = b.st.zoom, d = ".zoom";
                 if (c.enabled && b.supportsTransition) {
                     var e, f, g = c.duration, j = function (a) {
-                        var b = a.clone().removeAttr("style").removeAttr("class").addClass("mfp-animated-image"), d = "all " + c.duration / 1e3 + "s " + c.easing, e = {position: "fixed", zIndex: 9999, left: 0, top: 0, "-webkit-backface-visibility": "hidden"}, f = "transition";
+                        var b = a.clone().removeAttr("style").removeAttr("class").addClass("mfp-animated-image"),
+                            d = "all " + c.duration / 1e3 + "s " + c.easing, e = {
+                                position: "fixed",
+                                zIndex: 9999,
+                                left: 0,
+                                top: 0,
+                                "-webkit-backface-visibility": "hidden"
+                            }, f = "transition";
                         return e["-webkit-" + f] = e["-moz-" + f] = e["-o-" + f] = e[f] = d, b.css(e), b
                     }, k = function () {
                         b.content.css("visibility", "visible")
@@ -1321,7 +1475,15 @@ Made by Hernán Sartorio
         }
     };
     a.magnificPopup.registerModule(P, {
-        options: {markup: '<div class="mfp-iframe-scaler"><div class="mfp-close"></div><iframe class="mfp-iframe" src="//about:blank"  allowfullscreen></iframe></div>', srcAction: "iframe_src", patterns: {youtube: {index: "youtube.com", id: "v=", src: "//www.youtube.com/embed/%id%?autoplay=1"}, vimeo: {index: "vimeo.com/", id: "/", src: "//player.vimeo.com/video/%id%?autoplay=1"}, gmaps: {index: "//maps.google.", src: "%id%&output=embed"}}},
+        options: {
+            markup: '<div class="mfp-iframe-scaler"><div class="mfp-close"></div><iframe class="mfp-iframe" src="//about:blank"  allowfullscreen></iframe></div>',
+            srcAction: "iframe_src",
+            patterns: {
+                youtube: {index: "youtube.com", id: "v=", src: "//www.youtube.com/embed/%id%?autoplay=1"},
+                vimeo: {index: "vimeo.com/", id: "/", src: "//player.vimeo.com/video/%id%?autoplay=1"},
+                gmaps: {index: "//maps.google.", src: "%id%&output=embed"}
+            }
+        },
         proto: {
             initIframe: function () {
                 b.types.push(P), w("BeforeChange", function (a, b, c) {
@@ -1346,7 +1508,16 @@ Made by Hernán Sartorio
         return a.replace(/%curr%/gi, b + 1).replace(/%total%/gi, c)
     };
     a.magnificPopup.registerModule("gallery", {
-        options: {enabled: !1, arrowMarkup: '<button title="%title%" type="button" class="mfp-arrow mfp-arrow-%dir%"></button>', preload: [0, 2], navigateByImgClick: !0, arrows: !0, tPrev: "Previous (Left arrow key)", tNext: "Next (Right arrow key)", tCounter: "%curr% of %total%"}, proto: {
+        options: {
+            enabled: !1,
+            arrowMarkup: '<button title="%title%" type="button" class="mfp-arrow mfp-arrow-%dir%"></button>',
+            preload: [0, 2],
+            navigateByImgClick: !0,
+            arrows: !0,
+            tPrev: "Previous (Left arrow key)",
+            tNext: "Next (Right arrow key)",
+            tCounter: "%curr% of %total%"
+        }, proto: {
             initGallery: function () {
                 var c = b.st.gallery, e = ".mfp-gallery";
                 return b.direction = !0, c && c.enabled ? (f += " mfp-gallery", w(m + e, function () {
@@ -1362,7 +1533,9 @@ Made by Hernán Sartorio
                     e.counter = g > 1 ? T(c.tCounter, f.index, g) : ""
                 }), w("BuildControls" + e, function () {
                     if (b.items.length > 1 && c.arrows && !b.arrowLeft) {
-                        var d = c.arrowMarkup, e = b.arrowLeft = a(d.replace(/%title%/gi, c.tPrev).replace(/%dir%/gi, "left")).addClass(s), f = b.arrowRight = a(d.replace(/%title%/gi, c.tNext).replace(/%dir%/gi, "right")).addClass(s);
+                        var d = c.arrowMarkup,
+                            e = b.arrowLeft = a(d.replace(/%title%/gi, c.tPrev).replace(/%dir%/gi, "left")).addClass(s),
+                            f = b.arrowRight = a(d.replace(/%title%/gi, c.tNext).replace(/%dir%/gi, "right")).addClass(s);
                         e.click(function () {
                             b.prev()
                         }), f.click(function () {
@@ -1463,13 +1636,24 @@ Made by Hernán Sartorio
                 return function (t, e, i) {
                     return e && n(t.prototype, e), i && n(t, i), t
                 }
-            }(), i = (l = ".stickySidebar", n = {topSpacing: 0, bottomSpacing: 0, containerSelector: !1, innerWrapperSelector: ".inner-wrapper-sticky", stickyClass: "is-affixed", resizeSensor: !0, minWidth: !1}, function () {
+            }(), i = (l = ".stickySidebar", n = {
+                topSpacing: 0,
+                bottomSpacing: 0,
+                containerSelector: !1,
+                innerWrapperSelector: ".inner-wrapper-sticky",
+                stickyClass: "is-affixed",
+                resizeSensor: !0,
+                minWidth: !1
+            }, function () {
                 function c(t) {
                     var e = this, i = 1 < arguments.length && void 0 !== arguments[1] ? arguments[1] : {};
                     if (function (t, e) {
                         if (!(t instanceof e)) throw new TypeError("Cannot call a class as a function")
                     }(this, c), this.options = c.extend(n, i), this.sidebar = "string" == typeof t ? document.querySelector(t) : t, void 0 === this.sidebar) throw new Error("There is no specific sidebar element.");
-                    this.sidebarInner = !1, this.container = this.sidebar.parentElement, this.affixedType = "STATIC", this.direction = "down", this.support = {transform: !1, transform3d: !1}, this._initialized = !1, this._reStyle = !1, this._breakpoint = !1, this.dimensions = {
+                    this.sidebarInner = !1, this.container = this.sidebar.parentElement, this.affixedType = "STATIC", this.direction = "down", this.support = {
+                        transform: !1,
+                        transform3d: !1
+                    }, this._initialized = !1, this._reStyle = !1, this._breakpoint = !1, this.dimensions = {
                         translateY: 0,
                         maxTranslateY: 0,
                         topSpacing: 0,
@@ -1506,7 +1690,13 @@ Made by Hernán Sartorio
                     }
                 }, {
                     key: "bindEvents", value: function () {
-                        window.addEventListener("resize", this, {passive: !0, capture: !1}), window.addEventListener("scroll", this, {passive: !0, capture: !1}), this.sidebar.addEventListener("update" + l, this), this.options.resizeSensor && "undefined" != typeof ResizeSensor && (new ResizeSensor(this.sidebarInner, this.handleEvent), new ResizeSensor(this.container, this.handleEvent))
+                        window.addEventListener("resize", this, {
+                            passive: !0,
+                            capture: !1
+                        }), window.addEventListener("scroll", this, {
+                            passive: !0,
+                            capture: !1
+                        }), this.sidebar.addEventListener("update" + l, this), this.options.resizeSensor && "undefined" != typeof ResizeSensor && (new ResizeSensor(this.sidebarInner, this.handleEvent), new ResizeSensor(this.container, this.handleEvent))
                     }
                 }, {
                     key: "handleEvent", value: function (t) {
@@ -1526,7 +1716,8 @@ Made by Hernán Sartorio
                     }
                 }, {
                     key: "isSidebarFitsViewport", value: function () {
-                        var t = this.dimensions, e = "down" === this.scrollDirection ? t.lastBottomSpacing : t.lastTopSpacing;
+                        var t = this.dimensions,
+                            e = "down" === this.scrollDirection ? t.lastBottomSpacing : t.lastTopSpacing;
                         return this.dimensions.sidebarHeight + e < this.dimensions.viewportHeight
                     }
                 }, {
@@ -1545,12 +1736,14 @@ Made by Hernán Sartorio
                     }
                 }, {
                     key: "_getAffixTypeScrollingDown", value: function () {
-                        var t = this.dimensions, e = t.sidebarHeight + t.containerTop, i = t.viewportTop + t.topSpacing, n = t.viewportBottom - t.bottomSpacing, o = this.affixedType;
+                        var t = this.dimensions, e = t.sidebarHeight + t.containerTop, i = t.viewportTop + t.topSpacing,
+                            n = t.viewportBottom - t.bottomSpacing, o = this.affixedType;
                         return this.isSidebarFitsViewport() ? t.sidebarHeight + i >= t.containerBottom ? (t.translateY = t.containerBottom - e, o = "CONTAINER-BOTTOM") : i >= t.containerTop && (t.translateY = i - t.containerTop, o = "VIEWPORT-TOP") : t.containerBottom <= n ? (t.translateY = t.containerBottom - e, o = "CONTAINER-BOTTOM") : e + t.translateY <= n ? (t.translateY = n - e, o = "VIEWPORT-BOTTOM") : t.containerTop + t.translateY <= i && 0 !== t.translateY && t.maxTranslateY !== t.translateY && (o = "VIEWPORT-UNBOTTOM"), o
                     }
                 }, {
                     key: "_getAffixTypeScrollingUp", value: function () {
-                        var t = this.dimensions, e = t.sidebarHeight + t.containerTop, i = t.viewportTop + t.topSpacing, n = t.viewportBottom - t.bottomSpacing, o = this.affixedType;
+                        var t = this.dimensions, e = t.sidebarHeight + t.containerTop, i = t.viewportTop + t.topSpacing,
+                            n = t.viewportBottom - t.bottomSpacing, o = this.affixedType;
                         return i <= t.translateY + t.containerTop ? (t.translateY = i - t.containerTop, o = "VIEWPORT-TOP") : t.containerBottom <= n ? (t.translateY = t.containerBottom - e, o = "CONTAINER-BOTTOM") : this.isSidebarFitsViewport() || t.containerTop <= i && 0 !== t.translateY && t.maxTranslateY !== t.translateY && (o = "VIEWPORT-UNBOTTOM"), o
                     }
                 }, {
@@ -1559,15 +1752,30 @@ Made by Hernán Sartorio
                             var e = {inner: {}, outer: {}}, i = this.dimensions;
                             switch (t) {
                                 case"VIEWPORT-TOP":
-                                    e.inner = {position: "fixed", top: i.topSpacing, left: i.sidebarLeft - i.viewportLeft, width: i.sidebarWidth};
+                                    e.inner = {
+                                        position: "fixed",
+                                        top: i.topSpacing,
+                                        left: i.sidebarLeft - i.viewportLeft,
+                                        width: i.sidebarWidth
+                                    };
                                     break;
                                 case"VIEWPORT-BOTTOM":
-                                    e.inner = {position: "fixed", top: "auto", left: i.sidebarLeft, bottom: i.bottomSpacing, width: i.sidebarWidth};
+                                    e.inner = {
+                                        position: "fixed",
+                                        top: "auto",
+                                        left: i.sidebarLeft,
+                                        bottom: i.bottomSpacing,
+                                        width: i.sidebarWidth
+                                    };
                                     break;
                                 case"CONTAINER-BOTTOM":
                                 case"VIEWPORT-UNBOTTOM":
                                     var n = this._getTranslate(0, i.translateY + "px");
-                                    e.inner = n ? {transform: n} : {position: "absolute", top: i.translateY, width: i.sidebarWidth}
+                                    e.inner = n ? {transform: n} : {
+                                        position: "absolute",
+                                        top: i.translateY,
+                                        width: i.sidebarWidth
+                                    }
                             }
                             switch (t) {
                                 case"VIEWPORT-TOP":
@@ -1576,7 +1784,17 @@ Made by Hernán Sartorio
                                 case"CONTAINER-BOTTOM":
                                     e.outer = {height: i.sidebarHeight, position: "relative"}
                             }
-                            return e.outer = c.extend({height: "", position: ""}, e.outer), e.inner = c.extend({position: "relative", top: "", left: "", bottom: "", width: "", transform: ""}, e.inner), e
+                            return e.outer = c.extend({
+                                height: "",
+                                position: ""
+                            }, e.outer), e.inner = c.extend({
+                                position: "relative",
+                                top: "",
+                                left: "",
+                                bottom: "",
+                                width: "",
+                                transform: ""
+                            }, e.inner), e
                         }
                     }
                 }, {
@@ -1626,20 +1844,30 @@ Made by Hernán Sartorio
                     }
                 }, {
                     key: "_getTranslate", value: function () {
-                        var t = 0 < arguments.length && void 0 !== arguments[0] ? arguments[0] : 0, e = 1 < arguments.length && void 0 !== arguments[1] ? arguments[1] : 0, i = 2 < arguments.length && void 0 !== arguments[2] ? arguments[2] : 0;
+                        var t = 0 < arguments.length && void 0 !== arguments[0] ? arguments[0] : 0,
+                            e = 1 < arguments.length && void 0 !== arguments[1] ? arguments[1] : 0,
+                            i = 2 < arguments.length && void 0 !== arguments[2] ? arguments[2] : 0;
                         return this.support.transform3d ? "translate3d(" + t + ", " + e + ", " + i + ")" : !!this.support.translate && "translate(" + t + ", " + e + ")"
                     }
                 }, {
                     key: "destroy", value: function () {
                         window.removeEventListener("resize", this, {capture: !1}), window.removeEventListener("scroll", this, {capture: !1}), this.sidebar.classList.remove(this.options.stickyClass), this.sidebar.style.minHeight = "", this.sidebar.removeEventListener("update" + l, this);
                         var t = {inner: {}, outer: {}};
-                        for (var e in t.inner = {position: "", top: "", left: "", bottom: "", width: "", transform: ""}, t.outer = {height: "", position: ""}, t.outer) this.sidebar.style[e] = t.outer[e];
+                        for (var e in t.inner = {
+                            position: "",
+                            top: "",
+                            left: "",
+                            bottom: "",
+                            width: "",
+                            transform: ""
+                        }, t.outer = {height: "", position: ""}, t.outer) this.sidebar.style[e] = t.outer[e];
                         for (var i in t.inner) this.sidebarInner.style[i] = t.inner[i];
                         this.options.resizeSensor && "undefined" != typeof ResizeSensor && (ResizeSensor.detach(this.sidebarInner, this.handleEvent), ResizeSensor.detach(this.container, this.handleEvent))
                     }
                 }], [{
                     key: "supportTransform", value: function (t) {
-                        var i = !1, e = t ? "perspective" : "transform", n = e.charAt(0).toUpperCase() + e.slice(1), o = document.createElement("support").style;
+                        var i = !1, e = t ? "perspective" : "transform", n = e.charAt(0).toUpperCase() + e.slice(1),
+                            o = document.createElement("support").style;
                         return (e + " " + ["Webkit", "Moz", "O", "ms"].join(n + " ") + n).split(" ").forEach(function (t, e) {
                             if (void 0 !== o[t]) return i = t, !1
                         }), i
@@ -1780,7 +2008,15 @@ Made by Hernán Sartorio
     e = function () {
         function e(e, t) {
             var n, r;
-            this.options = {target: "instafeed", get: "popular", resolution: "thumbnail", sortBy: "none", links: !0, mock: !1, useHttp: !1};
+            this.options = {
+                target: "instafeed",
+                get: "popular",
+                resolution: "thumbnail",
+                sortBy: "none",
+                links: !0,
+                mock: !1,
+                useHttp: !1
+            };
             if (typeof e == "object") for (n in e) r = e[n], this.options[n] = r;
             this.context = t != null ? t : this, this.unique = this._genKey()
         }
@@ -1962,12 +2198,33 @@ Made by Hernán Sartorio
         }).length
     }
 
-    e.ui = e.ui || {}, e.extend(e.ui, {version: "1.11.4", keyCode: {BACKSPACE: 8, COMMA: 188, DELETE: 46, DOWN: 40, END: 35, ENTER: 13, ESCAPE: 27, HOME: 36, LEFT: 37, PAGE_DOWN: 34, PAGE_UP: 33, PERIOD: 190, RIGHT: 39, SPACE: 32, TAB: 9, UP: 38}}), e.fn.extend({
+    e.ui = e.ui || {}, e.extend(e.ui, {
+        version: "1.11.4",
+        keyCode: {
+            BACKSPACE: 8,
+            COMMA: 188,
+            DELETE: 46,
+            DOWN: 40,
+            END: 35,
+            ENTER: 13,
+            ESCAPE: 27,
+            HOME: 36,
+            LEFT: 37,
+            PAGE_DOWN: 34,
+            PAGE_UP: 33,
+            PERIOD: 190,
+            RIGHT: 39,
+            SPACE: 32,
+            TAB: 9,
+            UP: 38
+        }
+    }), e.fn.extend({
         scrollParent: function (t) {
-            var i = this.css("position"), s = "absolute" === i, n = t ? /(auto|scroll|hidden)/ : /(auto|scroll)/, a = this.parents().filter(function () {
-                var t = e(this);
-                return s && "static" === t.css("position") ? !1 : n.test(t.css("overflow") + t.css("overflow-y") + t.css("overflow-x"))
-            }).eq(0);
+            var i = this.css("position"), s = "absolute" === i, n = t ? /(auto|scroll|hidden)/ : /(auto|scroll)/,
+                a = this.parents().filter(function () {
+                    var t = e(this);
+                    return s && "static" === t.css("position") ? !1 : n.test(t.css("overflow") + t.css("overflow-y") + t.css("overflow-x"))
+                }).eq(0);
             return "fixed" !== i && a.length ? a : e(this[0].ownerDocument || document)
         }, uniqueId: function () {
             var e = 0;
@@ -2001,7 +2258,12 @@ Made by Hernán Sartorio
             }), i
         }
 
-        var n = "Width" === i ? ["Left", "Right"] : ["Top", "Bottom"], a = i.toLowerCase(), o = {innerWidth: e.fn.innerWidth, innerHeight: e.fn.innerHeight, outerWidth: e.fn.outerWidth, outerHeight: e.fn.outerHeight};
+        var n = "Width" === i ? ["Left", "Right"] : ["Top", "Bottom"], a = i.toLowerCase(), o = {
+            innerWidth: e.fn.innerWidth,
+            innerHeight: e.fn.innerHeight,
+            outerWidth: e.fn.outerWidth,
+            outerHeight: e.fn.outerHeight
+        };
         e.fn["inner" + i] = function (t) {
             return void 0 === t ? o["inner" + i].call(this) : this.each(function () {
                 e(this).css(a, s(this, t) + "px")
@@ -2069,7 +2331,11 @@ Made by Hernán Sartorio
             return !!e.data(t, n)
         }, e[l] = e[l] || {}, a = e[l][t], o = e[l][t] = function (e, t) {
             return this._createWidget ? (arguments.length && this._createWidget(e, t), void 0) : new o(e, t)
-        }, e.extend(o, a, {version: s.version, _proto: e.extend({}, s), _childConstructors: []}), r = new i, r.options = e.widget.extend({}, r.options), e.each(s, function (t, s) {
+        }, e.extend(o, a, {
+            version: s.version,
+            _proto: e.extend({}, s),
+            _childConstructors: []
+        }), r = new i, r.options = e.widget.extend({}, r.options), e.each(s, function (t, s) {
             return e.isFunction(s) ? (h[t] = function () {
                 var e = function () {
                     return i.prototype[t].apply(this, arguments)
@@ -2081,7 +2347,12 @@ Made by Hernán Sartorio
                     return this._super = e, this._superApply = n, t = s.apply(this, arguments), this._super = i, this._superApply = a, t
                 }
             }(), void 0) : (h[t] = s, void 0)
-        }), o.prototype = e.widget.extend(r, {widgetEventPrefix: a ? r.widgetEventPrefix || t : t}, h, {constructor: o, namespace: l, widgetName: t, widgetFullName: n}), a ? (e.each(a._childConstructors, function (t, i) {
+        }), o.prototype = e.widget.extend(r, {widgetEventPrefix: a ? r.widgetEventPrefix || t : t}, h, {
+            constructor: o,
+            namespace: l,
+            widgetName: t,
+            widgetFullName: n
+        }), a ? (e.each(a._childConstructors, function (t, i) {
             var s = i.prototype;
             e.widget(s.namespace + "." + s.widgetName, o, i._proto)
         }), delete a._childConstructors) : i._childConstructors.push(o), e.widget.bridge(t, o), o
@@ -2102,17 +2373,29 @@ Made by Hernán Sartorio
         }
     }, e.Widget = function () {
     }, e.Widget._childConstructors = [], e.Widget.prototype = {
-        widgetName: "widget", widgetEventPrefix: "", defaultElement: "<div>", options: {disabled: !1, create: null}, _createWidget: function (t, i) {
+        widgetName: "widget",
+        widgetEventPrefix: "",
+        defaultElement: "<div>",
+        options: {disabled: !1, create: null},
+        _createWidget: function (t, i) {
             i = e(i || this.defaultElement || this)[0], this.element = e(i), this.uuid = s++, this.eventNamespace = "." + this.widgetName + this.uuid, this.bindings = e(), this.hoverable = e(), this.focusable = e(), i !== this && (e.data(i, this.widgetFullName, this), this._on(!0, this.element, {
                 remove: function (e) {
                     e.target === i && this.destroy()
                 }
             }), this.document = e(i.style ? i.ownerDocument : i.document || i), this.window = e(this.document[0].defaultView || this.document[0].parentWindow)), this.options = e.widget.extend({}, this.options, this._getCreateOptions(), t), this._create(), this._trigger("create", null, this._getCreateEventData()), this._init()
-        }, _getCreateOptions: e.noop, _getCreateEventData: e.noop, _create: e.noop, _init: e.noop, destroy: function () {
+        },
+        _getCreateOptions: e.noop,
+        _getCreateEventData: e.noop,
+        _create: e.noop,
+        _init: e.noop,
+        destroy: function () {
             this._destroy(), this.element.unbind(this.eventNamespace).removeData(this.widgetFullName).removeData(e.camelCase(this.widgetFullName)), this.widget().unbind(this.eventNamespace).removeAttr("aria-disabled").removeClass(this.widgetFullName + "-disabled " + "ui-state-disabled"), this.bindings.unbind(this.eventNamespace), this.hoverable.removeClass("ui-state-hover"), this.focusable.removeClass("ui-state-focus")
-        }, _destroy: e.noop, widget: function () {
+        },
+        _destroy: e.noop,
+        widget: function () {
             return this.element
-        }, option: function (t, i) {
+        },
+        option: function (t, i) {
             var s, n, a, o = t;
             if (0 === arguments.length) return e.widget.extend({}, this.options);
             if ("string" == typeof t) if (o = {}, s = t.split("."), t = s.shift(), s.length) {
@@ -2124,17 +2407,22 @@ Made by Hernán Sartorio
                 o[t] = i
             }
             return this._setOptions(o), this
-        }, _setOptions: function (e) {
+        },
+        _setOptions: function (e) {
             var t;
             for (t in e) this._setOption(t, e[t]);
             return this
-        }, _setOption: function (e, t) {
+        },
+        _setOption: function (e, t) {
             return this.options[e] = t, "disabled" === e && (this.widget().toggleClass(this.widgetFullName + "-disabled", !!t), t && (this.hoverable.removeClass("ui-state-hover"), this.focusable.removeClass("ui-state-focus"))), this
-        }, enable: function () {
+        },
+        enable: function () {
             return this._setOptions({disabled: !1})
-        }, disable: function () {
+        },
+        disable: function () {
             return this._setOptions({disabled: !0})
-        }, _on: function (t, i, s) {
+        },
+        _on: function (t, i, s) {
             var n, a = this;
             "boolean" != typeof t && (s = i, i = t, t = !1), s ? (i = n = e(i), this.bindings = this.bindings.add(i)) : (s = i, i = this.element, n = this.widget()), e.each(s, function (s, o) {
                 function r() {
@@ -2145,16 +2433,19 @@ Made by Hernán Sartorio
                 var h = s.match(/^([\w:-]*)\s*(.*)$/), l = h[1] + a.eventNamespace, u = h[2];
                 u ? n.delegate(u, l, r) : i.bind(l, r)
             })
-        }, _off: function (t, i) {
+        },
+        _off: function (t, i) {
             i = (i || "").split(" ").join(this.eventNamespace + " ") + this.eventNamespace, t.unbind(i).undelegate(i), this.bindings = e(this.bindings.not(t).get()), this.focusable = e(this.focusable.not(t).get()), this.hoverable = e(this.hoverable.not(t).get())
-        }, _delay: function (e, t) {
+        },
+        _delay: function (e, t) {
             function i() {
                 return ("string" == typeof e ? s[e] : e).apply(s, arguments)
             }
 
             var s = this;
             return setTimeout(i, t || 0)
-        }, _hoverable: function (t) {
+        },
+        _hoverable: function (t) {
             this.hoverable = this.hoverable.add(t), this._on(t, {
                 mouseenter: function (t) {
                     e(t.currentTarget).addClass("ui-state-hover")
@@ -2162,7 +2453,8 @@ Made by Hernán Sartorio
                     e(t.currentTarget).removeClass("ui-state-hover")
                 }
             })
-        }, _focusable: function (t) {
+        },
+        _focusable: function (t) {
             this.focusable = this.focusable.add(t), this._on(t, {
                 focusin: function (t) {
                     e(t.currentTarget).addClass("ui-state-focus")
@@ -2170,7 +2462,8 @@ Made by Hernán Sartorio
                     e(t.currentTarget).removeClass("ui-state-focus")
                 }
             })
-        }, _trigger: function (t, i, s) {
+        },
+        _trigger: function (t, i, s) {
             var n, a, o = this.options[t];
             if (s = s || {}, i = e.Event(i), i.type = (t === this.widgetEventPrefix ? t : this.widgetEventPrefix + t).toLowerCase(), i.target = this.element[0], a = i.originalEvent) for (n in a) n in i || (i[n] = a[n]);
             return this.element.trigger(i, s), !(e.isFunction(o) && o.apply(this.element[0], [i].concat(s)) === !1 || i.isDefaultPrevented())
@@ -2188,19 +2481,24 @@ Made by Hernán Sartorio
     e(document).mouseup(function () {
         a = !1
     }), e.widget("ui.mouse", {
-        version: "1.11.4", options: {cancel: "input,textarea,button,select,option", distance: 1, delay: 0}, _mouseInit: function () {
+        version: "1.11.4",
+        options: {cancel: "input,textarea,button,select,option", distance: 1, delay: 0},
+        _mouseInit: function () {
             var t = this;
             this.element.bind("mousedown." + this.widgetName, function (e) {
                 return t._mouseDown(e)
             }).bind("click." + this.widgetName, function (i) {
                 return !0 === e.data(i.target, t.widgetName + ".preventClickEvent") ? (e.removeData(i.target, t.widgetName + ".preventClickEvent"), i.stopImmediatePropagation(), !1) : void 0
             }), this.started = !1
-        }, _mouseDestroy: function () {
+        },
+        _mouseDestroy: function () {
             this.element.unbind("." + this.widgetName), this._mouseMoveDelegate && this.document.unbind("mousemove." + this.widgetName, this._mouseMoveDelegate).unbind("mouseup." + this.widgetName, this._mouseUpDelegate)
-        }, _mouseDown: function (t) {
+        },
+        _mouseDown: function (t) {
             if (!a) {
                 this._mouseMoved = !1, this._mouseStarted && this._mouseUp(t), this._mouseDownEvent = t;
-                var i = this, s = 1 === t.which, n = "string" == typeof this.options.cancel && t.target.nodeName ? e(t.target).closest(this.options.cancel).length : !1;
+                var i = this, s = 1 === t.which,
+                    n = "string" == typeof this.options.cancel && t.target.nodeName ? e(t.target).closest(this.options.cancel).length : !1;
                 return s && !n && this._mouseCapture(t) ? (this.mouseDelayMet = !this.options.delay, this.mouseDelayMet || (this._mouseDelayTimer = setTimeout(function () {
                     i.mouseDelayMet = !0
                 }, this.options.delay)), this._mouseDistanceMet(t) && this._mouseDelayMet(t) && (this._mouseStarted = this._mouseStart(t) !== !1, !this._mouseStarted) ? (t.preventDefault(), !0) : (!0 === e.data(t.target, this.widgetName + ".preventClickEvent") && e.removeData(t.target, this.widgetName + ".preventClickEvent"), this._mouseMoveDelegate = function (e) {
@@ -2209,93 +2507,152 @@ Made by Hernán Sartorio
                     return i._mouseUp(e)
                 }, this.document.bind("mousemove." + this.widgetName, this._mouseMoveDelegate).bind("mouseup." + this.widgetName, this._mouseUpDelegate), t.preventDefault(), a = !0, !0)) : !0
             }
-        }, _mouseMove: function (t) {
+        },
+        _mouseMove: function (t) {
             if (this._mouseMoved) {
                 if (e.ui.ie && (!document.documentMode || 9 > document.documentMode) && !t.button) return this._mouseUp(t);
                 if (!t.which) return this._mouseUp(t)
             }
             return (t.which || t.button) && (this._mouseMoved = !0), this._mouseStarted ? (this._mouseDrag(t), t.preventDefault()) : (this._mouseDistanceMet(t) && this._mouseDelayMet(t) && (this._mouseStarted = this._mouseStart(this._mouseDownEvent, t) !== !1, this._mouseStarted ? this._mouseDrag(t) : this._mouseUp(t)), !this._mouseStarted)
-        }, _mouseUp: function (t) {
+        },
+        _mouseUp: function (t) {
             return this.document.unbind("mousemove." + this.widgetName, this._mouseMoveDelegate).unbind("mouseup." + this.widgetName, this._mouseUpDelegate), this._mouseStarted && (this._mouseStarted = !1, t.target === this._mouseDownEvent.target && e.data(t.target, this.widgetName + ".preventClickEvent", !0), this._mouseStop(t)), a = !1, !1
-        }, _mouseDistanceMet: function (e) {
+        },
+        _mouseDistanceMet: function (e) {
             return Math.max(Math.abs(this._mouseDownEvent.pageX - e.pageX), Math.abs(this._mouseDownEvent.pageY - e.pageY)) >= this.options.distance
-        }, _mouseDelayMet: function () {
+        },
+        _mouseDelayMet: function () {
             return this.mouseDelayMet
-        }, _mouseStart: function () {
-        }, _mouseDrag: function () {
-        }, _mouseStop: function () {
-        }, _mouseCapture: function () {
+        },
+        _mouseStart: function () {
+        },
+        _mouseDrag: function () {
+        },
+        _mouseStop: function () {
+        },
+        _mouseCapture: function () {
             return !0
         }
     }), e.widget("ui.slider", e.ui.mouse, {
-        version: "1.11.4", widgetEventPrefix: "slide", options: {animate: !1, distance: 0, max: 100, min: 0, orientation: "horizontal", range: !1, step: 1, value: 0, values: null, change: null, slide: null, start: null, stop: null}, numPages: 5, _create: function () {
+        version: "1.11.4",
+        widgetEventPrefix: "slide",
+        options: {
+            animate: !1,
+            distance: 0,
+            max: 100,
+            min: 0,
+            orientation: "horizontal",
+            range: !1,
+            step: 1,
+            value: 0,
+            values: null,
+            change: null,
+            slide: null,
+            start: null,
+            stop: null
+        },
+        numPages: 5,
+        _create: function () {
             this._keySliding = !1, this._mouseSliding = !1, this._animateOff = !0, this._handleIndex = null, this._detectOrientation(), this._mouseInit(), this._calculateNewMax(), this.element.addClass("ui-slider ui-slider-" + this.orientation + " ui-widget" + " ui-widget-content" + " ui-corner-all"), this._refresh(), this._setOption("disabled", this.options.disabled), this._animateOff = !1
-        }, _refresh: function () {
+        },
+        _refresh: function () {
             this._createRange(), this._createHandles(), this._setupEvents(), this._refreshValue()
-        }, _createHandles: function () {
-            var t, i, s = this.options, n = this.element.find(".ui-slider-handle").addClass("ui-state-default ui-corner-all"), a = "<span class='ui-slider-handle ui-state-default ui-corner-all' tabindex='0'></span>", o = [];
+        },
+        _createHandles: function () {
+            var t, i, s = this.options,
+                n = this.element.find(".ui-slider-handle").addClass("ui-state-default ui-corner-all"),
+                a = "<span class='ui-slider-handle ui-state-default ui-corner-all' tabindex='0'></span>", o = [];
             for (i = s.values && s.values.length || 1, n.length > i && (n.slice(i).remove(), n = n.slice(0, i)), t = n.length; i > t; t++) o.push(a);
             this.handles = n.add(e(o.join("")).appendTo(this.element)), this.handle = this.handles.eq(0), this.handles.each(function (t) {
                 e(this).data("ui-slider-handle-index", t)
             })
-        }, _createRange: function () {
+        },
+        _createRange: function () {
             var t = this.options, i = "";
             t.range ? (t.range === !0 && (t.values ? t.values.length && 2 !== t.values.length ? t.values = [t.values[0], t.values[0]] : e.isArray(t.values) && (t.values = t.values.slice(0)) : t.values = [this._valueMin(), this._valueMin()]), this.range && this.range.length ? this.range.removeClass("ui-slider-range-min ui-slider-range-max").css({
                 left: "",
                 bottom: ""
             }) : (this.range = e("<div></div>").appendTo(this.element), i = "ui-slider-range ui-widget-header ui-corner-all"), this.range.addClass(i + ("min" === t.range || "max" === t.range ? " ui-slider-range-" + t.range : ""))) : (this.range && this.range.remove(), this.range = null)
-        }, _setupEvents: function () {
+        },
+        _setupEvents: function () {
             this._off(this.handles), this._on(this.handles, this._handleEvents), this._hoverable(this.handles), this._focusable(this.handles)
-        }, _destroy: function () {
+        },
+        _destroy: function () {
             this.handles.remove(), this.range && this.range.remove(), this.element.removeClass("ui-slider ui-slider-horizontal ui-slider-vertical ui-widget ui-widget-content ui-corner-all"), this._mouseDestroy()
-        }, _mouseCapture: function (t) {
+        },
+        _mouseCapture: function (t) {
             var i, s, n, a, o, r, h, l, u = this, d = this.options;
-            return d.disabled ? !1 : (this.elementSize = {width: this.element.outerWidth(), height: this.element.outerHeight()}, this.elementOffset = this.element.offset(), i = {x: t.pageX, y: t.pageY}, s = this._normValueFromMouse(i), n = this._valueMax() - this._valueMin() + 1, this.handles.each(function (t) {
+            return d.disabled ? !1 : (this.elementSize = {
+                width: this.element.outerWidth(),
+                height: this.element.outerHeight()
+            }, this.elementOffset = this.element.offset(), i = {
+                x: t.pageX,
+                y: t.pageY
+            }, s = this._normValueFromMouse(i), n = this._valueMax() - this._valueMin() + 1, this.handles.each(function (t) {
                 var i = Math.abs(s - u.values(t));
                 (n > i || n === i && (t === u._lastChangedValue || u.values(t) === d.min)) && (n = i, a = e(this), o = t)
-            }), r = this._start(t, o), r === !1 ? !1 : (this._mouseSliding = !0, this._handleIndex = o, a.addClass("ui-state-active").focus(), h = a.offset(), l = !e(t.target).parents().addBack().is(".ui-slider-handle"), this._clickOffset = l ? {left: 0, top: 0} : {
+            }), r = this._start(t, o), r === !1 ? !1 : (this._mouseSliding = !0, this._handleIndex = o, a.addClass("ui-state-active").focus(), h = a.offset(), l = !e(t.target).parents().addBack().is(".ui-slider-handle"), this._clickOffset = l ? {
+                left: 0,
+                top: 0
+            } : {
                 left: t.pageX - h.left - a.width() / 2,
                 top: t.pageY - h.top - a.height() / 2 - (parseInt(a.css("borderTopWidth"), 10) || 0) - (parseInt(a.css("borderBottomWidth"), 10) || 0) + (parseInt(a.css("marginTop"), 10) || 0)
             }, this.handles.hasClass("ui-state-hover") || this._slide(t, o, s), this._animateOff = !0, !0))
-        }, _mouseStart: function () {
+        },
+        _mouseStart: function () {
             return !0
-        }, _mouseDrag: function (e) {
+        },
+        _mouseDrag: function (e) {
             var t = {x: e.pageX, y: e.pageY}, i = this._normValueFromMouse(t);
             return this._slide(e, this._handleIndex, i), !1
-        }, _mouseStop: function (e) {
+        },
+        _mouseStop: function (e) {
             return this.handles.removeClass("ui-state-active"), this._mouseSliding = !1, this._stop(e, this._handleIndex), this._change(e, this._handleIndex), this._handleIndex = null, this._clickOffset = null, this._animateOff = !1, !1
-        }, _detectOrientation: function () {
+        },
+        _detectOrientation: function () {
             this.orientation = "vertical" === this.options.orientation ? "vertical" : "horizontal"
-        }, _normValueFromMouse: function (e) {
+        },
+        _normValueFromMouse: function (e) {
             var t, i, s, n, a;
             return "horizontal" === this.orientation ? (t = this.elementSize.width, i = e.x - this.elementOffset.left - (this._clickOffset ? this._clickOffset.left : 0)) : (t = this.elementSize.height, i = e.y - this.elementOffset.top - (this._clickOffset ? this._clickOffset.top : 0)), s = i / t, s > 1 && (s = 1), 0 > s && (s = 0), "vertical" === this.orientation && (s = 1 - s), n = this._valueMax() - this._valueMin(), a = this._valueMin() + s * n, this._trimAlignValue(a)
-        }, _start: function (e, t) {
+        },
+        _start: function (e, t) {
             var i = {handle: this.handles[t], value: this.value()};
             return this.options.values && this.options.values.length && (i.value = this.values(t), i.values = this.values()), this._trigger("start", e, i)
-        }, _slide: function (e, t, i) {
+        },
+        _slide: function (e, t, i) {
             var s, n, a;
-            this.options.values && this.options.values.length ? (s = this.values(t ? 0 : 1), 2 === this.options.values.length && this.options.range === !0 && (0 === t && i > s || 1 === t && s > i) && (i = s), i !== this.values(t) && (n = this.values(), n[t] = i, a = this._trigger("slide", e, {handle: this.handles[t], value: i, values: n}), s = this.values(t ? 0 : 1), a !== !1 && this.values(t, i))) : i !== this.value() && (a = this._trigger("slide", e, {
+            this.options.values && this.options.values.length ? (s = this.values(t ? 0 : 1), 2 === this.options.values.length && this.options.range === !0 && (0 === t && i > s || 1 === t && s > i) && (i = s), i !== this.values(t) && (n = this.values(), n[t] = i, a = this._trigger("slide", e, {
+                handle: this.handles[t],
+                value: i,
+                values: n
+            }), s = this.values(t ? 0 : 1), a !== !1 && this.values(t, i))) : i !== this.value() && (a = this._trigger("slide", e, {
                 handle: this.handles[t],
                 value: i
             }), a !== !1 && this.value(i))
-        }, _stop: function (e, t) {
+        },
+        _stop: function (e, t) {
             var i = {handle: this.handles[t], value: this.value()};
             this.options.values && this.options.values.length && (i.value = this.values(t), i.values = this.values()), this._trigger("stop", e, i)
-        }, _change: function (e, t) {
+        },
+        _change: function (e, t) {
             if (!this._keySliding && !this._mouseSliding) {
                 var i = {handle: this.handles[t], value: this.value()};
                 this.options.values && this.options.values.length && (i.value = this.values(t), i.values = this.values()), this._lastChangedValue = t, this._trigger("change", e, i)
             }
-        }, value: function (e) {
+        },
+        value: function (e) {
             return arguments.length ? (this.options.value = this._trimAlignValue(e), this._refreshValue(), this._change(null, 0), void 0) : this._value()
-        }, values: function (t, i) {
+        },
+        values: function (t, i) {
             var s, n, a;
             if (arguments.length > 1) return this.options.values[t] = this._trimAlignValue(i), this._refreshValue(), this._change(null, t), void 0;
             if (!arguments.length) return this._values();
             if (!e.isArray(arguments[0])) return this.options.values && this.options.values.length ? this._values(t) : this.value();
             for (s = this.options.values, n = arguments[0], a = 0; s.length > a; a += 1) s[a] = this._trimAlignValue(n[a]), this._change(null, a);
             this._refreshValue()
-        }, _setOption: function (t, i) {
+        },
+        _setOption: function (t, i) {
             var s, n = 0;
             switch ("range" === t && this.options.range === !0 && ("min" === i ? (this.options.value = this._values(0), this.options.values = null) : "max" === i && (this.options.value = this._values(this.options.values.length - 1), this.options.values = null)), e.isArray(this.options.values) && (n = this.options.values.length), "disabled" === t && this.element.toggleClass("ui-state-disabled", !!i), this._super(t, i), t) {
                 case"orientation":
@@ -2316,10 +2673,12 @@ Made by Hernán Sartorio
                 case"range":
                     this._animateOff = !0, this._refresh(), this._animateOff = !1
             }
-        }, _value: function () {
+        },
+        _value: function () {
             var e = this.options.value;
             return e = this._trimAlignValue(e)
-        }, _values: function (e) {
+        },
+        _values: function (e) {
             var t, i, s;
             if (arguments.length) return t = this.options.values[e], t = this._trimAlignValue(t);
             if (this.options.values && this.options.values.length) {
@@ -2327,36 +2686,52 @@ Made by Hernán Sartorio
                 return i
             }
             return []
-        }, _trimAlignValue: function (e) {
+        },
+        _trimAlignValue: function (e) {
             if (this._valueMin() >= e) return this._valueMin();
             if (e >= this._valueMax()) return this._valueMax();
             var t = this.options.step > 0 ? this.options.step : 1, i = (e - this._valueMin()) % t, s = e - i;
             return 2 * Math.abs(i) >= t && (s += i > 0 ? t : -t), parseFloat(s.toFixed(5))
-        }, _calculateNewMax: function () {
-            var e = this.options.max, t = this._valueMin(), i = this.options.step, s = Math.floor(+(e - t).toFixed(this._precision()) / i) * i;
+        },
+        _calculateNewMax: function () {
+            var e = this.options.max, t = this._valueMin(), i = this.options.step,
+                s = Math.floor(+(e - t).toFixed(this._precision()) / i) * i;
             e = s + t, this.max = parseFloat(e.toFixed(this._precision()))
-        }, _precision: function () {
+        },
+        _precision: function () {
             var e = this._precisionOf(this.options.step);
             return null !== this.options.min && (e = Math.max(e, this._precisionOf(this.options.min))), e
-        }, _precisionOf: function (e) {
+        },
+        _precisionOf: function (e) {
             var t = "" + e, i = t.indexOf(".");
             return -1 === i ? 0 : t.length - i - 1
-        }, _valueMin: function () {
+        },
+        _valueMin: function () {
             return this.options.min
-        }, _valueMax: function () {
+        },
+        _valueMax: function () {
             return this.max
-        }, _refreshValue: function () {
-            var t, i, s, n, a, o = this.options.range, r = this.options, h = this, l = this._animateOff ? !1 : r.animate, u = {};
+        },
+        _refreshValue: function () {
+            var t, i, s, n, a, o = this.options.range, r = this.options, h = this,
+                l = this._animateOff ? !1 : r.animate, u = {};
             this.options.values && this.options.values.length ? this.handles.each(function (s) {
                 i = 100 * ((h.values(s) - h._valueMin()) / (h._valueMax() - h._valueMin())), u["horizontal" === h.orientation ? "left" : "bottom"] = i + "%", e(this).stop(1, 1)[l ? "animate" : "css"](u, r.animate), h.options.range === !0 && ("horizontal" === h.orientation ? (0 === s && h.range.stop(1, 1)[l ? "animate" : "css"]({left: i + "%"}, r.animate), 1 === s && h.range[l ? "animate" : "css"]({width: i - t + "%"}, {
                     queue: !1,
                     duration: r.animate
-                })) : (0 === s && h.range.stop(1, 1)[l ? "animate" : "css"]({bottom: i + "%"}, r.animate), 1 === s && h.range[l ? "animate" : "css"]({height: i - t + "%"}, {queue: !1, duration: r.animate}))), t = i
+                })) : (0 === s && h.range.stop(1, 1)[l ? "animate" : "css"]({bottom: i + "%"}, r.animate), 1 === s && h.range[l ? "animate" : "css"]({height: i - t + "%"}, {
+                    queue: !1,
+                    duration: r.animate
+                }))), t = i
             }) : (s = this.value(), n = this._valueMin(), a = this._valueMax(), i = a !== n ? 100 * ((s - n) / (a - n)) : 0, u["horizontal" === this.orientation ? "left" : "bottom"] = i + "%", this.handle.stop(1, 1)[l ? "animate" : "css"](u, r.animate), "min" === o && "horizontal" === this.orientation && this.range.stop(1, 1)[l ? "animate" : "css"]({width: i + "%"}, r.animate), "max" === o && "horizontal" === this.orientation && this.range[l ? "animate" : "css"]({width: 100 - i + "%"}, {
                 queue: !1,
                 duration: r.animate
-            }), "min" === o && "vertical" === this.orientation && this.range.stop(1, 1)[l ? "animate" : "css"]({height: i + "%"}, r.animate), "max" === o && "vertical" === this.orientation && this.range[l ? "animate" : "css"]({height: 100 - i + "%"}, {queue: !1, duration: r.animate}))
-        }, _handleEvents: {
+            }), "min" === o && "vertical" === this.orientation && this.range.stop(1, 1)[l ? "animate" : "css"]({height: i + "%"}, r.animate), "max" === o && "vertical" === this.orientation && this.range[l ? "animate" : "css"]({height: 100 - i + "%"}, {
+                queue: !1,
+                duration: r.animate
+            }))
+        },
+        _handleEvents: {
             keydown: function (t) {
                 var i, s, n, a, o = e(t.target).data("ui-slider-handle-index");
                 switch (t.keyCode) {
@@ -2401,8 +2776,6 @@ Made by Hernán Sartorio
         }
     })
 });
-
-
 
 
 /*=====  End of 10. jQuery UI  ======*/

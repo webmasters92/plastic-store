@@ -8,17 +8,17 @@ import java.util.Optional;
 
 public interface CustomerService extends UserDetailsService {
 
+    void deleteCustomerById(int id);
+
     ArrayList<Customer> findAll();
-
-    void save(Customer customer);
-
-    Customer findCustomerById(int id);
-
-    Customer findCustomerByUsername(String username);
 
     Customer findCustomerByEmail(String email);
 
+    Customer findCustomerById(int id);
+
     Optional<Customer> findCustomerByResetToken(String resetToken);
 
-    void deleteCustomerById(int id);
+    Customer findCustomerByUsername(String username);
+
+    void save(Customer customer);
 }

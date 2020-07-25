@@ -13,11 +13,11 @@ import java.util.List;
 @Service
 public class CartServiceImpl implements CartService {
 
-    @Autowired
-    CartRepository cartRepository;
-
-    @PersistenceContext
-    private EntityManager entityManager;
+    @Override
+    @Transactional
+    public void deleteCartByCustomerId(int userId) {
+        cartRepository.deleteByCustomerId(userId);
+    }
 
     @Override
     @Transactional
@@ -36,10 +36,8 @@ public class CartServiceImpl implements CartService {
     public void saveCart(Cart cart) {
         cartRepository.save(cart);
     }
-
-    @Override
-    @Transactional
-    public void deleteCartByCustomerId(int userId) {
-        cartRepository.deleteByCustomerId(userId);
-    }
+    @Autowired
+    CartRepository cartRepository;
+    @PersistenceContext
+    private EntityManager entityManager;
 }

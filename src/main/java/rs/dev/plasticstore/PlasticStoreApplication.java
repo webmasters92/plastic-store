@@ -12,11 +12,6 @@ import java.net.URISyntaxException;
 @SpringBootApplication(exclude = {ErrorMvcAutoConfiguration.class})
 public class PlasticStoreApplication {
 
-    public static void main(String[] args) {
-        SpringApplication.run(PlasticStoreApplication.class, args);
-        browse("http://localhost:8080/");
-    }
-
     public static void browse(String url) {
         if(Desktop.isDesktopSupported()) {
             Desktop desktop = Desktop.getDesktop();
@@ -33,6 +28,11 @@ public class PlasticStoreApplication {
                 e.printStackTrace();
             }
         }
+    }
+
+    public static void main(String[] args) {
+        SpringApplication.run(PlasticStoreApplication.class, args);
+        browse("http://localhost:8080/");
     }
 }
 

@@ -1,7 +1,6 @@
 package rs.dev.plasticstore.repository.category;
 
 import org.springframework.data.jpa.repository.JpaRepository;
-import rs.dev.plasticstore.model.Category;
 import rs.dev.plasticstore.model.Subcategory;
 
 import java.util.List;

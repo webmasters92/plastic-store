@@ -7,14 +7,14 @@ import java.util.Optional;
 
 public interface ReviewService {
 
-    void saveReview(Review review);
-
-    List<Review> findReviewByUserId(int id);
-
-    List<Review> findReviewByProductId(int id);
-
     List<Review> findAll();
 
     Optional<Integer> findAverageRatingByProductId(int id);
+
+    List<Review> findReviewByProductId(int id);
+
+    List<Review> findReviewByUserId(int id);
+
+    void saveReview(Review review);
 
 }

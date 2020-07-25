@@ -27,7 +27,10 @@
                     <a href="#" id="cart-icon">
                         <span class="image"><i class="icon ion-md-cart"></i></span>
                         <h5 th:text="${session.cart.getTotal()}+' RSD'"><i class="fa fa-angle-down"></i></h5>
-                        <p th:text="${session.cart.getCartItems().size()}+' artikla'"></p>
+                        <p th:if="${session.cart.getCartItems().size()>1 || session.cart.getCartItems().size()==0 }"
+                           th:text="${session.cart.getCartItems().size()}+' proizvoda'"></p>
+                        <p th:if="${session.cart.getCartItems().size()==1}"
+                           th:text="${session.cart.getCartItems().size()}+' proizvod'"></p>
                     </a>
 
                     <!-- cart floating box -->
@@ -36,9 +39,9 @@
                             <div class="cart-float-single-item d-flex" th:each=" item:${session.cart.getCartItems()}">
                                 <span class="remove-item" id="remove-item"><a
                                         onclick=deleteFromMiniCart(this.getAttribute('data-size'),this.getAttribute('data-price'),this.getAttribute('data-color'),this.getAttribute('data-code'));
+                                        th:data-code="${item.getProduct().getCode()}"
                                         th:data-color="${item.getColor()}"
                                         th:data-price="${item.getPrice()}"
-                                        th:data-code="${item.getProduct().getCode()}"
                                         th:data-size="${item.getSize()}">
                                     <i class="icon ion-md-close"></i></a></span>
                                 <div class="cart-float-single-item-image">
@@ -48,7 +51,9 @@
                                                                                                         th:src="@{'/images/' + ${item.product.images.get(0).name}}"></a>
                                 </div>
                                 <div class="cart-float-single-item-desc">
-                                    <p class="product-title"><a th:href="@{/product/single_product/__${item.product.id}__}" th:text="${item.product.getName()}"></a></p>
+                                    <p class="product-title"><a
+                                            th:href="@{/product/single_product/__${item.product.id}__}"
+                                            th:text="${item.product.getName()}"></a></p>
                                     <p class="quantity" th:text="'Količina:' +${item.getQuantity()}"></p>
                                     <p class="price" th:text="${item.getTotalPrice()}+' RSD'"></p>
                                 </div>
@@ -60,7 +65,8 @@
                             </div>
                             <div class="floating-cart-btn text-center">
                                 <a class="fl-btn pull-left" th:href="@{/cart/show_cart}">Korpa</a>
-                                <a class="fl-btn pull-right" th:href="@{/checkout/show_checkout}" th:if="${session.cart.getCartItems().size()>0}">Završi kupovinu</a>
+                                <a class="fl-btn pull-right" th:href="@{/checkout/show_checkout}"
+                                   th:if="${session.cart.getCartItems().size()>0}">Završi kupovinu</a>
                             </div>
                         </div>
                     </div>

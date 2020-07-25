@@ -17,5 +17,4 @@ public interface ReviewRepository extends JpaRepository<Review, Integer> {
 
     @Query(value = "SELECT avg(rating) FROM Review where productId=?1")
     Optional<Integer> findAverageRatingByProductId(int id);
-
 }

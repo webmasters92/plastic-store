@@ -73,7 +73,8 @@
 
                             <!--=======  End of Sort by dropdown  =======-->
 
-                            <p class="result-show-message" th:text="'Prikazano 1-12 od '+${pagination.getTotalElements()}"></p>
+                            <p class="result-show-message"
+                               th:text="'Prikazano 1-12 od '+${pagination.getTotalElements()}"></p>
                         </div>
                     </div>
                 </div>
@@ -99,29 +100,53 @@
                                 </a>
                             </div>
                             <div class="content">
-                                <h2 class="product-title"><a th:href="@{/product/single_product/__${product.id}__}" th:text="${product.name}"></a></h2>
+                                <h2 class="product-title"><a th:href="@{/product/single_product/__${product.id}__}"
+                                                             th:text="${product.name}"></a></h2>
                                 <div class="rating">
-                                    <i class="fa fa-star" th:classappend="${product.getAverageRating()>=1}?'active'"></i>
-                                    <i class="fa fa-star" th:classappend="${product.getAverageRating()>=2}?'active'"></i>
-                                    <i class="fa fa-star" th:classappend="${product.getAverageRating()>=3}?'active'"></i>
-                                    <i class="fa fa-star" th:classappend="${product.getAverageRating()>=4}?'active'"></i>
-                                    <i class="fa fa-star" th:classappend="${product.getAverageRating()>=5}?'active'"></i>
+                                    <i class="fa fa-star"
+                                       th:classappend="${product.getAverageRating()>=1}?'active'"></i>
+                                    <i class="fa fa-star"
+                                       th:classappend="${product.getAverageRating()>=2}?'active'"></i>
+                                    <i class="fa fa-star"
+                                       th:classappend="${product.getAverageRating()>=3}?'active'"></i>
+                                    <i class="fa fa-star"
+                                       th:classappend="${product.getAverageRating()>=4}?'active'"></i>
+                                    <i class="fa fa-star"
+                                       th:classappend="${product.getAverageRating()>=5}?'active'"></i>
                                 </div>
                                 <p class="product-price">
-                                    <span class="main-price discounted" th:if="${product.isSale()&&product.productAttributes.size()>1}" th:text="${product.getMinPrice()}+' - '+${product.getMaxPrice()}+ ' RSD'"></span>
-                                    <span class="main-price discounted" th:if="${product.isSale()&&product.productAttributes.size()==1}" th:text="${product.getMinPrice()}+ ' RSD'"></span>
+                                    <span class="main-price discounted"
+                                          th:if="${product.isSale()&&product.productAttributes.size()>1}"
+                                          th:text="${product.getMinPrice()}+' - '+${product.getMaxPrice()}+ ' RSD'"></span>
+                                    <span class="main-price discounted"
+                                          th:if="${product.isSale()&&product.productAttributes.size()==1}"
+                                          th:text="${product.getMinPrice()}+ ' RSD'"></span>
                                     <br th:if="${product.isSale()&&product.productAttributes.size()>1}">
-                                    <span class="discounted-price" th:if="${product.isSale()&&product.productAttributes.size()>1}" th:text="${product.getMinDiscountedPrice()}+' - '+${product.getMaxDiscountedPrice()}+ ' RSD'"></span>
-                                    <span class="discounted-price" th:if="${product.isSale()&&product.productAttributes.size()==1}" th:text="${product.getMinDiscountedPrice()}+ ' RSD'"></span>
-                                    <span class="discounted-price" th:if="${!product.isSale()&&product.productAttributes.size()>1}" th:text="${product.getMinPrice()}+' - '+${product.getMaxPrice()}+ ' RSD'"></span>
-                                    <span class="discounted-price" th:if="${!product.isSale()&&product.productAttributes.size()==1}" th:text="${product.getMinPrice()}+ ' RSD'"></span>
+                                    <span class="discounted-price"
+                                          th:if="${product.isSale()&&product.productAttributes.size()>1}"
+                                          th:text="${product.getMinDiscountedPrice()}+' - '+${product.getMaxDiscountedPrice()}+ ' RSD'"></span>
+                                    <span class="discounted-price"
+                                          th:if="${product.isSale()&&product.productAttributes.size()==1}"
+                                          th:text="${product.getMinDiscountedPrice()}+ ' RSD'"></span>
+                                    <span class="discounted-price"
+                                          th:if="${!product.isSale()&&product.productAttributes.size()>1}"
+                                          th:text="${product.getMinPrice()}+' - '+${product.getMaxPrice()}+ ' RSD'"></span>
+                                    <span class="discounted-price"
+                                          th:if="${!product.isSale()&&product.productAttributes.size()==1}"
+                                          th:text="${product.getMinPrice()}+ ' RSD'"></span>
                                 </p>
 
                                 <div class="hover-icons">
                                     <ul>
-                                        <li><a data-tooltip="Dodaj u korpu" th:href="@{/product/single_product/__${product.id}__}"><i class="icon ion-md-cart"></i></a></li>
-                                        <li><a data-tooltip="Dodaj u listu želja" href="#" th:onclick="|openWishListDialog(${product.id})|"> <i class="icon ion-md-heart-empty"></i></a></li>
-                                        <li><a data-tooltip="Detaljnije" href="#" id="details" th:onclick="'javascript:openProductModal(\'' + ${product.id} + '\');'"><i class="icon ion-md-open"></i></a></li>
+                                        <li><a data-tooltip="Dodaj u korpu"
+                                               th:href="@{/product/single_product/__${product.id}__}"><i
+                                                class="icon ion-md-cart"></i></a></li>
+                                        <li><a data-tooltip="Dodaj u listu želja" href="#"
+                                               th:onclick="|openWishListDialog(${product.id})|"> <i
+                                                class="icon ion-md-heart-empty"></i></a></li>
+                                        <li><a data-tooltip="Detaljnije" href="#" id="details"
+                                               th:onclick="'javascript:openProductModal(\'' + ${product.id} + '\');'"><i
+                                                class="icon ion-md-open"></i></a></li>
                                     </ul>
                                 </div>
                             </div>
@@ -145,31 +170,53 @@
                                 </a>
                             </div>
                             <div class="content">
-                                <h2 class="product-title"><a th:href="@{/product/single_product/__${product.id}__}" th:text="${product.name}"></a></h2>
+                                <h2 class="product-title"><a th:href="@{/product/single_product/__${product.id}__}"
+                                                             th:text="${product.name}"></a></h2>
                                 <div class="rating">
-                                    <i class="fa fa-star" th:classappend="${product.getAverageRating()>=1}?'active'"></i>
-                                    <i class="fa fa-star" th:classappend="${product.getAverageRating()>=2}?'active'"></i>
-                                    <i class="fa fa-star" th:classappend="${product.getAverageRating()>=3}?'active'"></i>
-                                    <i class="fa fa-star" th:classappend="${product.getAverageRating()>=4}?'active'"></i>
-                                    <i class="fa fa-star" th:classappend="${product.getAverageRating()>=5}?'active'"></i>
+                                    <i class="fa fa-star"
+                                       th:classappend="${product.getAverageRating()>=1}?'active'"></i>
+                                    <i class="fa fa-star"
+                                       th:classappend="${product.getAverageRating()>=2}?'active'"></i>
+                                    <i class="fa fa-star"
+                                       th:classappend="${product.getAverageRating()>=3}?'active'"></i>
+                                    <i class="fa fa-star"
+                                       th:classappend="${product.getAverageRating()>=4}?'active'"></i>
+                                    <i class="fa fa-star"
+                                       th:classappend="${product.getAverageRating()>=5}?'active'"></i>
                                 </div>
                                 <p class="product-price">
-                                    <span class="main-price discounted" th:if="${product.isSale()&&product.productAttributes.size()>1}" th:text="${product.getMinPrice()}+' - '+${product.getMaxPrice()}+ ' RSD'"></span>
-                                    <span class="main-price discounted" th:if="${product.isSale()&&product.productAttributes.size()==1}" th:text="${product.getMinPrice()}+ ' RSD'"></span>
+                                    <span class="main-price discounted"
+                                          th:if="${product.isSale()&&product.productAttributes.size()>1}"
+                                          th:text="${product.getMinPrice()}+' - '+${product.getMaxPrice()}+ ' RSD'"></span>
+                                    <span class="main-price discounted"
+                                          th:if="${product.isSale()&&product.productAttributes.size()==1}"
+                                          th:text="${product.getMinPrice()}+ ' RSD'"></span>
                                     <br th:if="${product.isSale()&&product.productAttributes.size()>1}">
-                                    <span class="discounted-price" th:if="${product.isSale()&&product.productAttributes.size()>1}" th:text="${product.getMinDiscountedPrice()}+' - '+${product.getMaxDiscountedPrice()}+ ' RSD'"></span>
-                                    <span class="discounted-price" th:if="${product.isSale()&&product.productAttributes.size()==1}" th:text="${product.getMinDiscountedPrice()}+ ' RSD'"></span>
-                                    <span class="discounted-price" th:if="${!product.isSale()&&product.productAttributes.size()>1}" th:text="${product.getMinPrice()}+' - '+${product.getMaxPrice()}+ ' RSD'"></span>
-                                    <span class="discounted-price" th:if="${!product.isSale()&&product.productAttributes.size()==1}" th:text="${product.getMinPrice()}+ ' RSD'"></span>
+                                    <span class="discounted-price"
+                                          th:if="${product.isSale()&&product.productAttributes.size()>1}"
+                                          th:text="${product.getMinDiscountedPrice()}+' - '+${product.getMaxDiscountedPrice()}+ ' RSD'"></span>
+                                    <span class="discounted-price"
+                                          th:if="${product.isSale()&&product.productAttributes.size()==1}"
+                                          th:text="${product.getMinDiscountedPrice()}+ ' RSD'"></span>
+                                    <span class="discounted-price"
+                                          th:if="${!product.isSale()&&product.productAttributes.size()>1}"
+                                          th:text="${product.getMinPrice()}+' - '+${product.getMaxPrice()}+ ' RSD'"></span>
+                                    <span class="discounted-price"
+                                          th:if="${!product.isSale()&&product.productAttributes.size()==1}"
+                                          th:text="${product.getMinPrice()}+ ' RSD'"></span>
                                 </p>
 
                                 <p class="product-description" th:text="${product.description}"></p>
 
                                 <div class="hover-icons">
                                     <ul>
-                                        <li><a data-tooltip="Dodaj u korpu" th:href="@{/product/single_product/__${product.id}__}">Dodaj u korpu</a></li>
+                                        <li><a data-tooltip="Dodaj u korpu"
+                                               th:href="@{/product/single_product/__${product.id}__}">Dodaj u korpu</a>
+                                        </li>
                                         <li><a href="#"><i class="icon ion-md-heart-empty"></i></a></li>
-                                        <li><a data-tooltip="Detaljnije" href="#" th:onclick="'javascript:openProductModal(\'' + ${product.id} + '\');'"><i class="icon ion-md-options"></i></a></li>
+                                        <li><a data-tooltip="Detaljnije" href="#"
+                                               th:onclick="'javascript:openProductModal(\'' + ${product.id} + '\');'"><i
+                                                class="icon ion-md-options"></i></a></li>
                                     </ul>
                                 </div>
                             </div>
@@ -186,9 +233,16 @@
 
                 <div class="pagination-area" th:if="${pagination.getTotalPages() > 0}">
                     <ul>
-                        <li th:classappend="${pagination.getNumber() eq 0} ? 'disabled'"><a th:onclick="'javascript:loadPage(\''+ ${pagination.getNumber()-1} +'\');'"><i class="fa fa-angle-double-left"></i></a></li>
-                        <li th:each="pageNumber : ${#numbers.sequence(0, pagination.getTotalPages() - 1)}"><a th:classappend="${pageNumber eq pagination.getNumber()} ? 'active'" th:onclick="'javascript:loadPage(\''+ ${pageNumber} +'\');'" th:text="${pageNumber}+1"></a></li>
-                        <li th:classappend="${pagination.getNumber()+1 eq pagination.getTotalPages()} ? 'disabled'"><a th:onclick="'javascript:loadPage(\''+ ${pagination.getNumber()+1} +'\');'"><i class="fa fa-angle-double-right"></i></a></li>
+                        <li th:classappend="${pagination.getNumber() eq 0} ? 'disabled'"><a
+                                th:onclick="'javascript:loadPage(\''+ ${pagination.getNumber()-1} +'\');'"><i
+                                class="fa fa-angle-double-left"></i></a></li>
+                        <li th:each="pageNumber : ${#numbers.sequence(0, pagination.getTotalPages() - 1)}"><a
+                                th:classappend="${pageNumber eq pagination.getNumber()} ? 'active'"
+                                th:onclick="'javascript:loadPage(\''+ ${pageNumber} +'\');'"
+                                th:text="${pageNumber}+1"></a></li>
+                        <li th:classappend="${pagination.getNumber()+1 eq pagination.getTotalPages()} ? 'disabled'"><a
+                                th:onclick="'javascript:loadPage(\''+ ${pagination.getNumber()+1} +'\');'"><i
+                                class="fa fa-angle-double-right"></i></a></li>
                     </ul>
                 </div>
 
@@ -201,7 +255,8 @@
     <div class="container">
         <div class="row">
             <div class="col-lg-12 order-1 order-lg-2">
-                <p style="font-weight: bold; font-size: 20px" th:text="'Rezultati pretraživanja za pojam: '+${search}"></p>
+                <p style="font-weight: bold; font-size: 20px"
+                   th:text="'Rezultati pretraživanja za pojam: '+${search}"></p>
                 <p style="font-weight: bold; font-size: 16px">Nema proizvoda koji zadovoljavaju zadati kriterijum.</p>
                 <p style="font-weight: bold; font-size: 14px">Predlozi:</p>
                 <p style="font-weight: normal; font-size: 14px">Uverite se da ste sve ključne reči upisali ispravno.</p>
@@ -216,7 +271,8 @@
 <a class="scroll-top" href="#"></a>
 
 <!--QUICK VIEW MODAL-->
-<div aria-hidden="true" class="modal fade quick-view-modal-container" id="quick-view-modal-container" role="dialog" tabindex="-1"></div>
+<div aria-hidden="true" class="modal fade quick-view-modal-container" id="quick-view-modal-container" role="dialog"
+     tabindex="-1"></div>
 
 <div th:replace="webapp/containers/footerContainer :: footerContainer"></div>
 
@@ -251,7 +307,7 @@
             success: function (response) {
                 bootbox.dialog({
                     title: 'Lista želja',
-                    message: 'Uspešno ste dodali artikal ' + response + ' u listu želja',
+                    message: 'Uspešno ste dodali proizvod ' + response + ' u listu želja',
                     size: 'medium',
                     onEscape: false,
                     buttons: {

@@ -4,6 +4,8 @@ import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.Getter;
 import lombok.Setter;
 import org.hibernate.annotations.CreationTimestamp;
+import org.hibernate.annotations.LazyCollection;
+import org.hibernate.annotations.LazyCollectionOption;
 import org.hibernate.annotations.UpdateTimestamp;
 import org.springframework.web.multipart.MultipartFile;
 import rs.dev.plasticstore.utils.StringListConverter;
@@ -37,91 +39,6 @@ import java.util.Objects;
 @Table(name = "products")
 public class Product implements Serializable {
 
-    private static final long serialVersionUID = 2681531852204068105L;
-
-    @Id
-    @Column(name = "id")
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private int id;
-
-    @Column(name = "code")
-    private int code;
-
-    @Column(name = "name")
-    private String name;
-
-    @Column(name = "description")
-    private String description;
-
-    @Column(name = "manufacturer")
-    private String manufacturer;
-
-    @JsonIgnore
-    @OneToMany(mappedBy = "product", cascade = CascadeType.ALL, orphanRemoval = true, fetch = FetchType.EAGER)
-    private List<Image> images = new ArrayList<>();
-
-    @JsonIgnore
-    @OneToMany(mappedBy = "product", cascade = CascadeType.ALL, orphanRemoval = true)
-    private List<ProductColor> productColors = new ArrayList<>();
-
-    @Column(name = "sale")
-    private boolean sale;
-
-    @Column(name = "status")
-    private boolean status;
-
-    @Column(name = "available")
-    private boolean available;
-
-    @ManyToOne
-    @JsonIgnore
-    @JoinColumn(name = "category_id")
-    private Category category;
-
-    @ManyToOne
-    @JsonIgnore
-    @JoinColumn(name = "sub_category_id")
-    private Subcategory subcategory;
-
-    @ElementCollection(fetch = FetchType.LAZY)
-    @CollectionTable(name = "product_attributes", joinColumns = @JoinColumn(name = "product_id"))
-    @AttributeOverrides({@AttributeOverride(name = "size", column = @Column(name = "product_size")), @AttributeOverride(name = "price", column = @Column(name = "product_price")), @AttributeOverride(name = "discounted_price", column = @Column(name = "discounted_price"))})
-    private List<ProductAttributes> productAttributes = new ArrayList<>();
-
-    @Transient
-    @Convert(converter = StringListConverter.class)
-    private List<String> sizes = new ArrayList<>();
-
-    @Transient
-    @Convert(converter = StringListConverter.class)
-    private List<Integer> prices = new ArrayList<>();
-
-    @Transient
-    @Convert(converter = StringListConverter.class)
-    private List<Integer> discounted_prices = new ArrayList<>();
-
-    @Transient
-    private List<MultipartFile> imgData = new ArrayList<>();
-
-    @Transient
-    private int averageRating, minPrice, maxPrice, minDiscountedPrice, maxDiscountedPrice;
-
-    @Column(name = "date_created", updatable = false)
-    @CreationTimestamp
-    private LocalDateTime date_created;
-
-    @Column(name = "date_updated")
-    @UpdateTimestamp
-    private LocalDateTime date_updated;
-
-    @Transient
-    private List<String> selectedColors = new ArrayList<>();
-
-    @Override
-    public int hashCode() {
-        return Objects.hash(getCode());
-    }
-
     @Override
     public boolean equals(Object o) {
         if(this == o) return true;
@@ -129,5 +46,70 @@ public class Product implements Serializable {
         Product product = (Product) o;
         return getCode() == product.getCode();
     }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(getCode());
+    }
+    private static final long serialVersionUID = 2681531852204068105L;
+    @Id
+    @Column(name = "id")
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private int id;
+    @Column(name = "code")
+    private int code;
+    @Column(name = "name")
+    private String name;
+    @Column(name = "description")
+    private String description;
+    @Column(name = "manufacturer")
+    private String manufacturer;
+    @JsonIgnore
+    @OneToMany(mappedBy = "product", cascade = CascadeType.ALL, orphanRemoval = true, fetch = FetchType.EAGER)
+    private List<Image> images = new ArrayList<>();
+    @JsonIgnore
+    @LazyCollection(LazyCollectionOption.FALSE)
+    @OneToMany(mappedBy = "product", cascade = CascadeType.ALL, orphanRemoval = true)
+    private List<ProductColor> productColors = new ArrayList<>();
+    @Column(name = "sale")
+    private boolean sale;
+    @Column(name = "status")
+    private boolean status;
+    @Column(name = "available")
+    private boolean available;
+    @ManyToOne
+    @JsonIgnore
+    @JoinColumn(name = "category_id")
+    private Category category;
+    @ManyToOne
+    @JsonIgnore
+    @JoinColumn(name = "sub_category_id")
+    private Subcategory subcategory;
+    @LazyCollection(LazyCollectionOption.FALSE)
+    @ElementCollection
+    @CollectionTable(name = "product_attributes", joinColumns = @JoinColumn(name = "product_id"))
+    @AttributeOverrides({@AttributeOverride(name = "size", column = @Column(name = "product_size")), @AttributeOverride(name = "price", column = @Column(name = "product_price")), @AttributeOverride(name = "discounted_price", column = @Column(name = "discounted_price"))})
+    private List<ProductAttributes> productAttributes = new ArrayList<>();
+    @Transient
+    @Convert(converter = StringListConverter.class)
+    private List<String> sizes = new ArrayList<>();
+    @Transient
+    @Convert(converter = StringListConverter.class)
+    private List<Integer> prices = new ArrayList<>();
+    @Transient
+    @Convert(converter = StringListConverter.class)
+    private List<Integer> discounted_prices = new ArrayList<>();
+    @Transient
+    private List<MultipartFile> imgData = new ArrayList<>();
+    @Transient
+    private int averageRating, minPrice, maxPrice, minDiscountedPrice, maxDiscountedPrice;
+    @Column(name = "date_created", updatable = false)
+    @CreationTimestamp
+    private LocalDateTime date_created;
+    @Column(name = "date_updated")
+    @UpdateTimestamp
+    private LocalDateTime date_updated;
+    @Transient
+    private List<String> selectedColors = new ArrayList<>();
 
 }

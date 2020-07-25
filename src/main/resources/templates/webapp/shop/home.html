@@ -1,5 +1,6 @@
 <!DOCTYPE html>
-<html class="no-js" lang="zxx" xmlns:th="http://www.thymeleaf.org" xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout" layout:decorate="~{home.html}">
+<html class="no-js" lang="zxx" layout:decorate="~{home.html}"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout" xmlns:th="http://www.thymeleaf.org">
 
 <head th:replace="webapp/containers/headContainer :: headContainer(title='Plastika Drašković - Početna')"></head>
 
@@ -31,7 +32,7 @@
                                     <p>Exclusive Offer -60% Off This Week </p>
                                     <h1>Carronade <span>Pendant Lamp-Black </span></h1>
                                     <p class="slider-price">starting at <span>$260.99</span></p>
-                                    <a href="shop-left-sidebar.html" class="slider-btn">SHOP NOW</a>
+                                    <a class="slider-btn" href="shop-left-sidebar.html">SHOP NOW</a>
                                 </div>
                             </div>
                         </div>
@@ -56,7 +57,7 @@
                                     <p>Exclusive Offer -20% Off This Week </p>
                                     <h1>Conbox Fan <span>Collection 2018</span></h1>
                                     <p class="slider-price">starting at <span>$260.99</span></p>
-                                    <a href="shop-left-sidebar.html" class="slider-btn">SHOP NOW</a>
+                                    <a class="slider-btn" href="shop-left-sidebar.html">SHOP NOW</a>
                                 </div>
                             </div>
                         </div>
@@ -81,7 +82,7 @@
                                     <p>Exclusive Offer -30% Off This Week </p>
                                     <h1>Decorative <span>Outdoor Chair 2018  </span></h1>
                                     <p class="slider-price">starting at <span>$260.99</span></p>
-                                    <a href="shop-left-sidebar.html" class="slider-btn">SHOP NOW</a>
+                                    <a class="slider-btn" href="shop-left-sidebar.html">SHOP NOW</a>
                                 </div>
                             </div>
                         </div>
@@ -116,23 +117,27 @@
                 <div class="tab-slider-wrapper">
                     <nav>
                         <div class="nav nav-tabs" id="nav-tab" role="tablist">
-                            <a class="nav-item nav-link active" id="featured-tab" data-toggle="tab" href="#featured" role="tab"
-                               aria-selected="true">Popularni proizvodi</a>
-                            <a class="nav-item nav-link" id="new-arrival-tab" data-toggle="tab" href="#new-arrivals" role="tab"
-                               aria-selected="false">Novi proizvodi</a>
-                            <a class="nav-item nav-link" id="nav-onsale-tab" data-toggle="tab" href="#on-sale" role="tab"
-                               aria-selected="false">Proizvodi na akciji</a>
+                            <a aria-selected="true" class="nav-item nav-link active" data-toggle="tab" href="#featured"
+                               id="featured-tab"
+                               role="tab">Popularni proizvodi</a>
+                            <a aria-selected="false" class="nav-item nav-link" data-toggle="tab" href="#new-arrivals"
+                               id="new-arrival-tab"
+                               role="tab">Novi proizvodi</a>
+                            <a aria-selected="false" class="nav-item nav-link" data-toggle="tab" href="#on-sale"
+                               id="nav-onsale-tab"
+                               role="tab">Proizvodi na akciji</a>
                         </div>
                     </nav>
                     <div class="tab-content" id="nav-tabContent">
 
-                        <div class="tab-pane fade show active" id="featured" role="tabpanel" aria-labelledby="featured-tab">
+                        <div aria-labelledby="featured-tab" class="tab-pane fade show active" id="featured"
+                             role="tabpanel">
                             <!--=======  tab product slider  =======-->
 
                             <div class="fl-slider tab-product-slider">
                                 <!--=======  single product  =======-->
 
-                                <div th:each="popular_product:${popular_products}" class="fl-product">
+                                <div class="fl-product" th:each="popular_product:${popular_products}">
                                     <div class="image" th:classappend="${popular_product.isSale()}?'sale-product'">
                                         <a th:href="@{/product/single_product/__${popular_product.id}__}">
                                             <img alt="" class="img-fluid"
@@ -144,29 +149,54 @@
                                         </a>
                                     </div>
                                     <div class="content">
-                                        <h2 class="product-title"><a th:text="${popular_product.getName()}" th:href="@{/product/single_product/__${popular_product.id}__}"></a></h2>
+                                        <h2 class="product-title"><a th:href="@{/product/single_product/__${popular_product.id}__}"
+                                                                     th:text="${popular_product.getName()}"></a>
+                                        </h2>
                                         <div class="rating">
-                                            <i class="fa fa-star" th:classappend="${popular_product.getAverageRating()>=1}?'active'"></i>
-                                            <i class="fa fa-star" th:classappend="${popular_product.getAverageRating()>=2}?'active'"></i>
-                                            <i class="fa fa-star" th:classappend="${popular_product.getAverageRating()>=3}?'active'"></i>
-                                            <i class="fa fa-star" th:classappend="${popular_product.getAverageRating()>=4}?'active'"></i>
-                                            <i class="fa fa-star" th:classappend="${popular_product.getAverageRating()>=5}?'active'"></i>
+                                            <i class="fa fa-star"
+                                               th:classappend="${popular_product.getAverageRating()>=1}?'active'"></i>
+                                            <i class="fa fa-star"
+                                               th:classappend="${popular_product.getAverageRating()>=2}?'active'"></i>
+                                            <i class="fa fa-star"
+                                               th:classappend="${popular_product.getAverageRating()>=3}?'active'"></i>
+                                            <i class="fa fa-star"
+                                               th:classappend="${popular_product.getAverageRating()>=4}?'active'"></i>
+                                            <i class="fa fa-star"
+                                               th:classappend="${popular_product.getAverageRating()>=5}?'active'"></i>
                                         </div>
                                         <p class="product-price">
-                                            <span class="main-price discounted" th:if="${popular_product.isSale()&&popular_product.productAttributes.size()>1}" th:text="${popular_product.getMinPrice()}+' - '+${popular_product.getMaxPrice()}+ ' RSD'"></span>
-                                            <span class="main-price discounted" th:if="${popular_product.isSale()&&popular_product.productAttributes.size()==1}" th:text="${popular_product.getMinPrice()}+ ' RSD'"></span>
+                                            <span class="main-price discounted"
+                                                  th:if="${popular_product.isSale()&&popular_product.productAttributes.size()>1}"
+                                                  th:text="${popular_product.getMinPrice()}+' - '+${popular_product.getMaxPrice()}+ ' RSD'"></span>
+                                            <span class="main-price discounted"
+                                                  th:if="${popular_product.isSale()&&popular_product.productAttributes.size()==1}"
+                                                  th:text="${popular_product.getMinPrice()}+ ' RSD'"></span>
                                             <br th:if="${popular_product.isSale()&&popular_product.productAttributes.size()>1}">
-                                            <span class="discounted-price" th:if="${popular_product.isSale()&&popular_product.productAttributes.size()>1}" th:text="${popular_product.getMinDiscountedPrice()}+' - '+${popular_product.getMaxDiscountedPrice()}+ ' RSD'"></span>
-                                            <span class="discounted-price" th:if="${popular_product.isSale()&&popular_product.productAttributes.size()==1}" th:text="${popular_product.getMinDiscountedPrice()}+ ' RSD'"></span>
-                                            <span class="discounted-price" th:if="${!popular_product.isSale()&&popular_product.productAttributes.size()>1}" th:text="${popular_product.getMinPrice()}+' - '+${popular_product.getMaxPrice()}+ ' RSD'"></span>
-                                            <span class="discounted-price" th:if="${!popular_product.isSale()&&popular_product.productAttributes.size()==1}" th:text="${popular_product.getMinPrice()}+ ' RSD'"></span>
+                                            <span class="discounted-price"
+                                                  th:if="${popular_product.isSale()&&popular_product.productAttributes.size()>1}"
+                                                  th:text="${popular_product.getMinDiscountedPrice()}+' - '+${popular_product.getMaxDiscountedPrice()}+ ' RSD'"></span>
+                                            <span class="discounted-price"
+                                                  th:if="${popular_product.isSale()&&popular_product.productAttributes.size()==1}"
+                                                  th:text="${popular_product.getMinDiscountedPrice()}+ ' RSD'"></span>
+                                            <span class="discounted-price"
+                                                  th:if="${!popular_product.isSale()&&popular_product.productAttributes.size()>1}"
+                                                  th:text="${popular_product.getMinPrice()}+' - '+${popular_product.getMaxPrice()}+ ' RSD'"></span>
+                                            <span class="discounted-price"
+                                                  th:if="${!popular_product.isSale()&&popular_product.productAttributes.size()==1}"
+                                                  th:text="${popular_product.getMinPrice()}+ ' RSD'"></span>
                                         </p>
 
                                         <div class="hover-icons">
                                             <ul>
-                                                <li><a data-tooltip="Dodaj u korpu" th:href="@{/product/single_product/__${popular_product.id}__}"><i class="icon ion-md-cart"></i></a></li>
-                                                <li><a data-tooltip="Dodaj u listu želja" href="#" th:onclick="|openWishListDialog(${popular_product.id})|"> <i class="icon ion-md-heart-empty"></i></a></li>
-                                                <li><a href="#" data-tooltip="Detaljnije" th:onclick="'javascript:openProductModal(\'' + ${popular_product.id} + '\');'"><i class="icon ion-md-open"></i></a></li>
+                                                <li><a data-tooltip="Dodaj u korpu"
+                                                       th:href="@{/product/single_product/__${popular_product.id}__}"><i
+                                                        class="icon ion-md-cart"></i></a></li>
+                                                <li><a data-tooltip="Dodaj u listu želja" href="#"
+                                                       th:onclick="|openWishListDialog(${popular_product.id})|"> <i
+                                                        class="icon ion-md-heart-empty"></i></a></li>
+                                                <li><a data-tooltip="Detaljnije" href="#"
+                                                       th:onclick="'javascript:openProductModal(\'' + ${popular_product.id} + '\');'"><i
+                                                        class="icon ion-md-open"></i></a></li>
                                             </ul>
                                         </div>
                                     </div>
@@ -179,13 +209,13 @@
                             <!--=======  End of tab product slider  =======-->
                         </div>
 
-                        <div class="tab-pane fade" id="new-arrivals" role="tabpanel" aria-labelledby="new-arrival-tab">
+                        <div aria-labelledby="new-arrival-tab" class="tab-pane fade" id="new-arrivals" role="tabpanel">
                             <!--=======  tab product slider  =======-->
 
                             <div class="fl-slider tab-product-slider">
                                 <!--=======  single product  =======-->
 
-                                <div th:each="new_product:${new_products}" class="fl-product">
+                                <div class="fl-product" th:each="new_product:${new_products}">
                                     <div class="image" th:classappend="${new_product.isSale()}?'sale-product'">
                                         <a th:href="@{/product/single_product/__${new_product.id}__}">
                                             <img alt="" class="img-fluid"
@@ -197,30 +227,54 @@
                                         </a>
                                     </div>
                                     <div class="content">
-                                        <h2 class="product-title"><a th:text="${new_product.getName()}" th:href="@{/product/single_product/__${new_product.id}__}"></a></h2>
+                                        <h2 class="product-title"><a th:href="@{/product/single_product/__${new_product.id}__}"
+                                                                     th:text="${new_product.getName()}"></a>
+                                        </h2>
                                         <div class="rating">
-                                            <i class="fa fa-star" th:classappend="${new_product.getAverageRating()>=1}?'active'"></i>
-                                            <i class="fa fa-star" th:classappend="${new_product.getAverageRating()>=2}?'active'"></i>
-                                            <i class="fa fa-star" th:classappend="${new_product.getAverageRating()>=3}?'active'"></i>
-                                            <i class="fa fa-star" th:classappend="${new_product.getAverageRating()>=4}?'active'"></i>
-                                            <i class="fa fa-star" th:classappend="${new_product.getAverageRating()>=5}?'active'"></i>
+                                            <i class="fa fa-star"
+                                               th:classappend="${new_product.getAverageRating()>=1}?'active'"></i>
+                                            <i class="fa fa-star"
+                                               th:classappend="${new_product.getAverageRating()>=2}?'active'"></i>
+                                            <i class="fa fa-star"
+                                               th:classappend="${new_product.getAverageRating()>=3}?'active'"></i>
+                                            <i class="fa fa-star"
+                                               th:classappend="${new_product.getAverageRating()>=4}?'active'"></i>
+                                            <i class="fa fa-star"
+                                               th:classappend="${new_product.getAverageRating()>=5}?'active'"></i>
                                         </div>
                                         <p class="product-price">
-                                            <span class="main-price discounted" th:if="${new_product.isSale()&&new_product.productAttributes.size()>1}" th:text="${new_product.getMinPrice()}+' - '+${new_product.getMaxPrice()}+ ' RSD'"></span>
-                                            <span class="main-price discounted" th:if="${new_product.isSale()&&new_product.productAttributes.size()==1}" th:text="${new_product.getMinPrice()}+ ' RSD'"></span>
+                                            <span class="main-price discounted"
+                                                  th:if="${new_product.isSale()&&new_product.productAttributes.size()>1}"
+                                                  th:text="${new_product.getMinPrice()}+' - '+${new_product.getMaxPrice()}+ ' RSD'"></span>
+                                            <span class="main-price discounted"
+                                                  th:if="${new_product.isSale()&&new_product.productAttributes.size()==1}"
+                                                  th:text="${new_product.getMinPrice()}+ ' RSD'"></span>
                                             <br th:if="${new_product.isSale()&&new_product.productAttributes.size()>1}">
-                                            <span class="discounted-price" th:if="${new_product.isSale()&&new_product.productAttributes.size()>1}" th:text="${new_product.getMinDiscountedPrice()}+' - '+${new_product.getMaxDiscountedPrice()}+ ' RSD'"></span>
-                                            <span class="discounted-price" th:if="${new_product.isSale()&&new_product.productAttributes.size()==1}" th:text="${new_product.getMinDiscountedPrice()}+ ' RSD'"></span>
-                                            <span class="discounted-price" th:if="${!new_product.isSale()&&new_product.productAttributes.size()>1}" th:text="${new_product.getMinPrice()}+' - '+${new_product.getMaxPrice()}+ ' RSD'"></span>
-                                            <span class="discounted-price" th:if="${!new_product.isSale()&&new_product.productAttributes.size()==1}" th:text="${new_product.getMinPrice()}+ ' RSD'"></span>
+                                            <span class="discounted-price"
+                                                  th:if="${new_product.isSale()&&new_product.productAttributes.size()>1}"
+                                                  th:text="${new_product.getMinDiscountedPrice()}+' - '+${new_product.getMaxDiscountedPrice()}+ ' RSD'"></span>
+                                            <span class="discounted-price"
+                                                  th:if="${new_product.isSale()&&new_product.productAttributes.size()==1}"
+                                                  th:text="${new_product.getMinDiscountedPrice()}+ ' RSD'"></span>
+                                            <span class="discounted-price"
+                                                  th:if="${!new_product.isSale()&&new_product.productAttributes.size()>1}"
+                                                  th:text="${new_product.getMinPrice()}+' - '+${new_product.getMaxPrice()}+ ' RSD'"></span>
+                                            <span class="discounted-price"
+                                                  th:if="${!new_product.isSale()&&new_product.productAttributes.size()==1}"
+                                                  th:text="${new_product.getMinPrice()}+ ' RSD'"></span>
                                         </p>
 
                                         <div class="hover-icons">
                                             <ul>
-                                                <li><a data-tooltip="Dodaj u korpu" th:href="@{/product/single_product/__${new_product.id}__}"><i class="icon ion-md-cart"></i></a></li>
-                                                <li><a data-tooltip="Dodaj u listu želja" href="#" th:onclick="|openWishListDialog(${new_product.id})|">
+                                                <li><a data-tooltip="Dodaj u korpu"
+                                                       th:href="@{/product/single_product/__${new_product.id}__}"><i
+                                                        class="icon ion-md-cart"></i></a></li>
+                                                <li><a data-tooltip="Dodaj u listu želja" href="#"
+                                                       th:onclick="|openWishListDialog(${new_product.id})|">
                                                     <i class="icon ion-md-heart-empty"></i></a></li>
-                                                <li><a href="#" data-tooltip="Detaljnije" th:onclick="'javascript:openProductModal(\'' + ${new_product.id} + '\');'"><i class="icon ion-md-open"></i></a></li>
+                                                <li><a data-tooltip="Detaljnije" href="#"
+                                                       th:onclick="'javascript:openProductModal(\'' + ${new_product.id} + '\');'"><i
+                                                        class="icon ion-md-open"></i></a></li>
                                             </ul>
                                         </div>
                                     </div>
@@ -233,13 +287,13 @@
                             <!--=======  End of tab product slider  =======-->
                         </div>
 
-                        <div class="tab-pane fade" id="on-sale" role="tabpanel" aria-labelledby="nav-onsale-tab">
+                        <div aria-labelledby="nav-onsale-tab" class="tab-pane fade" id="on-sale" role="tabpanel">
                             <!--=======  tab product slider  =======-->
 
                             <div class="fl-slider tab-product-slider">
                                 <!--=======  single product  =======-->
 
-                                <div th:each="sale_product:${sale_products}" class="fl-product">
+                                <div class="fl-product" th:each="sale_product:${sale_products}">
                                     <div class="image" th:classappend="${sale_product.isSale()} ? 'sale-product'">
                                         <a th:href="@{/product/single_product/__${sale_product.id}__}">
                                             <img alt="" class="img-fluid"
@@ -251,30 +305,54 @@
                                         </a>
                                     </div>
                                     <div class="content">
-                                        <h2 class="product-title"><a th:text="${sale_product.getName()}" th:href="@{/product/single_product/__${sale_product.id}__}"></a></h2>
+                                        <h2 class="product-title"><a th:href="@{/product/single_product/__${sale_product.id}__}"
+                                                                     th:text="${sale_product.getName()}"></a>
+                                        </h2>
                                         <div class="rating">
-                                            <i class="fa fa-star" th:classappend="${sale_product.getAverageRating()>=1}?'active'"></i>
-                                            <i class="fa fa-star" th:classappend="${sale_product.getAverageRating()>=2}?'active'"></i>
-                                            <i class="fa fa-star" th:classappend="${sale_product.getAverageRating()>=3}?'active'"></i>
-                                            <i class="fa fa-star" th:classappend="${sale_product.getAverageRating()>=4}?'active'"></i>
-                                            <i class="fa fa-star" th:classappend="${sale_product.getAverageRating()>=5}?'active'"></i>
+                                            <i class="fa fa-star"
+                                               th:classappend="${sale_product.getAverageRating()>=1}?'active'"></i>
+                                            <i class="fa fa-star"
+                                               th:classappend="${sale_product.getAverageRating()>=2}?'active'"></i>
+                                            <i class="fa fa-star"
+                                               th:classappend="${sale_product.getAverageRating()>=3}?'active'"></i>
+                                            <i class="fa fa-star"
+                                               th:classappend="${sale_product.getAverageRating()>=4}?'active'"></i>
+                                            <i class="fa fa-star"
+                                               th:classappend="${sale_product.getAverageRating()>=5}?'active'"></i>
                                         </div>
                                         <p class="product-price">
-                                            <span class="main-price discounted" th:if="${sale_product.isSale()&&sale_product.productAttributes.size()>1}" th:text="${sale_product.getMinPrice()}+' - '+${sale_product.getMaxPrice()}+ ' RSD'"></span>
-                                            <span class="main-price discounted" th:if="${sale_product.isSale()&&sale_product.productAttributes.size()==1}" th:text="${sale_product.getMinPrice()}+ ' RSD'"></span>
+                                            <span class="main-price discounted"
+                                                  th:if="${sale_product.isSale()&&sale_product.productAttributes.size()>1}"
+                                                  th:text="${sale_product.getMinPrice()}+' - '+${sale_product.getMaxPrice()}+ ' RSD'"></span>
+                                            <span class="main-price discounted"
+                                                  th:if="${sale_product.isSale()&&sale_product.productAttributes.size()==1}"
+                                                  th:text="${sale_product.getMinPrice()}+ ' RSD'"></span>
                                             <br th:if="${sale_product.isSale()&&sale_product.productAttributes.size()>1}">
-                                            <span class="discounted-price" th:if="${sale_product.isSale()&&sale_product.productAttributes.size()>1}" th:text="${sale_product.getMinDiscountedPrice()}+' - '+${sale_product.getMaxDiscountedPrice()}+ ' RSD'"></span>
-                                            <span class="discounted-price" th:if="${sale_product.isSale()&&sale_product.productAttributes.size()==1}" th:text="${sale_product.getMinDiscountedPrice()}+ ' RSD'"></span>
-                                            <span class="discounted-price" th:if="${!sale_product.isSale()&&sale_product.productAttributes.size()>1}" th:text="${sale_product.getMinPrice()}+' - '+${sale_product.getMaxPrice()}+ ' RSD'"></span>
-                                            <span class="discounted-price" th:if="${!sale_product.isSale()&&sale_product.productAttributes.size()==1}" th:text="${sale_product.getMinPrice()}+ ' RSD'"></span>
+                                            <span class="discounted-price"
+                                                  th:if="${sale_product.isSale()&&sale_product.productAttributes.size()>1}"
+                                                  th:text="${sale_product.getMinDiscountedPrice()}+' - '+${sale_product.getMaxDiscountedPrice()}+ ' RSD'"></span>
+                                            <span class="discounted-price"
+                                                  th:if="${sale_product.isSale()&&sale_product.productAttributes.size()==1}"
+                                                  th:text="${sale_product.getMinDiscountedPrice()}+ ' RSD'"></span>
+                                            <span class="discounted-price"
+                                                  th:if="${!sale_product.isSale()&&sale_product.productAttributes.size()>1}"
+                                                  th:text="${sale_product.getMinPrice()}+' - '+${sale_product.getMaxPrice()}+ ' RSD'"></span>
+                                            <span class="discounted-price"
+                                                  th:if="${!sale_product.isSale()&&sale_product.productAttributes.size()==1}"
+                                                  th:text="${sale_product.getMinPrice()}+ ' RSD'"></span>
                                         </p>
 
                                         <div class="hover-icons">
                                             <ul>
-                                                <li><a data-tooltip="Dodaj u korpu" th:href="@{/product/single_product/__${sale_product.id}__}"><i class="icon ion-md-cart"></i></a></li>
-                                                <li><a data-tooltip="Dodaj u listu želja" href="#" th:onclick="|openWishListDialog(${sale_product.id})|">
+                                                <li><a data-tooltip="Dodaj u korpu"
+                                                       th:href="@{/product/single_product/__${sale_product.id}__}"><i
+                                                        class="icon ion-md-cart"></i></a></li>
+                                                <li><a data-tooltip="Dodaj u listu želja" href="#"
+                                                       th:onclick="|openWishListDialog(${sale_product.id})|">
                                                     <i class="icon ion-md-heart-empty"></i></a></li>
-                                                <li><a href="#" data-tooltip="Detaljnije" th:onclick="'javascript:openProductModal(\'' + ${sale_product.id} + '\');'"><i class="icon ion-md-open"></i></a></li>
+                                                <li><a data-tooltip="Detaljnije" href="#"
+                                                       th:onclick="'javascript:openProductModal(\'' + ${sale_product.id} + '\');'"><i
+                                                        class="icon ion-md-open"></i></a></li>
                                             </ul>
                                         </div>
                                     </div>
@@ -316,14 +394,17 @@
                                 <h3 class="slider-sidebar-title">SAKSIJE I BAŠTA</h3>
                                 <div class="sidebar-first">
                                     <ul>
-                                        <li th:each="subcategory:${categories.get(2).subcategories}"><a th:text="${subcategory.name}" th:onclick="'javascript:showFirstProductsBySubcategory(\''+ ${subcategory.id} +'\');'"></a></li>
+                                        <li th:each="subcategory:${categories.get(2).subcategories}"><a
+                                                th:onclick="'javascript:showFirstProductsBySubcategory(\''+ ${subcategory.id} +'\');'"
+                                                th:text="${subcategory.name}"></a>
+                                        </li>
                                     </ul>
                                 </div>
                             </div>
 
                             <!--=======  End of sidebar  =======-->
                         </div>
-                        <div id="first_slider" class="col-lg-9 col-xl-10 col-md-8">
+                        <div class="col-lg-9 col-xl-10 col-md-8" id="first_slider">
 
                             <div class="fl-slider banner-slider"></div>
 
@@ -367,9 +448,12 @@
 
                             <div class="slider-sidebar">
                                 <h3 class="slider-sidebar-title">DEČIJI PROGRAM</h3>
-                                <div  class="sidebar-second">
+                                <div class="sidebar-second">
                                     <ul>
-                                        <li th:each="subcategory:${categories.get(5).subcategories}"><a th:text="${subcategory.name}" th:onclick="'javascript:showSecondProductsBySubcategory(\''+ ${subcategory.id} +'\');'"></a></li>
+                                        <li th:each="subcategory:${categories.get(5).subcategories}"><a
+                                                th:onclick="'javascript:showSecondProductsBySubcategory(\''+ ${subcategory.id} +'\');'"
+                                                th:text="${subcategory.name}"></a>
+                                        </li>
                                     </ul>
                                 </div>
                             </div>
@@ -377,7 +461,7 @@
                             <!--=======  End of sidebar  =======-->
                         </div>
 
-                        <div id="second_slider" class="col-lg-9 col-xl-10 col-md-8">
+                        <div class="col-lg-9 col-xl-10 col-md-8" id="second_slider">
                             <!--=======  banner slider  =======-->
 
                             <div class="fl-slider banner-slider"></div>
@@ -425,14 +509,17 @@
                                 <h3 class="slider-sidebar-title">KUHINJA</h3>
                                 <div class="sidebar-third">
                                     <ul>
-                                        <li th:each="subcategory,iter:${categories.get(4).subcategories} " th:if="${iter.count<=10}"><a th:text="${subcategory.name}" th:onclick="'javascript:showThirdProductsBySubcategory(\''+ ${subcategory.id} +'\');'"></a></li>
+                                        <li th:each="subcategory,iter:${categories.get(4).subcategories} "
+                                            th:if="${iter.count<=10}"><a th:onclick="'javascript:showThirdProductsBySubcategory(\''+ ${subcategory.id} +'\');'"
+                                                                         th:text="${subcategory.name}"></a>
+                                        </li>
                                     </ul>
                                 </div>
                             </div>
 
                             <!--=======  End of sidebar  =======-->
                         </div>
-                        <div id="third_slider" class="col-lg-9 col-xl-10 col-md-8">
+                        <div class="col-lg-9 col-xl-10 col-md-8" id="third_slider">
                             <!--=======  banner slider  =======-->
 
                             <div class="fl-slider banner-slider"></div>
@@ -471,7 +558,7 @@
 <!--SEARCH OVERLAY-->
 
 <div class="search-overlay" id="search-overlay">
-    <a href="#" class="search-overlay-close" id="search-overlay-close"><i class="fa fa-times"></i></a>
+    <a class="search-overlay-close" href="#" id="search-overlay-close"><i class="fa fa-times"></i></a>
     <div class="search-box">
         <input placeholder="Pretražite celu prodavnicu ovde" type="search">
         <button><i class="icon ion-md-search"></i></button>
@@ -481,13 +568,14 @@
 <!--END OF SEARCH OVERLAY-->
 
 <!--QUICK VIEW MODAL-->
-<div class="modal fade quick-view-modal-container" id="quick-view-modal-container" tabindex="-1" role="dialog" aria-hidden="true"></div>
+<div aria-hidden="true" class="modal fade quick-view-modal-container" id="quick-view-modal-container" role="dialog"
+     tabindex="-1"></div>
 
 <!--END OF QUICK VIEW MODAL-->
 
 <!-- SCROLL TO TOP  -->
 
-<a href="#" class="scroll-top"></a>
+<a class="scroll-top" href="#"></a>
 
 <!-- END OF SCROLL TO TOP -->
 
@@ -505,9 +593,9 @@
             addProductSlider();
         });
 
-         $('.sidebar-first > ul > li a:first').addClass('active');
-         $('.sidebar-second > ul > li a:first').addClass('active');
-         $('.sidebar-third > ul > li a:first').addClass('active');
+        $('.sidebar-first > ul > li a:first').addClass('active');
+        $('.sidebar-second > ul > li a:first').addClass('active');
+        $('.sidebar-third > ul > li a:first').addClass('active');
 
         $('.main-menu >nav > ul > li a').on('click', function () {
             $('.main-menu > nav > ul > li a').removeClass();
@@ -542,7 +630,7 @@
             success: function (response) {
                 bootbox.dialog({
                     title: 'Lista želja',
-                    message: 'Uspešno ste dodali artikal ' + response + ' u listu želja',
+                    message: 'Uspešno ste dodali proizvod ' + response + ' u listu želja',
                     size: 'medium',
                     onEscape: false,
                     buttons: {

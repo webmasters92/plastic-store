@@ -9,9 +9,9 @@ import java.util.List;
 @Repository
 public interface WishListRepository extends JpaRepository<Wishlist, Integer> {
 
-    List<Wishlist> findAllByUserId(int id);
+    void deleteByUserId(int userId);
 
     void deleteByUserIdAndProductId(int userId, int productId);
 
-    void deleteByUserId(int userId);
+    List<Wishlist> findAllByUserId(int id);
 }

@@ -50,14 +50,19 @@
                                                                                                    th:onerror="'this.onerror==null; this.src=\'' + @{/img/not-found.png} + '\';'"
                                                                                                    th:src="@{'/images/' + ${product.images.get(0).name}}"></a>
                                 </td>
-                                <td class="pro-title"><a th:href="@{/product/single_product/__${product.id}__}" th:text="${product.getName()}"></a></td>
+                                <td class="pro-title"><a th:href="@{/product/single_product/__${product.id}__}"
+                                                         th:text="${product.getName()}"></a></td>
                                 <td class="pro-quantity" th:classappend="${product.id}">
                                     <select>
-                                        <option th:each="attr : ${product.productAttributes}" th:text="${attr.getSize()}" th:value="${attr.getPrice()}"></option>
+                                        <option th:each="attr : ${product.productAttributes}"
+                                                th:text="${attr.getSize()}" th:value="${attr.getPrice()}"></option>
                                     </select>
                                 </td>
-                                <td class="pro-price"><span th:id="${product.id}" th:text="${product.getMinPrice()}+' - '+${product.getMaxPrice()}+ ' RSD'"></span></td>
-                                <td class="pro-remove"><a th:href="@{/product/delete_wishlist/__${product.id}__}"><i class="fa fa-trash-o"></i></a></td>
+                                <td class="pro-price"><span th:id="${product.id}"
+                                                            th:text="${product.getMinPrice()}+' - '+${product.getMaxPrice()}+ ' RSD'"></span>
+                                </td>
+                                <td class="pro-remove"><a th:href="@{/product/delete_wishlist/__${product.id}__}"><i
+                                        class="fa fa-trash-o"></i></a></td>
                             </tr>
                             </tbody>
                         </table>
@@ -72,7 +77,8 @@
     <div class="container">
         <div class="row">
             <div class="col-12">
-                <p style="text-align: center; line-height: 100px; font-weight: bold; font-size: 20px">Vaša lista želja je trenutno prazna</p>
+                <p style="text-align: center; line-height: 100px; font-weight: bold; font-size: 20px">Vaša lista želja
+                    je trenutno prazna</p>
             </div>
         </div>
     </div>

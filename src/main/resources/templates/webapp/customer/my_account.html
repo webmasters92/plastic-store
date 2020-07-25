@@ -34,9 +34,13 @@
                     <!-- My Account Tab Menu Start -->
                     <div class="col-lg-3 col-12">
                         <div class="myaccount-tab-menu nav" role="tablist">
-                            <a data-toggle="tab" href="#dashboard" id="dashboard_link" th:classappend="${active_tab=='user_panel'}?'active show'"><i class="fa fa-dashboard"></i>Korisnički panel</a>
+                            <a data-toggle="tab" href="#dashboard" id="dashboard_link"
+                               th:classappend="${active_tab=='user_panel'}?'active show'"><i
+                                    class="fa fa-dashboard"></i>Korisnički panel</a>
 
-                            <a data-toggle="tab" href="#orders" id="orders_link" th:classappend="${active_tab=='orders_panel'}?'active show'"><i class="fa fa-cart-arrow-down"></i>Moje Porudžbine</a>
+                            <a data-toggle="tab" href="#orders" id="orders_link"
+                               th:classappend="${active_tab=='orders_panel'}?'active show'"><i
+                                    class="fa fa-cart-arrow-down"></i>Moje Porudžbine</a>
 
                             <a data-toggle="tab" href="#wishlist"><i class="fa fa-cart-arrow-down"></i>Moje Želje</a>
 
@@ -60,7 +64,8 @@
                                            th:text="'Zdravo '+${#authentication.getPrincipal().getUsername()}"></p>
                                     </div>
 
-                                    <p class="mb-0">Sa ove kontrolne table možeš lako proveriti svoje porudžbine, listu želja kao i manipulisati svojim korisničkim podacima.</p>
+                                    <p class="mb-0">Sa ove kontrolne table možeš lako proveriti svoje porudžbine, listu
+                                        želja kao i manipulisati svojim korisničkim podacima.</p>
                                 </div>
                             </div>
                             <!-- Single Tab Content End -->
@@ -100,7 +105,8 @@
                                                                 th:value="${attr.getPrice()}"></option>
                                                     </select>
                                                 </td>
-                                                <td class="pro-price"><span th:id="${product.id}" th:text="${product.getMinPrice()}+' - '+${product.getMaxPrice()}+ ' RSD'"></span>
+                                                <td class="pro-price"><span th:id="${product.id}"
+                                                                            th:text="${product.getMinPrice()}+' - '+${product.getMaxPrice()}+ ' RSD'"></span>
                                                 </td>
                                             </tr>
                                             </tbody>
@@ -135,7 +141,9 @@
                                                 <td th:text="${#dates.format(order.getDateCreated(), 'dd-MMM-yyyy')}"></td>
                                                 <td th:text="${order.getOrderStatus().getDisplayValue()}"></td>
                                                 <td th:text="${order.getOrderTotal()}+' RSD'"></td>
-                                                <td><a class="btn" th:href="@{/checkout/order_details/__${order.getId()}__}">Detalji</a></td>
+                                                <td><a class="btn"
+                                                       th:href="@{/checkout/order_details/__${order.getId()}__}">Detalji</a>
+                                                </td>
                                                 <td><a class="btn btn-danger btn-sm" href="#"
                                                        th:if="${order.getOrderStatus().name()=='ORDERED'}"
                                                        th:onclick="|showWarningDialog(${order.id})|"><i
@@ -287,7 +295,7 @@
                     label: "Potvrdi",
                     className: 'btn-success',
                     callback: function () {
-                        window.location='/customer/order_cancel/' + orderID;
+                        window.location = '/customer/order_cancel/' + orderID;
                     }
                 },
                 cancel: {

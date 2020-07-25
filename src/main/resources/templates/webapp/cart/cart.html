@@ -33,7 +33,7 @@
                             <thead>
                             <tr>
                                 <th class="pro-thumbnail">Slika</th>
-                                <th class="pro-title">Artikal</th>
+                                <th class="pro-title">Proizvod</th>
                                 <th class="pro-color">Boja</th>
                                 <th class="pro-size">Veličina</th>
                                 <th class="pro-price">Cena</th>
@@ -50,19 +50,25 @@
                                                                                                         th:onerror="'this.onerror==null; this.src=\'' + @{/img/not-found.png} + '\';'"
                                                                                                         th:src="@{'/images/' + ${item.product.images.get(0).name}}"></a>
                                 </td>
-                                <td class="pro-title"><a th:href="@{/product/single_product/__${item.product.id}__}" th:text="${item.product.getName()}"></a></td>
+                                <td class="pro-title"><a th:href="@{/product/single_product/__${item.product.id}__}"
+                                                         th:text="${item.product.getName()}"></a></td>
                                 <td class="pro-color"><span class="color-block"
                                                             th:style="'background-color:'+${item.product_color.code}+';'"
                                                             th:title="${item.product_color.name}"></span></td>
                                 <td class="pro-size"><span th:text="${item.size}"></span></td>
-                                <td class="pro-price" th:id="${item.product.id}+'-'+${item.getSize()}+'-'+${item.getPrice()}+'-'+${item.getColor()}"><span th:text="${item.price}+ ' RSD'"></span></td>
+                                <td class="pro-price"
+                                    th:id="${item.product.id}+'-'+${item.getSize()}+'-'+${item.getPrice()}+'-'+${item.getColor()}">
+                                    <span th:text="${item.price}+ ' RSD'"></span></td>
                                 <td class="pro-quantity">
-                                    <div class="pro-qty" th:classappend="${item.product.id}+'-'+${item.getSize()}+'-'+${item.getPrice()}+'-'+${item.getColor()}">
-                                        <input id="input_value" onkeypress="onEnter(this,event);" th:value="${item.quantity}" type="text">
+                                    <div class="pro-qty"
+                                         th:classappend="${item.product.id}+'-'+${item.getSize()}+'-'+${item.getPrice()}+'-'+${item.getColor()}">
+                                        <input id="input_value" onkeypress="onEnter(this,event);"
+                                               th:value="${item.quantity}" type="text">
                                     </div>
                                 </td>
                                 <td class="pro-subtotal">
-                                    <span th:id="${item.product.id}+'-'+${item.getSize()}+'-'+${item.getPrice()}+'-'+${item.getColor()}" th:text="${item.price*item.quantity}+' RSD'"></span>
+                                    <span th:id="${item.product.id}+'-'+${item.getSize()}+'-'+${item.getPrice()}+'-'+${item.getColor()}"
+                                          th:text="${item.price*item.quantity}+' RSD'"></span>
                                 </td>
                                 <td class="pro-remove"><a
                                         th:href="@{/cart/delete_cart_item/__${item.getSize()}__/__${item.getPrice()}__/__${item.getColor()}__/__${item.getProduct().getCode()}__}"><i
@@ -87,8 +93,10 @@
                             <div class="cart-summary-wrap">
                                 <h4>Kupovina</h4>
                                 <p>Ukupno <span th:text="${session.cart.getTotal()}+ ' RSD'"></span></p>
-                                <p>Poštarina <span th:text="${session.cart.getTotal()>=3000}?'Besplatna isporuka':'/'"></span></p>
-                                <h2>Ukupan iznos za uplatu <span th:text="${session.cart.getTotal()}+' RSD'"></span></h2>
+                                <p>Poštarina <span
+                                        th:text="${session.cart.getTotal()>=3000}?'Besplatna isporuka':'/'"></span></p>
+                                <h2>Ukupan iznos za uplatu <span th:text="${session.cart.getTotal()}+' RSD'"></span>
+                                </h2>
                             </div>
                             <div class="cart-summary-button">
                                 <a th:href="@{/checkout/show_checkout}">

@@ -5,6 +5,7 @@
     <title>Title</title>
 </head>
 <body>
-<p class="result-show-message" th:fragment="products_header" th:text="'Prikazano '+${offset}+'-'+${offset+pagination.getNumberOfElements()}+' od '+${pagination.getTotalElements()}"></p>
+<p class="result-show-message" th:fragment="products_header"
+   th:text="'Prikazano '+${offset}+'-'+${offset+pagination.getNumberOfElements()}+' od '+${pagination.getTotalElements()}"></p>
 </body>
 </html>

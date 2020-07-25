@@ -8,16 +8,14 @@ import java.util.Optional;
 
 public interface CustomerRepository extends JpaRepository<Customer, Integer> {
 
-    Optional<Customer> findByUsername(String username);
-
-    Customer findCustomerById(int id);
+    ArrayList<Customer> findAll();
 
     Customer findByEmail(String email);
 
     Optional<Customer> findByResetToken(String resetToken);
 
-    ArrayList<Customer> findAll();
+    Optional<Customer> findByUsername(String username);
 
-
+    Customer findCustomerById(int id);
 
 }

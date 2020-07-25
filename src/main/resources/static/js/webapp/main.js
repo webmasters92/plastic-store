@@ -240,7 +240,6 @@
     });
 
 
-
     /*----------   Quantity Counter  ----------*/
 
     $('.pro-qty').append('<a href="#" class="inc qty-btn">+</a>');

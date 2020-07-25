@@ -1,51 +1,54 @@
 package rs.dev.plasticstore.services.wishlist;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.cache.annotation.CacheEvict;
+import org.springframework.cache.annotation.CachePut;
+import org.springframework.cache.annotation.Cacheable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import rs.dev.plasticstore.model.Wishlist;
 import rs.dev.plasticstore.repository.wishlist.WishListRepository;
 
-import javax.persistence.EntityManager;
-import javax.persistence.PersistenceContext;
 import java.util.List;
 
 @Service
 public class WishListServiceImpl implements WishListService {
 
-    @Autowired
-    WishListRepository wishListRepository;
-
-    @PersistenceContext
-    private EntityManager entityManager;
-
     @Override
     @Transactional
-    public void saveWishList(Wishlist wishlist) {
-        wishListRepository.save(wishlist);
-    }
-
-    @Override
-    @Transactional
+    @CacheEvict(value = "wish_by_id", key = "#userId + #productId")
     public void deleteWishListByCustomerId(int userId, int productId) {
         wishListRepository.deleteByUserIdAndProductId(userId, productId);
     }
 
     @Override
     @Transactional
+    @CacheEvict(value = "wish_by_id", key = "#userId ")
     public void deleteWishListByCustomerId(int userId) {
         wishListRepository.deleteByUserId(userId);
     }
 
     @Override
     @Transactional
-    public List<Wishlist> findWishListByUserId(int id) {
+    @Cacheable(value = "all_wishes")
+    public List<Wishlist> findAll() {
+        return wishListRepository.findAll();
+    }
+
+    @Override
+    @Transactional
+    @Cacheable(value = "wish_by_id", key = "#id")
+    public List<Wishlist> findWishListByCustomerId(int id) {
         return wishListRepository.findAllByUserId(id);
     }
 
     @Override
     @Transactional
-    public List<Wishlist> findAll() {
-        return wishListRepository.findAll();
+    @CachePut(value = "wish_by_id", key = "#wishlist")
+    public void saveWishList(Wishlist wishlist) {
+        wishListRepository.save(wishlist);
     }
+
+    @Autowired
+    WishListRepository wishListRepository;
 }

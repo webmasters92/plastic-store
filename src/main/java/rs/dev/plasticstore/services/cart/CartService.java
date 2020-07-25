@@ -6,12 +6,12 @@ import java.util.List;
 
 public interface CartService {
 
+    void deleteCartByCustomerId(int customerId);
+
     List<Cart> findAll();
 
     Cart findCartByCustomerId(int id);
 
     void saveCart(Cart cart);
-
-    void deleteCartByCustomerId(int customerId);
 
 }

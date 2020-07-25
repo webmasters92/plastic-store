@@ -267,6 +267,7 @@
     float: left;
     position: relative;
 }
+
 .navbar-nav .active a::after {
     border-bottom: 5px solid #5bc0eb;
     bottom: -10px;

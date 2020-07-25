@@ -11,5 +11,6 @@ public enum OrderStatus {
     public String getDisplayValue() {
         return displayValue;
     }
+
     private final String displayValue;
 }

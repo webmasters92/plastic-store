@@ -6,13 +6,13 @@ import java.util.ArrayList;
 
 public interface GuestService {
 
-    Guest findGuestByUsername(String username);
-
-    Guest findGuestById(int id);
-
-    void save(Guest guest);
+    void deleteGuestById(int id);
 
     ArrayList<Guest> findAll();
 
-    void deleteGuestById(int id);
+    Guest findGuestById(int id);
+
+    Guest findGuestByUsername(String username);
+
+    void save(Guest guest);
 }

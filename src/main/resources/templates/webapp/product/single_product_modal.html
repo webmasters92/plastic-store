@@ -66,14 +66,15 @@
                             <div class="availability mb-0">
                                 <span class="title">Dostupnost:  </span>
                                 <h3 class="product-available mb-15" th:if="${product.isAvailable()}">( NA STANJU )</h3>
-                                <h3 class="product-not-available mb-15" th:unless="${product.isAvailable()}">( NIJE NA STANJU )</h3>
+                                <h3 class="product-not-available mb-15" th:unless="${product.isAvailable()}">( NIJE NA
+                                    STANJU )</h3>
                             </div>
 
                             <div class="price mb-0">
                                 <span class="title">Cena:  </span>
                                 <h2 class="product-price mb-0">
                             <span class="main-price" th:classappend="${product.isSale()} ? 'discounted'"
-                              th:text="${product.productAttributes.get(0).getPrice()}+' DIN'"></span>
+                                  th:text="${product.productAttributes.get(0).getPrice()}+' DIN'"></span>
                                     <span class="discounted-price" th:if="${product.isSale()}"
                                           th:text="${product.productAttributes.get(0).getDiscounted_price()}+' DIN'"></span>
                                     <span class="discount-percentage" th:if="${product.isSale()}"

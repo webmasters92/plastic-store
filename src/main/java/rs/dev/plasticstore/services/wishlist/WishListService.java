@@ -6,14 +6,14 @@ import java.util.List;
 
 public interface WishListService {
 
-    void saveWishList(Wishlist wishlist);
-
     void deleteWishListByCustomerId(int userId, int productId);
 
     void deleteWishListByCustomerId(int userId);
 
-    List<Wishlist> findWishListByUserId(int id);
-
     List<Wishlist> findAll();
+
+    List<Wishlist> findWishListByCustomerId(int id);
+
+    void saveWishList(Wishlist wishlist);
 
 }

@@ -22,37 +22,6 @@ import java.util.Objects;
 @Entity(name = "cart_items")
 public class CartItem implements Serializable {
 
-    private static final long serialVersionUID = 5113284808160766997L;
-
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private int id;
-
-    @ManyToOne
-    @JoinColumn(name = "cart_id")
-    private Cart cart;
-
-    @ManyToOne
-    @JoinColumn(name = "product_id")
-    private Product product;
-
-    @OneToOne
-    @JsonIgnore
-    @JoinColumn(name = "color_id")
-    private Colors product_color;
-
-    private String size, color;
-
-    private int price, quantity, totalPrice;
-
-    @Transient
-    private int product_id;
-
-    @Override
-    public int hashCode() {
-        return Objects.hash(getSize(), getColor(), getPrice());
-    }
-
     @Override
     public boolean equals(Object o) {
         if(this == o) return true;
@@ -60,4 +29,27 @@ public class CartItem implements Serializable {
         CartItem cartItem = (CartItem) o;
         return getProduct().getCode() == cartItem.getProduct().getCode() && getPrice() == cartItem.getPrice() && getSize().equals(cartItem.getSize()) && getColor().equals(cartItem.getColor());
     }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(getSize(), getColor(), getPrice());
+    }
+    private static final long serialVersionUID = 5113284808160766997L;
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private int id;
+    @ManyToOne
+    @JoinColumn(name = "cart_id")
+    private Cart cart;
+    @ManyToOne
+    @JoinColumn(name = "product_id")
+    private Product product;
+    @OneToOne
+    @JsonIgnore
+    @JoinColumn(name = "color_id")
+    private Colors product_color;
+    private String size, color;
+    private int price, quantity, totalPrice;
+    @Transient
+    private int product_id;
 }

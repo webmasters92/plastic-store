@@ -10,14 +10,8 @@ import java.util.stream.Collectors;
 
 public class UserPrincipal implements UserDetails {
 
-    private int userId;
-    private String username;
-    private String password;
-    private List<GrantedAuthority> authorities;
-
     public UserPrincipal() {
     }
-
     public UserPrincipal(Customer customer) {
         this.userId = customer.getId();
         this.username = customer.getUsername();
@@ -30,13 +24,13 @@ public class UserPrincipal implements UserDetails {
         return authorities;
     }
 
-    public int getUserId() {
-        return userId;
-    }
-
     @Override
     public String getPassword() {
         return password;
+    }
+
+    public int getUserId() {
+        return userId;
     }
 
     @Override
@@ -63,4 +57,8 @@ public class UserPrincipal implements UserDetails {
     public boolean isEnabled() {
         return true;
     }
+    private int userId;
+    private String username;
+    private String password;
+    private List<GrantedAuthority> authorities;
 }

@@ -161,4 +161,4 @@ function sendAjaxRequest() {
         });
         $('#subcategory').selectpicker('refresh');
     });
-};
+}

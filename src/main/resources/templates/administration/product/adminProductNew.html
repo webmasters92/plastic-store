@@ -12,14 +12,18 @@
         </button>
         <div class="collapse navbar-collapse" id="navcol-1">
             <ul class="nav navbar-nav">
-                <li class="nav-item active" role="presentation"><a class="nav-link" th:href="@{/administration/product_list}">Proizvodi</a></li>
-                <li class="nav-item" role="presentation"><a class="nav-link" th:href="@{/administration/order_list}">Porudžbine</a></li>
-                <li class="nav-item" role="presentation"><a class="nav-link" th:href="@{/administration/customer_list}">Korisnici</a></li>
+                <li class="nav-item active" role="presentation"><a class="nav-link"
+                                                                   th:href="@{/administration/product_list}">Proizvodi</a>
+                </li>
+                <li class="nav-item" role="presentation"><a class="nav-link" th:href="@{/administration/order_list}">Porudžbine</a>
+                </li>
+                <li class="nav-item" role="presentation"><a class="nav-link" th:href="@{/administration/customer_list}">Korisnici</a>
+                </li>
             </ul>
             <form class="form-inline mr-auto" target="_self">
                 <div class="form-group"></div>
             </form>
-            <a class="btn btn-light action-button" th:href="@{/}" role="button">E-prodavnica</a>
+            <a class="btn btn-light action-button" role="button" th:href="@{/}">E-prodavnica</a>
         </div>
     </div>
 </nav>
@@ -29,7 +33,8 @@
         <div class="col-xl-12 col-lg-12 col-md-12 col-sm-4 col-12 c1867">
             <h4 data-type="header" id="ibxf1lw">UNOS PROIZVODA</h4>
             <hr>
-            <form enctype="multipart/form-data" id="i10l" method="post" name="form" th:action="@{/administration/save_product}" th:object="${product}">
+            <form enctype="multipart/form-data" id="i10l" method="post" name="form"
+                  th:action="@{/administration/save_product}" th:object="${product}">
                 <div class="form-group row" hidden><label class="col-sm-3 col-form-label" for="id">Id :</label>
                     <div class="col-sm-9">
                         <input class="form-control" id="id" placeholder="Id" th:field="*{id}" type="text"/>
@@ -37,7 +42,8 @@
                 </div>
                 <div class="form-group row"><label class="col-sm-3 col-form-label" for="password">Šifra :</label>
                     <div class="col-sm-9">
-                        <input class="form-control " th:readonly="${editing}" id="password" placeholder="Šifra" th:name="code" th:field="*{code}" type="text"/>
+                        <input class="form-control " id="password" placeholder="Šifra" th:field="*{code}"
+                               th:name="code" th:readonly="${editing}" type="text"/>
                     </div>
                 </div>
                 <div class="form-group row"><label class="col-sm-3 col-form-label" for="name">Naziv :</label>
@@ -47,36 +53,41 @@
                 </div>
                 <div class="form-group row"><label class="col-sm-3 col-form-label" for="description">Opis :</label>
                     <div class="col-sm-9">
-                        <textarea class="form-control" id="description" placeholder="Opis" rows="3" th:field="*{description}"></textarea>
+                        <textarea class="form-control" id="description" placeholder="Opis" rows="3"
+                                  th:field="*{description}"></textarea>
                     </div>
                 </div>
-                <div class="form-group row"><label class="col-sm-3 col-form-label" for="manufacturer">Proizvođač :</label>
+                <div class="form-group row"><label class="col-sm-3 col-form-label" for="manufacturer">Proizvođač
+                    :</label>
                     <div class="col-sm-9">
-                        <input class="form-control" id="manufacturer" placeholder="Proizvođač" th:field="*{manufacturer}" type="text"/>
+                        <input class="form-control" id="manufacturer" placeholder="Proizvođač"
+                               th:field="*{manufacturer}" type="text"/>
                     </div>
                 </div>
                 <div class="form-group row"><label class="col-form-label col-sm-3" for="category">Kategorija :</label>
                     <div class="col-sm-9">
                         <select class="selectpicker form-control" id="category" th:field="*{category.id}">
-                            <option th:each="category :  ${categories}" th:text="${category.name}" th:value="${category.id}">
+                            <option th:each="category :  ${categories}" th:text="${category.name}"
+                                    th:value="${category.id}">
                         </select>
                     </div>
                 </div>
                 <div class="form-group row"><label class="col-form-label col-sm-3" for="subcategory">Pod :</label>
                     <div class="col-sm-9">
-                        <select class="selectpicker form-control" id="subcategory" th:field="*{subcategory.id}"></select>
+                        <select class="selectpicker form-control" id="subcategory"
+                                th:field="*{subcategory.id}"></select>
                     </div>
                 </div>
                 <div class="form-group row"><label class="col-form-label col-sm-3" for="dimension">Dimenzije :</label>
                     <div class="col-sm-9">
-                        <select class="form-control" id="dimension" th:field="*{sizes}" multiple>
+                        <select class="form-control" id="dimension" multiple th:field="*{sizes}">
                             <option th:each="size :  ${product.sizes}" th:text="${size}" th:value="${size}">
                         </select>
                     </div>
                 </div>
                 <div class="form-group row"><label class="col-form-label col-sm-3" for="price">Cene :</label>
                     <div class="col-sm-9">
-                        <select class="form-control" id="price" th:field="*{prices}" multiple>
+                        <select class="form-control" id="price" multiple th:field="*{prices}">
                             <option th:each="price :  ${product.prices}" th:text="${price}" th:value="${price}">
                         </select>
                     </div>
@@ -84,7 +95,8 @@
                 <div class="form-group row"><label class="col-form-label col-sm-3" for="price">Cene-akcija :</label>
                     <div class="col-sm-9">
                         <select class="form-control" id="price-discounted" multiple th:field="*{discounted_prices}">
-                            <option th:each="discounted_price :  ${product.discounted_prices}" th:text="${discounted_price}" th:value="${discounted_price}">
+                            <option th:each="discounted_price :  ${product.discounted_prices}"
+                                    th:text="${discounted_price}" th:value="${discounted_price}">
                         </select>
                     </div>
                 </div>
@@ -93,32 +105,34 @@
                     <div class="col-sm-9 input-group">
                             <span class="input-group-btn">
                                 <span class="btn btn-danger btn-file" id="chooseBtn">
-                                    Izaberi<input id="fileUpload" th:field="*{imgData}" type="file" multiple required>
+                                    Izaberi<input id="fileUpload" multiple required th:field="*{imgData}" type="file">
                                 </span>
                             </span>
                         <input class="form-control" readonly type="text">
                     </div>
                 </div>
                 <div id="image-holder">
-                    <img th:if="${editing}" class="thumb-image" th:each="image:${product.images}" th:src="@{'/images/' + ${image.name}}">
+                    <img class="thumb-image" th:each="image:${product.images}" th:if="${editing}"
+                         th:src="@{'/images/' + ${image.name}}">
                 </div>
-                <input type="hidden" id="edit" th:value='${editing}'/>
+                <input id="edit" th:value='${editing}' type="hidden"/>
 
-                <div class="form-group row"><label class="col-sm-3 col-form-label" for="multiple-checkboxes">Boja :</label>
+                <div class="form-group row"><label class="col-sm-3 col-form-label" for="multiple-checkboxes">Boja
+                    :</label>
                     <div class="col-sm-9">
-                        <select name="colors" id="multiple-checkboxes" th:field="*{selectedColors}"
-                                class="selectpicker form-control"
-                                data-size="6"
-                                multiple data-selected-text-format="count"
-                                data-actions-box="true"
+                        <select class="selectpicker form-control" data-actions-box="true" data-deselect-all-text="Deselektuj sve"
+                                data-dropup-auto="false"
                                 data-none-selected-text="Izaberite boju"
-                                data-deselect-all-text="Deselektuj sve"
-                                data-select-all-text="Selektuj sve"
-                                data-dropup-auto="false">
+                                data-select-all-text="Selektuj sve" data-selected-text-format="count"
+                                data-size="6"
+                                id="multiple-checkboxes"
+                                multiple
+                                name="colors"
+                                th:field="*{selectedColors}">
                             <option th:each="c : ${allColors}"
-                                    th:value="${c.id}"
+                                    th:selected="${product.selectedColors.contains(c.id)}"
                                     th:style="'background:'+${c.code}+';'"
-                                    th:selected="${product.selectedColors.contains(c.id)}">
+                                    th:value="${c.id}">
                             </option>
                         </select>
                     </div>
@@ -149,16 +163,21 @@
                     </div>
                 </div>
             </form>
-            <div th:if="${message}" th:text="${message}" th:class="${'alert ' + alertClass}"/>
+            <div th:class="${'alert ' + alertClass}" th:if="${message}" th:text="${message}"/>
         </div>
     </div>
 </div>
 
 <div th:replace="administration/admin/adminLayoutFooter :: adminLayoutFooter"></div>
 
-<script src="https://code.jquery.com/jquery-3.4.1.min.js" integrity="sha256-CSXorXvZcTkaix6Yvo6HppcZGetbYMGWSFlBw8HfCJo=" crossorigin="anonymous"></script>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js" integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1" crossorigin="anonymous"></script>
-<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js" integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM" crossorigin="anonymous"></script>
+<script crossorigin="anonymous"
+        integrity="sha256-CSXorXvZcTkaix6Yvo6HppcZGetbYMGWSFlBw8HfCJo=" src="https://code.jquery.com/jquery-3.4.1.min.js"></script>
+<script crossorigin="anonymous"
+        integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1"
+        src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js"></script>
+<script crossorigin="anonymous"
+        integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM"
+        src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/es6-shim/0.35.3/es6-shim.min.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-validator/0.5.3/js/bootstrapValidator.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/bootstrap-select@1.13.9/dist/js/bootstrap-select.min.js"></script>

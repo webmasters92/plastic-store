@@ -46,11 +46,11 @@
                             </div>
                             <div class="col-md-12 col-12 mb-20">
                                 <label>Korisničko ime</label>
-                                <input th:name="username" class="mb-0" type="text" placeholder="Korisničko ime">
+                                <input class="mb-0" placeholder="Korisničko ime" th:name="username" type="text">
                             </div>
                             <div class="col-12 mb-20">
                                 <label>Šifra</label>
-                                <input th:name="password" class="mb-0" type="password" placeholder="Šifra">
+                                <input class="mb-0" placeholder="Šifra" th:name="password" type="password">
                             </div>
                             <div class="col-md-8">
                                 <div class="check-box d-inline-block ml-0 ml-md-2 mt-10">
@@ -63,7 +63,7 @@
                             </div>
                             <input name="${_csrf.parameterName}" type="hidden" value="${_csrf.token}"/>
                             <div class="col-md-12">
-                                <button type="submit" class="register-button mt-0">Uloguj se</button>
+                                <button class="register-button mt-0" type="submit">Uloguj se</button>
                             </div>
                         </div>
                     </div>
@@ -79,7 +79,7 @@
 
 <!--END OF FOOTER-->
 
-<div th:insert="webapp/containers/scriptsContainer :: scriptsContainer" ></div>
+<div th:insert="webapp/containers/scriptsContainer :: scriptsContainer"></div>
 
 </body>
 </html>

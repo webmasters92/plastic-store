@@ -9,7 +9,9 @@
     <h3 class="sidebar-title color-title">BOJE</h3>
     <div class="color-category">
         <ul>
-            <li th:each="entry:${colorMap}"><a th:text="${entry.key.getName()}"></a> <span class="counter" th:text="'('+${entry.value}+')'"></span></li>
+            <li th:each="entry:${colorMap}"><a th:text="${entry.key.getName()}"></a> <span class="counter"
+                                                                                           th:text="'('+${entry.value}+')'"></span>
+            </li>
         </ul>
     </div>
 </div>

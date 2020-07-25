@@ -232,7 +232,7 @@ public class CustomerController {
     public String showMyAccount(Model model, @AuthenticationPrincipal UserPrincipal principal) {
         var wishlist_db = new ArrayList<Wishlist>();
         var products = new HashSet<Product>();
-        wishlist_db.addAll(wishListService.findWishListByUserId(principal.getUserId()));
+        wishlist_db.addAll(wishListService.findWishListByCustomerId(principal.getUserId()));
         for(Wishlist wishlist : wishlist_db) {
             products.add(productService.findProductById(wishlist.getProductId()));
         }

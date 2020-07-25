@@ -1,6 +1,9 @@
 package rs.dev.plasticstore.services.customer;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.cache.annotation.CacheEvict;
+import org.springframework.cache.annotation.CachePut;
+import org.springframework.cache.annotation.Cacheable;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
@@ -14,6 +17,20 @@ import java.util.Optional;
 
 @Service
 public class CustomerServiceImpl implements CustomerService {
+
+    @Override
+    @Transactional
+    @CacheEvict(value = "customer_by_id", key = "#id")
+    public void deleteCustomerById(int id) {
+        customerRepository.deleteById(id);
+    }
+
+    @Override
+    @Transactional
+    @Cacheable(value = "all_customers")
+    public ArrayList<Customer> findAll() {
+        return customerRepository.findAll();
+    }
 
     @Override
     @Transactional
@@ -34,8 +51,14 @@ public class CustomerServiceImpl implements CustomerService {
         return customerRepository.findByResetToken(resetToken);
     }
 
-    @Override public void deleteCustomerById(int id) {
-        customerRepository.deleteById(id);
+    @Override
+    @Transactional
+    public Customer findCustomerByUsername(String username) {
+        Optional customerDb = customerRepository.findByUsername(username);
+        Customer customer;
+        if(customerDb.isPresent()) customer = (Customer) customerDb.get();
+        else customer = null;
+        return customer;
     }
 
     @Override
@@ -48,20 +71,7 @@ public class CustomerServiceImpl implements CustomerService {
 
     @Override
     @Transactional
-    public Customer findCustomerByUsername(String username) {
-        Optional customerDb = customerRepository.findByUsername(username);
-        Customer customer;
-        if(customerDb.isPresent()) customer = (Customer) customerDb.get();
-        else customer = null;
-        return customer;
-    }
-
-    @Override public ArrayList<Customer> findAll() {
-        return customerRepository.findAll();
-    }
-
-    @Override
-    @Transactional
+    @CachePut(value = "customer_by_id", key = "#customer")
     public void save(Customer customer) {
         customerRepository.save(customer);
     }

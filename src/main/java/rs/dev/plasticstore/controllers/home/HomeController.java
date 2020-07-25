@@ -291,7 +291,7 @@ public class HomeController {
 
             var products_db = new ArrayList<Wishlist>();
             var products = new HashSet<Product>();
-            products_db.addAll(wishListService.findWishListByUserId(principal.getUserId()));
+            products_db.addAll(wishListService.findWishListByCustomerId(principal.getUserId()));
             for(Wishlist wishlist : products_db) {
                 products.add(productService.findProductById(wishlist.getProductId()));
             }

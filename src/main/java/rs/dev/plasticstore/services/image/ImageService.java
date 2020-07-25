@@ -6,10 +6,10 @@ import java.util.Optional;
 
 public interface ImageService {
 
-    void saveImage(Image image);
+    void deleteImage(int id);
 
     Optional<Image> findImageByProductId(int id);
 
-    void deleteImage(int id);
+    void saveImage(Image image);
 
 }

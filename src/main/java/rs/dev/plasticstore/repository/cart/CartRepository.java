@@ -7,10 +7,10 @@ import java.util.List;
 
 public interface CartRepository extends JpaRepository<Cart, Integer> {
 
-    Cart findByCustomerId(int id);
+    void deleteByCustomerId(int userId);
 
     List<Cart> findAllByCustomerId(int id);
 
-    void deleteByCustomerId(int userId);
+    Cart findByCustomerId(int id);
 
 }

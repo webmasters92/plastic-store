@@ -1,5 +1,5 @@
 // Font Family
-$font-family-name: 'Rubik', sans-serif; 
+$font-family-name: 'Rubik', sans-serif;
 $heading-font-family-name: 'Rubik', sans-serif;
 
 
@@ -7,7 +7,7 @@ $heading-font-family-name: 'Rubik', sans-serif;
 
 $white: #ffffff;
 $black: #000000;
-$body-bg-color: #ffffff;  
+$body-bg-color: #ffffff;
 
 // Body Text
 $body-text-color: #7a7a7a;
@@ -26,13 +26,13 @@ $hover-color: #9acf6a;
 
 
 // Other Colors
-$primary:       #004395;
-$secondary:     #f9c322;
-$success:       #28a745;
-$info:          #17a2b8;
-$warning:       #ffc107;
-$danger:        #dc3545;
-$light:         #f8f9fa;
+$primary: #004395;
+$secondary: #f9c322;
+$success: #28a745;
+$info: #17a2b8;
+$warning: #ffc107;
+$danger: #dc3545;
+$light: #f8f9fa;
 
 // Social Color
 $android: #7AC157;
@@ -94,11 +94,10 @@ $yahoo: #4101AF;
 $youtube: #FE0000;
 
 
-
 // Responsive Variables
-$laptop-device : 'only screen and (min-width: 1200px) and (max-width: 1499px)';
-$desktop-device : 'only screen and (min-width: 992px) and (max-width: 1199px)';
-$tablet-device:'only screen and (min-width: 768px) and (max-width: 991px)';
-$large-mobile:'only screen and (max-width: 767px)';
+$laptop-device: 'only screen and (min-width: 1200px) and (max-width: 1499px)';
+$desktop-device: 'only screen and (min-width: 992px) and (max-width: 1199px)';
+$tablet-device: 'only screen and (min-width: 768px) and (max-width: 991px)';
+$large-mobile: 'only screen and (max-width: 767px)';
 $small-mobile: 'only screen and (max-width: 575px)';
 $extra-small-mobile: 'only screen and (max-width: 479px)';

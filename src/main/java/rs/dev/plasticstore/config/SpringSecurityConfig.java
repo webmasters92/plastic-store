@@ -18,39 +18,9 @@ import javax.sql.DataSource;
 @EnableWebSecurity
 public class SpringSecurityConfig extends WebSecurityConfigurerAdapter {
 
-    @Autowired
-    CustomerService customerService;
-
     @Override
     protected void configure(HttpSecurity http) throws Exception {
-        http.authorizeRequests()
-                .antMatchers("/administration/**")
-                .hasRole("ADMIN")
-                .antMatchers("/customer/my_account")
-                .authenticated().antMatchers("/")
-                .permitAll()
-                .and()
-                .formLogin()
-                .loginProcessingUrl("/login_customer")
-                .loginPage("/customer/login")
-                .permitAll()
-                .defaultSuccessUrl("/")
-                .failureUrl("/customer/login?error=true")
-                .and()
-                .logout().invalidateHttpSession(true)
-                .clearAuthentication(true)
-                .logoutRequestMatcher(new AntPathRequestMatcher("/customer/logout"))
-                .logoutSuccessUrl("/")
-                .permitAll()
-                .and()
-                .sessionManagement()
-                .sessionFixation()
-                .newSession()
-                .and()
-                .rememberMe()
-                .tokenRepository(persistentTokenRepository())
-                .tokenValiditySeconds(1209600)
-                .userDetailsService(customerService);
+        http.authorizeRequests().antMatchers("/administration/**").hasRole("ADMIN").antMatchers("/customer/my_account").authenticated().antMatchers("/").permitAll().and().formLogin().loginProcessingUrl("/login_customer").loginPage("/customer/login").permitAll().defaultSuccessUrl("/").failureUrl("/customer/login?error=true").and().logout().invalidateHttpSession(true).clearAuthentication(true).logoutRequestMatcher(new AntPathRequestMatcher("/customer/logout")).logoutSuccessUrl("/").permitAll().and().sessionManagement().sessionFixation().newSession().and().rememberMe().tokenRepository(persistentTokenRepository()).tokenValiditySeconds(1209600).userDetailsService(customerService);
     }
 
     @Override
@@ -59,16 +29,18 @@ public class SpringSecurityConfig extends WebSecurityConfigurerAdapter {
     }
 
     @Bean
-    public PersistentTokenRepository persistentTokenRepository(){
-        final JdbcTokenRepositoryImpl jdbcTokenRepository=new JdbcTokenRepositoryImpl();
-        jdbcTokenRepository.setDataSource(dataSource);
-        return jdbcTokenRepository;
-    }
-
-    @Bean
     public PasswordEncoder passwordEncoder() {
         return new BCryptPasswordEncoder(12);
     }
+
+    @Bean
+    public PersistentTokenRepository persistentTokenRepository() {
+        final JdbcTokenRepositoryImpl jdbcTokenRepository = new JdbcTokenRepositoryImpl();
+        jdbcTokenRepository.setDataSource(dataSource);
+        return jdbcTokenRepository;
+    }
+    @Autowired
+    CustomerService customerService;
     @Autowired
     private DataSource dataSource;
 }
