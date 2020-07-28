@@ -79,7 +79,7 @@ public class CustomerController {
 
     @PostMapping
     @RequestMapping("/edit_customer")
-    public String editUserInformation(Model model, @ModelAttribute Customer customer, @AuthenticationPrincipal UserPrincipal principal) {
+    public String editUserInformation(Model model, @ModelAttribute Customer customer, @AuthenticationPrincipal UserPrincipal principal, BindingResult result, RedirectAttributes redirectAttributes) {
         model.addAttribute("categories", categoryService.findAll());
         String encodedPassword = "";
         if(!customer.getNew_password().isEmpty()) encodedPassword = bCryptPasswordEncoder.encode(customer.getNew_password());
@@ -95,6 +95,13 @@ public class CustomerController {
         customer1.setCity(customer.getCity());
         customer1.setPassword(encodedPassword);
         customerService.save(customer1);
+
+        redirectAttributes.addFlashAttribute("message", "Došlo je do greške prilikom čuvanja podataka.");
+        redirectAttributes.addFlashAttribute("alertClass", "alert-danger");
+        if(result.hasErrors()) return "redirect:/customer/my_account";
+
+        redirectAttributes.addFlashAttribute("message", "Uspešno ste promenili podatke.");
+        redirectAttributes.addFlashAttribute("alertClass", "alert-success");
         return "redirect:/customer/my_account";
     }
 

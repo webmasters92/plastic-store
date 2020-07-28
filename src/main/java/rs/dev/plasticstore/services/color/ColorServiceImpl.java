@@ -20,11 +20,13 @@ public class ColorServiceImpl implements ColorService {
     }
 
     @Override
+    @Transactional
     public Colors findColorsById(int id) {
         return colorRepository.findById(id).get();
     }
 
     @Override
+    @Transactional
     public Colors findColorsByName(String name) {
         return colorRepository.findColorsByName(name).get();
     }

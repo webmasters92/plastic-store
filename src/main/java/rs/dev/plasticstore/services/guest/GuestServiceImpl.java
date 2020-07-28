@@ -4,6 +4,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.cache.annotation.CacheEvict;
 import org.springframework.cache.annotation.CachePut;
 import org.springframework.cache.annotation.Cacheable;
+import org.springframework.cache.annotation.Caching;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import rs.dev.plasticstore.model.Guest;
@@ -16,33 +17,28 @@ public class GuestServiceImpl implements GuestService {
 
     @Override
     @Transactional
-    @CacheEvict(value = "guest_by_id", key = "#id")
+    @CacheEvict(value = "all_guests", key = "#id")
     public void deleteGuestById(int id) {
         guestRepository.deleteById(id);
     }
 
     @Override
     @Transactional
-    @Cacheable(value = "all_guests")
+    @Caching(cacheable = @Cacheable(value = "all_guests", key = "'ALL'"), put = @CachePut(value = "all_guests", key = "'ALL'"))
     public ArrayList<Guest> findAll() {
         return guestRepository.findAll();
     }
 
     @Override
     @Transactional
+    @Cacheable(value = "all_guests", key = "#id")
     public Guest findGuestById(int id) {
         return guestRepository.findGuestById(id);
     }
 
     @Override
     @Transactional
-    public Guest findGuestByUsername(String username) {
-        return guestRepository.findGuestByUsername(username);
-    }
-
-    @Override
-    @Transactional
-    @CachePut(value = "guest_by_id", key = "#guest")
+    @CachePut(value = "all_guests", key = "#guest")
     public void save(Guest guest) {
         guestRepository.save(guest);
     }

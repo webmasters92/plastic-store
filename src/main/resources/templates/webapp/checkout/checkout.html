@@ -151,14 +151,19 @@
                                                name="guest_zip_code" required
                                                th:field="*{guest.zipCode}" th:if="${order.getCustomer()==null}"
                                                type="number">
+
+                                        <div class="col-12 mt-20">
+                                            <div class="check-box">
+                                                <input id="create_account" type="checkbox">
+                                                <label for="create_account"><a th:href="@{/customer/register}">Kreiraj
+                                                    nalog?</a></label>
+                                            </div>
+                                        </div>
                                     </div>
 
-                                    <div class="col-12 mb-20">
-                                        <div class="check-box">
-                                            <input id="create_account" type="checkbox">
-                                            <label for="create_account"><a th:href="@{/customer/register}">Kreiraj
-                                                nalog?</a></label>
-                                        </div>
+                                    <div class="col-md-6 col-12 mb-20" style="display: grid">
+                                        <label  for="order_message" style="margin-bottom: 0px;">Napomena</label>
+                                        <textarea  id="order_message" maxlength="100" name="order_message" style="height: 100px; resize: none;" th:field="*{message}"></textarea>
                                     </div>
                                 </div>
                             </div>

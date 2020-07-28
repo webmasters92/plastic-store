@@ -12,7 +12,5 @@ public interface GuestService {
 
     Guest findGuestById(int id);
 
-    Guest findGuestByUsername(String username);
-
     void save(Guest guest);
 }

@@ -4,6 +4,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.cache.annotation.CacheEvict;
 import org.springframework.cache.annotation.CachePut;
 import org.springframework.cache.annotation.Cacheable;
+import org.springframework.cache.annotation.Caching;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
@@ -20,14 +21,14 @@ public class ProductServiceImpl implements ProductService {
 
     @Override
     @Transactional
-    @CacheEvict(value = "product_by_id", key = "#id")
+    @CacheEvict(value = "all_products", key = "#id",allEntries = true)
     public void deleteProduct(int id) {
         productRepository.deleteById(id);
     }
 
     @Override
     @Transactional
-    @Cacheable(value = "all_products")
+    @Caching(cacheable = @Cacheable(value = "all_products", key = "'ALL'"), put = @CachePut(value = "all_products", key = "'ALL'"))
     public List<Product> findAll() {
         return productRepository.findAll();
     }
@@ -89,7 +90,7 @@ public class ProductServiceImpl implements ProductService {
 
     @Override
     @Transactional
-    @Cacheable(value = "product_by_id", key = "#id")
+    @Cacheable(value = "all_products", key = "#id")
     public Product findProductById(int id) {
         return productRepository.findById(id).get();
     }
@@ -148,7 +149,7 @@ public class ProductServiceImpl implements ProductService {
 
     @Override
     @Transactional
-    @CachePut(value = "product_by_id", key = "#product.id")
+    @CachePut(value = "all_products", key = "#product")
     public void saveProduct(Product product) {
         productRepository.save(product);
     }

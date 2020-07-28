@@ -1,8 +1,10 @@
 package rs.dev.plasticstore.services.message;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.cache.annotation.CacheEvict;
 import org.springframework.cache.annotation.CachePut;
 import org.springframework.cache.annotation.Cacheable;
+import org.springframework.cache.annotation.Caching;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import rs.dev.plasticstore.model.Message;
@@ -15,24 +17,32 @@ public class MessageServiceImpl implements MessageService {
 
     @Override
     @Transactional
-    @CachePut(value = "msg_by_id", key = "#message")
-    public void deleteMessage(Message message) {
-        messageRepository.delete(message);
+    @CacheEvict(value = "all_messages", key = "#id")
+    public void deleteMessageBy_Id(int id) {
+        messageRepository.deleteById(id);
     }
 
     @Override
     @Transactional
-    @Cacheable(value = "all_messages")
+    @Caching(cacheable = @Cacheable(value = "all_messages", key = "'ALL'"), put = @CachePut(value = "all_messages", key = "'ALL'"))
     public List<Message> findAll() {
         return messageRepository.findAll();
     }
 
     @Override
     @Transactional
-    @CachePut(value = "msg_by_id", key = "#message")
+    @Cacheable(value = "all_messages", key = "#id")
+    public Message findMessageById(int id) {
+        return messageRepository.findById(id).get();
+    }
+
+    @Override
+    @Transactional
+    @CachePut(value = "all_messages", key = "#message")
     public void saveMessage(Message message) {
         messageRepository.save(message);
     }
+
     @Autowired
     MessageRepository messageRepository;
 }

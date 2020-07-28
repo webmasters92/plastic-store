@@ -21,6 +21,7 @@ import rs.dev.plasticstore.model.ProductAttributes;
 import rs.dev.plasticstore.model.ProductColor;
 import rs.dev.plasticstore.model.Subcategory;
 import rs.dev.plasticstore.model.UserPrincipal;
+import rs.dev.plasticstore.services.caching.CacheService;
 import rs.dev.plasticstore.services.cart.CartService;
 import rs.dev.plasticstore.services.category.CategoryService;
 import rs.dev.plasticstore.services.category.SubcategoryService;
@@ -30,6 +31,7 @@ import rs.dev.plasticstore.services.customer.CustomerService;
 import rs.dev.plasticstore.services.guest.GuestService;
 import rs.dev.plasticstore.services.image.ImageService;
 import rs.dev.plasticstore.services.mail.EmailService;
+import rs.dev.plasticstore.services.message.MessageService;
 import rs.dev.plasticstore.services.product.ProductService;
 import rs.dev.plasticstore.services.wishlist.WishListService;
 
@@ -97,10 +99,40 @@ public class AdminController {
         }
 
         productService.saveProduct(product);
-        redirectAttributes.addAttribute("message", "Proizvod je uspešno sačuvan");
+
+        cacheService.evictAllCacheValues("all_products");
+        cacheService.evictAllCacheValues("products_by_category");
+        cacheService.evictAllCacheValues("products_by_subcategory");
+        cacheService.evictAllCacheValues("products_by_price_and_subcategory");
+        cacheService.evictAllCacheValues("products_by_price_and_category");
+        cacheService.evictAllCacheValues("products_by_price_and_category");
+
+        redirectAttributes.addAttribute("message", "Proizvod \"" + product.getName() + "\"je uspešno sačuvan");
         redirectAttributes.addFlashAttribute("alertClass", "alert-success");
 
         return "redirect:/administration/new_product";
+    }
+
+    @GetMapping("/answer_message/{id}/{text}")
+    public String answerMessage(@PathVariable String id, @PathVariable String text, HttpServletRequest request) {
+        var message = messageService.findMessageById(Integer.parseInt(id));
+        String appUrl = request.getScheme() + "://" + request.getServerName() + ":" + request.getServerPort();
+
+        var mail = new Mail();
+        mail.setFrom("plastika.draskovic@gmail.com");
+        mail.setTo(message.getEmail());
+        mail.setSubject("Odgovor na Vaše pitanje");
+        mail.setHome_link(appUrl);
+        mail.setMessage(text);
+        try {
+            emailService.sendMessageAnswerEmail(mail);
+        } catch(Exception e) {
+            e.printStackTrace();
+        }
+
+        message.setAnswered(true);
+        messageService.saveMessage(message);
+        return "redirect:/administration/messages_list";
     }
 
     @GetMapping("/confirm_order/{id}")
@@ -147,6 +179,12 @@ public class AdminController {
         return "redirect:/administration/guest_list";
     }
 
+    @GetMapping("/delete_message/{id}")
+    public String deleteMessage(@PathVariable String id) {
+        messageService.deleteMessageBy_Id(Integer.parseInt(id));
+        return "redirect:/administration/messages_list";
+    }
+
     @GetMapping("/delete_order/{id}")
     public String deleteOrder(@PathVariable String id) {
         checkoutService.deleteOrder(Integer.parseInt(id));
@@ -166,8 +204,7 @@ public class AdminController {
 
     @GetMapping("/edit_product/{id}")
     public String editProduct(@PathVariable String id, Model model) {
-        model.addAttribute("categories", categoryService.findAll());
-        model.addAttribute("allColors", colorService.findAll());
+
         var product = productService.findProductById(Integer.parseInt(id));
         product.getProductColors().forEach(productColor -> {
             var color = colorService.findColorsByName(productColor.getName());
@@ -180,6 +217,9 @@ public class AdminController {
             product.getDiscounted_prices().add(productAttributes.getDiscounted_price());
         });
 
+        model.addAttribute("categories", categoryService.findAll());
+        model.addAttribute("allColors", colorService.findAll());
+        model.addAttribute("subcategoryId", product.getSubcategory().getId());
         model.addAttribute("product", product);
         model.addAttribute("editing", true);
         return "administration/product/adminProductNew";
@@ -198,6 +238,13 @@ public class AdminController {
     @ResponseBody
     public ArrayList<Subcategory> getSubCategories(@RequestParam String category) {
         return (ArrayList<Subcategory>) subcategoryService.findSubcategoriesByCategoryId(Integer.parseInt(category));
+    }
+
+    @GetMapping("/messages_list")
+    public String showAllMessages(Model model) {
+        messageService.findAll().forEach(message -> System.out.println(message.isAnswered()));
+        model.addAttribute("messages", messageService.findAll());
+        return "administration/messages/messages_list";
     }
 
     @GetMapping("/customer_details/{id}")
@@ -272,4 +319,8 @@ public class AdminController {
     CartService cartService;
     @Autowired
     WishListService wishListService;
+    @Autowired
+    MessageService messageService;
+    @Autowired
+    CacheService cacheService;
 }

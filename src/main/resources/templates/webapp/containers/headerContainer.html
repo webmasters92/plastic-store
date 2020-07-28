@@ -88,8 +88,8 @@
                                     class="fa fa-angle-down"></i></h5>
                             <p th:if="${session.cart!=null && (session.cart.getCartItems().size()>1 || session.cart.getCartItems().size()==0)}"
                                th:text="${session.cart.getCartItems().size()}+' proizvoda'"></p>
-                            <p th:text="${session.cart.getCartItems().size()}+' proizvod'"
-                               th:unless="${session.cart!=null && (session.cart.getCartItems().size()>1 || session.cart.getCartItems().size()==0)}"></p>
+                            <p th:if="${session.cart!=null && session.cart.getCartItems().size()==1}"
+                               th:text="${session.cart.getCartItems().size()}+' proizvod'"></p>
                         </a>
 
                         <!-- cart floating box -->

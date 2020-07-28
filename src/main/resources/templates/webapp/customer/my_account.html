@@ -240,6 +240,8 @@
                                     </div>
                                 </div>
                             </div>
+
+                            <div th:class="${'alert ' + alertClass}" th:if="${message}" th:text="${message}"/>
                             <!-- Single Tab Content End -->
                         </div>
                     </div>
@@ -282,6 +284,13 @@
         console.log(active_tab);
 
         $('.pro-quantity select').trigger("change");
+
+        //automatsko zatvaranje bootrstap popup-a
+        window.setTimeout(function () {
+            $(".alert").fadeTo(500, 0).slideUp(500, function () {
+                $(this).remove();
+            });
+        }, 5000);
     });
 
     function showWarningDialog(orderID) {

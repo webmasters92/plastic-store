@@ -34,14 +34,14 @@
 
             <!-- About Image -->
             <div class="about-image col-lg-6 mb-50">
-                <img alt="" src="static/images/banners/about-banner.jpg">
+                <img alt="" th:src="@{'/img/banners/aboutus.png'}">
             </div>
 
             <!-- About Content -->
             <div class="about-content col-lg-6">
                 <div class="row">
                     <div class="col-12 mb-50">
-                        <h1>DBRODOŠLI NA E-PRODAVNICU<span>PLASTIKA DRAŠKOVIĆ.</span></h1>
+                        <h1>DBRODOŠLI NA E-PRODAVNICU <span> PLASTIKA DRAŠKOVIĆ</span></h1>
                         <p>Mi smo nova internet prodavnica koja ima za cilj prodaju plastike. Cilj nam je da naše
                             kvalitetne proizvode isporučimo u najkraćem mogućem roku, jer nam je najvažnije zadovoljstvo
                             kupca. Naši proizvodi su odličnog kvaliteta i proizvedeni su u Srbiji, a proizvođači su
@@ -49,37 +49,14 @@
                     </div>
                 </div>
             </div>
-
-        </div>
-
-        <div class="row row-10 mb-50">
-
-            <!-- Banner -->
-            <div class="col-md-4 mb-sm-30">
-                <div class="single-banner">
-                    <a href="#"><img alt="Banner" src="assets/images/banners/home3-banner1.jpg"></a>
-                </div>
-            </div>
-            <div class="col-md-4 col-12 mb-sm-30">
-                <div class="single-banner">
-                    <a href="#"><img alt="Banner" src="assets/images/banners/home3-banner2.jpg"></a>
-                </div>
-            </div>
-            <div class="col-md-4 col-12 mb-sm-00">
-                <div class="single-banner">
-                    <a href="#"><img alt="Banner" src="assets/images/banners/home3-banner3.jpg"></a>
-                </div>
-
-            </div>
-
         </div>
 
         <!-- Mission, Vission & Goal -->
-        <div class="about-mission-vission-goal row row-20 mb-50">
+        <div class="about-mission-vission-goal row row-20 mb-30">
 
             <div class="col-lg-4 col-md-6 col-12 mb-sm-30">
                 <h3>NAŠA VIZIJA</h3>
-                <p>Naša vizija je da postanemo neprikosnoveni lider na tržištu platike. </p>
+                <p>Naša vizija je da postanemo neprikosnoveni lider na tržištu plastike. </p>
             </div>
 
             <div class="col-lg-4 col-md-6 col-12 mb-sm-30">
@@ -94,10 +71,34 @@
             </div>
         </div>
 
+        <div class="row row-10 mb-50">
+
+            <!-- Banner -->
+            <div class="col-md-4 mb-sm-30">
+                <div class="single-banner">
+                    <a href="#"><img alt="" th:src="@{'/img/banners/vision.png'}"></a>
+                </div>
+            </div>
+            <div class="col-md-4 col-12 mb-sm-30">
+                <div class="single-banner">
+                    <a href="#"><img alt="" th:src="@{'/img/banners/mission.png'}"></a>
+                </div>
+            </div>
+            <div class="col-md-4 col-12 mb-sm-00">
+                <div class="single-banner">
+                    <a href="#"><img alt="" th:src="@{'/img/banners/goal.png'}"></a>
+                </div>
+
+            </div>
+
+        </div>
+
+
+
         <div class="row mb-30">
             <!-- About Feature -->
             <div class="about-feature col-md-7 col-12 mb-sm-30">
-                <div class="row">
+                <div class="row pt-100" >
 
                     <div class="col-md-6 col-12 mb-30">
                         <h4>BRZA ISPORUKA</h4>
@@ -111,7 +112,7 @@
 
                     <div class="col-md-6 col-12 mb-30">
                         <h4>PRAĆENJE PORUDZBINE</h4>
-                        <p>Dostavljamo praćenje vaše proudžbine.</p>
+                        <p>Omogućavamo praćenje statusa vaše proudžbine.</p>
                     </div>
 
                     <div class="col-md-6 col-12 mb-30 mb-sm-0">
@@ -124,7 +125,7 @@
 
             <!-- About Feature Banner -->
             <div class="about-feature-banner col-md-5 col-12">
-                <div class="single-banner"><a href="#"><img alt="Banner" src="assets/images/banners/home3-banner8.jpg"></a>
+                <div class="single-banner"><a href="#"><img alt="" th:src="@{'/img/banners/delivery-quality_tracking_support.png'}"></a>
                 </div>
             </div>
 

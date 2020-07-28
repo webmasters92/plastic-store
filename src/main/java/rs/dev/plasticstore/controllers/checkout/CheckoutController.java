@@ -40,11 +40,8 @@ public class CheckoutController {
     @PostMapping(value = "/place_order")
     @ResponseBody
     public String placeOrder(@ModelAttribute Order order, @AuthenticationPrincipal UserPrincipal principal, HttpSession session, HttpServletRequest request) {
-        if(principal != null) {
-            order.setCustomer_id(principal.getUserId());
-        } else {
-            guestService.save(order.getGuest());
-        }
+        if(principal != null) order.setCustomer_id(principal.getUserId());
+        else guestService.save(order.getGuest());
 
         var cart = (Cart) session.getAttribute("cart");
         cart.getCartItems().forEach(cartItem -> {

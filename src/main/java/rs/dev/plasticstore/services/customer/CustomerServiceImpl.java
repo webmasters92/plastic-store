@@ -4,6 +4,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.cache.annotation.CacheEvict;
 import org.springframework.cache.annotation.CachePut;
 import org.springframework.cache.annotation.Cacheable;
+import org.springframework.cache.annotation.Caching;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
@@ -20,14 +21,14 @@ public class CustomerServiceImpl implements CustomerService {
 
     @Override
     @Transactional
-    @CacheEvict(value = "customer_by_id", key = "#id")
+    @CacheEvict(value = "all_customers", key = "#id")
     public void deleteCustomerById(int id) {
         customerRepository.deleteById(id);
     }
 
     @Override
     @Transactional
-    @Cacheable(value = "all_customers")
+    @Caching(cacheable = @Cacheable(value = "all_customers", key = "'ALL'"), put = @CachePut(value = "all_customers", key = "'ALL'"))
     public ArrayList<Customer> findAll() {
         return customerRepository.findAll();
     }
@@ -71,7 +72,7 @@ public class CustomerServiceImpl implements CustomerService {
 
     @Override
     @Transactional
-    @CachePut(value = "customer_by_id", key = "#customer")
+    @CachePut(value = "all_customers", key = "#customer")
     public void save(Customer customer) {
         customerRepository.save(customer);
     }

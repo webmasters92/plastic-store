@@ -51,6 +51,23 @@ $(document).ready(function () {
         }
     });
 
+    $('#messages_table').DataTable({
+        "language": {
+            "lengthMenu": "Prikaži _MENU_ poruka",
+            "zeroRecords": "Nema pronađenih poruka",
+            "info": "Prikazano od _START_ do _END_ od ukupno _TOTAL_ poruka",
+            "infoEmpty": "Nema pronađenih poruka",
+            "infoFiltered": "",
+            "search": "Pretraži:",
+            "paginate": {
+                "first": "Prva",
+                "last": "Poslednja",
+                "next": "Sledeća",
+                "previous": "Prethodna"
+            }
+        }
+    });
+
     $('.list-group li').on('click', function () {
         $('#products_table').DataTable().column(7).search(
             $(this).find('span').text()

@@ -249,13 +249,13 @@ public class HomeController {
         return products;
     }
 
-    @RequestMapping("/about")
+    @GetMapping("/about")
     public String showAboutUsPage(Model model) {
         model.addAttribute("categories", categoryService.findAll());
         return "webapp/shop/about";
     }
 
-    @RequestMapping("/contact")
+    @GetMapping("/contact")
     public String showContactPage(Model model) {
         model.addAttribute("categories", categoryService.findAll());
         model.addAttribute("message", new Message());

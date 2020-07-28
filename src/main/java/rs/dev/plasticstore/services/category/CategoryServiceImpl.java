@@ -7,8 +7,6 @@ import org.springframework.transaction.annotation.Transactional;
 import rs.dev.plasticstore.model.Category;
 import rs.dev.plasticstore.repository.category.CategoryRepository;
 
-import javax.persistence.EntityManager;
-import javax.persistence.PersistenceContext;
 import java.util.List;
 import java.util.Optional;
 
@@ -27,8 +25,7 @@ public class CategoryServiceImpl implements CategoryService {
     public Optional<Category> findCategoryById(int id) {
         return categoryRepository.findById(id);
     }
+
     @Autowired
     CategoryRepository categoryRepository;
-    @PersistenceContext
-    private EntityManager entityManager;
 }

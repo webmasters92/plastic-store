@@ -1,6 +1,8 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org">
 <head th:replace="administration/admin/adminLayoutHeader :: adminLayoutHeader(title='Plastika Drašković - Administracija')">
+    <meta content="no-cache" http-equiv="Cache-control">
+    <meta content="-1" http-equiv="Expires">
 </head>
 <body>
 
@@ -33,6 +35,7 @@
         <div class="col-xl-12 col-lg-12 col-md-12 col-sm-4 col-12 c1867">
             <h4 data-type="header" id="ibxf1lw">UNOS PROIZVODA</h4>
             <hr>
+            <div th:class="${'alert ' + alertClass}" th:if="${message}" th:text="${message}"/>
             <form enctype="multipart/form-data" id="i10l" method="post" name="form"
                   th:action="@{/administration/save_product}" th:object="${product}">
                 <div class="form-group row" hidden><label class="col-sm-3 col-form-label" for="id">Id :</label>
@@ -74,7 +77,7 @@
                 </div>
                 <div class="form-group row"><label class="col-form-label col-sm-3" for="subcategory">Pod :</label>
                     <div class="col-sm-9">
-                        <select class="selectpicker form-control" id="subcategory"
+                        <select class="selectpicker form-control" id="subcategory" name="selValue"
                                 th:field="*{subcategory.id}"></select>
                     </div>
                 </div>
@@ -117,10 +120,12 @@
                 </div>
                 <input id="edit" th:value='${editing}' type="hidden"/>
 
-                <div class="form-group row"><label class="col-sm-3 col-form-label" for="multiple-checkboxes">Boja
+                <div class="form-group row" style="margin-top: 30px;"><label class="col-sm-3 col-form-label"
+                                                                             for="multiple-checkboxes">Boja
                     :</label>
                     <div class="col-sm-9">
-                        <select class="selectpicker form-control" data-actions-box="true" data-deselect-all-text="Deselektuj sve"
+                        <select class="selectpicker form-control" data-actions-box="true"
+                                data-deselect-all-text="Deselektuj sve"
                                 data-dropup-auto="false"
                                 data-none-selected-text="Izaberite boju"
                                 data-select-all-text="Selektuj sve" data-selected-text-format="count"
@@ -163,7 +168,6 @@
                     </div>
                 </div>
             </form>
-            <div th:class="${'alert ' + alertClass}" th:if="${message}" th:text="${message}"/>
         </div>
     </div>
 </div>
@@ -171,7 +175,8 @@
 <div th:replace="administration/admin/adminLayoutFooter :: adminLayoutFooter"></div>
 
 <script crossorigin="anonymous"
-        integrity="sha256-CSXorXvZcTkaix6Yvo6HppcZGetbYMGWSFlBw8HfCJo=" src="https://code.jquery.com/jquery-3.4.1.min.js"></script>
+        integrity="sha256-CSXorXvZcTkaix6Yvo6HppcZGetbYMGWSFlBw8HfCJo="
+        src="https://code.jquery.com/jquery-3.4.1.min.js"></script>
 <script crossorigin="anonymous"
         integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1"
         src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js"></script>
@@ -184,6 +189,241 @@
 <script src="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.10/js/select2.min.js"></script>
 <script src="/js/administration/imgUpload.js" type="text/javascript"></script>
 <script src="/js/administration/productValidation.js" type="text/javascript"></script>
+<script src="/js/webapp/bootbox.js" type="text/javascript"></script>
 
+<script th:inline="javascript" type="text/javascript">
+    $(document).ready(function () {
+        //event na promenu kategorije
+        $("#category").on('change', function () {
+            sendAjaxRequest();
+        });
+        clearDuplicates();
+        //okidanje event-a za dropdown kategorije
+        $("#category").trigger('change');
+
+        //aktivacija dropdown menija
+        $('#multiple-checkboxes').selectpicker();
+        $('#category').selectpicker();
+        $('#subcategory').selectpicker();
+
+        $('#price-discounted').prop('disabled', 'disabled');
+        if ($("#sale").is(":checked")) {
+            $('#price-discounted').prop('disabled', false);
+        } else {
+            $('#price-discounted').empty();
+        }
+
+        $('#dimension').select2({
+            tags: true,
+            allowClear: true,
+            placeholder: "Unesite dimenzije"
+        });
+
+        $('#price').select2({
+            tags: true,
+            allowClear: true,
+            placeholder: "Unesite cene"
+        });
+
+        $('#price-discounted').select2({
+            tags: true,
+            placeholder: "Unesite akcijske cene"
+        });
+
+        $('#sale').on('change', function () {
+            if ($("#sale").is(":checked")) {
+                $('#price-discounted').prop('disabled', false);
+            } else {
+                $('#price-discounted').prop('disabled', 'disabled');
+                $('#price-discounted').empty();
+            }
+        });
+
+        //validacija forme za unos proizvoda
+        $('form').bootstrapValidator({
+            excluded: [':disabled', ':hidden', ':not(:visible)'],
+
+            feedbackIcons: {
+                valid: 'fa fa-check',
+                invalid: 'fa fa-times',
+                validating: 'fa fa-refresh'
+            },
+            fields: {
+                code: {
+                    validators: {
+                        remote: {
+                            url: '/product/checkCode',
+                            type: 'GET',
+                            message: "Sifra proizvoda vec postoji"
+                        },
+                        notEmpty: {
+                            message: 'Sifra proizvoda nije uneta'
+                        },
+                        integer: {
+                            message: 'Morate uneti broj'
+                        }
+                    }
+                },
+                name: {
+                    validators: {
+                        notEmpty: {
+                            message: 'Naziv proizoda nije unet'
+                        }
+                    }
+                },
+                sizes: {
+                    validators: {
+                        notEmpty: {
+                            message: 'Veličina nije uneta'
+                        }
+                    }
+                },
+                prices: {
+                    validators: {
+                        notEmpty: {
+                            message: 'Cena nije uneta'
+                        }
+                    }
+                },
+                // discounted_prices: {
+                //     validators: {
+                //         notEmpty: {
+                //             message: 'Akcijska cena nije uneta'
+                //         }
+                //     }
+                // },
+                imgData: {
+                    validators: {
+                        notEmpty: {
+                            message: 'Slike nisu unete'
+                        }
+                    }
+                },
+                selectedColors: {
+                    validators: {
+                        notEmpty: {
+                            message: 'Boje nisu unete'
+                        }
+                    }
+                },
+                description: {
+                    validators: {
+                        notEmpty: {
+                            message: 'Opis proizvoda nije unet'
+                        },
+                        stringLength: {
+                            min: 5,
+                            message: 'Opis proizvoda mora imati najmanje 15 karaktera'
+                        }
+                    }
+                }
+            }
+        });
+    });
+
+    //slanje ajax zahteva za ucitavanje podkategorija
+    function sendAjaxRequest() {
+        /*<![CDATA[*/
+        var subcategoryId = /*[[${subcategoryId}]]*/ 'SearchParam';
+        /*]]>*/
+
+        var category = $("#category").val();
+        $.get("/administration/sub_categories?category=" + category, function (data) {
+            $("#subcategory").empty();
+            data.forEach(function (item) {
+                $('#subcategory').append($("<option></option>").attr("value", item.id).text(item.name));
+            });
+            if (subcategoryId != null) {
+                $('#subcategory').val(subcategoryId);
+            }
+            $('#subcategory').selectpicker('refresh');
+        });
+    }
+
+    $('form').on("submit", function (event) {
+        var edit = $('#edit').val();
+        var dimensions = $('#dimension :selected').length;
+        var prices = $('#price :selected').length;
+        var discounted_prices = $('#price-discounted :selected').length;
+        if (dimensions !== prices) {
+            event.preventDefault();
+            bootbox.alert({
+                message: "Odnos veličina i cena mora biti isti!",
+                callback: function () {
+                    window.location.reload();
+                }
+            });
+        }
+        if ($('#sale').is(":checked")) {
+            if (prices !== discounted_prices) {
+                event.preventDefault();
+                bootbox.alert({
+                    message: "Odnos regularnih cena i cena na akciji mora biti isti!",
+                    callback: function () {
+                        window.location.reload();
+
+                    }
+                });
+            }
+        }
+        if (edit) {
+            $("#fileUpload").removeAttribute('required');
+        }
+    });
+
+    //automatsko zatvaranje bootrstap popup-a
+    window.setTimeout(function () {
+        $(".alert").fadeTo(500, 0).slideUp(500, function () {
+            $(this).remove();
+        });
+    }, 5000);
+
+    function showWarningDialog(msg) {
+        bootbox.dialog({
+            title: 'Upozorenje!',
+            message: 'Da li želite da obrišete porudžbinu?',
+            size: 'medium',
+            onEscape: false,
+            buttons: {
+                ok: {
+                    label: "Potvrdi",
+                    className: 'btn-success',
+                    callback: function () {
+                        window.location = '/administration/delete_order/' + orderID;
+                    }
+                },
+                cancel: {
+                    label: "Odustani",
+                    className: 'btn-danger',
+                    callback: function () {
+                    }
+                }
+            }
+        });
+    }
+
+    function clearDuplicates() {
+        var a = [];
+        $("#dimension").children("option").each(function (x) {
+            test = false;
+            b = a[x] = $(this).val();
+            for (i = 0; i < a.length - 1; i++) {
+                if (b == a[i]) test = true;
+            }
+            if (test) $(this).remove();
+        });
+
+        var c = [];
+        $("#price").children("option").each(function (x) {
+            test = false;
+            b = c[x] = $(this).val();
+            for (i = 0; i < c.length - 1; i++) {
+                if (b == c[i]) test = true;
+            }
+            if (test) $(this).remove();
+        });
+    }
+
+</script>
 </body>
 </html>

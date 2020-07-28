@@ -6,9 +6,11 @@ import java.util.List;
 
 public interface MessageService {
 
-    void deleteMessage(Message message);
+    void deleteMessageBy_Id(int id);
 
     List<Message> findAll();
+
+    Message findMessageById(int parseInt);
 
     void saveMessage(Message message);
 

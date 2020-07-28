@@ -52,6 +52,8 @@ public class Order implements Serializable {
     private OrderPayment order_payment;
     @JoinColumn(name = "customer_id")
     private int customer_id;
+    @Column(name = "message",length = 100)
+    private String message;
     @OneToMany(mappedBy = "order", cascade = CascadeType.ALL, orphanRemoval = true, fetch = FetchType.EAGER)
     private Set<OrderItem> orderItems = new HashSet<>();
     @Transient
