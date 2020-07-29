@@ -56,5 +56,6 @@ public interface ProductRepository extends JpaRepository<Product, Integer> {
 
     List<Product> findTop15BySale(boolean sale);
 
-    List<Product> findTop15ByStatus(boolean status);
+    @Query(value = "select p.* from products p inner join order_items oi on p.id=oi.product_id group by product_id order by  count(product_id) desc limit 15;", nativeQuery = true)
+    List<Product> findTop15ByPopularity();
 }

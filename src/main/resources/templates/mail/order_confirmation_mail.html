@@ -37,9 +37,11 @@
 
                             <p style="margin:0;margin-bottom:15px">Poštovani/a,</p>
 
-                            <p style="margin:0;margin-bottom:15px">Vaša porudžbina broj <strong
-                                    th:text="${order.id}"></strong> je poslata.<br>
+                            <p style="margin:0;margin-bottom:15px">Vaša porudžbina pod brojem <strong th:text="${order.id}"></strong> je poslata.<br>
                                 Bićete kontaktirani od strane kurirske službe na dan isporuke.
+                                <span th:if="${order.getOrderTotal()<2000}">
+                                    Podsećamo Vas da iznosom na uplatnici nisu pokriveni troškovi isporuke i da ćete iste platiti kuriru prilikom preuzimanja porudžbine.
+                                    Iznos troškova isporuke zavisi od mase paketa i obračunavaće se po cenovniku kurirske službe.</span>
                             </p>
 
                             <p style="margin:0;margin-bottom:15px">Molimo Vas da prilikom preuzimanja pošiljke proverite

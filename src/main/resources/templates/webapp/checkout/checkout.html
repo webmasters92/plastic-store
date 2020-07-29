@@ -190,11 +190,8 @@
                                         </ul>
 
                                         <p>Ukupno <span th:text="${order.getOrderTotal()}+ ' RSD'"></span></p>
-                                        <p>Poštarina <span
-                                                th:text="${order.getOrderTotal()>3000}?'Besplatna isporuka': '/'"></span>
-                                        </p>
-                                        <h4>Ukupan iznos za uplatu<span th:field="*{orderTotal}"
-                                                                        th:text="${order.getOrderTotal()}+' RSD'"></span>
+                                        <p>Dostava <span th:text="${order.getOrderTotal()>2000}?'Kurirska služba (Besplatna dostava)': 'Kurirska služba'"></span></p>
+                                        <h4>Ukupan iznos za uplatu<span th:field="*{orderTotal}" th:text="${order.getOrderTotal()}+' RSD'"></span>
                                         </h4>
                                     </div>
                                 </div>

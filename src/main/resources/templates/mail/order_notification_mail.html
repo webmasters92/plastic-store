@@ -61,7 +61,7 @@
                                 trenutka potvrde.
                             </p>
 
-                            <p style="margin:0;margin-bottom:15px">Status Vaše narudžbenice možete proveriti kroz Vaš
+                            <p style="margin:0;margin-bottom:15px">Status Vaše porudžbenice možete proveriti kroz Vaš
                                 nalog na
                                 <a style="text-decoration:underline" target="_blank" th:href="@{${plastic_store_link}}">sajtu</a>.
                             </p>
@@ -199,7 +199,7 @@
                                         Dostava:
                                     </td>
                                     <td align="center" colspan="1" style="padding:5px;border-top:0"
-                                        th:text="${order.getOrderTotal()>3000}?'Besplatna isporuka': '/'"></td>
+                                        th:text="${order.getOrderTotal()>2000}?'Besplatna isporuka': '/'"></td>
                                 </tr>
                                 <tr>
                                     <td colspan="4"
@@ -217,9 +217,9 @@
                             </p>
 
                             <p style="margin:0;margin-bottom:15px">
-                                U svakom slučaju, naš operater će Vas kontaktirati u najkraćem roku, a ne dužem od tri
+                                U svakom slučaju, ukoliko roba nije dostupna u celosti kontaktiraćemo Vas u najkraćem roku, a ne dužem od tri
                                 dana
-                                radi potvrde porudžbine:
+                                radi korekcije porudžbine:
                             </p>
 
                             <table border="0" cellpadding="0"

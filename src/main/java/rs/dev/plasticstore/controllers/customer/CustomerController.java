@@ -245,7 +245,6 @@ public class CustomerController {
         }
 
         model.addAttribute("categories", categoryService.findAll());
-        var customer = customerService.findCustomerById(principal.getUserId());
         model.addAttribute("customer", customerService.findCustomerById(principal.getUserId()));
         model.addAttribute("orders", checkoutService.findAllOrdersByCustomerId(principal.getUserId()));
         model.addAttribute("products", products);

@@ -9,7 +9,7 @@
     <div class="cart-summary-wrap">
         <h4>Kupovina</h4>
         <p>Ukupno <span th:text="${session.cart.getTotal()}+' RSD'"></span></p>
-        <p>Poštarina <span th:text="${session.cart.getTotal()>=3000}?'Besplatna isporuka':'/'"></span></p>
+        <p>Poštarina <span th:text="${session.cart.getTotal()>=2000}?'Besplatna isporuka':'/'"></span></p>
         <h2>Ukupan iznos za uplatu <span th:text="${session.cart.getTotal()}+' RSD'"></span></h2>
     </div>
     <div class="cart-summary-button">

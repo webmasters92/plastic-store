@@ -78,7 +78,7 @@ public class ProductServiceImpl implements ProductService {
     @Override
     @Transactional
     public List<Product> findPopularProducts() {
-        return productRepository.findTop15ByStatus(true);
+        return productRepository.findTop15ByPopularity();
     }
 
     @Override
