@@ -187,14 +187,14 @@
                     <!-- navigation section -->
                     <div class="main-menu">
                         <nav>
-                            <ul>
-                                <li class="menu-item-has-children" th:each="category: ${categories}"><a
-                                        th:href="@{/product/product_list_category/__${category.id}__}"
-                                        th:text="${category.name}"></a>
+                            <ul class="main-menu-item">
+                                <li class="menu-item-has-children" th:classappend="${selected_category!=null && (selected_category.name== category.name)} ? 'active'" th:each="category: ${categories}" th:value="${category.id}">
+                                    <a th:href="@{/product/product_list_category/__${category.id}__}"
+                                       th:text="${category.name}"></a>
                                     <ul class="sub-menu">
-                                        <li th:each="sub_category: ${category.subcategories}"><a
-                                                th:href="@{/product/product_list_sub_category/__${sub_category.id}__}"
-                                                th:text="${sub_category.name}"></a></li>
+                                        <li th:each="sub_category: ${category.subcategories}">
+                                            <a th:href="@{/product/product_list_sub_category/__${sub_category.id}__}"
+                                               th:text="${sub_category.name}"></a></li>
                                     </ul>
                                 </li>
                             </ul>

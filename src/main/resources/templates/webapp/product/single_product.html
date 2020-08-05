@@ -69,10 +69,10 @@
                     <div class="product-small-image-list fl-product-small-image-list fl3-product-small-image-list">
                         <div class="nav image-slider fl3-image-slider" role="tablist">
                             <div class="single-small-image img-full" th:each="image,iStat  : ${single_product.images}">
-                                <a data-toggle="tab" th:href="@{'#single-slide-'+${iStat.count}}"
-                                   th:id="'single-slide-tab-'+${iStat.count}"><img alt="" class="img-fluid"
-                                                                                   th:onerror="'this.onerror==null; this.src=\'' + @{/img/not-found.png} + '\';'"
-                                                                                   th:src="@{'/images/' + ${image.name}}"></a>
+                                <a data-toggle="tab" th:href="@{'#single-slide-'+${iStat.count}}" th:id="'single-slide-tab-'+${iStat.count}">
+                                    <img alt="" class="img-fluid"
+                                         th:onerror="'this.onerror==null; this.src=\'' + @{/img/not-found.png} + '\';'"
+                                         th:src="@{'/images/' + ${image.name}}"></a>
                             </div>
                         </div>
                     </div>

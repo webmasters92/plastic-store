@@ -883,6 +883,12 @@
     });
 
 
+    $('.fl3-image-slider').on('click', function (e) {
+        e.preventDefault();
+        $(this).find('.single-small-image a').removeClass('active show');
+        $(this).find('single-small-image a').addClass('active show');
+    });
+
     /*----------  paraxify active  ----------*/
 
     var parallaxActive = '.section-bg-1', myParaxify;

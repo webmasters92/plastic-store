@@ -4,7 +4,7 @@
 
 <body>
 
-<div th:replace="webapp/containers/headerContainer :: headerContainer" th:with="${categories}"></div>
+<div th:replace="webapp/containers/headerContainer :: headerContainer" th:with="${selected_category}"></div>
 
 <!--=============================================
 =            breadcrumb area         =
@@ -383,6 +383,7 @@
         /*]]>*/
         var subcategoryId = $("#breadcrumb_subcategory").attr('value');
         setSliderMinMaxPriceByCategory(categoryId);
+
         if (subcategoryId !== undefined)
             setSliderMinMaxPriceBySubCategory(subcategoryId);
 
@@ -414,6 +415,16 @@
             $("#breadcrumb_subcategory").attr("value", null);
             refreshBreadCrumb($(this).text(), '');
             showProductList($(this).attr("value"), 0, $('#show-by').val(), minPrice, maxPrice, "name-asc", 'empty');
+
+            var categoryID = $(this).attr("value");
+
+            $(".main-menu-item li").each(function (e) {
+                if ($(this).attr("value") === categoryID) {
+                    $($(this)).addClass('active');
+                } else {
+                    $($(this)).removeClass("active");
+                }
+            });
         });
 
         $('#sort-by').on('change', function () {

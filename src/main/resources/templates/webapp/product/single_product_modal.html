@@ -35,7 +35,7 @@
                         <!--product small image slider Start-->
                         <div class="product-small-image-list fl-product-small-image-list fl3-product-small-image-list quickview-product-small-image-list">
                             <div class="nav small-image-slider fl3-small-image-slider" role="tablist">
-                                <div class="single-small-image img-full" th:each="image,iStat  : ${product.images}">
+                                <div class="single-small-image img-full" th:each="image,iStat : ${product.images}">
                                     <a data-toggle="tab" th:href="@{'#single-slide-'+${iStat.count}+'-q'}"
                                        th:id="'single-slide-tab-'+${iStat.count}+'-q'">
                                         <img alt="" class="img-fluid"
@@ -73,7 +73,7 @@
                             <div class="price mb-0">
                                 <span class="title">Cena:  </span>
                                 <h2 class="product-price mb-0">
-                            <span class="main-price" th:classappend="${product.isSale()} ? 'discounted'"
+                            <span class="main-price-modal" th:classappend="${product.isSale()} ? 'discounted'"
                                   th:text="${product.productAttributes.get(0).getPrice()}+' DIN'"></span>
                                     <span class="discounted-price" th:if="${product.isSale()}"
                                           th:text="${product.productAttributes.get(0).getDiscounted_price()}+' DIN'"></span>
@@ -123,7 +123,6 @@
                 $('.nice-select-modal').niceSelect();
 
                 $('#chooseSize').on('change', function () {
-                    console.log("change");
                     var value = this.value.split("-");
                     var price = value[0];
                     var discounted_price = value[1];
@@ -134,7 +133,6 @@
                         $('.discounted-price-modal').text(discounted_price + ' DIN');
                         $('.discount-percentage').text('Ušteda ' + Math.round(discount_percentage) + ' %');
                     } else {
-                        console.log("setujem cenu");
                         $('.main-price-modal').text(price + ' DIN');
                     }
                 });

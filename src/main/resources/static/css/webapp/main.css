@@ -3371,11 +3371,11 @@ a#more-btn {
 =            Hero            =
 =============================================*/
 .slider-bg-1 {
-    background-image: url("../images/sliders/01.jpg");
+    background-image: url("../img/sliders/home-slide-1.jpg");
 }
 
 .slider-bg-2 {
-    background-image: url("../images/sliders/02.jpg");
+    background-image: url("/img/sliders/home-slide-2.jpg");
 }
 
 .slider-bg-3 {
@@ -5154,31 +5154,15 @@ a#more-btn {
 =============================================*/
 /*----------  background banner style  ----------*/
 .banner-bg-1 {
-    background-image: url("../images/banners/banner4.jpg");
+    background-image: url("/img/banners/child-category-1.jpg");
 }
 
 .banner-bg-2 {
-    background-image: url("../images/banners/banner5.jpg");
+    background-image: url("/img/banners/child-category-2.jpg");
 }
 
 .banner-bg-3 {
-    background-image: url("../images/banners/banner6.jpg");
-}
-
-.banner-bg-4 {
-    background-image: url("../images/banners/banner19.jpg");
-}
-
-.banner-bg-5 {
-    background-image: url("../images/banners/banner20.jpg");
-}
-
-.banner-bg-6 {
-    background-image: url("../images/banners/banner21.jpg");
-}
-
-.banner-bg-7 {
-    background-image: url("../images/banners/banner22.jpg");
+    background-image: url("/img/banners/banner6.jpg");
 }
 
 .banner-bg {
@@ -5607,7 +5591,7 @@ a#more-btn {
 
 .fl-product .image a img {
     height: 200px;
-    width: 100%;
+    width: 258px;
 }
 
 .fl-product .image a img:first-child {
