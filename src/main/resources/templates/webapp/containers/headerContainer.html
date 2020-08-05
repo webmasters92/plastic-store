@@ -142,9 +142,8 @@
                         <a id="wishlist-icon" th:href="@{/product/show_wishlist}">
                             <span class="image"><i class="icon ion-md-heart"></i></span>
                             <h5><i class="fa fa-angle-down"></i></h5>
-                            <p th:if="${session.wishlist_products!=null}"
-                               th:text="${session.wishlist_products.size()}"></p>
-                            <p th:unless="${session.wishlist_products!=null}">0</p>
+                            <p  class="wishlist-counter" th:if="${session.wishlist_products!=null}" th:text="${session.wishlist_products.size()}"></p>
+                            <p  class="wishlist-counter" th:unless="${session.wishlist_products!=null}">0</p>
                         </a>
                     </div>
                     <!--=======  End of cart icon  =======-->

@@ -1429,6 +1429,24 @@ a.scroll-top:hover {
     margin-bottom: 0;
 }
 
+.wishlist-section > a  p.wishlist-counter{
+    position: absolute;
+    right: 35%;
+    top: 38%;
+    width: 16px;
+    height: 16px;
+    border-radius: 50%;
+    background-color: #FF2835;
+    font-size: 10px;
+    text-align: center;
+    color: white;
+    border: 1px solid white;
+}
+
+.icon ion-md-heart{
+    position: relative;
+}
+
 .wishlist-section > a p {
     font-size: 13px;
     line-height: 16px;
@@ -1436,6 +1454,8 @@ a.scroll-top:hover {
     color: #981426;
     font-style: normal;
 }
+
+
 
 .wishlist-section span.image {
     position: absolute;
@@ -3371,7 +3391,7 @@ a#more-btn {
 =            Hero            =
 =============================================*/
 .slider-bg-1 {
-    background-image: url("../img/sliders/home-slide-1.jpg");
+    background-image: url("/img/sliders/home-slide-1.jpg");
 }
 
 .slider-bg-2 {
@@ -3379,39 +3399,7 @@ a#more-btn {
 }
 
 .slider-bg-3 {
-    background-image: url("../images/sliders/03.jpg");
-}
-
-.slider-bg-4 {
-    background-image: url("../images/sliders/04.jpg");
-}
-
-.slider-bg-5 {
-    background-image: url("../images/sliders/05.jpg");
-}
-
-.slider-bg-6 {
-    background-image: url("../images/sliders/07.jpg");
-}
-
-.slider-bg-7 {
-    background-image: url("../images/sliders/08.jpg");
-}
-
-.slider-bg-8 {
-    background-image: url("../images/sliders/12.jpg");
-}
-
-.slider-bg-9 {
-    background-image: url("../images/sliders/09.jpg");
-}
-
-.slider-bg-10 {
-    background-image: url("../images/sliders/10.jpg");
-}
-
-.slider-bg-11 {
-    background-image: url("../images/sliders/11.jpg");
+    background-image: url("/img/sliders/home-slide-3.jpg");
 }
 
 .hero-area.home-four {
@@ -3471,12 +3459,12 @@ a#more-btn {
     margin-bottom: 10px;
     font-size: 14px;
     line-height: 20px;
-    color: #9acf6a;
+    color: #ffffff;
     font-weight: 400;
 }
 
 .hero-slider .slider-content p.slider-price {
-    color: #363f4d;
+    color: #ffffff;
     margin-top: 20px;
 }
 
@@ -3490,7 +3478,7 @@ a#more-btn {
     font-size: 25px;
     line-height: 30px;
     font-weight: 500;
-    color: #9acf6a;
+    color: #ffffff;
 }
 
 @media only screen and (max-width: 479px) {
@@ -3524,7 +3512,7 @@ a#more-btn {
 .hero-slider .slider-content h1 {
     font-size: 48px;
     line-height: 55px;
-    color: #363f4d;
+    color: #ffffff;
     font-weight: 400;
     font-family: "Rubik", sans-serif;
     margin-bottom: 0;
@@ -3572,8 +3560,8 @@ a#more-btn {
     font-weight: 500;
     font-size: 12px;
     background-color: transparent;
-    border: 2px solid #9acf6a;
-    color: #9acf6a;
+    border: 2px solid #ffffff;
+    color: #ffffff;
     padding: 15px 35px;
     margin-top: 30px;
 }
@@ -5154,15 +5142,15 @@ a#more-btn {
 =============================================*/
 /*----------  background banner style  ----------*/
 .banner-bg-1 {
-    background-image: url("/img/banners/child-category-1.jpg");
+    background-image: url("/img/banners/garden-banner.jpg");
 }
 
 .banner-bg-2 {
-    background-image: url("/img/banners/child-category-2.jpg");
+    background-image: url("/img/banners/kids-banner.jpg");
 }
 
 .banner-bg-3 {
-    background-image: url("/img/banners/banner6.jpg");
+    background-image: url("/img/banners/kitchen-banner.jpg");
 }
 
 .banner-bg {
