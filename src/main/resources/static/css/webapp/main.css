@@ -9983,6 +9983,20 @@ span.required {
     border: 1px solid #363f4d;
 }
 
+/*----------  cart empty    ----------*/
+
+.card {
+    border: 0;
+    -webkit-transition: all .3s ease;
+    transition: all .3s ease;
+    letter-spacing: .5px;
+    border-radius: 8px;
+}
+
+.card .card-body {
+    background-color: transparent;
+}
+
 /*=====  End of 21. Footer  ======*/
 
 

@@ -16,14 +16,14 @@ public class WishListServiceImpl implements WishListService {
 
     @Override
     @Transactional
-    @CacheEvict(value = "wish_by_id", key = "#userId + #productId")
+    @CacheEvict(value = "all_wishes", key = "#userId + #productId")
     public void deleteWishListByCustomerId(int userId, int productId) {
         wishListRepository.deleteByUserIdAndProductId(userId, productId);
     }
 
     @Override
     @Transactional
-    @CacheEvict(value = "wish_by_id", key = "#userId ")
+    @CacheEvict(value = "all_wishes", key = "#userId ")
     public void deleteWishListByCustomerId(int userId) {
         wishListRepository.deleteByUserId(userId);
     }
@@ -37,14 +37,14 @@ public class WishListServiceImpl implements WishListService {
 
     @Override
     @Transactional
-    @Cacheable(value = "wish_by_id", key = "#id")
+    @Cacheable(value = "all_wishes", key = "#id")
     public List<Wishlist> findWishListByCustomerId(int id) {
         return wishListRepository.findAllByUserId(id);
     }
 
     @Override
     @Transactional
-    @CachePut(value = "wish_by_id", key = "#wishlist")
+    @CachePut(value = "all_wishes", key = "#wishlist")
     public void saveWishList(Wishlist wishlist) {
         wishListRepository.save(wishlist);
     }

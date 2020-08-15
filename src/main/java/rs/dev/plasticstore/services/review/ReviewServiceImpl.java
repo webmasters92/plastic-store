@@ -42,7 +42,7 @@ public class ReviewServiceImpl implements ReviewService {
 
     @Override
     @Transactional
-    @CachePut(value = "review_by_id", key = "#id")
+    @CachePut(value = "all_reviews", key = "#id")
     public void saveReview(Review review) {
         reviewRepository.save(review);
     }

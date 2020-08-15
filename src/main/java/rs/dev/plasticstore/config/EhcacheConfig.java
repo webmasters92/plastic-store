@@ -102,29 +102,18 @@ public class EhcacheConfig extends CachingConfigurerSupport {
         cache22.setMemoryStoreEvictionPolicy("LRU");
         cache22.setTimeToLiveSeconds(120);
 
-        CacheConfiguration cache23 = new CacheConfiguration("review_by_id", 50);
-        cache23.setMemoryStoreEvictionPolicy("LRU");
-        cache23.setTimeToLiveSeconds(60);
-
         CacheConfiguration cache24 = new CacheConfiguration("avg_rating", 100);
         cache24.setMemoryStoreEvictionPolicy("LRU");
         cache24.setTimeToLiveSeconds(120);
 
         config.addCache(cache22);
-        config.addCache(cache23);
         config.addCache(cache24);
-
-        CacheConfiguration cache25 = new CacheConfiguration("wish_by_id", 50);
-        cache25.setMemoryStoreEvictionPolicy("LRU");
-        cache25.setTimeToLiveSeconds(60);
 
         CacheConfiguration cache26 = new CacheConfiguration("all_wishes", 100);
         cache26.setMemoryStoreEvictionPolicy("LRU");
         cache26.setTimeToLiveSeconds(120);
 
-        config.addCache(cache25);
         config.addCache(cache26);
-
 
         return net.sf.ehcache.CacheManager.newInstance(config);
     }

@@ -50,22 +50,20 @@ public class ProductController {
             wishlist.setUserId(principal.getUserId());
             wishlist.setProductId(Integer.parseInt(id));
             boolean same = false;
-            for(Wishlist wishlist1 : wishlistDB)
+            for(Wishlist wishlist1 : wishlistDB) {
                 if(wishlist.getProductId() == wishlist1.getProductId()) {
                     same = true;
                     break;
                 }
+            }
             if(!same) wishListService.saveWishList(wishlist);
         }
         var product = productService.findProductById(Integer.parseInt(id));
         var products = new HashSet<Product>();
         products = (HashSet<Product>) session.getAttribute("wishlist_products");
-        if(products == null) {
-            products = new HashSet<>();
-            session.setAttribute("wishlist_products", products);
-        }
-        products.add(product);
 
+        if(products == null) products = new HashSet<>();
+        products.add(product);
         findMinMaxPriceAndRating(products);
         session.setAttribute("wishlist_products", products);
         return product.getName();
@@ -91,11 +89,12 @@ public class ProductController {
         var products = new HashSet<Product>();
         if(principal != null) {
             wishListService.deleteWishListByCustomerId(principal.getUserId(), Integer.parseInt(id));
-        } else {
-            products = (HashSet<Product>) session.getAttribute("wishlist_products");
-            products.removeIf(product -> product.getId() == Integer.parseInt(id));
-            session.setAttribute("wishlist_products", products);
         }
+        products = (HashSet<Product>) session.getAttribute("wishlist_products");
+
+        products.removeIf(product -> product.getId() == Integer.parseInt(id));
+        session.setAttribute("wishlist_products", products);
+
         return "redirect:/product/show_wishlist";
     }
 
@@ -516,10 +515,11 @@ public class ProductController {
         var products_db = new ArrayList<Wishlist>();
         var products = new HashSet<Product>();
         if(principal != null) {
+            session.removeAttribute("wishlist_products");
             products_db.addAll(wishListService.findWishListByCustomerId(principal.getUserId()));
-            for(Wishlist wishlist : products_db) {
+            for(Wishlist wishlist : products_db)
                 products.add(productService.findProductById(wishlist.getProductId()));
-            }
+
             session.setAttribute("wishlist_products", products);
         } else {
             products = (HashSet<Product>) session.getAttribute("wishlist_products");
