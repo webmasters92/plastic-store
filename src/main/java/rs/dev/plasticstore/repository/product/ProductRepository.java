@@ -14,6 +14,9 @@ import java.util.Optional;
 @Repository
 public interface ProductRepository extends JpaRepository<Product, Integer> {
 
+    @Query(value = "select p.* from products p where p.category_id=?1", nativeQuery = true)
+    List<Product> findAllProductsByCategoryId(int categoryID);
+
     @Query(value = "select max(pa.product_price) from products p join product_attributes pa on p.id=pa.product_id", nativeQuery = true)
     int findMaxProductPrice();
 

@@ -19,6 +19,7 @@ import rs.dev.plasticstore.model.OrderStatus;
 import rs.dev.plasticstore.model.Product;
 import rs.dev.plasticstore.model.ProductAttributes;
 import rs.dev.plasticstore.model.ProductColor;
+import rs.dev.plasticstore.model.Promotion;
 import rs.dev.plasticstore.model.Subcategory;
 import rs.dev.plasticstore.model.UserPrincipal;
 import rs.dev.plasticstore.services.caching.CacheService;
@@ -33,6 +34,7 @@ import rs.dev.plasticstore.services.image.ImageService;
 import rs.dev.plasticstore.services.mail.EmailService;
 import rs.dev.plasticstore.services.message.MessageService;
 import rs.dev.plasticstore.services.product.ProductService;
+import rs.dev.plasticstore.services.promotion.PromotionService;
 import rs.dev.plasticstore.services.wishlist.WishListService;
 
 import javax.servlet.http.HttpServletRequest;
@@ -41,6 +43,7 @@ import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Paths;
 import java.util.ArrayList;
+import java.util.List;
 import java.util.concurrent.atomic.AtomicBoolean;
 
 @Controller
@@ -111,6 +114,23 @@ public class AdminController {
         redirectAttributes.addFlashAttribute("alertClass", "alert-success");
 
         return "redirect:/administration/new_product";
+    }
+
+    @PostMapping("/save_promotion")
+    public String addPromotion(@ModelAttribute Promotion promotion, BindingResult result, RedirectAttributes redirectAttributes) {
+        redirectAttributes.addAttribute("message", "Promocija nije uspešno sačuvana");
+        redirectAttributes.addFlashAttribute("alertClass", "alert-danger");
+        if(result.hasErrors()) return "redirect:/administration/new_promotion";
+        var promotion_db = promotionService.findPromotionByCategory(promotion.getCategory());
+        if(promotion_db != null) {
+            promotionService.deletePromotion(promotion_db.getId());
+        }
+        promotionService.savePromotion(promotion);
+
+        redirectAttributes.addAttribute("message", "Promocija je uspešno sačuvana");
+        redirectAttributes.addFlashAttribute("alertClass", "alert-success");
+
+        return "redirect:/administration/new_promotion";
     }
 
     @GetMapping("/answer_message/{id}/{text}")
@@ -202,9 +222,14 @@ public class AdminController {
         return "redirect:/administration/product_list";
     }
 
+    @GetMapping("/delete_promotion/{id}")
+    public String deletePromotion(@PathVariable String id) {
+        promotionService.deletePromotion(Integer.parseInt(id));
+        return "redirect:/administration/promotion_list";
+    }
+
     @GetMapping("/edit_product/{id}")
     public String editProduct(@PathVariable String id, Model model) {
-
         var product = productService.findProductById(Integer.parseInt(id));
         product.getProductColors().forEach(productColor -> {
             var color = colorService.findColorsByName(productColor.getName());
@@ -225,6 +250,17 @@ public class AdminController {
         return "administration/product/adminProductNew";
     }
 
+    @GetMapping("/edit_promotion/{id}")
+    public String editPromotion(@PathVariable String id, Model model) {
+        var promotion = promotionService.findPromotionById(Integer.parseInt(id));
+
+        model.addAttribute("categories", categoryService.findAll());
+        model.addAttribute("productId", promotion.getProduct().getId());
+        model.addAttribute("promotion", promotion);
+        model.addAttribute("editing", true);
+        return "administration/promotion/new_promotion";
+    }
+
     @GetMapping("/new_product")
     public String getNewProduct(@RequestParam(value = "message", required = false) String message, Model model) {
         model.addAttribute("categories", categoryService.findAll());
@@ -232,6 +268,12 @@ public class AdminController {
         model.addAttribute("product", new Product());
         model.addAttribute("message", message);
         return "administration/product/adminProductNew";
+    }
+
+    @GetMapping(value = "/products_by_category")
+    @ResponseBody
+    public List<Product> getProductsByCategory(@RequestParam String category) {
+        return productService.findProductsByCategoryId(Integer.parseInt(category));
     }
 
     @GetMapping(value = "/sub_categories")
@@ -273,6 +315,15 @@ public class AdminController {
         return "administration/customer/guest_list";
     }
 
+    @GetMapping("/new_promotion")
+    public String showNewPromotion(Model model, @RequestParam(value = "message", required = false) String message) {
+        model.addAttribute("promotion", new Promotion());
+        model.addAttribute("categories", categoryService.findAll());
+        model.addAttribute("message", message);
+        model.addAttribute("editing", false);
+        return "administration/promotion/new_promotion";
+    }
+
     @GetMapping("/order_details/{id}")
     public String showOrderDetails(@PathVariable String id, Model model) {
         model.addAttribute("order", checkoutService.findOrderById(Integer.parseInt(id)));
@@ -294,6 +345,12 @@ public class AdminController {
         model.addAttribute("categories", categoryService.findAll());
         model.addAttribute("products", productService.findAll());
         return "administration/product/adminProductList";
+    }
+
+    @GetMapping("/promotion_list")
+    public String showPromotions(Model model) {
+        model.addAttribute("promotions", promotionService.findAll());
+        return "administration/promotion/promotion_list";
     }
 
     @Autowired
@@ -321,6 +378,8 @@ public class AdminController {
     WishListService wishListService;
     @Autowired
     MessageService messageService;
+    @Autowired()
+    PromotionService promotionService;
     @Autowired
     CacheService cacheService;
 }

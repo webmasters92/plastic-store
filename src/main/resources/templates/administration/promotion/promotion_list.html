@@ -14,14 +14,15 @@
             <ul class="nav navbar-nav">
                 <li class="nav-item" role="presentation"><a class="nav-link" th:href="@{/administration/product_list}">Proizvodi</a>
                 </li>
-                <li class="nav-item active" role="presentation"><a class="nav-link"
-                                                                   th:href="@{/administration/order_list}">Porudžbine</a>
+                <li class="nav-item" role="presentation"><a class="nav-link" th:href="@{/administration/order_list}">Porudžbine</a>
                 </li>
                 <li class="nav-item" role="presentation"><a class="nav-link" th:href="@{/administration/customer_list}">Korisnici</a>
-                <li class="nav-item" role="presentation"><a class="nav-link" th:href="@{/administration/messages_list}">Poruke</a>
-                <li class="nav-item" role="presentation"><a class="nav-link"
-                                                            th:href="@{/administration/promotion_list}">Promocije</a>
                 </li>
+                <li class="nav-item" role="presentation"><a class="nav-link"
+                                                            th:href="@{/administration/messages_list}">Poruke</a>
+                </li>
+                <li class="nav-item active" role="presentation"><a class="nav-link"
+                                                                   th:href="@{/administration/promotion_list}">Promocije</a>
                 </li>
             </ul>
             <form class="form-inline mr-auto" target="_self">
@@ -33,34 +34,39 @@
 </nav>
 
 <div class="container">
-    <h4 data-type="header" id="header">PRIKAZ PORUDŽBINA </h4>
+    <h4 data-type="header" id="header">PRIKAZ PROMOCIJA </h4>
     <hr>
     <div class="row" id="category1">
         <div class="col-md-12 col-lg-12 col-xl-12 offset-md-0" id="rightColumn">
-            <table class="table table-striped table-bordered table-hover" id="orders_table" style="width:100%">
+            <div class="row c60069">
+                <div class="col-xl-6 col-lg-6 col-md-6 col-sm-12 col-12 c60086">
+                    <a class="btn btn-primary" id="btn-return" th:href="@{/administration/new_promotion}">Unesite
+                        promociju</a>
+                </div>
+            </div>
+            <br>
+            <table class="table table-striped table-bordered table-hover" id="promotions_table" style="width:100%">
                 <thead>
                 <tr>
                     <th>Id</th>
-                    <th>Kupac</th>
-                    <th>Ukupno</th>
-                    <th>Status</th>
-                    <th>Datum</th>
+                    <th>Kategorija</th>
+                    <th>Proizvod</th>
                     <th>Opcije</th>
                 </tr>
                 </thead>
                 <tbody>
-                <tr th:each="order:${orders}">
-                    <td th:text="${order.id}"></td>
-                    <td style="text-align: center" th:if="${order.customer!=null}"><a style="color: black" th:href="@{/administration/customer_details/__${order.customer.id}__}" th:text="${order.customer.username}"></a></td>
-                    <td style="text-align: center" th:if="${order.guest!=null}"><a style="color: black" th:href="@{/administration/guest_details/__${order.guest.id}__}" th:text="Gost"></a></td>
-                    <td style="text-align: center" th:text="${order.orderTotal} +' RSD'"></td>
-                    <td style="text-align: center" th:text="${order.getOrderStatus().getDisplayValue()}"></td>
-                    <td style="text-align: center" th:text="${#dates.format(order.dateCreated, 'dd-MM-yyyy HH:mm')}"></td>
+                <tr th:each="promotion:${promotions}">
+                    <td th:data-id="${promotion.id}" th:text="${promotion.id}"></td>
+                    <td style="text-align: center" th:text="${promotion.category.name}"></td>
+                    <td style="text-align: center"><a style="color:black;"
+                                                      th:href="@{/administration/edit_product/__${promotion.product.id}__}"
+                                                      th:text="${promotion.product.name}"></a></td>
                     <td style="text-align: center">
-                        <a class="btn btn-warning btn-sm" href="#" onclick=showInfoDialog(this.getAttribute('data-message')) th:data-message="${order.message}" th:if="${!order.message.isEmpty()}"><i class="fa fa-comment-o"></i></a>
-                        <a class="btn btn-info btn-sm" th:href="@{/administration/order_details/__${order.id}__}"><i class="fa fa-bars"></i></a>
-                        <a class="btn btn-success btn-sm" href="#" th:if="${order.getOrderStatus().getDisplayValue()=='PORUČENA'}" th:onclick="|showConfirmDialog(${order.id})|"><i class="fa fa-check"></i></a>
-                        <a class="btn btn-danger btn-sm" href="#" th:onclick="|showWarningDialog(${order.id})|"><i class="fa fa-times"></i></a>
+                        <a class="btn btn-warning btn-sm"
+                           th:href="@{/administration/edit_promotion/__${promotion.id}__}"><i
+                                class="fa fa-edit"></i></a>
+                        <a class="btn btn-danger btn-sm"
+                           th:href="@{/administration/delete_promotion/__${promotion.id}__}"><i class="fa fa-times"></i></a>
                     </td>
                 </tr>
             </table>
@@ -95,14 +101,11 @@
 <script src="/js/webapp/bootbox.js" type="text/javascript"></script>
 
 <script th:inline="javascript" type="text/javascript">
-    $(document).ready(function () {
-        $('.loader-wrap').addClass('d-none');
-    });
 
-    function showWarningDialog(orderID) {
+    function showWarningDialog(msg_id) {
         bootbox.dialog({
             title: 'Upozorenje!',
-            message: 'Da li želite da obrišete porudžbinu?',
+            message: 'Da li želite da obrišete poruku?',
             size: 'medium',
             onEscape: false,
             buttons: {
@@ -110,7 +113,7 @@
                     label: "Potvrdi",
                     className: 'btn-success',
                     callback: function () {
-                        window.location = '/administration/delete_order/' + orderID;
+                        window.location = '/administration/delete_message/' + msg_id;
                     }
                 },
                 cancel: {
@@ -123,38 +126,45 @@
         });
     }
 
-    function showInfoDialog(message) {
+    function showInfoDialog(sender, message) {
         bootbox.alert({
             size: "medium",
-            title: "Napomena!",
+            title: "Pitanje postavio " + sender,
             message: message,
             callback: function () {
             }
         })
     }
 
-    function showConfirmDialog(orderID) {
-        bootbox.dialog({
-            title: 'Obaveštenje!',
-            message: 'Da li želite da potvrdite porudžbinu?',
-            size: 'medium',
-            onEscape: false,
-            buttons: {
-                ok: {
-                    label: "Potvrdi",
-                    className: 'btn-success',
-                    callback: function () {
-                        $('.loader').attr('data-after', 'Potvrda porudžbine u toku, molimo sačekajte...');
-                        $('.loader-wrap').show();
-                        $('.loader-wrap').removeClass('d-none');
-                        window.location = '/administration/confirm_order/' + orderID;
-                    }
-                },
-                cancel: {
-                    label: "Odustani",
-                    className: 'btn-danger',
-                    callback: function () {
-                    }
+    function showReplyDialog(msg_id, sender) {
+        $('.loader').attr('data-after', 'Slanje vašeg odgovora u toku, molimo sačekajte...');
+        var locale = {
+            OK: 'Odgovori',
+            CONFIRM: 'Odgovori',
+            CANCEL: 'Odustani'
+        };
+
+        bootbox.addLocale('custom', locale);
+
+        bootbox.prompt({
+            title: "Odgovor korisniku " + sender,
+            inputType: 'textarea',
+            locale: 'custom',
+            callback: function (result) {
+                if (result != null) {
+                    $('.loader-wrap').show();
+                    // window.location = '/administration/answer_message/' + result;
+                    $.ajax({
+                        type: "GET",
+                        url: '/administration/answer_message/' + msg_id + '/' + result,
+                        beforeSend: function () {
+                            $('.loader-wrap').removeClass('d-none');
+                        },
+                        success: function () {
+                            $('.loader-wrap').addClass('d-none');
+                            window.location = '/administration/messages_list';
+                        }
+                    });
                 }
             }
         });

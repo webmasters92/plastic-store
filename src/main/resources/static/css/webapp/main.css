@@ -5209,6 +5209,10 @@ a#more-btn {
     margin-bottom: 5px;
 }
 
+.home-one-banner .banner-text p.big-text:hover {
+    color: #9acf6a;
+}
+
 .home-one-banner .banner-text p:last-child {
     margin-bottom: 0;
 }

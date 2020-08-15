@@ -23,6 +23,7 @@ import rs.dev.plasticstore.services.category.SubcategoryService;
 import rs.dev.plasticstore.services.color.ColorService;
 import rs.dev.plasticstore.services.message.MessageService;
 import rs.dev.plasticstore.services.product.ProductService;
+import rs.dev.plasticstore.services.promotion.PromotionService;
 import rs.dev.plasticstore.services.wishlist.WishListService;
 import rs.dev.plasticstore.utils.MinMax;
 
@@ -271,6 +272,12 @@ public class HomeController {
     @RequestMapping("/")
     public String showHomePage(Model model, HttpSession session, @AuthenticationPrincipal UserPrincipal principal) {
         model.addAttribute("categories", categoryService.findAll());
+        var promotions = promotionService.findAll();
+        promotions.forEach(promotion -> {
+            promotion.getProduct().getProductAttributes().forEach(productAttributes -> promotion.getProduct().getPrices().add(productAttributes.getPrice()));
+            promotion.getProduct().setMinPrice(MinMax.findMin(promotion.getProduct().getPrices()));
+        });
+        model.addAttribute("promotions", promotions);
         model.addAttribute("popular_products", setMinMaxPriceToProducts((ArrayList<Product>) productService.findPopularProducts()));
         model.addAttribute("new_products", setMinMaxPriceToProducts((ArrayList<Product>) productService.findNewProducts()));
         model.addAttribute("sale_products", setMinMaxPriceToProducts((ArrayList<Product>) productService.findProductsOnSale()));
@@ -324,7 +331,6 @@ public class HomeController {
     SubcategoryService subcategoryService;
     @Autowired
     ColorService colorService;
-
     @Autowired
     CategoryService categoryService;
     @Autowired
@@ -333,4 +339,6 @@ public class HomeController {
     WishListService wishListService;
     @Autowired
     CartService cartService;
+    @Autowired
+    PromotionService promotionService;
 }

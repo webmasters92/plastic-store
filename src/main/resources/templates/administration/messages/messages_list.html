@@ -21,6 +21,9 @@
                 <li class="nav-item active" role="presentation"><a class="nav-link"
                                                                    th:href="@{/administration/messages_list}">Poruke</a>
                 </li>
+                <li class="nav-item" role="presentation"><a class="nav-link"
+                                                            th:href="@{/administration/promotion_list}">Promocije</a>
+                </li>
             </ul>
             <form class="form-inline mr-auto" target="_self">
                 <div class="form-group"></div>
@@ -56,17 +59,16 @@
                     <td style="text-align: center"
                         th:text="${#temporals.format(message.getDate_created(), 'dd-MM-yyyy HH:mm')}"></td>
                     <td style="text-align: center">
-                        <a class="btn btn-light btn-sm" href="#" onclick=showReplyDialog(this.getAttribute('data-id'),this.getAttribute('data-name'))
+                        <a class="btn btn-light btn-sm" href="#"
+                           onclick=showReplyDialog(this.getAttribute('data-id'),this.getAttribute('data-name'))
                            style="background-color:white;"
                            th:data-id="${message.id}"
                            th:data-name="${message.name}"
-                           th:if="${!message.isAnswered()}"><i
-                                class="fa fa-reply" style="color: #00CC00"></i></a>
+                           th:if="${!message.isAnswered()}"><i class="fa fa-reply" style="color: #00CC00"></i></a>
                         <a class="btn btn-info btn-sm" href="#"
                            onclick=showInfoDialog(this.getAttribute('data-name'),this.getAttribute('data-text'))
                            th:data-name="${message.name}"
-                           th:data-text="${message.text}"><i
-                                class="fa fa-bars"></i></a>
+                           th:data-text="${message.text}"><i class="fa fa-bars"></i></a>
                         <a class="btn btn-danger btn-sm" href="#" th:onclick="|showWarningDialog(${message.id})|"><i
                                 class="fa fa-times"></i></a>
                     </td>

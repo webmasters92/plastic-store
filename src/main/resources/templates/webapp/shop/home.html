@@ -21,18 +21,19 @@
 
             <div class="hero-slider-item slider-bg-1">
 
-
                 <!--=======  slider content  =======-->
 
                 <div class="d-flex flex-column justify-content-center align-items-start h-100">
                     <div class="container">
                         <div class="row">
-                            <div class="col-lg-12">
-                                <div class="slider-content">
-                                    <p>Exclusive Offer -60% Off This Week </p>
-                                    <h1>Carronade <span>Pendant Lamp-Black </span></h1>
-                                    <p class="slider-price">starting at <span>$260.99</span></p>
-                                    <a class="slider-btn" href="shop-left-sidebar.html">SHOP NOW</a>
+                            <div class="col-lg-12" th:each="promotion: ${promotions}">
+                                <div class="slider-content" th:if="${promotion.getCategory().getName()=='Nameštaj'}">
+                                    <p>Ekskluzivna ponuda ove nedelje </p>
+                                    <h1 th:text="${promotion.getProduct().getName()}"></h1>
+                                    <p class="slider-price">počev od <span
+                                            th:text="${promotion.getProduct().getMinPrice()}+' RSD'"></span></p>
+                                    <a class="slider-btn"
+                                       th:href="@{/product/single_product/__${promotion.getProduct().getId()}__}">KUPI</a>
                                 </div>
                             </div>
                         </div>
@@ -53,11 +54,16 @@
                     <div class="container">
                         <div class="row">
                             <div class="col-lg-12">
-                                <div class="slider-content">
-                                    <p>Exclusive Offer -20% Off This Week </p>
-                                    <h1>Conbox Fan <span>Collection 2018</span></h1>
-                                    <p class="slider-price">starting at <span>$260.99</span></p>
-                                    <a class="slider-btn" href="shop-left-sidebar.html">SHOP NOW</a>
+                                <div class="col-lg-12" th:each="promotion: ${promotions}">
+                                    <div class="slider-content"
+                                         th:if="${promotion.getCategory().getName()=='Kupatilo'}">
+                                        <p>Ekskluzivna ponuda ove nedelje </p>
+                                        <h1 th:text="${promotion.getProduct().getName()}"></h1>
+                                        <p class="slider-price">počev od <span
+                                                th:text="${promotion.getProduct().getMinPrice()}+' RSD'"></span></p>
+                                        <a class="slider-btn"
+                                           th:href="@{/product/single_product/__${promotion.getProduct().getId()}__}">KUPI</a>
+                                    </div>
                                 </div>
                             </div>
                         </div>
@@ -78,11 +84,16 @@
                     <div class="container">
                         <div class="row">
                             <div class="col-lg-12">
-                                <div class="slider-content">
-                                    <p>Exclusive Offer -30% Off This Week </p>
-                                    <h1>Decorative <span>Outdoor Chair 2018  </span></h1>
-                                    <p class="slider-price">starting at <span>$260.99</span></p>
-                                    <a class="slider-btn" href="shop-left-sidebar.html">SHOP NOW</a>
+                                <div class="col-lg-12" th:each="promotion: ${promotions}">
+                                    <div class="slider-content"
+                                         th:if="${promotion.getCategory().getName()=='Saksije i bašta'}">
+                                        <p>Ekskluzivna ponuda ove nedelje </p>
+                                        <h1 th:text="${promotion.getProduct().getName()}"></h1>
+                                        <p class="slider-price">počev od <span
+                                                th:text="${promotion.getProduct().getMinPrice()}+' RSD'"></span></p>
+                                        <a class="slider-btn"
+                                           th:href="@{/product/single_product/__${promotion.getProduct().getId()}__}">KUPI</a>
+                                    </div>
                                 </div>
                             </div>
                         </div>
@@ -409,12 +420,14 @@
                             <div class="fl-slider banner-slider"></div>
 
                             <!--=======  slider banner  =======-->
-
-                            <div class="slider-banner home-one-banner banner-bg banner-bg-1">
-                                <div class="banner-text">
+                            <div class="slider-banner home-one-banner banner-bg banner-bg-1"
+                                 th:each="promotion: ${promotions}">
+                                <div class="banner-text"
+                                     th:if="${promotion.getCategory().getName()=='Saksije i bašta'}">
                                     <p>Proizvod nedelje</p>
-                                    <p class="big-text">Saksija okrugla</p>
-                                    <p>Samo 250 RSD</p>
+                                    <a th:href="@{/product/single_product/__${promotion.getProduct().getId()}__}"><p
+                                            class="big-text" th:text="${promotion.getProduct().getName()}"></p></a>
+                                    <p th:text="'Počev od '+${promotion.getProduct().getMinPrice()}+' RSD'"></p>
                                 </div>
                             </div>
 
@@ -469,12 +482,13 @@
                             <!--=======  End of banner slider  =======-->
 
                             <!--=======  slider banner  =======-->
-
-                            <div class="slider-banner home-one-banner banner-bg banner-bg-2">
-                                <div class="banner-text">
+                            <div class="slider-banner home-one-banner banner-bg banner-bg-2"
+                                 th:each="promotion: ${promotions}">
+                                <div class="banner-text" th:if="${promotion.getCategory().getName()=='Dečiji program'}">
                                     <p>Proizvod nedelje</p>
-                                    <p class="big-text">Pertini Igračka</p>
-                                    <p>Za samo 350 RSD</p>
+                                    <a th:href="@{/product/single_product/__${promotion.getProduct().getId()}__}"><p
+                                            class="big-text" th:text="${promotion.getProduct().getName()}"></p></a>
+                                    <p th:text="'Počev od '+${promotion.getProduct().getMinPrice()}+' RSD'"></p>
                                 </div>
                             </div>
 
@@ -528,11 +542,13 @@
 
                             <!--=======  slider banner  =======-->
 
-                            <div class="slider-banner home-one-banner banner-bg banner-bg-3">
-                                <div class="banner-text">
+                            <div class="slider-banner home-one-banner banner-bg banner-bg-3"
+                                 th:each="promotion: ${promotions}">
+                                <div class="banner-text" th:if="${promotion.getCategory().getName()=='Kuhinja'}">
                                     <p>Proizvod nedelje</p>
-                                    <p class="big-text">Činija četvrtasta</p>
-                                    <p>Za samo 79 RSD</p>
+                                    <a th:href="@{/product/single_product/__${promotion.getProduct().getId()}__}"><p
+                                            class="big-text" th:text="${promotion.getProduct().getName()}"></p></a>
+                                    <p th:text="'Počev od '+${promotion.getProduct().getMinPrice()}+' RSD'"></p>
                                 </div>
                             </div>
 

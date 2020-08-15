@@ -16,6 +16,9 @@
                 <li class="nav-item" role="presentation"><a class="nav-link" th:href="@{/administration/order_list}">Porudžbine</a></li>
                 <li class="nav-item" role="presentation"><a class="nav-link" th:href="@{/administration/customer_list}">Korisnici</a></li>
                 <li class="nav-item" role="presentation"><a class="nav-link" th:href="@{/administration/messages_list}">Poruke</a></li>
+                <li class="nav-item" role="presentation"><a class="nav-link"
+                                                            th:href="@{/administration/promotion_list}">Promocije</a>
+                </li>
             </ul>
             <form class="form-inline mr-auto" target="_self">
                 <div class="form-group"></div>
@@ -28,23 +31,21 @@
 <div class="container">
     <h4 data-type="header" id="header">PRIKAZ PROIZVODA </h4>
     <hr>
-    <div class="row" id="category1">
-        <div class="col offset-md-0" id="category2">
-            <div class="text-left">
-                <p><b>KATEGORIJE</b></p>
-            </div>
-            <ul class="list-group text-center">
-                <li class="list-group-item" id="allProducts"><a><span>Svi proizvodi</span></a></li>
-                <li class="list-group-item" th:each="category: ${categories}"><a><span th:text="${category.name}">Kategorija</span></a>
-                </li>
-            </ul>
-            <div class="newProduct">
-                <a th:href="@{/administration/new_product}">
-                    <button class="btn btn-primary" type="button">Unesi proizvod</button>
-                </a>
-            </div>
+    <div>
+        <ul class="list-group text-center" style="display: ruby">
+            <li class="list-group-item" id="allProducts" style="width: 150px"><a><span>Svi proizvodi</span></a></li>
+            <li class="list-group-item" style="width: 150px" th:each="category: ${categories}"><a><span
+                    th:text="${category.name}">Kategorija</span></a>
+            </li>
+        </ul>
+        <div class="newProduct">
+            <a th:href="@{/administration/new_product}">
+                <button class="btn btn-primary" type="button">Unesi proizvod</button>
+            </a>
         </div>
-        <div class="col-md-12 col-lg-8 col-xl-9 offset-md-0" id="rightColumn">
+    </div>
+    <div class="row" id="category1">
+        <div class="col-md-12 col-lg-12 col-xl-12 offset-md-0" id="rightColumn">
             <table class="table table-striped table-bordered table-hover" id="products_table" style="width:100%">
                 <thead>
                 <tr>
@@ -64,7 +65,7 @@
                     <td th:text="${product.code}"></td>
                     <td th:text="${product.name}"></td>
                     <td>
-                        <select id="sizes" style="width: 70px">
+                        <select id="sizes" style="width: 100px">
                             <option th:each="productAttribute :  ${product.productAttributes}"
                                     th:text="${productAttribute.size}" th:value="${productAttribute.size}">
                         </select>
@@ -86,9 +87,8 @@
                                          th:src="@{'/images/' + ${product.getImages().size()>0?product.images.get(0).name:'#'}}"
                                          width=40/></td>
                     <td hidden="hidden" id="categoryColumn" th:text="${product.category.name}"></td>
-                    <td>
-                        <a class="btn btn-warning btn-sm" th:href="@{/administration/edit_product/__${product.id}__}"><i
-                                class="fa fa-edit"></i></a>
+                    <td><a class="btn btn-warning btn-sm" th:href="@{/administration/edit_product/__${product.id}__}"><i
+                            class="fa fa-edit"></i></a>
                         <a class="btn btn-danger btn-sm"
                            th:href="@{/administration/delete_product/__${product.id}__}"><i class="fa fa-times"></i></a>
                     </td>

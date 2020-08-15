@@ -28,6 +28,8 @@ public interface ProductService {
 
     List<Product> findNewProducts();
 
+    List<Product> findProductsByCategoryId(int id);
+
     List<Product> findPopularProducts();
 
     Optional<Product> findProductByCode(int code);
