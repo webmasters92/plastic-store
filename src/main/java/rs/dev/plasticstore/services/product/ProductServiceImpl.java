@@ -60,6 +60,7 @@ public class ProductServiceImpl implements ProductService {
     @Override
     @Transactional
     public int findMinProductPriceByCategory(int id) {
+        //TODO BUG vraca null kad nema proizvoda
         return productRepository.findMinProductPriceByCategory(id);
     }
 

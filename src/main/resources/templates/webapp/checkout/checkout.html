@@ -14,8 +14,8 @@
                 <div class="breadcrumb-container">
                     <nav>
                         <ul>
-                            <li class="parent-page"><a th:href="@{/}">Početna</a></li>
-                            <li>Obrada porudžbine</li>
+                            <li class="parent-page"><a th:href="@{/}" th:text="#{home}">Početna</a></li>
+                            <li th:text="#{order.processing}">Obrada porudžbine</li>
                         </ul>
                     </nav>
                 </div>
@@ -39,18 +39,19 @@
 
                             <!-- Billing Address -->
                             <div class="mb-40" id="billing-form">
-                                <h4 class="checkout-title">ISPORUKA</h4>
+                                <h4 class="checkout-title" th:text="#{delivery}">ISPORUKA</h4>
 
                                 <div class="row">
 
                                     <div class="col-md-6 col-12 mb-20">
                                         <label for="customer_first_name"
-                                               th:if="${order.getCustomer()!=null}">Ime*</label>
+                                               th:if="${order.getCustomer()!=null}" th:text="#{first.name}">Ime*</label>
                                         <input id="customer_first_name" name="customer_first_name"
                                                required
                                                th:field="*{customer.firstName}" th:if="${order.getCustomer()!=null}"
                                                type="text">
-                                        <label for="guest_first_name" th:if="${order.getCustomer()==null}">Ime*</label>
+                                        <label for="guest_first_name" th:if="${order.getCustomer()==null}"
+                                               th:text="#{first.name}">Ime*</label>
                                         <input id="guest_first_name" name="guest_first_name"
                                                required
                                                th:field="*{guest.firstName}" th:if="${order.getCustomer()==null}"
@@ -59,13 +60,15 @@
 
                                     <div class="col-md-6 col-12 mb-20">
                                         <label for="customer_last_name"
-                                               th:if="${order.getCustomer()!=null}">Prezime*</label>
+                                               th:if="${order.getCustomer()!=null}"
+                                               th:text="#{last.name}">Prezime*</label>
                                         <input id="customer_last_name" name="customer_last_name"
                                                required
                                                th:field="*{customer.lastName}" th:if="${order.getCustomer()!=null}"
                                                type="text">
                                         <label for="guest_last_name"
-                                               th:if="${order.getCustomer()==null}">Prezime*</label>
+                                               th:if="${order.getCustomer()==null}"
+                                               th:text="#{last.name}">Prezime*</label>
                                         <input id="guest_last_name" name="guest_last_name"
                                                required
                                                th:field="*{guest.lastName}" th:if="${order.getCustomer()==null}"
@@ -73,12 +76,14 @@
                                     </div>
 
                                     <div class="col-md-6 col-12 mb-20">
-                                        <label for="customer_email" th:if="${order.getCustomer()!=null}">Email*</label>
+                                        <label for="customer_email" th:if="${order.getCustomer()!=null}"
+                                               th:text="#{email}">Email*</label>
                                         <input id="customer_email" name="customer_email"
                                                required
                                                th:field="*{customer.email}" th:if="${order.getCustomer()!=null}"
                                                type="email">
-                                        <label for="guest_email" th:if="${order.getCustomer()==null}">Email*</label>
+                                        <label for="guest_email" th:if="${order.getCustomer()==null}"
+                                               th:text="#{email}">Email*</label>
                                         <input id="guest_email" name="guest_email"
                                                required
                                                th:field="*{guest.email}" th:if="${order.getCustomer()==null}"
@@ -87,13 +92,15 @@
 
                                     <div class="col-md-6 col-12 mb-20">
                                         <label for="customer_phone_number"
-                                               th:if="${order.getCustomer()!=null}">Telefon*</label>
+                                               th:if="${order.getCustomer()!=null}"
+                                               th:text="#{phone.number}">Telefon*</label>
                                         <input id="customer_phone_number" maxlength="15" name="customer_phone_number"
                                                required
                                                th:field="*{customer.phoneNumber}"
                                                th:if="${order.getCustomer()!=null}" type="number">
                                         <label for="guest_phone_number"
-                                               th:if="${order.getCustomer()==null}">Telefon*</label>
+                                               th:if="${order.getCustomer()==null}"
+                                               th:text="#{phone.number}">Telefon*</label>
                                         <input id="guest_phone_number" maxlength="15" name="guest_phone_number" required
                                                th:field="*{guest.phoneNumber}"
                                                th:if="${order.getCustomer()==null}" type="number">
@@ -101,12 +108,13 @@
 
                                     <div class="col-12 mb-20">
                                         <label for="customer_address"
-                                               th:if="${order.getCustomer()!=null}">Adresa*</label>
+                                               th:if="${order.getCustomer()!=null}" th:text="#{address}">Adresa*</label>
                                         <input id="customer_address" name="customer_address"
                                                required
                                                th:field="*{customer.address}" th:if="${order.getCustomer()!=null}"
                                                type="text">
-                                        <label for="guest_address" th:if="${order.getCustomer()==null}">Adresa*</label>
+                                        <label for="guest_address" th:if="${order.getCustomer()==null}"
+                                               th:text="#{address}">Adresa*</label>
                                         <input id="guest_address" name="guest_address"
                                                required
                                                th:field="*{guest.address}" th:if="${order.getCustomer()==null}"
@@ -117,21 +125,22 @@
                                         <label>Država*</label>
                                         <select class="nice-select" th:field="*{customer.country}"
                                                 th:if="${order.getCustomer()!=null}">
-                                            <option value="Srbija">Srbija</option>
+                                            <option th:text="#{serbia}" value="Srbija">Srbija</option>
                                         </select>
                                         <select class="nice-select" th:field="*{guest.country}"
                                                 th:if="${order.getCustomer()==null}">
-                                            <option value="Srbija">Srbija</option>
+                                            <option th:text="#{serbia}" value="Srbija">Srbija</option>
                                         </select>
                                     </div>
 
                                     <div class="col-md-6 col-12 mb-20">
-                                        <label for="customer_city" th:if="${order.getCustomer()!=null}">Grad*</label>
+                                        <label for="customer_city" th:if="${order.getCustomer()!=null}"
+                                               th:text="#{city}">Grad*</label>
                                         <input id="customer_city" name="customer_city"
                                                required
                                                th:field="*{customer.city}" th:if="${order.getCustomer()!=null}"
                                                type="text">
-                                        <label for="guest_city" th:if="${order.getCustomer()==null}">Grad*</label>
+                                        <label for="guest_city" th:if="${order.getCustomer()==null}" th:text="#{city}">Grad*</label>
                                         <input id="guest_city" name="guest_city"
                                                required
                                                th:field="*{guest.city}" th:if="${order.getCustomer()==null}"
@@ -139,13 +148,15 @@
                                     </div>
 
                                     <div class="col-md-6 col-12 mb-20">
-                                        <label for="customer_zip_code" th:if="${order.getCustomer()!=null}">Poštanski
+                                        <label for="customer_zip_code" th:if="${order.getCustomer()!=null}"
+                                               th:text="#{zip.code}">Poštanski
                                             broj*</label>
                                         <input id="customer_zip_code" maxlength="5"
                                                name="customer_zip_code" required
                                                th:field="*{customer.zipCode}" th:if="${order.getCustomer()!=null}"
                                                type="number">
-                                        <label for="guest_zip_code" th:if="${order.getCustomer()==null}">Poštanski
+                                        <label for="guest_zip_code" th:if="${order.getCustomer()==null}"
+                                               th:text="#{zip.code}">Poštanski
                                             broj*</label>
                                         <input id="guest_zip_code" maxlength="5"
                                                name="guest_zip_code" required
@@ -155,14 +166,15 @@
                                         <div class="col-12 mt-20">
                                             <div class="check-box">
                                                 <input id="create_account" type="checkbox">
-                                                <label for="create_account"><a th:href="@{/customer/register}">Kreiraj
+                                                <label for="create_account"><a th:href="@{/customer/register}"
+                                                                               th:text="#{create.account}">Kreiraj
                                                     nalog?</a></label>
                                             </div>
                                         </div>
                                     </div>
 
                                     <div class="col-md-6 col-12 mb-20" style="display: grid">
-                                        <label  for="order_message" style="margin-bottom: 0px;">Napomena</label>
+                                        <label for="order_message" style="margin-bottom: 0px;" th:text="#{note}">Napomena</label>
                                         <textarea  id="order_message" maxlength="100" name="order_message" style="height: 100px; resize: none;" th:field="*{message}"></textarea>
                                     </div>
                                 </div>
@@ -175,11 +187,11 @@
                                 <!-- Cart Total -->
                                 <div class="col-12 mb-60">
 
-                                    <h4 class="checkout-title">Kupovina</h4>
+                                    <h4 class="checkout-title" th:text="#{shopping}">Kupovina</h4>
 
                                     <div class="checkout-cart-total">
 
-                                        <h4>Proizvodi <span>Ukupno</span></h4>
+                                        <h4 th:text="#{products}">Proizvodi <span th:text="#{total}">Ukupno</span></h4>
 
                                         <ul th:field="*{orderItems}">
                                             <li class="d-flex justify-content-between"
@@ -189,21 +201,27 @@
                                             </li>
                                         </ul>
 
-                                        <p>Ukupno <span th:text="${order.getOrderTotal()}+ ' RSD'"></span></p>
-                                        <p>Dostava <span th:text="${order.getOrderTotal()>2000}?'Kurirska služba (Besplatna dostava)': 'Kurirska služba'"></span></p>
-                                        <h4>Ukupan iznos za uplatu<span th:field="*{orderTotal}" th:text="${order.getOrderTotal()}+' RSD'"></span>
+                                        <p th:text="#{total}">Ukupno <span
+                                                th:text="${order.getOrderTotal()}+ ' RSD'"></span></p>
+                                        <p th:text="#{delivery}">Dostava <span
+                                                th:text="${order.getOrderTotal()>2000}?'Kurirska služba (Besplatna dostava)': 'Kurirska služba'"></span>
+                                        </p>
+                                        <h4 th:text="#{total.price}">Ukupan iznos za uplatu<span
+                                                th:field="*{orderTotal}"
+                                                th:text="${order.getOrderTotal()}+' RSD'"></span>
                                         </h4>
                                     </div>
                                 </div>
 
                                 <!-- Payment Method -->
                                 <div class="col-12">
-                                    <h4 class="checkout-title">Izaberite način plaćanja</h4>
+                                    <h4 class="checkout-title" th:text="#{payment.method}">Izaberite način plaćanja</h4>
                                     <div class="checkout-payment-method">
                                         <div class="singled-method">
                                             <input id="payment_cash" name="payment_cash" required type="checkbox"
                                                    value="cash">
-                                            <label class="payment_method_label" for="payment_cash">Plaćanje
+                                            <label class="payment_method_label" for="payment_cash"
+                                                   th:text="#{cash.on.delivery}">Plaćanje
                                                 prilikom preuzimanja</label>
                                         </div>
 
@@ -211,11 +229,14 @@
                                             <input class="accept_terms" id="accept_terms" name="terms_box" required
                                                    type="checkbox">
                                             <label class="terms_label" for="accept_terms"><a
-                                                    th:href="@{/selling_terms}">Prihvatam uslove kupovine</a></label>
+                                                    th:href="@{/selling_terms}" th:text="#{accept.terms}">Prihvatam
+                                                uslove kupovine</a></label>
                                         </div>
                                     </div>
                                     <input name="${_csrf.parameterName}" type="hidden" value="${_csrf.token}"/>
-                                    <button class="place-order" type="submit">Potvrdi kupovinu</button>
+                                    <button class="place-order" th:text="#{confirm.order}" type="submit">Potvrdi
+                                        kupovinu
+                                    </button>
                                 </div>
                             </div>
                         </div>

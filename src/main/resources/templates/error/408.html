@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta charset="UTF-8">
     <link href="https://static.codepen.io/assets/favicon/apple-touch-icon-5ae1a0698dcc2402e9712f7d01ed509a57814f994c660df9f7a952f3060705ee.png"
@@ -13,7 +13,7 @@
           href="https://static.codepen.io/assets/favicon/logo-pin-8f3771b1072e3c38bd662872f6b673a722f4b3ca2421637d5596661b4e2132cc.svg"
           rel="mask-icon"
           type="">
-    <title>408 - Zahtev istekao</title>
+    <title th:text="#{error.408}">408 - Zahtev istekao</title>
     <style>
         html,
         body {
@@ -177,7 +177,7 @@
         </svg>
         <span>8</span>
     </h1>
-    <p class="subtitle">Istekao zahtev ka serveru</p>
+    <p class="subtitle" th:text="#{error.408}">Istekao zahtev ka serveru</p>
 </div>
 <script src="https://static.codepen.io/assets/common/stopExecutionOnTimeout-157cd5b220a5c80d4ff8e0e70ac069bffd87a61252088146915e8726e5d9f147.js"></script>
 <script id="rendered-js">

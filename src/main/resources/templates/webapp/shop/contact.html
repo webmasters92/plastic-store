@@ -15,8 +15,8 @@
                 <div class="breadcrumb-container">
                     <nav>
                         <ul>
-                            <li class="parent-page"><a th:href="@{/}">Početna</a></li>
-                            <li>Kontaktiraj nas</li>
+                            <li class="parent-page"><a th:href="@{/}" th:text="#{home}">Početna</a></li>
+                            <li th:text="#{contact}">Kontakt</li>
                         </ul>
                     </nav>
                 </div>
@@ -33,13 +33,14 @@
                 <!--=======  contact page side content  =======-->
 
                 <div class="contact-page-side-content">
-                    <h3 class="contact-page-title">Kontaktiraj nas</h3>
-                    <p class="contact-page-message mb-30">Možete nas kontaktirati u svako doba putem email-a ili
+                    <h3 class="contact-page-title" th:text="#{contact}">Kontakt</h3>
+                    <p class="contact-page-message mb-30" th:text="#{contact.info}">Možete nas kontaktirati u svako doba
+                        putem email-a ili
                         telefonom kako biste dobili više informacija o našim proizvodima.</p>
                     <!--=======  single contact block  =======-->
 
                     <div class="single-contact-block">
-                        <h4><i class="fa fa-fax"></i> Adresa</h4>
+                        <h4><i class="fa fa-fax" th:text="#{address}"></i> Adresa</h4>
                         <p>Vojvode Stepe 148, 36000, Kraljevo</p>
                     </div>
 
@@ -48,7 +49,7 @@
                     <!--=======  single contact block  =======-->
 
                     <div class="single-contact-block">
-                        <h4><i class="fa fa-phone"></i> Telefon</h4>
+                        <h4><i class="fa fa-phone" th:text="#{phone.number}"></i> Telefon</h4>
                         <p>Mob. - 062 464 406</p>
                     </div>
 
@@ -57,7 +58,7 @@
                     <!--=======  single contact block  =======-->
 
                     <div class="single-contact-block">
-                        <h4><i class="fa fa-envelope-o"></i> Email</h4>
+                        <h4><i class="fa fa-envelope-o" th:text="#{email}"></i> Email</h4>
                         <p>plastika.draskovic@gmail.com</p>
                     </div>
 
@@ -74,31 +75,32 @@
                        th:text="${success_message}"></p>
                 </div>
                 <div class="contact-form-content" th:unless="${success_message}">
-                    <h3 class="contact-page-title">Pitajte nas</h3>
+                    <h3 class="contact-page-title" th:text="#{ask.us}">Pitajte nas</h3>
 
                     <div class="contact-form">
                         <form id="contact-form" method="post" th:action="@{/send_message}" th:object="${message}">
                             <div class="form-group">
-                                <label>Ime <span class="required">*</span></label>
+                                <label th:text="#{name}">Ime <span class="required">*</span></label>
                                 <input id="customername" name="customerName" required th:field="*{name}" type="text">
                             </div>
                             <div class="form-group">
-                                <label>Email <span class="required">*</span></label>
+                                <label th:text="#{email}">Email <span class="required">*</span></label>
                                 <input id="customerEmail" name="customerEmail" required th:field="*{email}"
                                        type="email">
                             </div>
                             <div class="form-group">
-                                <label>Naslov <span class="required">*</span></label>
+                                <label th:text="#{title}">Naslov <span class="required">*</span></label>
                                 <input id="contactSubject" name="contactSubject" required th:field="*{subject}"
                                        type="text">
                             </div>
                             <div class="form-group">
-                                <label>Poruka <span class="required">*</span></label>
+                                <label th:text="#{message}">Poruka <span class="required">*</span></label>
                                 <textarea id="contactMessage" name="contactMessage" required style="line-height: 2" th:field="*{text}"></textarea>
                             </div>
                             <input name="${_csrf.parameterName}" type="hidden" value="${_csrf.token}"/>
                             <div class="form-group mb-0">
-                                <button class="fl-btn" id="submit" name="submit" type="submit" value="submit">Pošalji
+                                <button class="fl-btn" id="submit" name="submit" th:text="#{send}" type="submit"
+                                        value="submit">Pošalji
                                 </button>
                             </div>
                         </form>

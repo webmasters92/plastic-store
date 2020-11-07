@@ -18,8 +18,8 @@
                 <div class="breadcrumb-container">
                     <nav>
                         <ul>
-                            <li class="parent-page"><a th:href="@{/}">Početna</a></li>
-                            <li th:text="Pretraga"></li>
+                            <li class="parent-page"><a th:href="@{/}" th:text="#{home}">Početna</a></li>
+                            <li th:text="#{search}">Pretraga</li>
                         </ul>
                     </nav>
                 </div>
@@ -52,17 +52,17 @@
                         <div class="col-lg-8 col-md-8 col-sm-12 d-flex flex-column flex-sm-row justify-content-between align-items-left align-items-sm-center">
                             <!--=======  Sort by dropdown  =======-->
                             <div class="sort-by-dropdown d-flex align-items-center mb-xs-10">
-                                <p class="mr-10 mb-0">Sortiraj: </p>
+                                <p class="mr-10 mb-0" th:text="#{sort.by}">Sortiraj: </p>
                                 <select class="nice-select" id="sort-by" name="sort-by">
-                                    <option value="min-price">Najjeftinije prvo</option>
-                                    <option value="max-price">Najskuplje prvo</option>
-                                    <option selected value="name-asc">Naziv A-Z</option>
-                                    <option value="name-desc">Naziv Z-A</option>
+                                    <option th:text="#{sort.by.price.low}" value="min-price">Najjeftinije prvo</option>
+                                    <option th:text="#{sort.by.price.high}" value="max-price">Najskuplje prvo</option>
+                                    <option selected th:text="#{sort.by.name.a.z}" value="name-asc">Naziv A-Z</option>
+                                    <option th:text="#{sort.by.name.z.a}" value="name-desc">Naziv Z-A</option>
                                 </select>
                             </div>
 
                             <div class="sort-by-dropdown d-flex align-items-center mb-xs-10">
-                                <p class="mr-10 mb-0">Prikaži: </p>
+                                <p class="mr-10 mb-0" th:text="#{show}">Prikaži: </p>
                                 <select class="nice-select" id="show-by" name="show-by">
                                     <option value="20">20</option>
                                     <option value="40">40</option>
@@ -138,13 +138,13 @@
 
                                 <div class="hover-icons">
                                     <ul>
-                                        <li><a data-tooltip="Dodaj u korpu"
+                                        <li><a th:data-tooltip="#{add.to.cart}"
                                                th:href="@{/product/single_product/__${product.id}__}"><i
                                                 class="icon ion-md-cart"></i></a></li>
-                                        <li><a data-tooltip="Dodaj u listu želja" href="#"
+                                        <li><a href="#" th:data-tooltip="#{add.to.wishlist}"
                                                th:onclick="|openWishListDialog(${product.id})|"> <i
                                                 class="icon ion-md-heart-empty"></i></a></li>
-                                        <li><a data-tooltip="Detaljnije" href="#" id="details"
+                                        <li><a href="#" id="details" th:data-tooltip="#{details}"
                                                th:onclick="'javascript:openProductModal(\'' + ${product.id} + '\');'"><i
                                                 class="icon ion-md-open"></i></a></li>
                                     </ul>
@@ -210,11 +210,12 @@
 
                                 <div class="hover-icons">
                                     <ul>
-                                        <li><a data-tooltip="Dodaj u korpu"
-                                               th:href="@{/product/single_product/__${product.id}__}">Dodaj u korpu</a>
-                                        </li>
-                                        <li><a href="#"><i class="icon ion-md-heart-empty"></i></a></li>
-                                        <li><a data-tooltip="Detaljnije" href="#"
+                                        <li><a th:data-tooltip="#{add.to.cart}"
+                                               th:href="@{/product/single_product/__${product.id}__}"></a></li>
+                                        <li><a href="#" th:data-tooltip="#{add.to.wishlist}"
+                                               th:onclick="|openWishListDialog(${product.id})|"><i
+                                                class="icon ion-md-heart-empty"></i></a></li>
+                                        <li><a href="#" th:data-tooltip="#{details}"
                                                th:onclick="'javascript:openProductModal(\'' + ${product.id} + '\');'"><i
                                                 class="icon ion-md-options"></i></a></li>
                                     </ul>

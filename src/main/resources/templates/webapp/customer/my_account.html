@@ -15,8 +15,8 @@
                 <div class="breadcrumb-container">
                     <nav>
                         <ul>
-                            <li class="parent-page"><a th:href="@{/}">Početna</a></li>
-                            <li>Moj nalog</li>
+                            <li class="parent-page"><a th:href="@{/}" th:text="#{home}">Početna</a></li>
+                            <li th:text="#{my.account}">Moj nalog</li>
                         </ul>
                     </nav>
                 </div>
@@ -36,17 +36,17 @@
                         <div class="myaccount-tab-menu nav" role="tablist">
                             <a data-toggle="tab" href="#dashboard" id="dashboard_link"
                                th:classappend="${active_tab=='user_panel'}?'active show'"><i
-                                    class="fa fa-dashboard"></i>Korisnički panel</a>
+                                    class="fa fa-dashboard" th:text="#{dashboard}"></i>Korisnički panel</a>
 
                             <a data-toggle="tab" href="#orders" id="orders_link"
                                th:classappend="${active_tab=='orders_panel'}?'active show'"><i
-                                    class="fa fa-cart-arrow-down"></i>Moje Porudžbine</a>
-
-                            <a data-toggle="tab" href="#wishlist"><i class="fa fa-cart-arrow-down"></i>Moje Želje</a>
-
-                            <a data-toggle="tab" href="#account-info"><i class="fa fa-user"></i> Korisnički podaci</a>
-
-                            <a th:href="@{/customer/logout}"><i class="fa fa-sign-out"></i> Odjava</a>
+                                    class="fa fa-cart-arrow-down" th:text="#{my.orders}"></i>Moje Porudžbine</a>
+                            <a data-toggle="tab" href="#wishlist"><i class="fa fa-cart-arrow-down"
+                                                                     th:text="#{wishlist}"></i>Moje Želje</a>
+                            <a data-toggle="tab" href="#account-info"><i class="fa fa-user" th:text="#{userdata}"></i>
+                                Korisnički podaci</a>
+                            <a th:href="@{/customer/logout}"><i class="fa fa-sign-out" th:text="#{logout}"></i>
+                                Odjava</a>
                         </div>
                     </div>
                     <!-- My Account Tab Menu End -->
@@ -57,14 +57,16 @@
                             <!-- Single Tab Content Start -->
                             <div class="tab-pane fade show active" id="dashboard" role="tabpanel">
                                 <div class="myaccount-content">
-                                    <h3>Kontrolna tabla</h3>
+                                    <h3 th:text="#{dashboard}">Kontrolna tabla</h3>
 
                                     <div class="welcome mb-20">
+
                                         <p style="font-weight: bold"
-                                           th:text="'Zdravo '+${#authentication.getPrincipal().getUsername()}"></p>
+                                           th:text="#{hello}+' '+${#authentication.getPrincipal().getUsername()}"></p>
                                     </div>
 
-                                    <p class="mb-0">Sa ove kontrolne table možeš lako proveriti svoje porudžbine, listu
+                                    <p class="mb-0" th:text="#{dashboard.info}">Sa ove kontrolne table možeš lako
+                                        proveriti svoje porudžbine, listu
                                         želja kao i manipulisati svojim korisničkim podacima.</p>
                                 </div>
                             </div>
@@ -73,17 +75,17 @@
                             <!-- Single Tab Content Start -->
                             <div class="tab-pane fade" id="wishlist" role="tabpanel">
                                 <div class="myaccount-content" th:if="${products.size()>0}">
-                                    <h3>Lista želja</h3>
+                                    <h3 th:text="#{wishlist}">Lista želja</h3>
 
                                     <div class="myaccount-table table-responsive text-center">
                                         <table class="table table-bordered">
                                             <thead class="thead-light">
                                             <tr>
                                                 <th>ID</th>
-                                                <th>Slika</th>
-                                                <th>Naziv</th>
-                                                <th>Dimenzije</th>
-                                                <th>Cena</th>
+                                                <th th:text="#{picture}">Slika</th>
+                                                <th th:text="#{name}">Naziv</th>
+                                                <th th:text="#{size}">Dimenzije</th>
+                                                <th th:text="#{price}">Cena</th>
                                             </tr>
                                             </thead>
                                             <tbody>
@@ -114,25 +116,26 @@
                                     </div>
                                 </div>
                                 <div class="myaccount-content" th:unless="${products.size()>0}">
-                                    <p style="text-align: center;font-weight: bold;font-size: 22px;">Vaša lista želja je
+                                    <p style="text-align: center;font-weight: bold;font-size: 22px;"
+                                       th:text="#{wishlist.empty}">Vaša lista želja je
                                         trenutno prazna.</p>
                                 </div>
                             </div>
 
                             <div class="tab-pane fade" id="orders" role="tabpanel">
                                 <div class="myaccount-content" th:if="${orders.size()>0}">
-                                    <h3>Porudžbine</h3>
+                                    <h3 th:text="#{orders}">Porudžbine</h3>
 
                                     <div class="myaccount-table table-responsive text-center">
                                         <table class="table table-bordered">
                                             <thead class="thead-light">
                                             <tr>
                                                 <th>ID</th>
-                                                <th>Datum kreiranja</th>
+                                                <th th:text="#{date.created}">Datum kreiranja</th>
                                                 <th>Status</th>
-                                                <th>Ukupno</th>
-                                                <th>Pregled</th>
-                                                <th>Opcije</th>
+                                                <th th:text="#{total}">Ukupno</th>
+                                                <th th:text="#{view}">Pregled</th>
+                                                <th th:text="#{option}">Opcije</th>
                                             </tr>
                                             </thead>
                                             <tbody>
@@ -142,7 +145,8 @@
                                                 <td th:text="${order.getOrderStatus().getDisplayValue()}"></td>
                                                 <td th:text="${order.getOrderTotal()}+' RSD'"></td>
                                                 <td><a class="btn"
-                                                       th:href="@{/checkout/order_details/__${order.getId()}__}">Detalji</a>
+                                                       th:href="@{/checkout/order_details/__${order.getId()}__}"
+                                                       th:text="#{details}">Detalji</a>
                                                 </td>
                                                 <td><a class="btn btn-danger btn-sm" href="#"
                                                        th:if="${order.getOrderStatus().name()=='ORDERED'}"
@@ -154,7 +158,8 @@
                                     </div>
                                 </div>
                                 <div class="myaccount-content" th:unless="${orders.size()>0}">
-                                    <p style="text-align: center;font-weight: bold;font-size: 22px;">Vaša lista
+                                    <p style="text-align: center;font-weight: bold;font-size: 22px;"
+                                       th:text="#{orders.empty}">Vaša lista
                                         porudžbina je trenutno prazna.</p>
                                 </div>
                             </div>
@@ -162,59 +167,62 @@
                             <!-- Single Tab Content Start -->
                             <div class="tab-pane fade" id="account-info" role="tabpanel" th:object="${customer}">
                                 <div class="myaccount-content">
-                                    <h3>Podaci o nalogu</h3>
+                                    <h3 th:text="#{userdata}">Podaci o nalogu</h3>
 
                                     <div class="account-details-form">
                                         <form id="account_form" method="post" th:action="@{/customer/edit_customer}">
                                             <div class="row">
                                                 <div class="col-lg-6 col-12 mb-30">
-                                                    <label for="first-name">Ime*</label>
+                                                    <label for="first-name" th:text="#{first.name}">Ime*</label>
                                                     <input id="first-name" name="first" required
                                                            th:field="*{firstName}" type="text">
                                                 </div>
 
                                                 <div class="col-lg-6 col-12 mb-30">
-                                                    <label for="last-name">Prezime*</label>
+                                                    <label for="last-name" th:text="#{last.name}">Prezime*</label>
                                                     <input id="last-name" name="last" required
                                                            th:field="*{lastName}" type="text">
                                                 </div>
 
                                                 <div class="col-lg-6 col-12 mb-30">
-                                                    <label for="phone-number">Broj telefona</label>
+                                                    <label for="phone-number" th:text="#{phone.number}">Broj
+                                                        telefona</label>
                                                     <input id="phone-number" maxlength="15" name="phone"
                                                            th:field="*{phoneNumber}" type="number">
                                                 </div>
 
                                                 <div class="col-lg-6 col-12 mb-30">
-                                                    <label for="address">Adresa</label>
+                                                    <label for="address" th:text="#{address}">Adresa</label>
                                                     <input id="address" name="address" th:field="*{address}"
                                                            type="text">
                                                 </div>
 
                                                 <div class="col-lg-6 col-12 mb-30">
-                                                    <label for="city">Grad</label>
+                                                    <label for="city" th:text="#{city}">Grad</label>
                                                     <input id="city" name="city" th:field="*{city}" type="text">
                                                 </div>
 
                                                 <div class="col-lg-6 col-12 mb-30">
-                                                    <label for="zip-code">Poštanski broj</label>
+                                                    <label for="zip-code" th:text="#{zip.code}">Poštanski broj</label>
                                                     <input id="zip-code" maxlength="5" name="zip_code"
                                                            required th:field="*{zipCode}" type="number">
                                                 </div>
 
                                                 <div class="col-12 mb-30">
-                                                    <label for="email">Email*</label>
+                                                    <label for="email" th:text="#{email}">Email*</label>
                                                     <input id="email" name="email" th:field="*{email}"
                                                            type="email">
                                                 </div>
 
                                                 <div class="col-12 mb-30">
-                                                    <label for="display-name">Korisničko ime*</label>
+                                                    <label for="display-name" th:text="#{username}">Korisničko
+                                                        ime*</label>
                                                     <input id="display-name" placeholder="Korisničko ime" readonly
                                                            th:field="*{username}" type="text">
                                                 </div>
 
-                                                <div class="col-12 mb-30"><h4>Promena šifre</h4></div>
+                                                <div class="col-12 mb-30"><h4 th:text="#{change.password}">Promena
+                                                    šifre</h4></div>
 
                                                 <div class="col-12 mb-30" hidden="hidden">
                                                     <input id="current-pwd" th:field="*{password}" type="password">
@@ -222,17 +230,18 @@
 
                                                 <div class="col-lg-6 col-12 mb-30">
                                                     <input data-rule-new_pwd="true" id="new-pwd" name="new_pwd"
-                                                           placeholder="Nova šifra"
+                                                           th:placeholder="#{new.password}"
                                                            th:field="*{new_password}" type="password">
                                                 </div>
 
                                                 <div class="col-lg-6 col-12 mb-30">
                                                     <input data-rule-confirm_pwd="true" data-rule-equalTo="#new-pwd"
                                                            id="confirm-pwd" name="confirm_pwd"
-                                                           placeholder="Potvrdi šifru" type="password">
+                                                           th:placeholder="#{confirm.password}" type="password">
                                                 </div>
                                                 <div class="col-12">
-                                                    <button class="save-change-btn" type="submit">Sačuvaj promene
+                                                    <button class="save-change-btn" th:text="#{save}" type="submit">
+                                                        Sačuvaj promene
                                                     </button>
                                                 </div>
                                             </div>

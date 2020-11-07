@@ -17,8 +17,8 @@
                 <div class="breadcrumb-container">
                     <nav>
                         <ul>
-                            <li class="parent-page"><a th:href="@{/}">Početna</a></li>
-                            <li>Prijava</li>
+                            <li class="parent-page"><a th:href="@{/}" th:text="#{home}">Početna</a></li>
+                            <li th:text="#{login.title}">Prijava</li>
                         </ul>
                     </nav>
                 </div>
@@ -38,32 +38,33 @@
                 <!-- Login Form s-->
                 <form method="post" th:action="@{/login_customer}">
                     <div class="login-form">
-                        <h4 class="login-title">Prijava</h4>
+                        <h4 class="login-title" th:text="#{login.title}">Prijava</h4>
                         <div class="row">
                             <div class="error col-md-12 col-12" th:if="${param.error}"
                                  th:with="errorMsg=${session['SPRING_SECURITY_LAST_EXCEPTION'].message}">
-                                <span style="color:red;" th:text="${errorMsg}">Podaci za prijavu nisu validni, pokušajte ponovo</span>
+                                <span style="color:red;" th:text="${errorMsg}"></span>
                             </div>
                             <div class="col-md-12 col-12 mb-20">
-                                <label>Korisničko ime</label>
-                                <input class="mb-0" placeholder="Korisničko ime" th:name="username" type="text">
+                                <label th:text="#{username}">Korisničko ime</label>
+                                <input class="mb-0" th:name="username" th:placeholder="#{username}" type="text">
                             </div>
                             <div class="col-12 mb-20">
-                                <label>Šifra</label>
-                                <input class="mb-0" placeholder="Šifra" th:name="password" type="password">
+                                <label th:text="#{password}">Šifra</label>
+                                <input class="mb-0" th:name="password" th:placeholder="#{password}" type="password">
                             </div>
                             <div class="col-md-8">
                                 <div class="check-box d-inline-block ml-0 ml-md-2 mt-10">
                                     <input id="remember-me" name="remember-me" type="checkbox">
-                                    <label for="remember-me">Zapamti me</label>
+                                    <label for="remember-me" th:text="#{remember.me}">Zapamti me</label>
                                 </div>
                             </div>
                             <div class="col-md-4 mt-10 mb-20 text-left text-md-right">
-                                <a th:href="@{/customer/forgot}"> Zaboravljena šifra?</a>
+                                <a th:href="@{/customer/forgot}" th:text="#{forgot.password}+'?'">Zaboravljena
+                                    šifra?</a>
                             </div>
                             <input name="${_csrf.parameterName}" type="hidden" value="${_csrf.token}"/>
                             <div class="col-md-12">
-                                <button class="register-button mt-0" type="submit">Uloguj se</button>
+                                <button class="register-button mt-0" th:text="#{login}" type="submit">Uloguj se</button>
                             </div>
                         </div>
                     </div>

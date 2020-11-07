@@ -12,9 +12,10 @@
                 <div class="breadcrumb-container">
                     <nav>
                         <ul>
-                            <li class="parent-page"><a th:href="@{/}">Početna</a></li>
-                            <li class="parent-page"><a th:href="@{/customer/my_account}">Moj nalog</a></li>
-                            <li>Sadržaj Vaše porudžbine</li>
+                            <li class="parent-page"><a th:href="@{/}" th:text="#{home}">Početna</a></li>
+                            <li class="parent-page"><a th:href="@{/customer/my_account}" th:text="#{my.account}">Moj
+                                nalog</a></li>
+                            <li th:text="#{order.content}">Sadržaj Vaše porudžbine</li>
                         </ul>
                     </nav>
                 </div>
@@ -33,13 +34,13 @@
                         <table class="table">
                             <thead>
                             <tr>
-                                <th class="pro-thumbnail">Slika</th>
-                                <th class="pro-title">Proizvod</th>
-                                <th class="pro-color">Boja</th>
-                                <th class="pro-size">Veličina</th>
-                                <th class="pro-price">Cena</th>
-                                <th class="pro-quantity">Količina</th>
-                                <th class="pro-subtotal">Ukupno</th>
+                                <th class="pro-thumbnail" th:text="#{picture}">Slika</th>
+                                <th class="pro-title" th:text="#{product}">Proizvod</th>
+                                <th class="pro-color" th:text="#{color}">Boja</th>
+                                <th class="pro-size" th:text="#{size}">Veličina</th>
+                                <th class="pro-price" th:text="#{price}">Cena</th>
+                                <th class="pro-quantity" th:text="#{quantity}">Količina</th>
+                                <th class="pro-subtotal" th:text="#{total}">Ukupno</th>
                             </tr>
                             </thead>
                             <tbody>

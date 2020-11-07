@@ -12,8 +12,8 @@
                 <div class="breadcrumb-container">
                     <nav>
                         <ul>
-                            <li class="parent-page"><a th:href="@{/}">Početna</a></li>
-                            <li>Sadržaj Vaše korpe</li>
+                            <li class="parent-page"><a th:href="@{/}" th:text="#{home}">Početna</a></li>
+                            <li th:text="#{content.cart}">Sadržaj Vaše korpe</li>
                         </ul>
                     </nav>
                 </div>
@@ -32,14 +32,14 @@
                         <table class="table">
                             <thead>
                             <tr>
-                                <th class="pro-thumbnail">Slika</th>
-                                <th class="pro-title">Proizvod</th>
-                                <th class="pro-color">Boja</th>
-                                <th class="pro-size">Veličina</th>
-                                <th class="pro-price">Cena</th>
-                                <th class="pro-quantity">Količina</th>
-                                <th class="pro-subtotal">Ukupno</th>
-                                <th class="pro-remove">Obriši</th>
+                                <th class="pro-thumbnail" th:text="#{picture}">Slika</th>
+                                <th class="pro-title" th:text="#{product}">Proizvod</th>
+                                <th class="pro-color" th:text="#{color}">Boja</th>
+                                <th class="pro-size" th:text="#{size}">Veličina</th>
+                                <th class="pro-price" th:text="#{price}">Cena</th>
+                                <th class="pro-quantity" th:text="#{quantity}">Količina</th>
+                                <th class="pro-subtotal" th:text="#{total}">Ukupno</th>
+                                <th class="pro-remove" th:text="#{remove}">Obriši</th>
                             </tr>
                             </thead>
                             <tbody>
@@ -91,16 +91,18 @@
 
                         <div class="cart-summary">
                             <div class="cart-summary-wrap">
-                                <h4>Kupovina</h4>
-                                <p>Ukupno <span th:text="${session.cart.getTotal()}+ ' RSD'"></span></p>
-                                <p>Poštarina <span
+                                <h4 th:text="#{shopping}">Kupovina</h4>
+                                <p th:text="#{total}">Ukupno <span th:text="${session.cart.getTotal()}+ ' RSD'"></span>
+                                </p>
+                                <p th:text="#{shipping.fee}">Poštarina <span
                                         th:text="${session.cart.getTotal()>=2000}?'Besplatna isporuka':'/'"></span></p>
-                                <h2>Ukupan iznos za uplatu <span th:text="${session.cart.getTotal()}+' RSD'"></span>
+                                <h2 th:text="#{total.price}">Ukupan iznos za uplatu <span
+                                        th:text="${session.cart.getTotal()}+' RSD'"></span>
                                 </h2>
                             </div>
                             <div class="cart-summary-button">
                                 <a th:href="@{/checkout/show_checkout}">
-                                    <button class="checkout-btn">Završi kupovinu</button>
+                                    <button class="checkout-btn" th:text="#{place.order}">Završi kupovinu</button>
                                 </a>
                             </div>
                         </div>
@@ -120,11 +122,10 @@
                     <div class="col-sm-12 empty-cart-cls text-center">
                         <img class="img-fluid" height="300" style="background: transparent"
                              th:src="@{'/img/empty-cart.png'}" width="300">
-                        <h3><strong>Vaša korpa je trenutno prazna</strong></h3>
-                        <h4>Dodajte nešto kako biste videli sadržaj :)</h4>
-                        <div class="newsletter-form mb-20 mt-30">
-                            <a th:href="@{/}">Nastavi kupovinu</a>
-                        </div>
+                        <h3 th:text="#{empty.cart}"><strong>Vaša korpa je trenutno prazna</strong></h3>
+                        <h4 th:text="#{add.content}">Dodajte nešto kako biste videli sadržaj :)</h4>
+                        <div class="newsletter-form mb-20 mt-30"><a th:href="@{/}" th:text="#{continue.shopping}">Nastavi
+                            kupovinu</a></div>
                     </div>
                 </div>
             </div>

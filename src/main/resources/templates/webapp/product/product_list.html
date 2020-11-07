@@ -18,7 +18,7 @@
                 <div class="breadcrumb-container">
                     <nav>
                         <ul>
-                            <li class="parent-page"><a th:href="@{/}">Početna</a></li>
+                            <li class="parent-page"><a th:href="@{/}" th:text="#{home}">Početna</a></li>
                             <li id="breadcrumb_category" th:class="${selected_subcategory!=null}?'parent-page'"
                                 th:value="${selected_category.id}"><a
                                     th:href="@{/product/product_list_category/__${selected_category.id}__}"
@@ -52,7 +52,7 @@
                     <!--=======  single sidebar block  =======-->
 
                     <div class="single-sidebar">
-                        <h3 class="sidebar-title">KATEGORIJE</h3>
+                        <h3 class="sidebar-title" th:text="#{categories}">KATEGORIJE</h3>
 
                         <div class="category">
                             <ul>
@@ -67,7 +67,7 @@
                     <!--=======  single sidebar block  =======-->
 
                     <div class="single-sidebar price-range-bg">
-                        <h3 class="sidebar-title filter-price-title">FILTER PO CENI</h3>
+                        <h3 class="sidebar-title filter-price-title" th:text="#{filter.by.price}">FILTER PO CENI</h3>
                         <div class="sidebar-price">
                             <div id="price-range"></div>
                             <input class="price-amount" data-max="0" data-min="0" id="price-amount" readonly
@@ -80,7 +80,7 @@
                     <!--=======  single sidebar block  =======-->
 
                     <div class="single-sidebar mb-30" id="product_colors">
-                        <h3 class="sidebar-title color-title">BOJE</h3>
+                        <h3 class="sidebar-title color-title" th:text="#{colors.big}">BOJE</h3>
                         <div class="color-category">
                             <ul id="selected_colors">
                                 <li th:each="entry:${colorMap}"><a th:text="${entry.key.getName()}"></a> <span
@@ -94,7 +94,7 @@
                     <!--=======  single sidebar block  =======-->
 
                     <div class="single-sidebar">
-                        <h3 class="sidebar-title">POPULARNI TAGOVI</h3>
+                        <h3 class="sidebar-title" th:text="#{popuar.tags}">POPULARNI TAGOVI</h3>
 
                         <!--=======  tag container  =======-->
 
@@ -163,17 +163,17 @@
                             <!--=======  Sort by dropdown  =======-->
 
                             <div class="sort-by-dropdown d-flex align-items-center mb-xs-10">
-                                <p class="mr-10 mb-0">Sortiraj: </p>
+                                <p class="mr-10 mb-0" th:text="#{sort.by}+':'">Sortiraj: </p>
                                 <select class="nice-select" id="sort-by" name="sort-by">
-                                    <option value="min-price">Najjeftinije prvo</option>
-                                    <option value="max-price">Najskuplje prvo</option>
-                                    <option selected value="name-asc">Naziv A-Z</option>
-                                    <option value="name-desc">Naziv Z-A</option>
+                                    <option th:text="#{sort.by.price.low}" value="min-price">Najjeftinije prvo</option>
+                                    <option th:text="#{sort.by.price.high}" value="max-price">Najskuplje prvo</option>
+                                    <option selected th:text="#{sort.by.name.a.z}" value="name-asc">Naziv A-Z</option>
+                                    <option th:text="#{sort.by.name.z.a}" value="name-desc">Naziv Z-A</option>
                                 </select>
                             </div>
 
                             <div class="sort-by-dropdown d-flex align-items-center mb-xs-10">
-                                <p class="mr-10 mb-0">Prikaži: </p>
+                                <p class="mr-10 mb-0" th:text="#{show}">Prikaži: </p>
                                 <select class="nice-select" id="show-by" name="show-by">
                                     <option value="20">20</option>
                                     <option value="40">40</option>
@@ -185,7 +185,7 @@
                             <!--=======  End of Sort by dropdown  =======-->
 
                             <p class="result-show-message"
-                               th:text="'Prikazano 1-12 od '+${pagination.getTotalElements()}"></p>
+                               th:text="#{showing}+'1-12'+#{from}+' '+${pagination.getTotalElements()}"></p>
                         </div>
                     </div>
                 </div>
@@ -210,7 +210,7 @@
                             </div>
                             <div class="content">
                                 <h2 class="product-title"><a th:href="@{/product/single_product/__${product.id}__}"
-                                                             th:text="${product.getName()}">Officiis debitis</a></h2>
+                                                             th:text="${product.getName()}"></a></h2>
                                 <div class="rating" id="grid-rating">
                                     <i class="fa fa-star"
                                        th:classappend="${product.getAverageRating()>=1}?'active'"></i>
@@ -247,13 +247,13 @@
 
                                 <div class="hover-icons">
                                     <ul>
-                                        <li><a data-tooltip="Dodaj u korpu"
+                                        <li><a th:data-tooltip="#{add.to.cart}"
                                                th:href="@{/product/single_product/__${product.id}__}"><i
                                                 class="icon ion-md-cart"></i></a></li>
-                                        <li><a data-tooltip="Dodaj u listu želja" href="#"
+                                        <li><a href="#" th:data-tooltip="#{add.to.wishlist}"
                                                th:onclick="|openWishListDialog(${product.id})|"> <i
                                                 class="icon ion-md-heart-empty"></i></a></li>
-                                        <li><a data-tooltip="Detaljnije" href="#"
+                                        <li><a href="#" th:data-tooltip="#{details}"
                                                th:onclick="'javascript:openProductModal(\'' + ${product.id} + '\');'"><i
                                                 class="icon ion-md-open"></i></a></li>
                                     </ul>
@@ -278,7 +278,7 @@
                             </div>
                             <div class="content">
                                 <h2 class="product-title"><a th:href="@{/product/single_product/__${product.id}__}"
-                                                             th:text="${product.name}">Officiis debitis</a></h2>
+                                                             th:text="${product.name}"></a></h2>
                                 <div class="rating">
                                     <i class="fa fa-star"
                                        th:classappend="${product.getAverageRating()>=1}?'active'"></i>
@@ -317,13 +317,13 @@
 
                                 <div class="hover-icons">
                                     <ul>
-                                        <li><a data-tooltip="Dodaj u korpu"
-                                               th:href="@{/product/single_product/__${product.id}__}">Dodaj u korpu</a>
-                                        </li>
-                                        <li><a data-tooltip="Dodaj u listu želja" href="#"
+                                        <li><a th:data-tooltip="#{add.to.cart}"
+                                               th:href="@{/product/single_product/__${product.id}__}"
+                                               th:text="#{add.to.cart}"></a></li>
+                                        <li><a href="#" th:data-tooltip="#{add.to.wishlist}"
                                                th:onclick="|openWishListDialog(${product.id})|"> <i
                                                 class="icon ion-md-heart-empty"></i></a></li>
-                                        <li><a data-tooltip="Detaljnije" href="#"
+                                        <li><a href="#" th:data-tooltip="#{details}"
                                                th:onclick="'javascript:openProductModal(\'' + ${product.id} + '\');'"><i
                                                 class="icon ion-md-open"></i></a></li>
                                     </ul>

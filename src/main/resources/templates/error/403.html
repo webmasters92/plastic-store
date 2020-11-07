@@ -6,7 +6,7 @@
     <meta content="ie=edge" http-equiv="X-UA-Compatible">
     <link href="https://fonts.googleapis.com/css?family=Raleway:500,800" rel="stylesheet">
     <link href="/css/webapp/403.css" rel="stylesheet" th:href="@{/css/webapp/403.css}" type="text/css"/>
-    <title>Pristup stranici je zabranjen</title>
+    <title th:text="#{error.403}">Pristup stranici je zabranjen</title>
 </head>
 <body>
 <use>
@@ -20,6 +20,6 @@
 </svg>
 </use>
 <h1>403</h1>
-<h2>Pristup ovoj stranici je zabranjen!</h2>
+<h2 th:text="#{error.403}">Pristup ovoj stranici je zabranjen!</h2>
 </body>
 </html>

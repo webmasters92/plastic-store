@@ -61,12 +61,14 @@
                         </div>
                         <div class="cart-calculation">
                             <div class="calculation-details">
-                                <p class="total">Ukupno <span th:text="${session.cart.getTotal()+ ' RSD'}"></span></p>
+                                <p class="total" th:text="#{total}">Ukupno <span
+                                        th:text="${session.cart.getTotal()+ ' RSD'}"></span></p>
                             </div>
                             <div class="floating-cart-btn text-center">
-                                <a class="fl-btn pull-left" th:href="@{/cart/show_cart}">Korpa</a>
+                                <a class="fl-btn pull-left" th:href="@{/cart/show_cart}" th:text="#{cart}">Korpa</a>
                                 <a class="fl-btn pull-right" th:href="@{/checkout/show_checkout}"
-                                   th:if="${session.cart.getCartItems().size()>0}">Završi kupovinu</a>
+                                   th:if="${session.cart.getCartItems().size()>0}" th:text="#{place.order}">Završi
+                                    kupovinu</a>
                             </div>
                         </div>
                     </div>

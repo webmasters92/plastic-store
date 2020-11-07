@@ -23,9 +23,13 @@
 
                         <div class="address-text">
                             <ul>
-                                <li>Adresa: Vojvode Stepe 148, 36000 Kraljevo.</li>
-                                <li>Telefon: 062 464 406</li>
-                                <li>Email: plastika.draskovic@gmail.com</li>
+                                <li th:text="#{address}+': Vojvode Stepe 148, 36000 Kraljevo.'">Adresa: Vojvode Stepe
+                                    148, 36000 Kraljevo.
+                                </li>
+                                <li th:text="#{phone.number}+': 062 464 406'">Telefon: 062 464 406</li>
+                                <li th:text="#{email}+' : plastika.draskovic@gmail.com'">Email:
+                                    plastika.draskovic@gmail.com
+                                </li>
                             </ul>
                         </div>
                     </div>
@@ -36,12 +40,12 @@
                     <!--=======  widget block  =======-->
 
                     <div class="widget-block">
-                        <h4 class="footer-widget-title mb-sm-10">INFORMACIJE</h4>
+                        <h4 class="footer-widget-title mb-sm-10" th:text="#{information}">INFORMACIJE</h4>
                         <ul>
-                            <li><a th:href="@{/about}">O nama</a></li>
-                            <li><a th:href="@{/contact}">Kontakt</a></li>
-                            <li><a th:href="@{/shipping_info}">Informacije o dostavi</a></li>
-                            <li><a th:href="@{/selling_terms}">Uslovi kupovine</a></li>
+                            <li><a th:href="@{/about}" th:text="#{about.us}">O nama</a></li>
+                            <li><a th:href="@{/contact}" th:text="#{contact}">Kontakt</a></li>
+                            <li><a th:href="@{/shipping_info}" th:text="#{delivery.info}">Informacije o dostavi</a></li>
+                            <li><a th:href="@{/selling_terms}" th:text="#{selling.terms}">Uslovi kupovine</a></li>
                         </ul>
                     </div>
 
@@ -51,12 +55,12 @@
                     <!--=======  widget block  =======-->
 
                     <div class="widget-block">
-                        <h4 class="footer-widget-title mt-sm-20 mb-sm-10">MOJ NALOG</h4>
+                        <h4 class="footer-widget-title mt-sm-20 mb-sm-10" th:text="#{my.account.big}">MOJ NALOG</h4>
                         <ul>
-                            <li><a th:href="@{/customer/my_account}">Moj nalog</a></li>
-                            <li><a th:href="@{/cart/show_cart}">Korpa</a></li>
-                            <li><a th:href="@{/product/show_wishlist}">Lista želja</a></li>
-                            <li><a th:href="@{/faqs}">Česta pitanja</a></li>
+                            <li><a th:href="@{/customer/my_account}" th:text="#{my.account}">Moj nalog</a></li>
+                            <li><a th:href="@{/cart/show_cart}" th:text="#{cart}">Korpa</a></li>
+                            <li><a th:href="@{/product/show_wishlist}" th:text="#{wishlist}">Lista želja</a></li>
+                            <li><a th:href="@{/faqs}" th:text="#{faqs}">Česta pitanja</a></li>
                         </ul>
                     </div>
 
@@ -66,12 +70,14 @@
                     <!--=======  widget block  =======-->
 
                     <div class="widget-block">
-                        <h4 class="footer-widget-title mt-sm-20 mb-sm-10">KONTAKTIRAJTE NAS </h4>
-                        <p>Kontaktirajte nas kako biste imali najnovije informacije o proizvodima ili predloge kako
+                        <h4 class="footer-widget-title mt-sm-20 mb-sm-10" th:text="#{contact.us.big}">KONTAKTIRAJTE
+                            NAS </h4>
+                        <p th:text="#{contact.info.suggestions}">Kontaktirajte nas kako biste imali najnovije
+                            informacije o proizvodima ili predloge kako
                             bismo usavršili naš sajt.</p>
 
                         <div class="newsletter-form mb-20">
-                            <a th:href="@{/contact}">Kontakt</a>
+                            <a th:href="@{/contact}" th:text="#{contact}">Kontakt</a>
                         </div>
                     </div>
 

@@ -106,12 +106,12 @@
 
                 <div class="hover-icons">
                     <ul>
-                        <li><a data-tooltip="Dodaj u korpu" th:href="@{/product/single_product/__${product.id}__}">Dodaj
-                            u korpu</a></li>
-                        <li><a data-tooltip="Dodaj u listu želja" href="#"
+                        <li><a th:data-tooltip="#{add.to.cart}" th:href="@{/product/single_product/__${product.id}__}"
+                               th:text="#{add.to.cart}"></a></li>
+                        <li><a href="#" th:data-tooltip="#{add.to.wishlist}"
                                th:onclick="|openWishListDialog(${product.id})|"> <i class="icon ion-md-heart-empty"></i></a>
                         </li>
-                        <li><a data-tooltip="Detaljnije" href="#"
+                        <li><a href="#" th:data-tooltip="#{details}"
                                th:onclick="'javascript:openProductModal(\'' + ${product.id} + '\');'"><i
                                 class="icon ion-md-open"></i></a></li>
                     </ul>

@@ -20,7 +20,7 @@
                 <div class="breadcrumb-container">
                     <nav>
                         <ul>
-                            <li class="parent-page"><a th:href="@{/}">Početna</a></li>
+                            <li class="parent-page"><a th:href="@{/}" th:text="#{home}">Početna</a></li>
                             <li class="parent-page"><a
                                     th:href="@{/product/product_list_category/__${single_product.category.id}__}"
                                     th:text="${single_product.category.name}"></a></li>
@@ -99,14 +99,15 @@
                     </p>
 
                     <div class="availability mb-0">
-                        <span class="title">Dostupnost:  </span>
-                        <h3 class="product-available mb-15" th:if="${single_product.isAvailable()}">( NA STANJU )</h3>
-                        <h3 class="product-not-available mb-15" th:unless="${single_product.isAvailable()}">( NIJE NA
-                            STANJU )</h3>
+                        <span class="title" th:text="#{availability}">Dostupnost:  </span>
+                        <h3 class="product-available mb-15" th:if="${single_product.isAvailable()}"
+                            th:text="'( '+#{in.stock}+' )'">( NA STANJU )</h3>
+                        <h3 class="product-not-available mb-15" th:text="'( '+#{out.of.stock}+' )'"
+                            th:unless="${single_product.isAvailable()}">( NIJE NA STANJU )</h3>
                     </div>
 
                     <div class="price mb-0">
-                        <span class="title">Cena:  </span>
+                        <span class="title" th:text="#{price}">Cena:  </span>
                         <h2 class="product-price mb-0">
                         <span class="main-price" th:classappend="${single_product.isSale()} ? 'discounted'"
                               th:text="${single_product.productAttributes.get(0).getPrice()}+' DIN'"></span>
@@ -119,14 +120,14 @@
 
                     <br>
                     <div class="manufacturer mb-0">
-                        <span class="title">Proizvođač:  </span>
+                        <span class="title" th:text="#{manufacturer}">Proizvođač:  </span>
                         <p class="product-manufacturer mb-20" th:text="' '+${single_product.manufacturer}"></p>
                     </div>
 
                     <p class="product-description mb-20" th:text="${single_product.description}"></p>
 
                     <div class="size mb-20">
-                        <span class="title"> Veličina:</span> <br>
+                        <span class="title" th:text="#{size}"> Veličina:</span> <br>
                         <select class="nice-select" id="chooseSize" name="chooseSize">
                             <option th:each="attribute : ${single_product.productAttributes}"
                                     th:text="${attribute.size}"
@@ -135,7 +136,7 @@
                     </div>
 
                     <div class="color mb-20">
-                        <span class="title"> Boja:</span> <br>
+                        <span class="title" th:text="#{color}"> Boja:</span> <br>
                         <a th:each="color,iter:${single_product.getProductColors()}" th:value="${color.name}">
                             <span class="color-block" th:classappend="${iter.first}?'active'"
                                   th:style="'background-color:'+${color.code}+';'"
@@ -144,26 +145,29 @@
                     </div>
 
                     <div class="cart-buttons mb-20">
-                        <span class="quantity-title mr-10">Količina: </span>
+                        <span class="quantity-title mr-10" th:text="#{quantity}">Količina: </span>
                         <div class="pro-qty mb-20">
                             <input id="quantity" type="text" value="1">
                         </div>
                         <div class="add-to-cart-btn ml-10 d-inline-block">
                             <a class="fl-btn" href="#" th:if="${single_product.isAvailable()}"
-                               th:onclick="'javascript:addToCart();'"><i class="fa fa-shopping-cart"></i> Dodaj u korpu</a>
+                               th:onclick="'javascript:addToCart();'" th:text="#{add.to.cart}"><i
+                                    class="fa fa-shopping-cart"></i> Dodaj u korpu</a>
                             <a class="fl-btn" href="#" th:if="${!single_product.isAvailable()}"
-                               th:onclick="'javascript:shakeProduct();'"><i class="fa fa-shopping-cart"></i> Dodaj u
+                               th:onclick="'javascript:shakeProduct();'" th:text="#{add.to.cart}"><i
+                                    class="fa fa-shopping-cart"></i> Dodaj u
                                 korpu</a>
                         </div>
                     </div>
 
                     <p class="wishlist-link mb-20 pb-15">
-                        <a th:href="@{/product/show_wishlist}"> <i class="icon ion-md-heart-empty"></i> Pretraži listu
+                        <a th:href="@{/product/show_wishlist}"> <i class="icon ion-md-heart-empty"
+                                                                   th:text="#{search.wishlist}"></i> Pretraži listu
                             želja</a>
                     </p>
 
                     <div class="category-list-container mb-20">
-                        <span>Kategorije: </span>
+                        <span th:text="#{categories}">Kategorije: </span>
                         <ul>
                             <li th:each="sub_category:${single_product.category.subcategories}"><a
                                     th:href="@{/product/product_list_sub_category/__${sub_category.id}__}"
@@ -193,10 +197,10 @@
                         <div class="nav nav-tabs" id="nav-tab" role="tablist">
                             <a aria-selected="true" class="nav-item nav-link active" data-toggle="tab"
                                href="#product-description" id="description-tab"
-                               role="tab">Opis</a>
+                               role="tab" th:text="#{description}">Opis</a>
                             <a aria-selected="false" class="nav-item nav-link" data-toggle="tab" href="#review"
                                id="review-tab"
-                               role="tab">Pregled</a>
+                               role="tab" th:text="#{view}">Pregled</a>
                         </div>
                     </nav>
                     <div class="tab-content" id="nav-tabContent">
@@ -205,8 +209,8 @@
                             <!--=======  product description  =======-->
 
                             <div class="product-description">
-                                <p th:if="${single_product.getDescription().isEmpty()}">Trenutno ne postoji opis za
-                                    izabrani proizvod</p>
+                                <p th:if="${single_product.getDescription().isEmpty()}" th:text="#{description.empty}">
+                                    Trenutno ne postoji opis za izabrani proizvod</p>
                                 <p th:text="${single_product.getDescription()}+'.'"
                                    th:unless="${single_product.getDescription().isEmpty()}"></p>
                             </div>
@@ -219,7 +223,8 @@
                             <div class="product-ratting-wrap">
                                 <div th:if="${reviews.size()>0}">
                                     <div class="pro-avg-ratting">
-                                        <h4 th:text="${avgRating}"><span>(Prosek)</span></h4>
+                                        <h4 th:text="${avgRating}"><span th:text="'('+#{average}+')'">(Prosek)</span>
+                                        </h4>
                                         <span th:text="'Bazirano na '+${reviews.size()}+ ' komentara'"></span>
                                     </div>
                                     <div class="ratting-list">
@@ -315,17 +320,18 @@
                                 </div>
                                 <div th:unless="${reviews.size()>0}">
 
-                                    <p style="font-size: 20px; font-weight: bold; text-align: center; margin-bottom: 50px; margin-top: 30px;">
+                                    <p style="font-size: 20px; font-weight: bold; text-align: center; margin-bottom: 50px; margin-top: 30px;"
+                                       th:text="#{review.empty}">
                                         Trenutno ne postoje ocene i komentari za izabrani
                                         proizvod</p>
 
                                 </div>
                                 <div class="ratting-form-wrapper fix">
-                                    <h3>Oceni proizvod i dodaj svoj komentar</h3>
+                                    <h3 th:text="#{rate.product}">Oceni proizvod i dodaj svoj komentar</h3>
                                     <form action="#" id="comment_form">
                                         <div class="ratting-form row">
                                             <div class="col-12 mb-15">
-                                                <h5>Ocena:</h5>
+                                                <h5 th:text="#{price}">Ocena:</h5>
                                                 <!-- Rating Stars Box -->
                                                 <div class='rating-stars'>
                                                     <ul id='stars'>
@@ -343,21 +349,21 @@
                                                 </div>
                                             </div>
                                             <div class="col-md-6 col-12 mb-15">
-                                                <label for="name">Ime:</label>
-                                                <input id="name" name="name" placeholder="Ime" type="text">
+                                                <label for="name" th:text="#{first.name}">Ime:</label>
+                                                <input id="name" name="name" th:placeholder="#{first.name}" type="text">
                                             </div>
                                             <div class="col-md-6 col-12 mb-15">
-                                                <label for="email">Mejl:</label>
-                                                <input id="email" name="email" placeholder="Mejl" type="text">
+                                                <label for="email" th:text="#{email}">Mejl:</label>
+                                                <input id="email" name="email" th:placeholder="#{email}" type="text">
                                             </div>
                                             <div class="col-12 mb-15">
-                                                <label for="comment">Tvoj komentar:</label>
+                                                <label for="comment" th:text="#{comment}">Tvoj komentar:</label>
                                                 <textarea id="comment" name="comment"
-                                                          placeholder="Napiši komentar"></textarea>
+                                                          th:placeholder="#{comment}"></textarea>
                                             </div>
                                             <div class="col-12">
                                                 <input th:onclick="'javascript:addReview();'" type="submit"
-                                                       value="Dodaj komentar">
+                                                       th:value="#{add.comment}">
                                             </div>
                                         </div>
                                         <input name="${_csrf.parameterName}" type="hidden" value="${_csrf.token}"/>
@@ -389,7 +395,7 @@
                 <!--=======  section title  =======-->
 
                 <div class="section-title">
-                    <h2>SLIČNI PROIZVODI</h2>
+                    <h2 th:text="#{similar.products}">SLIČNI PROIZVODI</h2>
                 </div>
 
                 <!--=======  End of section title  =======-->
@@ -447,13 +453,13 @@
 
                             <div class="hover-icons">
                                 <ul>
-                                    <li><a data-tooltip="Dodaj u korpu"
+                                    <li><a th:data-tooltip="#{add.to.cart}"
                                            th:href="@{/product/single_product/__${similar_product.id}__}"><i
                                             class="icon ion-md-cart"></i></a></li>
-                                    <li><a data-tooltip="Dodaj u listu želja" href="#"
+                                    <li><a href="#" th:data-tooltip="#{add.to.wishlist}"
                                            th:onclick="|openWishListDialog(${similar_product.id})|"> <i
                                             class="icon ion-md-heart-empty"></i></a></li>
-                                    <li><a data-tooltip="Detaljnije" href="#"
+                                    <li><a href="#" th:data-tooltip="#{details}"
                                            th:onclick="'javascript:openProductModal(\'' + ${similar_product.id} + '\');'"><i
                                             class="icon ion-md-open"></i></a></li>
                                 </ul>

@@ -7,7 +7,7 @@
     <meta content="width=device-width, initial-scale=1" name="viewport">
     <!-- The above 3 meta tags *must* come first in the head; any other head content must come *after* these tags -->
 
-    <title>500 - Greška na serveru</title>
+    <title th:text="#{error.500}">500 - Greška na serveru</title>
 
     <!-- Google font -->
     <link href="https://fonts.googleapis.com/css?family=Kanit:200" rel="stylesheet">
@@ -142,8 +142,10 @@
         <div class="notfound-404">
             <h1>500</h1>
         </div>
-        <h2>Uups! Greška na serveru</h2>
-        <p>Radimo na tome kako bismo povratili pristup ovoj stranici. <a th:href="@{/}"> Nazad na početnu</a></p>
+        <h2 th:text="'Uups! '+#{error.500}">Uups! Greška na serveru</h2>
+        <p th:text="#{error.500.info}">Radimo na tome kako bismo povratili pristup ovoj stranici. <a th:href="@{/}"
+                                                                                                     th:text="#{back.to.home}">
+            Nazad na početnu</a></p>
     </div>
 </div>
 

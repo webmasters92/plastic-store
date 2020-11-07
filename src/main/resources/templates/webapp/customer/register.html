@@ -17,8 +17,8 @@
                 <div class="breadcrumb-container">
                     <nav>
                         <ul>
-                            <li class="parent-page"><a th:href="@{/}">Početna</a></li>
-                            <li>Registracija</li>
+                            <li class="parent-page"><a th:href="@{/}" th:text="#{home}">Početna</a></li>
+                            <li th:text="#{registration}">Registracija</li>
                         </ul>
                     </nav>
                 </div>
@@ -42,41 +42,42 @@
                 <form id="registration_form" method="post" th:action="@{/customer/registerUser}"
                       th:object="${customer}">
                     <div class="login-form">
-                        <h4 class="login-title">Registracija</h4>
+                        <h4 class="login-title" th:text="#{registration}">Registracija</h4>
                         <div class="row">
                             <div class="col-md-6 col-12 mb-20">
-                                <label for="name1">Ime</label>
+                                <label for="name1" th:text="#{first.name}">Ime</label>
                                 <input class="mb-0" id="name1" name="name1" th:field="*{firstName}" type="text">
                             </div>
                             <div class="col-md-6 col-12 mb-20">
-                                <label for="name2">Prezime</label>
+                                <label for="name2" th:text="#{last.name}">Prezime</label>
                                 <input class="mb-0" id="name2" name="name2" th:field="*{lastName}" type="text">
                             </div>
                             <div class="col-md-12 mb-20">
-                                <label for="email">Mejl adresa*</label>
+                                <label for="email" th:text="#{email}">Mejl adresa*</label>
                                 <input class="mb-0" id="email" name="email" th:field="*{email}" type="email">
                                 <span style="color: red" th:if="${email_error!=null}" th:text="${email_error}"></span>
                             </div>
                             <div class="col-md-12 mb-20">
-                                <label for="username">Korisničko ime*</label>
+                                <label for="username" th:text="#{username}">Korisničko ime*</label>
                                 <input class="mb-0" id="username" minlength="8" name="username" th:field="*{username}"
                                        type="text">
                                 <span style="color: red" th:if="${username_error!=null}"
                                       th:text="${username_error}"></span>
                             </div>
                             <div class="col-md-6 mb-20">
-                                <label for="password">Šifra</label>
+                                <label for="password" th:text="#{password}">Šifra</label>
                                 <input class="mb-0" id="password" minlength="8" name="password" th:field="*{password}"
                                        type="password">
                             </div>
                             <div class="col-md-6 mb-20">
-                                <label for="confirm_password">Potvrdi šifru</label>
+                                <label for="confirm_password" th:text="#{confirm.password}">Potvrdi šifru</label>
                                 <input class="mb-0" data-rule-confirm_password="true" data-rule-equalTo="#password"
                                        id="confirm_password" name="confirm_password" type="password">
                             </div>
                             <input name="${_csrf.parameterName}" type="hidden" value="${_csrf.token}"/>
                             <div class="col-12">
-                                <button class="register-button mt-0" type="submit">Registruj se</button>
+                                <button class="register-button mt-0" th:text="#{register}" type="submit">Registruj se
+                                </button>
                             </div>
                         </div>
                     </div>

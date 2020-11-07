@@ -15,8 +15,8 @@
                 <div class="breadcrumb-container">
                     <nav>
                         <ul>
-                            <li class="parent-page"><a th:href="@{/}">Početna</a></li>
-                            <li>Česta pitanja</li>
+                            <li class="parent-page"><a th:href="@{/}" th:text="#{home}">Početna</a></li>
+                            <li th:text="#{faqs}">Česta pitanja</li>
                         </ul>
                     </nav>
                 </div>
@@ -31,14 +31,14 @@
         <div class="row">
             <div class="col-lg-12">
                 <div class="faq-wrapper">
-                    <h2 style=" text-align: center;">ČESTA PITANJA</h2>
+                    <h2 style=" text-align: center;" th:text="#{faqs}">ČESTA PITANJA</h2>
                     <br>
                     <div id="accordion">
                         <div class="card">
                             <div class="card-header" id="headingOne">
                                 <h5 class="mb-0">
                                     <button aria-controls="collapseOne" aria-expanded="true" class="btn btn-link"
-                                            data-target="#collapseOne" data-toggle="collapse">
+                                            data-target="#collapseOne" data-toggle="collapse" th:text="#{how.to.find}">
                                         KAKO DA PRONAĐEM PROIZVOD KOJI MI TREBA? <span> <i
                                             class="fa fa-chevron-down"></i>
 												<i class="fa fa-chevron-up"></i> </span>
@@ -71,7 +71,7 @@
                                 <h5 class="mb-0">
                                     <button aria-controls="collapseTwo" aria-expanded="false"
                                             class="btn btn-link collapsed" data-target="#collapseTwo"
-                                            data-toggle="collapse">
+                                            data-toggle="collapse" th:text="#{how.to.buy}">
                                         KAKO DA KUPIM NEŠTO IZ INTERNET PRODAVNICE PLASTIKA DRAŠKOVIĆ? <span> <i
                                             class="fa fa-chevron-down"></i>
 												<i class="fa fa-chevron-up"></i> </span>
@@ -103,7 +103,7 @@
                                 <h5 class="mb-0">
                                     <button aria-controls="collapseThree" aria-expanded="false"
                                             class="btn btn-link collapsed" data-target="#collapseThree"
-                                            data-toggle="collapse">
+                                            data-toggle="collapse" th:text="#{what.is.cart}">
                                         ŠTA JE KORPA? <span> <i class="fa fa-chevron-down"></i>
 												<i class="fa fa-chevron-up"></i> </span>
                                     </button>
@@ -129,7 +129,7 @@
                                 <h5 class="mb-0">
                                     <button aria-controls="collapseFour" aria-expanded="false"
                                             class="btn btn-link collapsed" data-target="#collapseFour"
-                                            data-toggle="collapse">
+                                            data-toggle="collapse" th:text="#{how.to.pay}">
                                         KAKO PLAĆAM? <span> <i class="fa fa-chevron-down"></i>
 												<i class="fa fa-chevron-up"></i> </span>
                                     </button>
@@ -148,7 +148,7 @@
                                 <h5 class="mb-0">
                                     <button aria-controls="collapseFive" aria-expanded="false"
                                             class="btn btn-link collapsed" data-target="#collapseFive"
-                                            data-toggle="collapse">
+                                            data-toggle="collapse" th:text="#{how.to.receive}">
                                         ZA KOJE VREME ĆU DOBITI NARUČENE PROIZVODE?<span> <i
                                             class="fa fa-chevron-down"></i>
 												<i class="fa fa-chevron-up"></i> </span>
@@ -172,7 +172,7 @@
                                 <h5 class="mb-0">
                                     <button aria-controls="collapseSix" aria-expanded="false"
                                             class="btn btn-link collapsed" data-target="#collapseSix"
-                                            data-toggle="collapse">
+                                            data-toggle="collapse" th:text="#{how.to.check}">
                                         KAKO DA PROVERIM DA LI MI JE NARUDŽBINA POSLATA?<span> <i
                                             class="fa fa-chevron-down"></i>
 												<i class="fa fa-chevron-up"></i> </span>
@@ -192,7 +192,7 @@
                                 <h5 class="mb-0">
                                     <button aria-controls="collapseSeven" aria-expanded="false"
                                             class="btn btn-link collapsed" data-target="#collapseSeven"
-                                            data-toggle="collapse">
+                                            data-toggle="collapse" th:text="#{what.is.registration}">
                                         ŠTA JE REGISTRACIJA?<span> <i
                                             class="fa fa-chevron-down"></i>
 												<i class="fa fa-chevron-up"></i> </span>
@@ -214,7 +214,7 @@
                                 <h5 class="mb-0">
                                     <button aria-controls="collapseEight" aria-expanded="false"
                                             class="btn btn-link collapsed" data-target="#collapseEight"
-                                            data-toggle="collapse">
+                                            data-toggle="collapse" th:text="#{how.to.change.pswd}">
                                         KAKO DA PROMENIM LOZINKU?<span> <i
                                             class="fa fa-chevron-down"></i>
 												<i class="fa fa-chevron-up"></i> </span>
@@ -237,7 +237,7 @@
                                 <h5 class="mb-0">
                                     <button aria-controls="collapseNine" aria-expanded="false"
                                             class="btn btn-link collapsed" data-target="#collapseNine"
-                                            data-toggle="collapse">
+                                            data-toggle="collapse" th:text="#{forgot.pswd}">
                                         ŠTA DA RADIM AKO ZABORAVIM LOZINKU?<span> <i
                                             class="fa fa-chevron-down"></i>
 												<i class="fa fa-chevron-up"></i> </span>

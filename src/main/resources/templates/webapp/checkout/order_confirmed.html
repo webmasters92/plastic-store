@@ -12,8 +12,8 @@
                 <div class="breadcrumb-container">
                     <nav>
                         <ul>
-                            <li class="parent-page"><a th:href="@{/}">Početna</a></li>
-                            <li>Potvrda Vaše porudžbine</li>
+                            <li class="parent-page"><a th:href="@{/}" th:text="#{home}">Početna</a></li>
+                            <li th:text="#{order.confirmation}">Potvrda Vaše porudžbine</li>
                         </ul>
                     </nav>
                 </div>
@@ -27,15 +27,17 @@
     <div class="container">
         <div class="row">
             <div class="col-lg-12 order-1 order-lg-2">
-                <p style="font-weight: bold; font-size: 20px">Vaša porudžbina je primljena</p>
-                <p style="font-weight: bold; font-size: 16px">Hvala što kupujete kod nas.</p>
+                <p style="font-weight: bold; font-size: 20px" th:text="#{order.accepted}">Vaša porudžbina je
+                    primljena</p>
+                <p style="font-weight: bold; font-size: 16px" th:text="#{order.thanks}">Hvala što kupujete kod nas.</p>
                 <p style="font-weight: bold; font-size: 14px"
-                   th:text="'Broj vaše porudžbine je: '+${order.getId()}"></p>
-                <p style="font-weight: normal; font-size: 14px">Primićete email sa potvrdom kao i detaljima vaše
+                   th:text="#{order.number.confirmation}+': '+${order.getId()}"></p>
+                <p style="font-weight: normal; font-size: 14px" th:text="#{order.email.received}">Primićete email sa
+                    potvrdom kao i detaljima vaše
                     porudžbine.</p>
                 <div class="order-summary-button">
                     <a th:href="@{/}">
-                        <button class="checkout-btn">Nastavi kupovinu</button>
+                        <button class="checkout-btn" th:text="#{continue.shopping}">Nastavi kupovinu</button>
                     </a>
                 </div>
             </div>

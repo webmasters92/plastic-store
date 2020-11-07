@@ -18,8 +18,9 @@
             <div class="row">
                 <div class="col-12 col-lg-6">
                     <div class="header-top-text text-center text-lg-left mb-0 mb-md-15 mb-sm-15">
-                        <p><i class="icon ion-md-alarm"></i> Besplatna dostava za porudžbine preko 2000 din. - <span
-                                class="support-no">Podrška: 062 464 406</span></p>
+                        <p th:text="#{free.shipping.info}"><i class="icon ion-md-alarm"></i> Besplatna dostava za
+                            porudžbine preko 5000 din. - <span class="support-no" th:text="#{support.number}">Podrška: 062 464 406</span>
+                        </p>
                     </div>
                 </div>
                 <div class="col-12 col-lg-6">
@@ -27,25 +28,45 @@
 
                     <div class="header-top-dropdown d-flex justify-content-center justify-content-lg-end">
 
+                        <div class="single-dropdown">
+                            <span class="d-none d-sm-inline-block" th:text="#{language}+': '">Language:</span>
+                            <a href="#" id="changeLanguage"><span id="languageName"
+                                                                  th:text="${lang=='en'}? #{english}:#{serbian}"
+                                                                  th:with="lang=${#locale.language}">English <i
+                                    class="fa fa-angle-down"></i></span></a>
+                            <div class="language-currency-list hidden" id="languageList">
+                                <ul>
+                                    <li class="eng"><a href="?lang=en" th:text="#{english}">English</a></li>
+                                    <li class="srb"><a href="?lang=sr" th:text="#{serbian}">Serbian</a></li>
+                                </ul>
+                            </div>
+                        </div>
+
+                        <span class="separator pl-15 pr-15">|</span>
+
                         <!--=======  single dropdown  =======-->
-                        <a sec:authorize="!isAuthenticated()" th:href="@{/customer/login}">Prjavi se </a>
+                        <a sec:authorize="!isAuthenticated()" th:href="@{/customer/login}" th:text="#{login}">Prjavi
+                            se </a>
                         <span sec:authorize="!isAuthenticated()"> / </span>
-                        <a sec:authorize="!isAuthenticated()" th:href="@{/customer/register}"> Registruj se</a>
+                        <a sec:authorize="!isAuthenticated()" th:href="@{/customer/register}" th:text="#{register}">
+                            Registruj se</a>
                         <div class="single-dropdown">
                             <a href="#" id="changeAccount" sec:authorize="isAuthenticated()"><span id="accountMenuName"
-                                                                                                   th:text="${#authentication.getPrincipal().getUsername()}"></span><span><i
-                                    class="fa fa-angle-down"></i></span></a>
+                                                                                                   th:text="${#authentication.getPrincipal().getUsername()}"></span>
+                                <span><i class="fa fa-angle-down"></i></span></a>
                             <div class="language-currency-list hidden" id="accountList">
                                 <ul>
-                                    <li sec:authorize="isAuthenticated()"><a th:href="@{/cart/show_cart}">Korpa</a></li>
-                                    <li sec:authorize="isAuthenticated()"><a th:href="@{/product/show_wishlist}">Lista
-                                        želja</a></li>
-                                    <li sec:authorize="isAuthenticated()"><a th:href="@{/customer/my_account}">Moj
-                                        nalog</a></li>
-                                    <li sec:authorize="hasRole('ADMIN')"><a th:href="@{/administration/product_list}">Administracija</a>
+                                    <li sec:authorize="isAuthenticated()"><a th:href="@{/cart/show_cart}"
+                                                                             th:text="#{cart}">Korpa</a></li>
+                                    <li sec:authorize="isAuthenticated()"><a th:href="@{/product/show_wishlist}"
+                                                                             th:text="#{wishlist}">Lista želja</a></li>
+                                    <li sec:authorize="isAuthenticated()"><a th:href="@{/customer/my_account}"
+                                                                             th:text="#{my.account}">Moj nalog</a></li>
+                                    <li sec:authorize="hasRole('ADMIN')"><a th:href="@{/administration/product_list}"
+                                                                            th:text="#{administration}">Administracija</a>
                                     </li>
-                                    <li sec:authorize="isAuthenticated()"><a th:href="@{/customer/logout}">Odjavi
-                                        se </a></li>
+                                    <li sec:authorize="isAuthenticated()"><a th:href="@{/customer/logout}"
+                                                                             th:text="#{logout}">Odjavi se </a></li>
                                 </ul>
                             </div>
                         </div>
@@ -87,9 +108,9 @@
                             <h5 th:text="${session.cart!=null} ? ${session.cart.getTotal()}+' RSD':'0 RSD'"><i
                                     class="fa fa-angle-down"></i></h5>
                             <p th:if="${session.cart!=null && (session.cart.getCartItems().size()>1 || session.cart.getCartItems().size()==0)}"
-                               th:text="${session.cart.getCartItems().size()}+' proizvoda'"></p>
+                               th:text="${session.cart.getCartItems().size()}+' '+#{items}"></p>
                             <p th:if="${session.cart!=null && session.cart.getCartItems().size()==1}"
-                               th:text="${session.cart.getCartItems().size()}+' proizvod'"></p>
+                               th:text="${session.cart.getCartItems().size()}+' '+#{item}"></p>
                         </a>
 
                         <!-- cart floating box -->
@@ -128,10 +149,10 @@
                                     </p>
                                 </div>
                                 <div class="floating-cart-btn text-center">
-                                    <a class="fl-btn pull-left" th:href="@{/cart/show_cart}">Korpa</a>
+                                    <a class="fl-btn pull-left" th:href="@{/cart/show_cart}" th:text="#{cart}">Korpa</a>
                                     <a class="fl-btn pull-right" th:href="@{/checkout/show_checkout}"
-                                       th:if="${session.cart!=null && session.cart.getCartItems().size()>0}">Završi
-                                        kupovinu</a>
+                                       th:if="${session.cart!=null && session.cart.getCartItems().size()>0}"
+                                       th:text="#{place.order}">Završi kupovinu</a>
                                 </div>
                             </div>
                         </div>
@@ -188,7 +209,9 @@
                     <div class="main-menu">
                         <nav>
                             <ul class="main-menu-item">
-                                <li class="menu-item-has-children" th:classappend="${selected_category!=null && (selected_category.name== category.name)} ? 'active'" th:each="category: ${categories}" th:value="${category.id}">
+                                <li class="menu-item-has-children"
+                                    th:classappend="${selected_category!=null && (selected_category.name== category.name)} ? 'active'"
+                                    th:each="category: ${categories}" th:value="${category.id}">
                                     <a th:href="@{/product/product_list_category/__${category.id}__}"
                                        th:text="${category.name}"></a>
                                     <ul class="sub-menu">
@@ -208,7 +231,8 @@
                         <div class="navigation-search d-none d-lg-block">
                             <input id="search" name="search" oninput="setCustomValidity('')"
                                    oninvalid="this.setCustomValidity('Unesite reč pretrage')"
-                                   placeholder="Pretraga proizvoda ..." required th:value="${search}" type="search">
+                                   required
+                                   th:placeholder="#{search.products}+' ...'" th:value="${search}" type="search">
                             <button type="submit"><i class="icon ion-md-search"></i></button>
                         </div>
                         <!--=======  End of navigation search bar  =======-->

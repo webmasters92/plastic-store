@@ -273,6 +273,7 @@ public class HomeController {
 
     @RequestMapping("/")
     public String showHomePage(Model model, HttpSession session, @AuthenticationPrincipal UserPrincipal principal) {
+      //  addProducts();
         model.addAttribute("categories", categoryService.findAll());
         var promotions = promotionService.findAll();
         promotions.forEach(promotion -> {

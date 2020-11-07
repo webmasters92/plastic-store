@@ -13,8 +13,8 @@
                 <div class="breadcrumb-container">
                     <nav>
                         <ul>
-                            <li class="parent-page"><a th:href="@{/}">Početna</a></li>
-                            <li>Lista želja</li>
+                            <li class="parent-page"><a th:href="@{/}" th:text="#{home}">Početna</a></li>
+                            <li th:text="#{wishlist}">Lista želja</li>
                         </ul>
                     </nav>
                 </div>
@@ -35,11 +35,11 @@
                         <table class="table">
                             <thead>
                             <tr>
-                                <th class="pro-thumbnail">Slika</th>
-                                <th class="pro-title">Naziv</th>
-                                <th class="pro-quantity">Dimenzije</th>
-                                <th class="pro-price">Cena</th>
-                                <th class="pro-remove">Obriši</th>
+                                <th class="pro-thumbnail" th:text="#{picture}">Slika</th>
+                                <th class="pro-title" th:text="#{name}">Naziv</th>
+                                <th class="pro-quantity" th:text="#{size}">Dimenzije</th>
+                                <th class="pro-price" th:text="#{price}">Cena</th>
+                                <th class="pro-remove" th:text="#{remove}">Obriši</th>
                             </tr>
                             </thead>
                             <tbody>
@@ -82,10 +82,10 @@
                     <div class="col-sm-12 empty-cart-cls text-center">
                         <img class="img-fluid" height="300" style="background: transparent"
                              th:src="@{'/img/empty-wishlist.png'}" width="300">
-                        <h3><strong>Vaša lista želja je trenutno prazna</strong></h3>
-                        <h4>Dodajte nešto kako biste videli sadržaj :)</h4>
+                        <h3 th:text="#{wishlist.empty}"><strong>Vaša lista želja je trenutno prazna</strong></h3>
+                        <h4 th:text="#{add.content}">Dodajte nešto kako biste videli sadržaj :)</h4>
                         <div class="newsletter-form mb-20 mt-30">
-                            <a th:href="@{/}">Nastavi kupovinu</a>
+                            <a th:href="@{/}" th:text="#{continue.shopping}">Nastavi kupovinu</a>
                         </div>
                     </div>
                 </div>

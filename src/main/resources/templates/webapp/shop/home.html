@@ -1,6 +1,6 @@
 <!DOCTYPE html>
-<html class="no-js" lang="zxx" layout:decorate="~{home.html}"
-      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout" xmlns:th="http://www.thymeleaf.org">
+<html class="no-js" layout:decorate="~{home.html}" xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      xmlns:th="http://www.thymeleaf.org">
 
 <head th:replace="webapp/containers/headContainer :: headContainer(title='Plastika Drašković - Početna')"></head>
 
@@ -28,12 +28,13 @@
                         <div class="row">
                             <div class="col-lg-12" th:each="promotion: ${promotions}">
                                 <div class="slider-content" th:if="${promotion.getCategory().getName()=='Nameštaj'}">
-                                    <p>Ekskluzivna ponuda ove nedelje </p>
+                                    <p th:text="#{exclusive.offer}">Ekskluzivna ponuda ove nedelje </p>
                                     <h1 th:text="${promotion.getProduct().getName()}"></h1>
-                                    <p class="slider-price">počev od <span
+                                    <p class="slider-price" th:text="#{starts.from}">počev od <span
                                             th:text="${promotion.getProduct().getMinPrice()}+' RSD'"></span></p>
                                     <a class="slider-btn"
-                                       th:href="@{/product/single_product/__${promotion.getProduct().getId()}__}">KUPI</a>
+                                       th:href="@{/product/single_product/__${promotion.getProduct().getId()}__}"
+                                       th:text="#{buy}">KUPI</a>
                                 </div>
                             </div>
                         </div>
@@ -57,12 +58,13 @@
                                 <div class="col-lg-12" th:each="promotion: ${promotions}">
                                     <div class="slider-content"
                                          th:if="${promotion.getCategory().getName()=='Kupatilo'}">
-                                        <p>Ekskluzivna ponuda ove nedelje </p>
+                                        <p th:text="#{exclusive.offer}">Ekskluzivna ponuda ove nedelje </p>
                                         <h1 th:text="${promotion.getProduct().getName()}"></h1>
-                                        <p class="slider-price">počev od <span
+                                        <p class="slider-price" th:text="#{starts.from}">počev od <span
                                                 th:text="${promotion.getProduct().getMinPrice()}+' RSD'"></span></p>
                                         <a class="slider-btn"
-                                           th:href="@{/product/single_product/__${promotion.getProduct().getId()}__}">KUPI</a>
+                                           th:href="@{/product/single_product/__${promotion.getProduct().getId()}__}"
+                                           th:text="#{buy}">KUPI</a>
                                     </div>
                                 </div>
                             </div>
@@ -87,12 +89,13 @@
                                 <div class="col-lg-12" th:each="promotion: ${promotions}">
                                     <div class="slider-content"
                                          th:if="${promotion.getCategory().getName()=='Saksije i bašta'}">
-                                        <p>Ekskluzivna ponuda ove nedelje </p>
+                                        <p th:text="#{exclusive.offer}">Ekskluzivna ponuda ove nedelje </p>
                                         <h1 th:text="${promotion.getProduct().getName()}"></h1>
-                                        <p class="slider-price">počev od <span
+                                        <p class="slider-price" th:text="#{starts.from}">počev od <span
                                                 th:text="${promotion.getProduct().getMinPrice()}+' RSD'"></span></p>
                                         <a class="slider-btn"
-                                           th:href="@{/product/single_product/__${promotion.getProduct().getId()}__}">KUPI</a>
+                                           th:href="@{/product/single_product/__${promotion.getProduct().getId()}__}"
+                                           th:text="#{buy}">KUPI</a>
                                     </div>
                                 </div>
                             </div>
@@ -130,13 +133,13 @@
                         <div class="nav nav-tabs" id="nav-tab" role="tablist">
                             <a aria-selected="true" class="nav-item nav-link active" data-toggle="tab" href="#featured"
                                id="featured-tab"
-                               role="tab">Popularni proizvodi</a>
+                               role="tab" th:text="#{popular.products}">Popularni proizvodi</a>
                             <a aria-selected="false" class="nav-item nav-link" data-toggle="tab" href="#new-arrivals"
                                id="new-arrival-tab"
-                               role="tab">Novi proizvodi</a>
+                               role="tab" th:text="#{new.products}">Novi proizvodi</a>
                             <a aria-selected="false" class="nav-item nav-link" data-toggle="tab" href="#on-sale"
                                id="nav-onsale-tab"
-                               role="tab">Proizvodi na akciji</a>
+                               role="tab" th:text="#{sale.products}">Proizvodi na akciji</a>
                         </div>
                     </nav>
                     <div class="tab-content" id="nav-tabContent">
@@ -402,7 +405,7 @@
                             <!--=======  sidebar  =======-->
 
                             <div class="slider-sidebar">
-                                <h3 class="slider-sidebar-title">SAKSIJE I BAŠTA</h3>
+                                <h3 class="slider-sidebar-title" th:text="#{garden}">SAKSIJE I BAŠTA</h3>
                                 <div class="sidebar-first">
                                     <ul>
                                         <li th:each="subcategory:${categories.get(2).subcategories}"><a
@@ -424,7 +427,7 @@
                                  th:each="promotion: ${promotions}">
                                 <div class="banner-text"
                                      th:if="${promotion.getCategory().getName()=='Saksije i bašta'}">
-                                    <p>Proizvod nedelje</p>
+                                    <p th:text="#{week.product}">Proizvod nedelje</p>
                                     <a th:href="@{/product/single_product/__${promotion.getProduct().getId()}__}"><p
                                             class="big-text" th:text="${promotion.getProduct().getName()}"></p></a>
                                     <p th:text="'Počev od '+${promotion.getProduct().getMinPrice()}+' RSD'"></p>
@@ -460,7 +463,7 @@
                             <!--=======  sidebar  =======-->
 
                             <div class="slider-sidebar">
-                                <h3 class="slider-sidebar-title">DEČIJI PROGRAM</h3>
+                                <h3 class="slider-sidebar-title" th:text="#{kids.program}">DEČIJI PROGRAM</h3>
                                 <div class="sidebar-second">
                                     <ul>
                                         <li th:each="subcategory:${categories.get(5).subcategories}"><a
@@ -485,7 +488,7 @@
                             <div class="slider-banner home-one-banner banner-bg banner-bg-2"
                                  th:each="promotion: ${promotions}">
                                 <div class="banner-text" th:if="${promotion.getCategory().getName()=='Dečiji program'}">
-                                    <p>Proizvod nedelje</p>
+                                    <p th:text="#{week.product}">Proizvod nedelje</p>
                                     <a th:href="@{/product/single_product/__${promotion.getProduct().getId()}__}"><p
                                             class="big-text" th:text="${promotion.getProduct().getName()}"></p></a>
                                     <p th:text="'Počev od '+${promotion.getProduct().getMinPrice()}+' RSD'"></p>
@@ -520,7 +523,7 @@
                             <!--=======  sidebar  =======-->
 
                             <div class="slider-sidebar">
-                                <h3 class="slider-sidebar-title">KUHINJA</h3>
+                                <h3 class="slider-sidebar-title" th:text="#{kitchen}">KUHINJA</h3>
                                 <div class="sidebar-third">
                                     <ul>
                                         <li th:each="subcategory,iter:${categories.get(4).subcategories} "
@@ -545,7 +548,7 @@
                             <div class="slider-banner home-one-banner banner-bg banner-bg-3"
                                  th:each="promotion: ${promotions}">
                                 <div class="banner-text" th:if="${promotion.getCategory().getName()=='Kuhinja'}">
-                                    <p>Proizvod nedelje</p>
+                                    <p th:text="#{week.product}">Proizvod nedelje</p>
                                     <a th:href="@{/product/single_product/__${promotion.getProduct().getId()}__}"><p
                                             class="big-text" th:text="${promotion.getProduct().getName()}"></p></a>
                                     <p th:text="'Počev od '+${promotion.getProduct().getMinPrice()}+' RSD'"></p>
@@ -576,7 +579,7 @@
 <div class="search-overlay" id="search-overlay">
     <a class="search-overlay-close" href="#" id="search-overlay-close"><i class="fa fa-times"></i></a>
     <div class="search-box">
-        <input placeholder="Pretražite celu prodavnicu ovde" type="search">
+        <input th:placeholder="#{search.store}" type="search">
         <button><i class="icon ion-md-search"></i></button>
     </div>
 </div>
